@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm run test:connection:*)",
+      "Bash(npm run test:auth:*)",
+      "Bash(npm run test:sdk:*)",
+      "Bash(npm run test:realtime:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(pushd:*)",
+      "Bash(popd)",
+      "Bash(powershell -Command \"cd ''F:\\work\\openZenly\\web''; npm install\")",
+      "Bash(powershell -Command \"cd ''F:\\work\\openZenly\\web''; npm install @supabase/supabase-js @supabase/ssr leaflet react-leaflet; npm install -D @types/leaflet\")",
+      "Bash(powershell -Command \"cd ''F:\\work\\openZenly\\web''; npm run dev\")",
+      "Bash(npm run test:features:*)",
+      "Bash(npm run test:chat:*)"
+    ]
+  }
+}

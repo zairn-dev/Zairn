@@ -1,0 +1,20 @@
+{
+  "name": "openzenly",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "test:connection": "npx tsx --env-file=.env test/connection-test.ts",
+    "test:auth": "npx tsx --env-file=.env test/auth-test.ts",
+    "test:sdk": "npx tsx --env-file=.env test/sdk-test.ts",
+    "test:realtime": "npx tsx --env-file=.env test/realtime-test.ts",
+    "test:features": "npx tsx --env-file=.env test/features-test.ts",
+    "test:chat": "npx tsx --env-file=.env test/chat-bump-test.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
