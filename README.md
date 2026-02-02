@@ -1,12 +1,12 @@
-# OpenZenly
+# zen-map
 
-An open-source clone of Zenly, the beloved location-sharing app that was shut down in 2023. This project aims to recreate Zenly's core features using modern, open technologies.
+An open-source location-sharing app inspired by Zenly, the beloved app that was shut down in 2023. This project aims to recreate the core features using modern, open technologies.
 
 **Open source. Self-hostable. Privacy-first.**
 
-## Why OpenZenly?
+## Why zen-map?
 
-Zenly was a unique app that made location sharing fun and meaningful with friends. When it was discontinued, many users lost a way to stay connected with their loved ones. OpenZenly aims to bring back that experience as an open-source alternative that anyone can use, modify, and self-host.
+Zenly was a unique app that made location sharing fun and meaningful with friends. When it was discontinued, many users lost a way to stay connected with their loved ones. zen-map aims to bring back that experience as an open-source alternative that anyone can use, modify, and self-host.
 
 ## Features
 

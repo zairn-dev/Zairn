@@ -40,7 +40,7 @@ supabase db push
 **主要テーブル:**
 | テーブル | 用途 |
 |----------|------|
-| `locations_current` | 現在位置（ユーザーごとに1行、upsert） |
+| `locations_current` | 現在位置（バッテリー、滞在時間、移動ステータス含む） |
 | `locations_history` | 位置履歴 |
 | `share_rules` | 共有ルール（level: none/current/history） |
 | `profiles` | ユーザープロフィール |
@@ -50,20 +50,29 @@ supabase db push
 | `chat_rooms` / `chat_room_members` / `messages` | チャット機能 |
 | `location_reactions` | 絵文字ポーク機能 |
 | `bump_events` | 近くの人検出ログ |
+| `favorite_places` | お気に入りの場所（家、職場、学校など） |
+
+**カスタム型:**
+- `share_level`: none, current, history
+- `friend_request_status`: pending, accepted, rejected
+- `motion_type`: stationary, walking, running, cycling, driving, transit, unknown
+- `place_type`: home, work, school, gym, custom
 
 ### SDK (`sdk/javascript/index.ts`)
 `createLocationCore()` ファクトリ関数が全機能を提供。Supabase Authで認証必須。
 
 **機能グループ:**
-- **位置情報**: `sendLocation`, `getVisibleFriends`, `getLocationHistory`, `saveLocationHistory`
+- **位置情報**: `sendLocation`（バッテリー・速度付き）, `getVisibleFriends`, `getVisibleFriendsWithPlaces`, `getLocationHistory`
 - **フレンド**: `sendFriendRequest`, `acceptFriendRequest`, `getFriends`, `removeFriend`
 - **プロフィール**: `getProfile`, `updateProfile`, `searchProfiles`
 - **グループ**: `createGroup`, `joinGroup`, `getGroups`, `leaveGroup`
 - **チャット**: `getOrCreateDirectChat`, `sendMessage`, `getMessages`, `subscribeMessages`
 - **リアクション**: `sendReaction`, `getReceivedReactions`, `subscribeReactions`
 - **Bump**: `findNearbyFriends`, `recordBump`, `getBumpHistory`
+- **お気に入り**: `addFavoritePlace`, `getFavoritePlaces`, `updateFavoritePlace`, `deleteFavoritePlace`, `checkAtFavoritePlace`
 - **設定**: `enableGhostMode`, `disableGhostMode`, `updateSettings`
 - **Realtime**: `subscribeLocations`, `subscribeFriendRequests`
+- **ユーティリティ**: `calculateDistance`, `estimateMotionType`
 
 ### Webフロントエンド (`web/`)
 Next.js 16 + React 19 + Tailwind CSS。地図表示にLeaflet/react-leafletを使用。Supabase SSRで認証管理。

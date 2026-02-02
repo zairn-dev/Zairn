@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { createClient, ChatRoom, Message } from '@/lib/supabase';
-import { createLocationCore } from '@/lib/location-core';
+import { ChatRoom, Message, createLocationCore } from '@zen-map/sdk';
 
 interface ChatPanelProps {
   userId: string;
@@ -19,8 +18,10 @@ export default function ChatPanel({ userId, selectedFriendId, onClose }: ChatPan
   const [roomMembers, setRoomMembers] = useState<Record<string, string[]>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const supabase = useMemo(() => createClient(), []);
-  const core = useMemo(() => createLocationCore(supabase), [supabase]);
+  const core = useMemo(() => createLocationCore({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  }), []);
 
   // チャットルーム一覧を取得
   const fetchRooms = useCallback(async () => {

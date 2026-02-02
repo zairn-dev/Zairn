@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { createClient, FriendRequest, LocationCurrentRow } from '@/lib/supabase';
-import { createLocationCore } from '@/lib/location-core';
+import { FriendRequest, LocationCurrentRow, createLocationCore } from '@zen-map/sdk';
 
 interface FriendsPanelProps {
   userId: string;
@@ -18,8 +17,10 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
   const [error, setError] = useState<string | null>(null);
   const [showDebug, setShowDebug] = useState(false);
 
-  const supabase = useMemo(() => createClient(), []);
-  const core = useMemo(() => createLocationCore(supabase), [supabase]);
+  const core = useMemo(() => createLocationCore({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  }), []);
 
   // データを取得
   const fetchData = useCallback(async () => {

@@ -4,8 +4,54 @@ import { useEffect, useState, useCallback, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { createClient, LocationCurrentRow } from '@/lib/supabase';
-import { createLocationCore } from '@/lib/location-core';
+import { LocationCurrentRow, FavoritePlace, MotionType, createLocationCore } from '@zen-map/sdk';
+
+// バッテリー情報の型
+interface BatteryManager {
+  level: number;
+  charging: boolean;
+  addEventListener: (event: string, callback: () => void) => void;
+  removeEventListener: (event: string, callback: () => void) => void;
+}
+
+// 滞在時間をフォーマット
+function formatDuration(since: string | null): string {
+  if (!since) return '';
+  const now = new Date();
+  const start = new Date(since);
+  const diffMs = now.getTime() - start.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+
+  if (diffMins < 1) return 'たった今';
+  if (diffMins < 60) return `${diffMins}分前から`;
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours}時間前から`;
+  const diffDays = Math.floor(diffHours / 24);
+  return `${diffDays}日前から`;
+}
+
+// 移動ステータスのアイコンとラベル
+function getMotionInfo(motion: MotionType): { icon: string; label: string } {
+  switch (motion) {
+    case 'stationary': return { icon: '📍', label: '滞在中' };
+    case 'walking': return { icon: '🚶', label: '徒歩' };
+    case 'running': return { icon: '🏃', label: 'ランニング' };
+    case 'cycling': return { icon: '🚴', label: '自転車' };
+    case 'driving': return { icon: '🚗', label: '車' };
+    case 'transit': return { icon: '🚃', label: '電車' };
+    default: return { icon: '❓', label: '' };
+  }
+}
+
+// バッテリーアイコン
+function getBatteryIcon(level: number | null, isCharging: boolean): string {
+  if (level === null) return '';
+  if (isCharging) return '🔌';
+  if (level > 80) return '🔋';
+  if (level > 50) return '🔋';
+  if (level > 20) return '🪫';
+  return '🪫';
+}
 
 // Leafletのデフォルトアイコン問題を修正
 const defaultIcon = L.icon({
@@ -57,40 +103,83 @@ interface MapProps {
   onLocationUpdate?: (location: { lat: number; lon: number }) => void;
 }
 
+type FriendWithPlace = LocationCurrentRow & { place?: FavoritePlace };
+
 export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction, onLocationUpdate }: MapProps) {
   const [myLocation, setMyLocation] = useState<{ lat: number; lon: number } | null>(null);
-  const [friends, setFriends] = useState<LocationCurrentRow[]>([]);
+  const [friends, setFriends] = useState<FriendWithPlace[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [battery, setBattery] = useState<{ level: number; charging: boolean } | null>(null);
 
-  const supabase = useMemo(() => createClient(), []);
-  const core = useMemo(() => createLocationCore(supabase), [supabase]);
+  const core = useMemo(() => createLocationCore({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  }), []);
 
-  // 友達の位置を取得
+  // バッテリー情報の取得
+  useEffect(() => {
+    const getBattery = async () => {
+      try {
+        if ('getBattery' in navigator) {
+          const batteryManager = await (navigator as any).getBattery() as BatteryManager;
+          const updateBattery = () => {
+            setBattery({
+              level: Math.round(batteryManager.level * 100),
+              charging: batteryManager.charging,
+            });
+          };
+          updateBattery();
+          batteryManager.addEventListener('levelchange', updateBattery);
+          batteryManager.addEventListener('chargingchange', updateBattery);
+          return () => {
+            batteryManager.removeEventListener('levelchange', updateBattery);
+            batteryManager.removeEventListener('chargingchange', updateBattery);
+          };
+        }
+      } catch (e) {
+        console.log('Battery API not available');
+      }
+    };
+    getBattery();
+  }, []);
+
+  // 友達の位置を取得（お気に入りの場所付き）
   const fetchFriends = useCallback(async () => {
     try {
-      const data = await core.getVisibleFriends();
+      const data = await core.getVisibleFriendsWithPlaces();
       const filtered = data.filter(f => f.user_id !== userId);
-      console.log('getVisibleFriends:', data.length, '件 → フィルタ後:', filtered.length, '件');
-      console.log('自分のID:', userId);
-      console.log('位置データ:', data.map(d => ({ id: d.user_id, isMe: d.user_id === userId })));
       setFriends(filtered);
     } catch (err) {
       console.error('友達の位置取得エラー:', err);
+      // フォールバック: お気に入りなしで取得
+      try {
+        const fallbackData = await core.getVisibleFriends();
+        setFriends(fallbackData.filter(f => f.user_id !== userId));
+      } catch {
+        // ignore
+      }
     }
   }, [core, userId]);
 
-  // 自分の位置を送信
-  const sendMyLocation = useCallback(async (lat: number, lon: number, accuracy: number) => {
+  // 自分の位置を送信（バッテリー情報付き）
+  const sendMyLocation = useCallback(async (lat: number, lon: number, accuracy: number, speed?: number | null) => {
     try {
-      await core.sendLocation(lat, lon, accuracy);
+      await core.sendLocation({
+        lat,
+        lon,
+        accuracy,
+        battery_level: battery?.level ?? null,
+        is_charging: battery?.charging ?? false,
+        speed: speed ?? null,
+      });
       setMyLocation({ lat, lon });
       onLocationUpdate?.({ lat, lon });
     } catch (err) {
       console.error('位置送信エラー:', err);
       setError('位置情報の送信に失敗しました');
     }
-  }, [core, onLocationUpdate]);
+  }, [core, onLocationUpdate, battery]);
 
   // 位置情報の取得と監視
   useEffect(() => {
@@ -102,8 +191,8 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
 
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
-        const { latitude, longitude, accuracy } = position.coords;
-        sendMyLocation(latitude, longitude, accuracy);
+        const { latitude, longitude, accuracy, speed } = position.coords;
+        sendMyLocation(latitude, longitude, accuracy, speed);
         setLoading(false);
       },
       (err) => {
@@ -138,9 +227,9 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
     });
 
     return () => {
-      supabase.removeChannel(channel);
+      core.supabase.removeChannel(channel);
     };
-  }, [core, supabase, userId]);
+  }, [core, userId]);
 
   if (loading) {
     return (
@@ -214,8 +303,36 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
             icon={friendIcon}
           >
             <Popup>
-              <div className="min-w-[150px]">
-                <strong className="block mb-2">友達</strong>
+              <div className="min-w-[180px]">
+                {/* お気に入りの場所 */}
+                {friend.place && (
+                  <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs mb-2 inline-block">
+                    {friend.place.icon || '📍'} {friend.place.name}
+                  </div>
+                )}
+
+                <strong className="block mb-1">友達</strong>
+
+                {/* 滞在時間と移動ステータス */}
+                <div className="text-sm text-gray-600 mb-2">
+                  {friend.motion && friend.motion !== 'unknown' && (
+                    <span className="mr-2">
+                      {getMotionInfo(friend.motion).icon} {getMotionInfo(friend.motion).label}
+                    </span>
+                  )}
+                  {friend.location_since && (
+                    <span>{formatDuration(friend.location_since)}</span>
+                  )}
+                </div>
+
+                {/* バッテリー */}
+                {friend.battery_level !== null && friend.battery_level !== undefined && (
+                  <div className="text-sm mb-2">
+                    {getBatteryIcon(friend.battery_level, friend.is_charging)} {friend.battery_level}%
+                    {friend.is_charging && ' 充電中'}
+                  </div>
+                )}
+
                 <small className="text-gray-500 block mb-2">
                   {new Date(friend.updated_at).toLocaleString('ja-JP')}
                 </small>

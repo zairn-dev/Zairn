@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@zen-map/sdk": "workspace:*",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.87.1",
     "leaflet": "^1.9.4",

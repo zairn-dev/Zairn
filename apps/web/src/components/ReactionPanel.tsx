@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { createClient, LocationReaction } from '@/lib/supabase';
-import { createLocationCore } from '@/lib/location-core';
+import { LocationReaction, createLocationCore } from '@zen-map/sdk';
 
 interface ReactionPanelProps {
   userId: string;
@@ -19,8 +18,10 @@ export default function ReactionPanel({ userId, selectedFriendId, onClose }: Rea
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const supabase = useMemo(() => createClient(), []);
-  const core = useMemo(() => createLocationCore(supabase), [supabase]);
+  const core = useMemo(() => createLocationCore({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  }), []);
 
   // 受信リアクションを取得
   const fetchReactions = useCallback(async () => {

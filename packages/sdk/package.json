@@ -1,0 +1,45 @@
+{
+  "name": "@zen-map/sdk",
+  "version": "0.1.0",
+  "description": "SDK for zen-map location sharing application",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  },
+  "peerDependencies": {
+    "@supabase/supabase-js": "^2.0.0"
+  },
+  "keywords": [
+    "location",
+    "sharing",
+    "supabase",
+    "realtime"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/otanl/zen-map.git",
+    "directory": "packages/sdk"
+  }
+}

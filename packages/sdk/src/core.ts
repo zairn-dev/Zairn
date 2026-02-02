@@ -1,136 +1,61 @@
+/**
+ * zen-map SDK コア実装
+ */
 import { createClient, SupabaseClient, RealtimeChannel } from '@supabase/supabase-js';
+import {
+  LocationCoreOptions,
+  LocationCurrentRow,
+  LocationUpdate,
+  LocationHistoryRow,
+  ShareLevel,
+  Profile,
+  FriendRequest,
+  UserSettings,
+  Group,
+  GroupMember,
+  ChatRoom,
+  Message,
+  MessageType,
+  LocationReaction,
+  BumpEvent,
+  NearbyUser,
+  FavoritePlace,
+  MotionType,
+  LocationCore,
+} from './types';
 
-// =====================
-// 型定義
-// =====================
-export type ShareLevel = 'none' | 'current' | 'history';
-export type FriendRequestStatus = 'pending' | 'accepted' | 'rejected';
-
-export interface LocationCoreOptions {
-  supabaseUrl: string;
-  supabaseAnonKey: string;
+/**
+ * 2点間の距離を計算（メートル）- Haversine公式
+ */
+export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371000; // 地球の半径（メートル）
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
-export interface LocationCurrentRow {
-  user_id: string;
-  lat: number;
-  lon: number;
-  accuracy: number | null;
-  updated_at: string;
+/**
+ * 速度から移動タイプを推定
+ */
+export function estimateMotionType(speedMs: number | null | undefined): MotionType {
+  if (speedMs === null || speedMs === undefined) return 'unknown';
+  if (speedMs < 0.5) return 'stationary';
+  if (speedMs < 2) return 'walking';
+  if (speedMs < 4) return 'running';
+  if (speedMs < 8) return 'cycling';
+  if (speedMs < 30) return 'driving';
+  return 'transit';
 }
 
-export interface LocationHistoryRow {
-  id: number;
-  user_id: string;
-  lat: number;
-  lon: number;
-  accuracy: number | null;
-  recorded_at: string;
-}
-
-export interface Profile {
-  user_id: string;
-  username: string | null;
-  display_name: string | null;
-  avatar_url: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface FriendRequest {
-  id: number;
-  from_user_id: string;
-  to_user_id: string;
-  status: FriendRequestStatus;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface UserSettings {
-  user_id: string;
-  ghost_mode: boolean;
-  ghost_until: string | null;
-  location_update_interval: number;
-  updated_at: string;
-}
-
-export interface Group {
-  id: string;
-  name: string;
-  description: string | null;
-  owner_id: string;
-  invite_code: string | null;
-  created_at: string;
-}
-
-export interface GroupMember {
-  group_id: string;
-  user_id: string;
-  role: string;
-  joined_at: string;
-}
-
-// チャット関連
-export type ChatRoomType = 'direct' | 'group';
-export type MessageType = 'text' | 'image' | 'location' | 'reaction';
-
-export interface ChatRoom {
-  id: string;
-  type: ChatRoomType;
-  group_id: string | null;
-  created_at: string;
-}
-
-export interface ChatRoomMember {
-  room_id: string;
-  user_id: string;
-  joined_at: string;
-  last_read_at: string | null;
-}
-
-export interface Message {
-  id: number;
-  room_id: string;
-  sender_id: string;
-  content: string | null;
-  message_type: MessageType;
-  metadata: Record<string, unknown> | null;
-  created_at: string;
-  updated_at: string;
-}
-
-// リアクション関連
-export interface LocationReaction {
-  id: number;
-  from_user_id: string;
-  to_user_id: string;
-  emoji: string;
-  message: string | null;
-  created_at: string;
-}
-
-// Bump関連
-export interface BumpEvent {
-  id: number;
-  user_id: string;
-  nearby_user_id: string;
-  distance_meters: number;
-  lat: number;
-  lon: number;
-  created_at: string;
-}
-
-export interface NearbyUser {
-  user_id: string;
-  lat: number;
-  lon: number;
-  distance_meters: number;
-}
-
-// =====================
-// メインファクトリ関数
-// =====================
-export function createLocationCore(opts: LocationCoreOptions) {
+/**
+ * zen-map SDKのメインファクトリ関数
+ */
+export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   const supabase: SupabaseClient = createClient(opts.supabaseUrl, opts.supabaseAnonKey);
 
   const getUserId = async (): Promise<string> => {
@@ -143,8 +68,8 @@ export function createLocationCore(opts: LocationCoreOptions) {
   // 位置情報
   // =====================
   const sendLocation = async (
-    lat: number,
-    lon: number,
+    latOrUpdate: number | LocationUpdate,
+    lon?: number,
     accuracy?: number | null
   ): Promise<void> => {
     const userId = await getUserId();
@@ -153,18 +78,48 @@ export function createLocationCore(opts: LocationCoreOptions) {
     const settings = await getSettings();
     if (settings?.ghost_mode) {
       if (!settings.ghost_until || new Date(settings.ghost_until) > new Date()) {
-        return; // ゴーストモード中は位置を送信しない
+        return;
       }
     }
+
+    // 引数のパース（後方互換性のため2つの形式をサポート）
+    let update: LocationUpdate;
+    if (typeof latOrUpdate === 'object') {
+      update = latOrUpdate;
+    } else {
+      update = { lat: latOrUpdate, lon: lon!, accuracy };
+    }
+
+    // 現在の位置を取得して、滞在時間を計算
+    const { data: current } = await supabase
+      .from('locations_current')
+      .select('lat, lon, location_since')
+      .eq('user_id', userId)
+      .single();
+
+    let locationSince = new Date().toISOString();
+    if (current) {
+      const distance = calculateDistance(current.lat, current.lon, update.lat, update.lon);
+      if (distance < 50 && current.location_since) {
+        locationSince = current.location_since;
+      }
+    }
+
+    const motion = update.motion ?? estimateMotionType(update.speed);
 
     const { error } = await supabase
       .from('locations_current')
       .upsert({
         user_id: userId,
-        lat,
-        lon,
-        accuracy: accuracy ?? null,
+        lat: update.lat,
+        lon: update.lon,
+        accuracy: update.accuracy ?? null,
         updated_at: new Date().toISOString(),
+        battery_level: update.battery_level ?? null,
+        is_charging: update.is_charging ?? false,
+        location_since: locationSince,
+        speed: update.speed ?? null,
+        motion,
       });
     if (error) throw error;
   };
@@ -185,12 +140,8 @@ export function createLocationCore(opts: LocationCoreOptions) {
       .eq('user_id', userId)
       .order('recorded_at', { ascending: false });
 
-    if (options?.limit) {
-      query = query.limit(options.limit);
-    }
-    if (options?.since) {
-      query = query.gte('recorded_at', options.since.toISOString());
-    }
+    if (options?.limit) query = query.limit(options.limit);
+    if (options?.since) query = query.gte('recorded_at', options.since.toISOString());
 
     const { data, error } = await query;
     if (error) throw error;
@@ -205,17 +156,12 @@ export function createLocationCore(opts: LocationCoreOptions) {
     const userId = await getUserId();
     const { error } = await supabase
       .from('locations_history')
-      .insert({
-        user_id: userId,
-        lat,
-        lon,
-        accuracy: accuracy ?? null,
-      });
+      .insert({ user_id: userId, lat, lon, accuracy: accuracy ?? null });
     if (error) throw error;
   };
 
   // =====================
-  // 共有ルール（レガシー互換）
+  // 共有ルール
   // =====================
   const allow = async (viewerId: string, level: ShareLevel = 'current'): Promise<void> => {
     const ownerId = await getUserId();
@@ -249,7 +195,9 @@ export function createLocationCore(opts: LocationCoreOptions) {
     return data as Profile | null;
   };
 
-  const updateProfile = async (profile: Partial<Omit<Profile, 'user_id' | 'created_at' | 'updated_at'>>): Promise<Profile> => {
+  const updateProfile = async (
+    profile: Partial<Omit<Profile, 'user_id' | 'created_at' | 'updated_at'>>
+  ): Promise<Profile> => {
     const userId = await getUserId();
     const { data, error } = await supabase
       .from('profiles')
@@ -315,7 +263,6 @@ export function createLocationCore(opts: LocationCoreOptions) {
   const acceptFriendRequest = async (requestId: number): Promise<void> => {
     const userId = await getUserId();
 
-    // リクエストを承認
     const { data: request, error: updateError } = await supabase
       .from('friend_requests')
       .update({ status: 'accepted', updated_at: new Date().toISOString() })
@@ -327,7 +274,6 @@ export function createLocationCore(opts: LocationCoreOptions) {
 
     const req = request as FriendRequest;
 
-    // 双方向で共有ルールを作成
     const { error: shareError } = await supabase
       .from('share_rules')
       .upsert([
@@ -375,14 +321,12 @@ export function createLocationCore(opts: LocationCoreOptions) {
   const removeFriend = async (friendId: string): Promise<void> => {
     const userId = await getUserId();
 
-    // フレンドリクエストを削除
     await supabase
       .from('friend_requests')
       .delete()
       .eq('status', 'accepted')
       .or(`and(from_user_id.eq.${userId},to_user_id.eq.${friendId}),and(from_user_id.eq.${friendId},to_user_id.eq.${userId})`);
 
-    // 双方向の共有ルールを削除
     await supabase
       .from('share_rules')
       .delete()
@@ -403,7 +347,9 @@ export function createLocationCore(opts: LocationCoreOptions) {
     return data as UserSettings | null;
   };
 
-  const updateSettings = async (settings: Partial<Omit<UserSettings, 'user_id' | 'updated_at'>>): Promise<UserSettings> => {
+  const updateSettings = async (
+    settings: Partial<Omit<UserSettings, 'user_id' | 'updated_at'>>
+  ): Promise<UserSettings> => {
     const userId = await getUserId();
     const { data, error } = await supabase
       .from('user_settings')
@@ -448,7 +394,6 @@ export function createLocationCore(opts: LocationCoreOptions) {
       .single();
     if (groupError) throw groupError;
 
-    // オーナーをメンバーとして追加
     const { error: memberError } = await supabase
       .from('group_members')
       .insert({
@@ -561,7 +506,6 @@ export function createLocationCore(opts: LocationCoreOptions) {
   const getOrCreateDirectChat = async (otherUserId: string): Promise<ChatRoom> => {
     const userId = await getUserId();
 
-    // 既存のダイレクトチャットを探す
     const { data: existingRooms } = await supabase
       .from('chat_room_members')
       .select('room_id')
@@ -586,7 +530,6 @@ export function createLocationCore(opts: LocationCoreOptions) {
       }
     }
 
-    // 新しいチャットルームを作成
     const { data: newRoom, error: roomError } = await supabase
       .from('chat_rooms')
       .insert({ type: 'direct' })
@@ -594,7 +537,6 @@ export function createLocationCore(opts: LocationCoreOptions) {
       .single();
     if (roomError) throw roomError;
 
-    // メンバーを追加
     const { error: memberError } = await supabase
       .from('chat_room_members')
       .insert([
@@ -607,7 +549,6 @@ export function createLocationCore(opts: LocationCoreOptions) {
   };
 
   const getOrCreateGroupChat = async (groupId: string): Promise<ChatRoom> => {
-    // 既存のグループチャットを探す
     const { data: existingRoom } = await supabase
       .from('chat_rooms')
       .select('*')
@@ -617,7 +558,6 @@ export function createLocationCore(opts: LocationCoreOptions) {
 
     if (existingRoom) return existingRoom as ChatRoom;
 
-    // 新しいグループチャットを作成
     const { data: newRoom, error } = await supabase
       .from('chat_rooms')
       .insert({ type: 'group', group_id: groupId })
@@ -645,6 +585,15 @@ export function createLocationCore(opts: LocationCoreOptions) {
     if (error) throw error;
 
     return (rooms ?? []) as ChatRoom[];
+  };
+
+  const getChatRoomMembers = async (roomId: string): Promise<string[]> => {
+    const { data, error } = await supabase
+      .from('chat_room_members')
+      .select('user_id')
+      .eq('room_id', roomId);
+    if (error) throw error;
+    return (data ?? []).map(m => m.user_id);
   };
 
   const sendMessage = async (
@@ -679,12 +628,8 @@ export function createLocationCore(opts: LocationCoreOptions) {
       .eq('room_id', roomId)
       .order('created_at', { ascending: false });
 
-    if (options?.limit) {
-      query = query.limit(options.limit);
-    }
-    if (options?.before) {
-      query = query.lt('id', options.before);
-    }
+    if (options?.limit) query = query.limit(options.limit);
+    if (options?.before) query = query.lt('id', options.before);
 
     const { data, error } = await query;
     if (error) throw error;
@@ -717,7 +662,7 @@ export function createLocationCore(opts: LocationCoreOptions) {
   };
 
   // =====================
-  // リアクション機能（絵文字ポーク）
+  // リアクション機能
   // =====================
   const sendReaction = async (toUserId: string, emoji: string, message?: string): Promise<LocationReaction> => {
     const fromUserId = await getUserId();
@@ -743,12 +688,8 @@ export function createLocationCore(opts: LocationCoreOptions) {
       .eq('to_user_id', userId)
       .order('created_at', { ascending: false });
 
-    if (options?.limit) {
-      query = query.limit(options.limit);
-    }
-    if (options?.since) {
-      query = query.gte('created_at', options.since.toISOString());
-    }
+    if (options?.limit) query = query.limit(options.limit);
+    if (options?.since) query = query.gte('created_at', options.since.toISOString());
 
     const { data, error } = await query;
     if (error) throw error;
@@ -763,9 +704,7 @@ export function createLocationCore(opts: LocationCoreOptions) {
       .eq('from_user_id', userId)
       .order('created_at', { ascending: false });
 
-    if (options?.limit) {
-      query = query.limit(options.limit);
-    }
+    if (options?.limit) query = query.limit(options.limit);
 
     const { data, error } = await query;
     if (error) throw error;
@@ -788,20 +727,8 @@ export function createLocationCore(opts: LocationCoreOptions) {
   };
 
   // =====================
-  // Bump機能（近くの人検出）
+  // Bump機能
   // =====================
-  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
-    const R = 6371000; // 地球の半径（メートル）
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  };
-
   const findNearbyFriends = async (
     myLat: number,
     myLon: number,
@@ -854,16 +781,91 @@ export function createLocationCore(opts: LocationCoreOptions) {
       .or(`user_id.eq.${userId},nearby_user_id.eq.${userId}`)
       .order('created_at', { ascending: false });
 
-    if (options?.limit) {
-      query = query.limit(options.limit);
-    }
-    if (options?.since) {
-      query = query.gte('created_at', options.since.toISOString());
-    }
+    if (options?.limit) query = query.limit(options.limit);
+    if (options?.since) query = query.gte('created_at', options.since.toISOString());
 
     const { data, error } = await query;
     if (error) throw error;
     return (data ?? []) as BumpEvent[];
+  };
+
+  // =====================
+  // お気に入りの場所
+  // =====================
+  const addFavoritePlace = async (
+    place: Omit<FavoritePlace, 'id' | 'user_id' | 'created_at' | 'updated_at'>
+  ): Promise<FavoritePlace> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('favorite_places')
+      .insert({ user_id: userId, ...place })
+      .select()
+      .single();
+    if (error) throw error;
+    return data as FavoritePlace;
+  };
+
+  const getFavoritePlaces = async (userId?: string): Promise<FavoritePlace[]> => {
+    const targetId = userId ?? await getUserId();
+    const { data, error } = await supabase
+      .from('favorite_places')
+      .select('*')
+      .eq('user_id', targetId);
+    if (error) throw error;
+    return (data ?? []) as FavoritePlace[];
+  };
+
+  const updateFavoritePlace = async (
+    placeId: string,
+    updates: Partial<Omit<FavoritePlace, 'id' | 'user_id' | 'created_at' | 'updated_at'>>
+  ): Promise<FavoritePlace> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('favorite_places')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', placeId)
+      .eq('user_id', userId)
+      .select()
+      .single();
+    if (error) throw error;
+    return data as FavoritePlace;
+  };
+
+  const deleteFavoritePlace = async (placeId: string): Promise<void> => {
+    const userId = await getUserId();
+    const { error } = await supabase
+      .from('favorite_places')
+      .delete()
+      .eq('id', placeId)
+      .eq('user_id', userId);
+    if (error) throw error;
+  };
+
+  const checkAtFavoritePlace = async (
+    lat: number,
+    lon: number,
+    userId?: string
+  ): Promise<FavoritePlace | null> => {
+    const places = await getFavoritePlaces(userId);
+    for (const place of places) {
+      const distance = calculateDistance(lat, lon, place.lat, place.lon);
+      if (distance <= place.radius_meters) {
+        return place;
+      }
+    }
+    return null;
+  };
+
+  const getVisibleFriendsWithPlaces = async (): Promise<(LocationCurrentRow & { place?: FavoritePlace })[]> => {
+    const friends = await getVisibleFriends();
+    const result: (LocationCurrentRow & { place?: FavoritePlace })[] = [];
+
+    for (const friend of friends) {
+      const place = await checkAtFavoritePlace(friend.lat, friend.lon, friend.user_id);
+      result.push({ ...friend, place: place ?? undefined });
+    }
+
+    return result;
   };
 
   return {
@@ -873,14 +875,14 @@ export function createLocationCore(opts: LocationCoreOptions) {
     getVisibleFriends,
     getLocationHistory,
     saveLocationHistory,
-    // 共有ルール（レガシー）
+    // 共有ルール
     allow,
     revoke,
     // プロフィール
     getProfile,
     updateProfile,
     searchProfiles,
-    // フレンドリクエスト
+    // フレンド
     sendFriendRequest,
     getPendingRequests,
     getSentRequests,
@@ -908,6 +910,7 @@ export function createLocationCore(opts: LocationCoreOptions) {
     getOrCreateDirectChat,
     getOrCreateGroupChat,
     getChatRooms,
+    getChatRoomMembers,
     sendMessage,
     getMessages,
     markAsRead,
@@ -921,5 +924,15 @@ export function createLocationCore(opts: LocationCoreOptions) {
     findNearbyFriends,
     recordBump,
     getBumpHistory,
+    // お気に入りの場所
+    addFavoritePlace,
+    getFavoritePlaces,
+    updateFavoritePlace,
+    deleteFavoritePlace,
+    checkAtFavoritePlace,
+    getVisibleFriendsWithPlaces,
+    // ユーティリティ
+    calculateDistance,
+    estimateMotionType,
   };
 }

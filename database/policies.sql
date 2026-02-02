@@ -287,3 +287,37 @@ using (user_id = auth.uid() or nearby_user_id = auth.uid());
 create policy "bump_events_insert"
 on bump_events for insert
 with check (auth.uid() = user_id);
+
+-- =====================
+-- favorite_places ポリシー
+-- =====================
+alter table favorite_places enable row level security;
+
+-- 自分のお気に入りは自分だけが見える
+create policy "favorite_places_select_own"
+on favorite_places for select
+using (auth.uid() = user_id);
+
+-- フレンドのお気に入りも見える（位置ラベル表示用）
+create policy "favorite_places_select_friends"
+on favorite_places for select
+using (
+  exists (
+    select 1 from friend_requests
+    where status = 'accepted'
+      and ((from_user_id = auth.uid() and to_user_id = favorite_places.user_id)
+        or (to_user_id = auth.uid() and from_user_id = favorite_places.user_id))
+  )
+);
+
+create policy "favorite_places_insert"
+on favorite_places for insert
+with check (auth.uid() = user_id);
+
+create policy "favorite_places_update"
+on favorite_places for update
+using (auth.uid() = user_id);
+
+create policy "favorite_places_delete"
+on favorite_places for delete
+using (auth.uid() = user_id);

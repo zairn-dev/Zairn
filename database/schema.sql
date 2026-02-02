@@ -1,11 +1,22 @@
 ﻿create type share_level as enum ('none','current','history');
 
+-- 移動ステータスの種類
+create type motion_type as enum ('stationary', 'walking', 'running', 'cycling', 'driving', 'transit', 'unknown');
+
 create table if not exists locations_current (
   user_id uuid primary key,
   lat double precision not null,
   lon double precision not null,
   accuracy real,
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  -- バッテリー情報
+  battery_level smallint check (battery_level >= 0 and battery_level <= 100),
+  is_charging boolean default false,
+  -- 滞在時間（この場所にいつからいるか）
+  location_since timestamptz default now(),
+  -- 移動ステータス
+  speed real,  -- m/s
+  motion motion_type default 'unknown'
 );
 
 create table if not exists share_rules (
@@ -152,3 +163,23 @@ create table if not exists bump_events (
 );
 
 create index if not exists idx_bump_events_user on bump_events (user_id, created_at desc);
+
+-- =====================
+-- お気に入りの場所（家、学校、職場など）
+-- =====================
+create type place_type as enum ('home', 'work', 'school', 'gym', 'custom');
+
+create table if not exists favorite_places (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null,
+  place_type place_type not null default 'custom',
+  lat double precision not null,
+  lon double precision not null,
+  radius_meters real not null default 100,
+  icon text,  -- カスタムアイコン（絵文字など）
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_favorite_places_user on favorite_places (user_id);

@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { createLocationCore } from '../sdk/javascript/index.js';
+import { createLocationCore } from '../packages/sdk/src/index.js';
 
 const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY!;

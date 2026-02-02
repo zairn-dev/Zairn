@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { createClient, BumpEvent, NearbyUser } from '@/lib/supabase';
-import { createLocationCore } from '@/lib/location-core';
+import { BumpEvent, NearbyUser, createLocationCore } from '@zen-map/sdk';
 
 interface BumpPanelProps {
   userId: string;
@@ -16,8 +15,10 @@ export default function BumpPanel({ userId, currentLocation, onClose }: BumpPane
   const [searching, setSearching] = useState(false);
   const [radius, setRadius] = useState(500);
 
-  const supabase = useMemo(() => createClient(), []);
-  const core = useMemo(() => createLocationCore(supabase), [supabase]);
+  const core = useMemo(() => createLocationCore({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  }), []);
 
   // 近くの友達を検索
   const searchNearby = useCallback(async () => {
