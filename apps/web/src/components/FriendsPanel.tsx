@@ -107,10 +107,10 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
       {/* トグルボタン */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 right-4 z-[1000] bg-white p-3 rounded-full shadow-lg hover:bg-gray-100"
+        className="glass-refraction glass-tint-surface fixed top-4 right-4 z-[1000] p-3 rounded-xl"
       >
         <svg
-          className="w-6 h-6 text-gray-700"
+          className="w-6 h-6 text-on-surface-variant relative z-[3]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -123,7 +123,7 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
           />
         </svg>
         {pendingRequests.length > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-error text-on-error text-xs rounded-full w-5 h-5 flex items-center justify-center z-[3]">
             {pendingRequests.length}
           </span>
         )}
@@ -131,31 +131,31 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
 
       {/* サイドパネル */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-[1000] transform transition-transform duration-300 overflow-y-auto ${
+        className={`fixed top-0 right-0 h-full w-80 bg-surface-container-lowest shadow-lg z-[1000] transform transition-transform duration-300 overflow-y-auto ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <div className="p-4 flex flex-col">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-800">友達管理</h2>
+            <h2 className="text-lg font-bold text-on-surface">友達管理</h2>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-on-surface-variant hover:text-on-surface"
             >
               ✕
             </button>
           </div>
 
           {/* 自分のID表示 */}
-          <div className="mb-4 p-3 bg-blue-50 rounded-lg">
-            <p className="text-xs text-gray-600 mb-1">あなたのID（共有用）</p>
+          <div className="mb-4 p-3 bg-primary-container rounded-lg">
+            <p className="text-xs text-on-primary-container/70 mb-1">あなたのID（共有用）</p>
             <div className="flex items-center gap-2">
-              <code className="text-xs bg-white px-2 py-1 rounded flex-1 overflow-hidden text-ellipsis text-gray-800">
+              <code className="text-xs bg-surface-container-lowest px-2 py-1 rounded flex-1 overflow-hidden text-ellipsis text-on-surface">
                 {userId}
               </code>
               <button
                 onClick={() => navigator.clipboard.writeText(userId)}
-                className="text-blue-600 hover:text-blue-800 text-sm"
+                className="text-primary hover:brightness-90 text-sm"
               >
                 コピー
               </button>
@@ -164,7 +164,7 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
 
           {/* 友達申請フォーム */}
           <form onSubmit={handleSendRequest} className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-on-surface-variant mb-1">
               友達申請を送る
             </label>
             <div className="flex gap-2">
@@ -173,12 +173,12 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
                 value={newFriendId}
                 onChange={(e) => setNewFriendId(e.target.value)}
                 placeholder="友達のIDを入力"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-900"
+                className="flex-1 px-3 py-2 border border-outline-variant rounded-md text-sm text-on-surface bg-surface-container-lowest"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 text-sm"
+                className="px-4 py-2 bg-primary text-on-primary rounded-md hover:brightness-90 disabled:opacity-50 text-sm"
               >
                 送信
               </button>
@@ -186,7 +186,7 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
           </form>
 
           {error && (
-            <div className="mb-4 text-red-600 text-sm bg-red-50 p-2 rounded">
+            <div className="mb-4 text-error text-sm bg-error-container p-2 rounded">
               {error}
             </div>
           )}
@@ -194,30 +194,30 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
           {/* 受信した友達申請 */}
           {pendingRequests.length > 0 && (
             <div className="mb-4">
-              <h3 className="text-sm font-medium text-gray-700 mb-2">
+              <h3 className="text-sm font-medium text-on-surface-variant mb-2">
                 受信した申請 ({pendingRequests.length})
               </h3>
               <ul className="space-y-2">
                 {pendingRequests.map((request) => (
                   <li
                     key={request.id}
-                    className="p-2 bg-yellow-50 rounded border border-yellow-200"
+                    className="p-2 bg-tertiary-container rounded border border-outline-variant"
                   >
-                    <code className="text-xs text-gray-600 block truncate mb-2">
+                    <code className="text-xs text-on-tertiary-container block truncate mb-2">
                       {request.from_user_id}
                     </code>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleAccept(request.id)}
                         disabled={loading}
-                        className="flex-1 px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700"
+                        className="flex-1 px-2 py-1 bg-primary text-on-primary text-xs rounded hover:brightness-90"
                       >
                         承認
                       </button>
                       <button
                         onClick={() => handleReject(request.id)}
                         disabled={loading}
-                        className="flex-1 px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700"
+                        className="flex-1 px-2 py-1 bg-error text-on-error text-xs rounded hover:brightness-90"
                       >
                         拒否
                       </button>
@@ -230,25 +230,25 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
 
           {/* 友達リスト */}
           <div className="mb-4">
-            <h3 className="text-sm font-medium text-gray-700 mb-2">
+            <h3 className="text-sm font-medium text-on-surface-variant mb-2">
               友達 ({friends.length})
             </h3>
             {friends.length === 0 ? (
-              <p className="text-gray-500 text-sm">まだ友達がいません</p>
+              <p className="text-outline text-sm">まだ友達がいません</p>
             ) : (
               <ul className="space-y-2">
                 {friends.map((friendId) => (
                   <li
                     key={friendId}
-                    className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                    className="flex items-center justify-between p-2 bg-surface-container rounded"
                   >
-                    <code className="text-xs text-gray-600 truncate flex-1">
+                    <code className="text-xs text-on-surface-variant truncate flex-1">
                       {friendId}
                     </code>
                     <button
                       onClick={() => handleRemoveFriend(friendId)}
                       disabled={loading}
-                      className="text-red-600 hover:text-red-800 text-sm ml-2"
+                      className="text-error hover:brightness-90 text-sm ml-2"
                     >
                       削除
                     </button>
@@ -259,30 +259,30 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
           </div>
 
           {/* デバッグ情報 */}
-          <div className="mt-4 pt-4 border-t">
+          <div className="mt-4 pt-4 border-t border-outline-variant">
             <button
               onClick={() => setShowDebug(!showDebug)}
-              className="text-xs text-gray-500 hover:text-gray-700"
+              className="text-xs text-outline hover:text-on-surface-variant"
             >
               {showDebug ? 'デバッグ情報を隠す' : 'デバッグ情報を表示'}
             </button>
             {showDebug && (
-              <div className="mt-2 p-2 bg-gray-100 rounded text-xs">
+              <div className="mt-2 p-2 bg-surface-container rounded text-xs">
                 <p className="font-medium mb-1">表示可能な位置情報:</p>
                 {visibleLocations.map((loc) => (
-                  <div key={loc.user_id} className="mb-1 p-1 bg-white rounded">
+                  <div key={loc.user_id} className="mb-1 p-1 bg-surface-container-lowest rounded">
                     <code className="block truncate">{loc.user_id}</code>
-                    <span className="text-gray-500">
+                    <span className="text-outline">
                       {loc.lat.toFixed(4)}, {loc.lon.toFixed(4)}
                     </span>
                     {loc.user_id === userId && (
-                      <span className="ml-1 text-blue-600">(自分)</span>
+                      <span className="ml-1 text-primary">(自分)</span>
                     )}
                   </div>
                 ))}
                 <button
                   onClick={fetchData}
-                  className="mt-2 px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                  className="mt-2 px-2 py-1 bg-surface-container-high rounded hover:bg-surface-container-highest"
                 >
                   更新
                 </button>
@@ -295,7 +295,7 @@ export default function FriendsPanel({ userId }: FriendsPanelProps) {
       {/* オーバーレイ */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/30 z-[999]"
+          className="fixed inset-0 bg-scrim/30 z-[999]"
           onClick={() => setIsOpen(false)}
         />
       )}

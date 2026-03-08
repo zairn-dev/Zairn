@@ -321,3 +321,111 @@ using (auth.uid() = user_id);
 create policy "favorite_places_delete"
 on favorite_places for delete
 using (auth.uid() = user_id);
+
+-- =====================
+-- blocked_users ポリシー
+-- =====================
+alter table blocked_users enable row level security;
+
+create policy "blocked_users_select_own"
+on blocked_users for select
+using (auth.uid() = blocker_id);
+
+create policy "blocked_users_insert_own"
+on blocked_users for insert
+with check (auth.uid() = blocker_id);
+
+create policy "blocked_users_delete_own"
+on blocked_users for delete
+using (auth.uid() = blocker_id);
+
+-- =====================
+-- push_subscriptions ポリシー
+-- =====================
+alter table push_subscriptions enable row level security;
+
+create policy "push_subscriptions_select_own"
+on push_subscriptions for select
+using (auth.uid() = user_id);
+
+create policy "push_subscriptions_insert_own"
+on push_subscriptions for insert
+with check (auth.uid() = user_id);
+
+create policy "push_subscriptions_delete_own"
+on push_subscriptions for delete
+using (auth.uid() = user_id);
+
+-- =====================
+-- notification_preferences ポリシー
+-- =====================
+alter table notification_preferences enable row level security;
+
+create policy "notification_prefs_select_own"
+on notification_preferences for select
+using (auth.uid() = user_id);
+
+create policy "notification_prefs_insert_own"
+on notification_preferences for insert
+with check (auth.uid() = user_id);
+
+create policy "notification_prefs_update_own"
+on notification_preferences for update
+using (auth.uid() = user_id);
+
+-- =====================
+-- friend_streaks ポリシー
+-- =====================
+alter table friend_streaks enable row level security;
+
+create policy "friend_streaks_select"
+on friend_streaks for select
+using (auth.uid() = user_id or auth.uid() = friend_id);
+
+create policy "friend_streaks_insert_own"
+on friend_streaks for insert
+with check (auth.uid() = user_id);
+
+create policy "friend_streaks_update_own"
+on friend_streaks for update
+using (auth.uid() = user_id);
+
+-- =====================
+-- visited_cells ポリシー
+-- =====================
+alter table visited_cells enable row level security;
+
+-- 自分のセルは見える
+create policy "visited_cells_select_own"
+on visited_cells for select
+using (auth.uid() = user_id);
+
+-- フレンドのセルも見える（ランキング・比較用）
+create policy "visited_cells_select_friends"
+on visited_cells for select
+using (
+  exists (
+    select 1 from friend_requests
+    where status = 'accepted'
+      and ((from_user_id = auth.uid() and to_user_id = visited_cells.user_id)
+        or (to_user_id = auth.uid() and from_user_id = visited_cells.user_id))
+  )
+);
+
+-- トリガーが書き込むため、自分のセルの書き込みを許可
+create policy "visited_cells_insert_own"
+on visited_cells for insert
+with check (auth.uid() = user_id);
+
+create policy "visited_cells_update_own"
+on visited_cells for update
+using (auth.uid() = user_id);
+
+-- =====================
+-- Supabase Storage ポリシー（avatarsバケット）
+-- =====================
+-- ダッシュボードまたはマイグレーションで実行:
+-- create policy "avatars_read_public" on storage.objects for select using (bucket_id = 'avatars');
+-- create policy "avatars_insert_own" on storage.objects for insert with check (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
+-- create policy "avatars_update_own" on storage.objects for update using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
+-- create policy "avatars_delete_own" on storage.objects for delete using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);

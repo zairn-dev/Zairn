@@ -74,6 +74,9 @@ export interface Profile {
   username: string | null;
   display_name: string | null;
   avatar_url: string | null;
+  status_emoji: string | null;
+  status_text: string | null;
+  status_expires_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -197,6 +200,80 @@ export interface FavoritePlace {
 }
 
 // =====================
+// ブロック
+// =====================
+export interface BlockedUser {
+  blocker_id: string;
+  blocked_id: string;
+  created_at: string;
+}
+
+// =====================
+// プッシュ通知
+// =====================
+export interface PushSubscription {
+  id: string;
+  user_id: string;
+  endpoint: string;
+  p256dh: string;
+  auth_key: string;
+  created_at: string;
+}
+
+export interface NotificationPreferences {
+  user_id: string;
+  friend_requests: boolean;
+  reactions: boolean;
+  chat_messages: boolean;
+  bumps: boolean;
+  updated_at: string;
+}
+
+// =====================
+// ストリーク
+// =====================
+export interface FriendStreak {
+  user_id: string;
+  friend_id: string;
+  current_streak: number;
+  longest_streak: number;
+  last_interaction_date: string;
+  updated_at: string;
+}
+
+// =====================
+// フレンドのフレンド
+// =====================
+export interface FriendOfFriend {
+  user_id: string;
+  mutual_friend_ids: string[];
+}
+
+// =====================
+// 訪問セル（エリア塗りつぶし）
+// =====================
+export interface VisitedCell {
+  user_id: string;
+  geohash: string;
+  first_visited_at: string;
+  last_visited_at: string;
+  visit_count: number;
+}
+
+export interface VisitedCellStats {
+  user_id: string;
+  total_cells: number;
+  exploring_since: string;
+  last_explored_at: string;
+}
+
+export interface AreaRanking {
+  user_id: string;
+  cell_count: number;
+  rank: number;
+}
+
+// =====================
 // SDK戻り値の型
 // =====================
 export interface LocationCore {
@@ -205,9 +282,11 @@ export interface LocationCore {
 
   // 位置情報
   sendLocation: (latOrUpdate: number | LocationUpdate, lon?: number, accuracy?: number | null) => Promise<void>;
+  sendLocationWithTrail: (update: LocationUpdate) => Promise<void>;
   getVisibleFriends: () => Promise<LocationCurrentRow[]>;
   getLocationHistory: (userId: string, options?: { limit?: number; since?: Date }) => Promise<LocationHistoryRow[]>;
   saveLocationHistory: (lat: number, lon: number, accuracy?: number | null) => Promise<void>;
+  getTrailFriendIds: () => Promise<string[]>;
 
   // 共有ルール
   allow: (viewerId: string, level?: ShareLevel) => Promise<void>;
@@ -274,6 +353,46 @@ export interface LocationCore {
   deleteFavoritePlace: (placeId: string) => Promise<void>;
   checkAtFavoritePlace: (lat: number, lon: number, userId?: string) => Promise<FavoritePlace | null>;
   getVisibleFriendsWithPlaces: () => Promise<(LocationCurrentRow & { place?: FavoritePlace })[]>;
+
+  // アバター
+  uploadAvatar: (file: File) => Promise<string>;
+  deleteAvatar: () => Promise<void>;
+
+  // ステータス絵文字
+  setStatus: (emoji: string, text?: string, durationMinutes?: number) => Promise<void>;
+  clearStatus: () => Promise<void>;
+
+  // ブロック
+  blockUser: (userId: string) => Promise<void>;
+  unblockUser: (userId: string) => Promise<void>;
+  getBlockedUsers: () => Promise<string[]>;
+  isBlocked: (userId: string) => Promise<boolean>;
+
+  // 共有期限
+  setShareExpiry: (viewerId: string, expiresAt: Date) => Promise<void>;
+
+  // プッシュ通知
+  registerPushSubscription: (subscription: { endpoint: string; keys: { p256dh: string; auth: string } }) => Promise<void>;
+  unregisterPushSubscription: (endpoint: string) => Promise<void>;
+  getNotificationPreferences: () => Promise<NotificationPreferences | null>;
+  updateNotificationPreferences: (prefs: Partial<Omit<NotificationPreferences, 'user_id' | 'updated_at'>>) => Promise<NotificationPreferences>;
+
+  // ストリーク
+  recordInteraction: (friendId: string) => Promise<void>;
+  getStreak: (friendId: string) => Promise<FriendStreak | null>;
+  getStreaks: () => Promise<FriendStreak[]>;
+
+  // フレンドのフレンド
+  getFriendsOfFriends: () => Promise<FriendOfFriend[]>;
+
+  // 訪問セル（エリア塗りつぶし）
+  getMyVisitedCells: (options?: { areaPrefix?: string; since?: Date }) => Promise<VisitedCell[]>;
+  getFriendVisitedCells: (friendId: string, options?: { areaPrefix?: string }) => Promise<VisitedCell[]>;
+  getMyExplorationStats: () => Promise<VisitedCellStats | null>;
+  getAreaRanking: (areaPrefix: string, limit?: number) => Promise<AreaRanking[]>;
+  getFriendRanking: (options?: { areaPrefix?: string }) => Promise<AreaRanking[]>;
+  encodeGeohash: (lat: number, lon: number, precision?: number) => string;
+  decodeGeohash: (geohash: string) => { lat: number; lon: number };
 
   // ユーティリティ
   calculateDistance: (lat1: number, lon1: number, lat2: number, lon2: number) => number;

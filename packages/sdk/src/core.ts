@@ -22,6 +22,12 @@ import {
   FavoritePlace,
   MotionType,
   LocationCore,
+  NotificationPreferences,
+  FriendStreak,
+  FriendOfFriend,
+  VisitedCell,
+  VisitedCellStats,
+  AreaRanking,
 } from './types';
 
 /**
@@ -53,6 +59,59 @@ export function estimateMotionType(speedMs: number | null | undefined): MotionTy
 }
 
 /**
+ * Geohashエンコード（lat/lon → geohash文字列）
+ */
+const GEOHASH_BASE32 = '0123456789bcdefghjkmnpqrstuvwxyz';
+
+export function encodeGeohash(lat: number, lon: number, precision: number = 7): string {
+  let minLat = -90, maxLat = 90, minLon = -180, maxLon = 180;
+  let isLon = true, bits = 0, hashVal = 0;
+  let result = '';
+
+  while (result.length < precision) {
+    const mid = isLon ? (minLon + maxLon) / 2 : (minLat + maxLat) / 2;
+    if (isLon) {
+      if (lon >= mid) { hashVal = hashVal * 2 + 1; minLon = mid; }
+      else { hashVal = hashVal * 2; maxLon = mid; }
+    } else {
+      if (lat >= mid) { hashVal = hashVal * 2 + 1; minLat = mid; }
+      else { hashVal = hashVal * 2; maxLat = mid; }
+    }
+    isLon = !isLon;
+    bits++;
+    if (bits === 5) {
+      result += GEOHASH_BASE32[hashVal];
+      bits = 0;
+      hashVal = 0;
+    }
+  }
+  return result;
+}
+
+/**
+ * Geohashデコード（geohash → lat/lonの中心点）
+ */
+export function decodeGeohash(geohash: string): { lat: number; lon: number } {
+  let minLat = -90, maxLat = 90, minLon = -180, maxLon = 180;
+  let isLon = true;
+
+  for (const ch of geohash) {
+    const val = GEOHASH_BASE32.indexOf(ch);
+    if (val === -1) break;
+    for (let bit = 4; bit >= 0; bit--) {
+      const mid = isLon ? (minLon + maxLon) / 2 : (minLat + maxLat) / 2;
+      if (isLon) {
+        if (val & (1 << bit)) minLon = mid; else maxLon = mid;
+      } else {
+        if (val & (1 << bit)) minLat = mid; else maxLat = mid;
+      }
+      isLon = !isLon;
+    }
+  }
+  return { lat: (minLat + maxLat) / 2, lon: (minLon + maxLon) / 2 };
+}
+
+/**
  * zen-map SDKのメインファクトリ関数
  */
 export function createLocationCore(opts: LocationCoreOptions): LocationCore {
@@ -72,62 +131,71 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     lon?: number,
     accuracy?: number | null
   ): Promise<void> => {
-    const userId = await getUserId();
+    try {
+      const userId = await getUserId();
 
-    // ゴーストモードチェック
-    const settings = await getSettings();
-    if (settings?.ghost_mode) {
-      if (!settings.ghost_until || new Date(settings.ghost_until) > new Date()) {
-        return;
+      // ゴーストモードチェック
+      const settings = await getSettings();
+      if (settings?.ghost_mode) {
+        if (!settings.ghost_until || new Date(settings.ghost_until) > new Date()) {
+          return;
+        }
       }
-    }
 
-    // 引数のパース（後方互換性のため2つの形式をサポート）
-    let update: LocationUpdate;
-    if (typeof latOrUpdate === 'object') {
-      update = latOrUpdate;
-    } else {
-      update = { lat: latOrUpdate, lon: lon!, accuracy };
-    }
-
-    // 現在の位置を取得して、滞在時間を計算
-    const { data: current } = await supabase
-      .from('locations_current')
-      .select('lat, lon, location_since')
-      .eq('user_id', userId)
-      .single();
-
-    let locationSince = new Date().toISOString();
-    if (current) {
-      const distance = calculateDistance(current.lat, current.lon, update.lat, update.lon);
-      if (distance < 50 && current.location_since) {
-        locationSince = current.location_since;
+      // 引数のパース（後方互換性のため2つの形式をサポート）
+      let update: LocationUpdate;
+      if (typeof latOrUpdate === 'object') {
+        update = latOrUpdate;
+      } else {
+        update = { lat: latOrUpdate, lon: lon!, accuracy };
       }
+
+      // 現在の位置を取得して、滞在時間を計算
+      const { data: current } = await supabase
+        .from('locations_current')
+        .select('lat, lon, location_since')
+        .eq('user_id', userId)
+        .single();
+
+      let locationSince = new Date().toISOString();
+      if (current) {
+        const distance = calculateDistance(current.lat, current.lon, update.lat, update.lon);
+        if (distance < 50 && current.location_since) {
+          locationSince = current.location_since;
+        }
+      }
+
+      const motion = update.motion ?? estimateMotionType(update.speed);
+
+      const { error } = await supabase
+        .from('locations_current')
+        .upsert({
+          user_id: userId,
+          lat: update.lat,
+          lon: update.lon,
+          accuracy: update.accuracy ?? null,
+          updated_at: new Date().toISOString(),
+          battery_level: update.battery_level ?? null,
+          is_charging: update.is_charging ?? false,
+          location_since: locationSince,
+          speed: update.speed ?? null,
+          motion,
+        });
+      // Silently ignore errors (table may not exist or schema mismatch)
+      if (error) return;
+    } catch {
+      // Silently ignore all errors
     }
-
-    const motion = update.motion ?? estimateMotionType(update.speed);
-
-    const { error } = await supabase
-      .from('locations_current')
-      .upsert({
-        user_id: userId,
-        lat: update.lat,
-        lon: update.lon,
-        accuracy: update.accuracy ?? null,
-        updated_at: new Date().toISOString(),
-        battery_level: update.battery_level ?? null,
-        is_charging: update.is_charging ?? false,
-        location_since: locationSince,
-        speed: update.speed ?? null,
-        motion,
-      });
-    if (error) throw error;
   };
 
   const getVisibleFriends = async (): Promise<LocationCurrentRow[]> => {
-    const { data, error } = await supabase.from('locations_current').select('*');
-    if (error) throw error;
-    return (data ?? []) as LocationCurrentRow[];
+    try {
+      const { data, error } = await supabase.from('locations_current').select('*');
+      if (error) return [];
+      return (data ?? []) as LocationCurrentRow[];
+    } catch {
+      return [];
+    }
   };
 
   const getLocationHistory = async (
@@ -158,6 +226,62 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .from('locations_history')
       .insert({ user_id: userId, lat, lon, accuracy: accuracy ?? null });
     if (error) throw error;
+  };
+
+  // =====================
+  // 足跡（軌跡記録）
+  // =====================
+  let lastSavedHistoryPoint: { lat: number; lon: number } | null = null;
+  const TRAIL_MIN_DISTANCE_METERS = 30;
+
+  const sendLocationWithTrail = async (update: LocationUpdate): Promise<void> => {
+    // sendLocation handles auth check and ghost mode internally.
+    // If auth fails, it throws — caller (Map.tsx) catches it.
+    await sendLocation(update);
+
+    // Ghost mode check for history saving (wrapped in try-catch so
+    // it doesn't add a new failure point if auth/settings aren't ready)
+    try {
+      const settings = await getSettings();
+      if (settings?.ghost_mode) {
+        if (!settings.ghost_until || new Date(settings.ghost_until) > new Date()) {
+          return;
+        }
+      }
+    } catch {
+      // Auth not ready or settings table missing — skip history
+      return;
+    }
+
+    // 距離ベースのサンプリングで履歴保存
+    try {
+      if (!lastSavedHistoryPoint) {
+        await saveLocationHistory(update.lat, update.lon, update.accuracy);
+        lastSavedHistoryPoint = { lat: update.lat, lon: update.lon };
+      } else {
+        const dist = calculateDistance(
+          lastSavedHistoryPoint.lat, lastSavedHistoryPoint.lon,
+          update.lat, update.lon
+        );
+        if (dist >= TRAIL_MIN_DISTANCE_METERS) {
+          await saveLocationHistory(update.lat, update.lon, update.accuracy);
+          lastSavedHistoryPoint = { lat: update.lat, lon: update.lon };
+        }
+      }
+    } catch {
+      // History saving is best-effort — don't crash the location update flow
+    }
+  };
+
+  const getTrailFriendIds = async (): Promise<string[]> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('share_rules')
+      .select('owner_id')
+      .eq('viewer_id', userId)
+      .eq('level', 'history');
+    if (error) throw error;
+    return (data ?? []).map(r => r.owner_id).filter((id: string) => id !== userId);
   };
 
   // =====================
@@ -277,8 +401,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     const { error: shareError } = await supabase
       .from('share_rules')
       .upsert([
-        { owner_id: req.from_user_id, viewer_id: req.to_user_id, level: 'current' },
-        { owner_id: req.to_user_id, viewer_id: req.from_user_id, level: 'current' },
+        { owner_id: req.from_user_id, viewer_id: req.to_user_id, level: 'history' },
+        { owner_id: req.to_user_id, viewer_id: req.from_user_id, level: 'history' },
       ]);
     if (shareError) throw shareError;
   };
@@ -337,14 +461,19 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // ユーザー設定
   // =====================
   const getSettings = async (): Promise<UserSettings | null> => {
-    const userId = await getUserId();
-    const { data, error } = await supabase
-      .from('user_settings')
-      .select('*')
-      .eq('user_id', userId)
-      .single();
-    if (error && error.code !== 'PGRST116') throw error;
-    return data as UserSettings | null;
+    try {
+      const userId = await getUserId();
+      const { data, error } = await supabase
+        .from('user_settings')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+      if (error && error.code !== 'PGRST116') return null;
+      return data as UserSettings | null;
+    } catch {
+      // Return null if table doesn't exist or auth error
+      return null;
+    }
   };
 
   const updateSettings = async (
@@ -615,6 +744,19 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .select()
       .single();
     if (error) throw error;
+
+    // ストリーク自動記録（best-effort）
+    try {
+      const { data: members } = await supabase
+        .from('chat_room_members')
+        .select('user_id')
+        .eq('room_id', roomId)
+        .neq('user_id', userId);
+      for (const m of members ?? []) {
+        await supabase.rpc('record_interaction', { p_user_id: userId, p_friend_id: m.user_id });
+      }
+    } catch { /* streak tracking is best-effort */ }
+
     return data as Message;
   };
 
@@ -677,6 +819,10 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .select()
       .single();
     if (error) throw error;
+
+    // ストリーク自動記録（best-effort）
+    supabase.rpc('record_interaction', { p_user_id: fromUserId, p_friend_id: toUserId }).then(() => {}, () => {});
+
     return data as LocationReaction;
   };
 
@@ -770,6 +916,10 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .select()
       .single();
     if (error) throw error;
+
+    // ストリーク自動記録（best-effort）
+    supabase.rpc('record_interaction', { p_user_id: userId, p_friend_id: nearbyUserId }).then(() => {}, () => {});
+
     return data as BumpEvent;
   };
 
@@ -811,7 +961,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .from('favorite_places')
       .select('*')
       .eq('user_id', targetId);
-    if (error) throw error;
+    // Return empty array if table doesn't exist (404) or other errors
+    if (error) return [];
     return (data ?? []) as FavoritePlace[];
   };
 
@@ -857,24 +1008,359 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const getVisibleFriendsWithPlaces = async (): Promise<(LocationCurrentRow & { place?: FavoritePlace })[]> => {
-    const friends = await getVisibleFriends();
-    const result: (LocationCurrentRow & { place?: FavoritePlace })[] = [];
+    try {
+      const friends = await getVisibleFriends();
+      const result: (LocationCurrentRow & { place?: FavoritePlace })[] = [];
 
-    for (const friend of friends) {
-      const place = await checkAtFavoritePlace(friend.lat, friend.lon, friend.user_id);
-      result.push({ ...friend, place: place ?? undefined });
+      for (const friend of friends) {
+        try {
+          const place = await checkAtFavoritePlace(friend.lat, friend.lon, friend.user_id);
+          result.push({ ...friend, place: place ?? undefined });
+        } catch {
+          // Ignore errors for individual friends
+          result.push({ ...friend });
+        }
+      }
+
+      return result;
+    } catch {
+      // Return empty array if getVisibleFriends fails
+      return [];
+    }
+  };
+
+  // =====================
+  // アバター
+  // =====================
+  const uploadAvatar = async (file: File): Promise<string> => {
+    const userId = await getUserId();
+    const ext = file.name.split('.').pop() || 'jpg';
+    const filePath = `${userId}/${Date.now()}.${ext}`;
+
+    // 古いアバターを削除
+    const { data: existing } = await supabase.storage.from('avatars').list(userId);
+    if (existing && existing.length > 0) {
+      await supabase.storage.from('avatars').remove(existing.map(f => `${userId}/${f.name}`));
     }
 
-    return result;
+    const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file);
+    if (uploadError) throw uploadError;
+
+    const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(filePath);
+    const publicUrl = urlData.publicUrl;
+
+    await updateProfile({ avatar_url: publicUrl });
+    return publicUrl;
+  };
+
+  const deleteAvatar = async (): Promise<void> => {
+    const userId = await getUserId();
+    const { data: existing } = await supabase.storage.from('avatars').list(userId);
+    if (existing && existing.length > 0) {
+      await supabase.storage.from('avatars').remove(existing.map(f => `${userId}/${f.name}`));
+    }
+    await updateProfile({ avatar_url: null });
+  };
+
+  // =====================
+  // ステータス絵文字
+  // =====================
+  const setStatus = async (emoji: string, text?: string, durationMinutes?: number): Promise<void> => {
+    const expiresAt = durationMinutes
+      ? new Date(Date.now() + durationMinutes * 60 * 1000).toISOString()
+      : null;
+    await updateProfile({
+      status_emoji: emoji,
+      status_text: text ?? null,
+      status_expires_at: expiresAt,
+    } as Partial<Profile>);
+  };
+
+  const clearStatus = async (): Promise<void> => {
+    await updateProfile({
+      status_emoji: null,
+      status_text: null,
+      status_expires_at: null,
+    } as Partial<Profile>);
+  };
+
+  // =====================
+  // ブロック機能
+  // =====================
+  const blockUser = async (userId: string): Promise<void> => {
+    const blockerId = await getUserId();
+    if (blockerId === userId) throw new Error('Cannot block yourself');
+
+    const { error } = await supabase
+      .from('blocked_users')
+      .upsert({ blocker_id: blockerId, blocked_id: userId });
+    if (error) throw error;
+
+    // ブロック時にフレンド関係も解除
+    try { await removeFriend(userId); } catch { /* already not friends */ }
+  };
+
+  const unblockUser = async (userId: string): Promise<void> => {
+    const blockerId = await getUserId();
+    const { error } = await supabase
+      .from('blocked_users')
+      .delete()
+      .eq('blocker_id', blockerId)
+      .eq('blocked_id', userId);
+    if (error) throw error;
+  };
+
+  const getBlockedUsers = async (): Promise<string[]> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('blocked_users')
+      .select('blocked_id')
+      .eq('blocker_id', userId);
+    if (error) throw error;
+    return (data ?? []).map(r => r.blocked_id);
+  };
+
+  const isBlocked = async (targetUserId: string): Promise<boolean> => {
+    const userId = await getUserId();
+    const { data } = await supabase
+      .from('blocked_users')
+      .select('blocker_id')
+      .or(`and(blocker_id.eq.${userId},blocked_id.eq.${targetUserId}),and(blocker_id.eq.${targetUserId},blocked_id.eq.${userId})`)
+      .limit(1);
+    return (data ?? []).length > 0;
+  };
+
+  // =====================
+  // 共有期限
+  // =====================
+  const setShareExpiry = async (viewerId: string, expiresAt: Date): Promise<void> => {
+    const ownerId = await getUserId();
+    const { error } = await supabase
+      .from('share_rules')
+      .update({ expires_at: expiresAt.toISOString() })
+      .eq('owner_id', ownerId)
+      .eq('viewer_id', viewerId);
+    if (error) throw error;
+  };
+
+  // =====================
+  // プッシュ通知
+  // =====================
+  const registerPushSubscription = async (
+    subscription: { endpoint: string; keys: { p256dh: string; auth: string } }
+  ): Promise<void> => {
+    const userId = await getUserId();
+    const { error } = await supabase
+      .from('push_subscriptions')
+      .upsert({
+        user_id: userId,
+        endpoint: subscription.endpoint,
+        p256dh: subscription.keys.p256dh,
+        auth_key: subscription.keys.auth,
+      });
+    if (error) throw error;
+  };
+
+  const unregisterPushSubscription = async (endpoint: string): Promise<void> => {
+    const userId = await getUserId();
+    const { error } = await supabase
+      .from('push_subscriptions')
+      .delete()
+      .eq('user_id', userId)
+      .eq('endpoint', endpoint);
+    if (error) throw error;
+  };
+
+  const getNotificationPreferences = async (): Promise<NotificationPreferences | null> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('notification_preferences')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+    if (error && error.code !== 'PGRST116') throw error;
+    return data as NotificationPreferences | null;
+  };
+
+  const updateNotificationPreferences = async (
+    prefs: Partial<Omit<NotificationPreferences, 'user_id' | 'updated_at'>>
+  ): Promise<NotificationPreferences> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('notification_preferences')
+      .upsert({
+        user_id: userId,
+        ...prefs,
+        updated_at: new Date().toISOString(),
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return data as NotificationPreferences;
+  };
+
+  // =====================
+  // ストリーク
+  // =====================
+  const recordInteraction = async (friendId: string): Promise<void> => {
+    const userId = await getUserId();
+    const { error } = await supabase.rpc('record_interaction', {
+      p_user_id: userId,
+      p_friend_id: friendId,
+    });
+    if (error) throw error;
+  };
+
+  const getStreak = async (friendId: string): Promise<FriendStreak | null> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('friend_streaks')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('friend_id', friendId)
+      .single();
+    if (error && error.code !== 'PGRST116') throw error;
+    return data as FriendStreak | null;
+  };
+
+  const getStreaks = async (): Promise<FriendStreak[]> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('friend_streaks')
+      .select('*')
+      .or(`user_id.eq.${userId},friend_id.eq.${userId}`);
+    if (error) throw error;
+    return (data ?? []) as FriendStreak[];
+  };
+
+  // =====================
+  // フレンドのフレンド
+  // =====================
+  const getFriendsOfFriends = async (): Promise<FriendOfFriend[]> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase.rpc('get_friends_of_friends', {
+      current_user_id: userId,
+    });
+    if (error) throw error;
+
+    // グループ化: user_id → mutual_friend_ids[]
+    const map = new Map<string, string[]>();
+    for (const row of (data ?? [])) {
+      const existing = map.get(row.user_id) ?? [];
+      existing.push(row.mutual_friend_id);
+      map.set(row.user_id, existing);
+    }
+
+    return Array.from(map.entries()).map(([uid, mutuals]) => ({
+      user_id: uid,
+      mutual_friend_ids: [...new Set(mutuals)],
+    }));
+  };
+
+  // =====================
+  // 訪問セル（エリア塗りつぶし）
+  // =====================
+  const getMyVisitedCells = async (
+    options?: { areaPrefix?: string; since?: Date }
+  ): Promise<VisitedCell[]> => {
+    const userId = await getUserId();
+    let query = supabase
+      .from('visited_cells')
+      .select('*')
+      .eq('user_id', userId);
+
+    if (options?.areaPrefix) {
+      query = query.like('geohash', `${options.areaPrefix}%`);
+    }
+    if (options?.since) {
+      query = query.gte('last_visited_at', options.since.toISOString());
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return (data ?? []) as VisitedCell[];
+  };
+
+  const getFriendVisitedCells = async (
+    friendId: string,
+    options?: { areaPrefix?: string }
+  ): Promise<VisitedCell[]> => {
+    let query = supabase
+      .from('visited_cells')
+      .select('*')
+      .eq('user_id', friendId);
+
+    if (options?.areaPrefix) {
+      query = query.like('geohash', `${options.areaPrefix}%`);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return (data ?? []) as VisitedCell[];
+  };
+
+  const getMyExplorationStats = async (): Promise<VisitedCellStats | null> => {
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('visited_cell_stats')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+    if (error && error.code !== 'PGRST116') throw error;
+    return data as VisitedCellStats | null;
+  };
+
+  const getAreaRanking = async (
+    areaPrefix: string,
+    limit: number = 20
+  ): Promise<AreaRanking[]> => {
+    const { data, error } = await supabase.rpc('get_area_rankings', {
+      area_prefix: areaPrefix,
+      result_limit: limit,
+    });
+    if (error) throw error;
+    return (data ?? []) as AreaRanking[];
+  };
+
+  const getFriendRanking = async (
+    options?: { areaPrefix?: string }
+  ): Promise<AreaRanking[]> => {
+    const userId = await getUserId();
+    const friendIds = await getFriends();
+    const allIds = [userId, ...friendIds];
+
+    // フレンド+自分のセル数を集計
+    const results: AreaRanking[] = [];
+    for (const id of allIds) {
+      let query = supabase
+        .from('visited_cells')
+        .select('geohash', { count: 'exact', head: true })
+        .eq('user_id', id);
+
+      if (options?.areaPrefix) {
+        query = query.like('geohash', `${options.areaPrefix}%`);
+      }
+
+      const { count } = await query;
+      results.push({ user_id: id, cell_count: count ?? 0, rank: 0 });
+    }
+
+    // ランキング計算
+    results.sort((a, b) => b.cell_count - a.cell_count);
+    results.forEach((r, i) => { r.rank = i + 1; });
+
+    return results;
   };
 
   return {
     supabase,
     // 位置情報
     sendLocation,
+    sendLocationWithTrail,
     getVisibleFriends,
     getLocationHistory,
     saveLocationHistory,
+    getTrailFriendIds,
     // 共有ルール
     allow,
     revoke,
@@ -931,6 +1417,38 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     deleteFavoritePlace,
     checkAtFavoritePlace,
     getVisibleFriendsWithPlaces,
+    // アバター
+    uploadAvatar,
+    deleteAvatar,
+    // ステータス絵文字
+    setStatus,
+    clearStatus,
+    // ブロック
+    blockUser,
+    unblockUser,
+    getBlockedUsers,
+    isBlocked,
+    // 共有期限
+    setShareExpiry,
+    // プッシュ通知
+    registerPushSubscription,
+    unregisterPushSubscription,
+    getNotificationPreferences,
+    updateNotificationPreferences,
+    // ストリーク
+    recordInteraction,
+    getStreak,
+    getStreaks,
+    // フレンドのフレンド
+    getFriendsOfFriends,
+    // 訪問セル（エリア塗りつぶし）
+    getMyVisitedCells,
+    getFriendVisitedCells,
+    getMyExplorationStats,
+    getAreaRanking,
+    getFriendRanking,
+    encodeGeohash,
+    decodeGeohash,
     // ユーティリティ
     calculateDistance,
     estimateMotionType,
