@@ -84,14 +84,14 @@ export default function ReactionPanel({ userId, selectedFriendId, onClose }: Rea
   };
 
   return (
-    <div className="fixed inset-0 z-[1001] flex items-center justify-center bg-black/50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[80vh] flex flex-col">
+    <div className="fixed inset-0 z-[1001] flex items-center justify-center bg-scrim/50">
+      <div className="bg-surface-container-lowest rounded-lg shadow-xl w-full max-w-md max-h-[80vh] flex flex-col">
         {/* ヘッダー */}
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-lg font-bold text-gray-800">リアクション</h2>
+        <div className="flex items-center justify-between p-4 border-b border-outline-variant">
+          <h2 className="text-lg font-bold text-on-surface">リアクション</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-xl"
+            className="text-on-surface-variant hover:text-on-surface text-xl"
           >
             ✕
           </button>
@@ -99,8 +99,8 @@ export default function ReactionPanel({ userId, selectedFriendId, onClose }: Rea
 
         {/* 送信フォーム */}
         {selectedFriendId && (
-          <div className="p-4 border-b bg-blue-50">
-            <p className="text-sm text-gray-700 mb-2">
+          <div className="p-4 border-b border-outline-variant bg-tertiary-container">
+            <p className="text-sm text-on-tertiary-container mb-2">
               <span className="font-medium">{selectedFriendId}</span> にリアクションを送る
             </p>
 
@@ -112,8 +112,8 @@ export default function ReactionPanel({ userId, selectedFriendId, onClose }: Rea
                   onClick={() => setSelectedEmoji(emoji)}
                   className={`text-2xl p-2 rounded-lg transition ${
                     selectedEmoji === emoji
-                      ? 'bg-blue-600 scale-110'
-                      : 'bg-white hover:bg-gray-100'
+                      ? 'bg-tertiary scale-110'
+                      : 'bg-surface-container-lowest hover:bg-surface-container-low'
                   }`}
                 >
                   {emoji}
@@ -127,7 +127,7 @@ export default function ReactionPanel({ userId, selectedFriendId, onClose }: Rea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="メッセージ（任意）"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 mb-3"
+              className="w-full px-3 py-2 border border-outline-variant rounded-lg text-on-surface bg-surface-container-lowest mb-3"
             />
 
             {/* 送信ボタン */}
@@ -136,8 +136,8 @@ export default function ReactionPanel({ userId, selectedFriendId, onClose }: Rea
               disabled={loading}
               className={`w-full py-2 rounded-lg font-medium transition ${
                 success
-                  ? 'bg-green-600 text-white'
-                  : 'bg-blue-600 text-white hover:bg-blue-700'
+                  ? 'bg-primary text-on-primary'
+                  : 'bg-tertiary text-on-tertiary hover:brightness-90'
               } disabled:opacity-50`}
             >
               {success ? '送信しました!' : loading ? '送信中...' : `${selectedEmoji} を送信`}
@@ -147,25 +147,25 @@ export default function ReactionPanel({ userId, selectedFriendId, onClose }: Rea
 
         {/* 受信リアクション一覧 */}
         <div className="flex-1 overflow-y-auto p-4">
-          <h3 className="text-sm font-medium text-gray-700 mb-2">受信したリアクション</h3>
+          <h3 className="text-sm font-medium text-on-surface-variant mb-2">受信したリアクション</h3>
           {receivedReactions.length === 0 ? (
-            <p className="text-gray-500 text-sm">まだリアクションがありません</p>
+            <p className="text-outline text-sm">まだリアクションがありません</p>
           ) : (
             <ul className="space-y-2">
               {receivedReactions.map(reaction => (
                 <li
                   key={reaction.id}
-                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                  className="flex items-center gap-3 p-3 bg-surface-container rounded-lg"
                 >
                   <span className="text-3xl">{reaction.emoji}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-600 truncate">
+                    <p className="text-sm text-on-surface-variant truncate">
                       {reaction.from_user_id.slice(0, 8)}...
                     </p>
                     {reaction.message && (
-                      <p className="text-sm text-gray-800">{reaction.message}</p>
+                      <p className="text-sm text-on-surface">{reaction.message}</p>
                     )}
-                    <p className="text-xs text-gray-500">{formatTime(reaction.created_at)}</p>
+                    <p className="text-xs text-outline">{formatTime(reaction.created_at)}</p>
                   </div>
                 </li>
               ))}

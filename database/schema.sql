@@ -183,3 +183,254 @@ create table if not exists favorite_places (
 );
 
 create index if not exists idx_favorite_places_user on favorite_places (user_id);
+
+-- =====================
+-- プロフィール拡張（ステータス絵文字）
+-- =====================
+alter table profiles add column if not exists status_emoji text;
+alter table profiles add column if not exists status_text text;
+alter table profiles add column if not exists status_expires_at timestamptz;
+
+-- =====================
+-- ブロック機能
+-- =====================
+create table if not exists blocked_users (
+  blocker_id uuid not null references auth.users(id) on delete cascade,
+  blocked_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (blocker_id, blocked_id)
+);
+
+create index if not exists idx_blocked_users_blocker on blocked_users (blocker_id);
+create index if not exists idx_blocked_users_blocked on blocked_users (blocked_id);
+
+-- =====================
+-- プッシュ通知
+-- =====================
+create table if not exists push_subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  endpoint text not null,
+  p256dh text not null,
+  auth_key text not null,
+  created_at timestamptz not null default now(),
+  unique (user_id, endpoint)
+);
+
+create index if not exists idx_push_subscriptions_user on push_subscriptions (user_id);
+
+create table if not exists notification_preferences (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  friend_requests boolean not null default true,
+  reactions boolean not null default true,
+  chat_messages boolean not null default true,
+  bumps boolean not null default true,
+  updated_at timestamptz not null default now()
+);
+
+-- =====================
+-- ストリーク（連続交流日数）
+-- =====================
+create table if not exists friend_streaks (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  friend_id uuid not null references auth.users(id) on delete cascade,
+  current_streak integer not null default 0,
+  longest_streak integer not null default 0,
+  last_interaction_date date not null default current_date,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, friend_id)
+);
+
+create index if not exists idx_friend_streaks_user on friend_streaks (user_id);
+
+-- =====================
+-- 共有期限の自動クリーンアップ
+-- =====================
+create or replace function cleanup_expired_share_rules()
+returns void as $$
+begin
+  delete from share_rules
+  where expires_at is not null and expires_at <= now();
+end;
+$$ language plpgsql security definer;
+
+-- pg_cronが有効な環境で実行:
+-- select cron.schedule('cleanup-expired-share-rules', '*/15 * * * *', 'select cleanup_expired_share_rules()');
+
+-- =====================
+-- ストリーク記録関数
+-- =====================
+create or replace function record_interaction(p_user_id uuid, p_friend_id uuid)
+returns void as $$
+declare
+  v_last_date date;
+  v_streak integer;
+  v_longest integer;
+begin
+  select last_interaction_date, current_streak, longest_streak
+  into v_last_date, v_streak, v_longest
+  from friend_streaks
+  where user_id = p_user_id and friend_id = p_friend_id;
+
+  if not found then
+    insert into friend_streaks (user_id, friend_id, current_streak, longest_streak, last_interaction_date)
+    values (p_user_id, p_friend_id, 1, 1, current_date);
+    return;
+  end if;
+
+  if v_last_date = current_date then return; end if;
+
+  if v_last_date = current_date - 1 then
+    v_streak := v_streak + 1;
+  else
+    v_streak := 1;
+  end if;
+
+  v_longest := greatest(v_longest, v_streak);
+
+  update friend_streaks
+  set current_streak = v_streak, longest_streak = v_longest,
+      last_interaction_date = current_date, updated_at = now()
+  where user_id = p_user_id and friend_id = p_friend_id;
+end;
+$$ language plpgsql security definer;
+
+-- =====================
+-- フレンドのフレンド取得関数
+-- =====================
+create or replace function get_friends_of_friends(current_user_id uuid)
+returns table(user_id uuid, mutual_friend_id uuid) as $$
+  with my_friends as (
+    select case when from_user_id = current_user_id then to_user_id else from_user_id end as friend_id
+    from friend_requests
+    where status = 'accepted'
+      and (from_user_id = current_user_id or to_user_id = current_user_id)
+  ),
+  fof as (
+    select case when fr.from_user_id = mf.friend_id then fr.to_user_id else fr.from_user_id end as fof_id,
+           mf.friend_id as mutual_friend_id
+    from friend_requests fr
+    join my_friends mf on (fr.from_user_id = mf.friend_id or fr.to_user_id = mf.friend_id)
+    where fr.status = 'accepted'
+  )
+  select fof_id as user_id, mutual_friend_id
+  from fof
+  where fof_id != current_user_id
+    and fof_id not in (select friend_id from my_friends);
+$$ language sql security definer;
+
+-- =====================
+-- 訪問セル（エリア塗りつぶし）
+-- =====================
+-- Geohash precision 7 ≒ 約150m×150mセル
+create table if not exists visited_cells (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  geohash text not null,
+  first_visited_at timestamptz not null default now(),
+  last_visited_at timestamptz not null default now(),
+  visit_count integer not null default 1,
+  primary key (user_id, geohash)
+);
+
+create index if not exists idx_visited_cells_user on visited_cells (user_id);
+create index if not exists idx_visited_cells_geohash on visited_cells (geohash);
+
+-- 訪問セル集計ビュー（ランキング用）
+create or replace view visited_cell_stats as
+select
+  user_id,
+  count(*) as total_cells,
+  min(first_visited_at) as exploring_since,
+  max(last_visited_at) as last_explored_at
+from visited_cells
+group by user_id;
+
+-- エリア別（geohash prefix）集計関数
+-- prefix_len: 4=約40km, 5=約5km, 6=約1.2km
+create or replace function get_area_rankings(
+  area_prefix text,
+  result_limit integer default 20
+)
+returns table(user_id uuid, cell_count bigint, rank bigint) as $$
+  select
+    v.user_id,
+    count(*) as cell_count,
+    rank() over (order by count(*) desc) as rank
+  from visited_cells v
+  where v.geohash like area_prefix || '%'
+  group by v.user_id
+  order by cell_count desc
+  limit result_limit;
+$$ language sql security definer;
+
+-- Geohashエンコード関数（DB側で位置→geohashを計算）
+create or replace function encode_geohash(lat double precision, lon double precision, precision_len integer default 7)
+returns text as $$
+declare
+  base32 text := '0123456789bcdefghjkmnpqrstuvwxyz';
+  min_lat double precision := -90;
+  max_lat double precision := 90;
+  min_lon double precision := -180;
+  max_lon double precision := 180;
+  mid double precision;
+  bits integer := 0;
+  hash_val integer := 0;
+  is_lon boolean := true;
+  result text := '';
+begin
+  while length(result) < precision_len loop
+    if is_lon then
+      mid := (min_lon + max_lon) / 2;
+      if lon >= mid then
+        hash_val := hash_val * 2 + 1;
+        min_lon := mid;
+      else
+        hash_val := hash_val * 2;
+        max_lon := mid;
+      end if;
+    else
+      mid := (min_lat + max_lat) / 2;
+      if lat >= mid then
+        hash_val := hash_val * 2 + 1;
+        min_lat := mid;
+      else
+        hash_val := hash_val * 2;
+        max_lat := mid;
+      end if;
+    end if;
+    is_lon := not is_lon;
+    bits := bits + 1;
+    if bits = 5 then
+      result := result || substr(base32, hash_val + 1, 1);
+      bits := 0;
+      hash_val := 0;
+    end if;
+  end loop;
+  return result;
+end;
+$$ language plpgsql immutable;
+
+-- 位置送信時にセルを自動記録するトリガー
+create or replace function record_visited_cell()
+returns trigger as $$
+declare
+  gh text;
+begin
+  gh := encode_geohash(NEW.lat, NEW.lon, 7);
+  insert into visited_cells (user_id, geohash, first_visited_at, last_visited_at, visit_count)
+  values (NEW.user_id, gh, now(), now(), 1)
+  on conflict (user_id, geohash) do update
+  set last_visited_at = now(), visit_count = visited_cells.visit_count + 1;
+  return NEW;
+end;
+$$ language plpgsql security definer;
+
+create or replace trigger trg_record_visited_cell
+after insert or update on locations_current
+for each row execute function record_visited_cell();
+
+-- =====================
+-- Supabase Storageバケット（avatars）
+-- =====================
+-- Supabaseダッシュボードまたはマイグレーションで実行:
+-- insert into storage.buckets (id, name, public) values ('avatars', 'avatars', true);

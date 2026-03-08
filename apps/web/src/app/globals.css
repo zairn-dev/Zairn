@@ -1,27 +1,300 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================ */
+/* Material 3 Expressive Color System           */
+/* ============================================ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  /* ─── Primary ─── */
+  --md-primary: #6442d6;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #e9ddff;
+  --md-on-primary-container: #1e0060;
+  --md-primary-fixed: #e9ddff;
+  --md-on-primary-fixed: #1e0060;
+
+  /* ─── Secondary ─── */
+  --md-secondary: #625b71;
+  --md-on-secondary: #ffffff;
+  --md-secondary-container: #e8def8;
+  --md-on-secondary-container: #1d192b;
+
+  /* ─── Tertiary ─── */
+  --md-tertiary: #7d5260;
+  --md-on-tertiary: #ffffff;
+  --md-tertiary-container: #ffd8e4;
+  --md-on-tertiary-container: #31111d;
+
+  /* ─── Error ─── */
+  --md-error: #b3261e;
+  --md-on-error: #ffffff;
+  --md-error-container: #f9dedc;
+  --md-on-error-container: #410e0b;
+
+  /* ─── Surface hierarchy ─── */
+  --md-surface: #fef7ff;
+  --md-surface-dim: #ded8e1;
+  --md-surface-bright: #fef7ff;
+  --md-surface-container-lowest: #ffffff;
+  --md-surface-container-low: #f7f2fa;
+  --md-surface-container: #f3edf7;
+  --md-surface-container-high: #ece6f0;
+  --md-surface-container-highest: #e6e0e9;
+  --md-on-surface: #1d1b20;
+  --md-on-surface-variant: #49454f;
+
+  /* ─── Outline ─── */
+  --md-outline: #79747e;
+  --md-outline-variant: #cac4d0;
+
+  /* ─── Inverse ─── */
+  --md-inverse-surface: #322f35;
+  --md-inverse-on-surface: #f5eff7;
+  --md-inverse-primary: #cbbeff;
+
+  /* ─── Scrim & Shadow ─── */
+  --md-scrim: #000000;
+  --md-shadow: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* ─── Primary ─── */
+    --md-primary: #cbbeff;
+    --md-on-primary: #340098;
+    --md-primary-container: #4b21bd;
+    --md-on-primary-container: #e9ddff;
+    --md-primary-fixed: #e9ddff;
+    --md-on-primary-fixed: #1e0060;
+
+    /* ─── Secondary ─── */
+    --md-secondary: #ccc2dc;
+    --md-on-secondary: #332d41;
+    --md-secondary-container: #4a4458;
+    --md-on-secondary-container: #e8def8;
+
+    /* ─── Tertiary ─── */
+    --md-tertiary: #efb8c8;
+    --md-on-tertiary: #492532;
+    --md-tertiary-container: #633b48;
+    --md-on-tertiary-container: #ffd8e4;
+
+    /* ─── Error ─── */
+    --md-error: #f2b8b5;
+    --md-on-error: #601410;
+    --md-error-container: #8c1d18;
+    --md-on-error-container: #f9dedc;
+
+    /* ─── Surface hierarchy ─── */
+    --md-surface: #141218;
+    --md-surface-dim: #141218;
+    --md-surface-bright: #3b383e;
+    --md-surface-container-lowest: #0f0d13;
+    --md-surface-container-low: #1d1b20;
+    --md-surface-container: #211f26;
+    --md-surface-container-high: #2b2930;
+    --md-surface-container-highest: #36343b;
+    --md-on-surface: #e6e0e9;
+    --md-on-surface-variant: #cac4d0;
+
+    /* ─── Outline ─── */
+    --md-outline: #938f99;
+    --md-outline-variant: #49454f;
+
+    /* ─── Inverse ─── */
+    --md-inverse-surface: #e6e0e9;
+    --md-inverse-on-surface: #322f35;
+    --md-inverse-primary: #6442d6;
+
+    /* ─── Scrim & Shadow ─── */
+    --md-scrim: #000000;
+    --md-shadow: #000000;
   }
 }
 
+@theme inline {
+  /* ─── M3 Expressive Tokens → Tailwind utilities ─── */
+
+  /* Primary */
+  --color-primary: var(--md-primary);
+  --color-on-primary: var(--md-on-primary);
+  --color-primary-container: var(--md-primary-container);
+  --color-on-primary-container: var(--md-on-primary-container);
+
+  /* Secondary */
+  --color-secondary: var(--md-secondary);
+  --color-on-secondary: var(--md-on-secondary);
+  --color-secondary-container: var(--md-secondary-container);
+  --color-on-secondary-container: var(--md-on-secondary-container);
+
+  /* Tertiary */
+  --color-tertiary: var(--md-tertiary);
+  --color-on-tertiary: var(--md-on-tertiary);
+  --color-tertiary-container: var(--md-tertiary-container);
+  --color-on-tertiary-container: var(--md-on-tertiary-container);
+
+  /* Error */
+  --color-error: var(--md-error);
+  --color-on-error: var(--md-on-error);
+  --color-error-container: var(--md-error-container);
+  --color-on-error-container: var(--md-on-error-container);
+
+  /* Surface */
+  --color-surface: var(--md-surface);
+  --color-surface-dim: var(--md-surface-dim);
+  --color-surface-bright: var(--md-surface-bright);
+  --color-surface-container-lowest: var(--md-surface-container-lowest);
+  --color-surface-container-low: var(--md-surface-container-low);
+  --color-surface-container: var(--md-surface-container);
+  --color-surface-container-high: var(--md-surface-container-high);
+  --color-surface-container-highest: var(--md-surface-container-highest);
+  --color-on-surface: var(--md-on-surface);
+  --color-on-surface-variant: var(--md-on-surface-variant);
+
+  /* Outline */
+  --color-outline: var(--md-outline);
+  --color-outline-variant: var(--md-outline-variant);
+
+  /* Inverse */
+  --color-inverse-surface: var(--md-inverse-surface);
+  --color-inverse-on-surface: var(--md-inverse-on-surface);
+  --color-inverse-primary: var(--md-inverse-primary);
+
+  /* Scrim */
+  --color-scrim: var(--md-scrim);
+
+  /* Semantic aliases */
+  --color-background: var(--md-surface);
+  --color-foreground: var(--md-on-surface);
+
+  /* Fonts */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ============================================ */
+/* Glass Refraction — RGB chromatic aberration   */
+/* ============================================ */
+
+.glass-refraction {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  /* Outer RGB halos — red right, blue left */
+  box-shadow:
+    4px 0 12px -2px rgba(255, 20, 80, 0.30),
+    -4px 0 12px -2px rgba(0, 60, 255, 0.30),
+    0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.25s ease;
+}
+
+/* Inner RGB chromatic aberration — sharp colored edges */
+.glass-refraction::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    /* Red channel — right edge */
+    inset 4px 0 8px rgba(255, 0, 60, 0.25),
+    /* Blue channel — left edge */
+    inset -4px 0 8px rgba(0, 40, 255, 0.25);
+  pointer-events: none;
+  z-index: 1;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Prismatic rainbow border — dispersion at glass edge */
+.glass-refraction::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 80, 0.5),
+    rgba(255, 180, 0, 0.35) 25%,
+    rgba(0, 255, 120, 0.35) 50%,
+    rgba(0, 80, 255, 0.5) 75%,
+    rgba(180, 0, 255, 0.35)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+/* Hover: dramatically intensify the refraction */
+.glass-refraction:hover {
+  box-shadow:
+    8px 0 20px -2px rgba(255, 20, 80, 0.45),
+    -8px 0 20px -2px rgba(0, 60, 255, 0.45),
+    0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.glass-refraction:hover::before {
+  box-shadow:
+    inset 6px 0 12px rgba(255, 0, 60, 0.35),
+    inset -6px 0 12px rgba(0, 40, 255, 0.35);
+}
+
+.glass-refraction:hover::after {
+  opacity: 1;
+}
+
+/* Active press */
+.glass-refraction:active {
+  transform: scale(0.94);
+  box-shadow:
+    2px 0 8px -1px rgba(255, 20, 80, 0.20),
+    -2px 0 8px -1px rgba(0, 60, 255, 0.20),
+    0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.glass-refraction:active::before {
+  box-shadow:
+    inset 2px 0 6px rgba(255, 0, 60, 0.15),
+    inset -2px 0 6px rgba(0, 40, 255, 0.15);
+}
+
+.glass-refraction:active::after {
+  opacity: 0.4;
+}
+
+/* ─── Glass tint variants ─── */
+.glass-tint-primary {
+  background: rgba(100, 66, 214, 0.12);
+  color: var(--md-on-primary);
+}
+
+.glass-tint-secondary {
+  background: rgba(98, 91, 113, 0.15);
+  color: var(--md-on-secondary);
+}
+
+.glass-tint-tertiary {
+  background: rgba(125, 82, 96, 0.12);
+  color: var(--md-on-tertiary);
+}
+
+.glass-tint-surface {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--md-on-surface);
+}
+
+/* ─── Base styles ─── */
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--md-surface);
+  color: var(--md-on-surface);
   font-family: Arial, Helvetica, sans-serif;
 }
 

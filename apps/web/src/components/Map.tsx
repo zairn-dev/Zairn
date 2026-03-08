@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { LocationCurrentRow, FavoritePlace, MotionType, createLocationCore } from '@zen-map/sdk';
+import TrailLayer from './TrailLayer';
 
 // バッテリー情報の型
 interface BatteryManager {
@@ -97,6 +98,8 @@ function MapUpdater({ center }: { center: [number, number] | null }) {
 
 interface MapProps {
   userId: string;
+  showTrails?: boolean;
+  demoTrails?: boolean;
   onSelectFriend?: (friendId: string) => void;
   onOpenChat?: (friendId: string) => void;
   onOpenReaction?: (friendId: string) => void;
@@ -105,7 +108,7 @@ interface MapProps {
 
 type FriendWithPlace = LocationCurrentRow & { place?: FavoritePlace };
 
-export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction, onLocationUpdate }: MapProps) {
+export default function Map({ userId, showTrails, demoTrails, onSelectFriend, onOpenChat, onOpenReaction, onLocationUpdate }: MapProps) {
   const [myLocation, setMyLocation] = useState<{ lat: number; lon: number } | null>(null);
   const [friends, setFriends] = useState<FriendWithPlace[]>([]);
   const [loading, setLoading] = useState(true);
@@ -165,7 +168,7 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
   // 自分の位置を送信（バッテリー情報付き）
   const sendMyLocation = useCallback(async (lat: number, lon: number, accuracy: number, speed?: number | null) => {
     try {
-      await core.sendLocation({
+      await core.sendLocationWithTrail({
         lat,
         lon,
         accuracy,
@@ -233,10 +236,10 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center bg-gray-100">
+      <div className="h-full flex items-center justify-center bg-surface-dim">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">位置情報を取得中...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-on-surface-variant">位置情報を取得中...</p>
         </div>
       </div>
     );
@@ -244,8 +247,8 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
 
   if (error) {
     return (
-      <div className="h-full flex items-center justify-center bg-gray-100">
-        <div className="text-center text-red-600 p-4">
+      <div className="h-full flex items-center justify-center bg-surface-dim">
+        <div className="text-center text-error p-4">
           <p>{error}</p>
         </div>
       </div>
@@ -267,6 +270,16 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MapUpdater center={myLocation ? [myLocation.lat, myLocation.lon] : null} />
+
+      {/* 足跡レイヤー */}
+      {showTrails && (
+        <TrailLayer
+          userId={userId}
+          visible={!!showTrails}
+          demo={!!demoTrails}
+          center={myLocation}
+        />
+      )}
 
       {/* 自分のマーカー */}
       {myLocation && (
@@ -306,7 +319,7 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
               <div className="min-w-[180px]">
                 {/* お気に入りの場所 */}
                 {friend.place && (
-                  <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs mb-2 inline-block">
+                  <div className="bg-primary-container text-on-primary-container px-2 py-1 rounded text-xs mb-2 inline-block">
                     {friend.place.icon || '📍'} {friend.place.name}
                   </div>
                 )}
@@ -314,7 +327,7 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
                 <strong className="block mb-1">友達</strong>
 
                 {/* 滞在時間と移動ステータス */}
-                <div className="text-sm text-gray-600 mb-2">
+                <div className="text-sm text-on-surface-variant mb-2">
                   {friend.motion && friend.motion !== 'unknown' && (
                     <span className="mr-2">
                       {getMotionInfo(friend.motion).icon} {getMotionInfo(friend.motion).label}
@@ -333,19 +346,19 @@ export default function Map({ userId, onSelectFriend, onOpenChat, onOpenReaction
                   </div>
                 )}
 
-                <small className="text-gray-500 block mb-2">
+                <small className="text-outline block mb-2">
                   {new Date(friend.updated_at).toLocaleString('ja-JP')}
                 </small>
                 <div className="flex gap-1 flex-wrap">
                   <button
                     onClick={() => onOpenChat?.(friend.user_id)}
-                    className="px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+                    className="px-2 py-1 bg-primary text-on-primary text-xs rounded hover:brightness-90"
                   >
                     チャット
                   </button>
                   <button
                     onClick={() => onOpenReaction?.(friend.user_id)}
-                    className="px-2 py-1 bg-yellow-500 text-white text-xs rounded hover:bg-yellow-600"
+                    className="px-2 py-1 bg-tertiary text-on-tertiary text-xs rounded hover:brightness-90"
                   >
                     リアクション
                   </button>

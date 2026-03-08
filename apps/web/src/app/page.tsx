@@ -13,8 +13,8 @@ import BumpPanel from '@/components/BumpPanel';
 const Map = dynamic(() => import('@/components/Map'), {
   ssr: false,
   loading: () => (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    <div className="h-screen flex items-center justify-center bg-surface-dim">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
     </div>
   ),
 });
@@ -27,6 +27,7 @@ export default function Home() {
   const [activePanel, setActivePanel] = useState<PanelType>(null);
   const [selectedFriendId, setSelectedFriendId] = useState<string | null>(null);
   const [currentLocation, setCurrentLocation] = useState<{ lat: number; lon: number } | null>(null);
+  const [trailMode, setTrailMode] = useState<'off' | 'demo' | 'live'>('off');
 
   const supabase = createClient();
 
@@ -69,8 +70,8 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-gray-100">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="h-screen flex items-center justify-center bg-surface-dim">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -84,38 +85,56 @@ export default function Home() {
       {/* ログアウトボタン */}
       <button
         onClick={handleLogout}
-        className="fixed top-4 left-4 z-[1000] bg-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-100 text-gray-700 text-sm"
+        className="glass-refraction glass-tint-surface fixed top-4 left-4 z-[1000] px-4 py-2 rounded-xl text-on-surface-variant text-sm"
       >
-        ログアウト
+        <span className="relative z-[3]">ログアウト</span>
       </button>
 
       {/* 機能ボタン */}
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-[1000] flex gap-2">
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-[1000] flex gap-3">
         <button
           onClick={() => setActivePanel('chat')}
-          className="bg-blue-600 text-white px-4 py-3 rounded-full shadow-lg hover:bg-blue-700 flex items-center gap-2"
+          className="glass-refraction glass-tint-primary px-5 py-3 rounded-2xl flex items-center gap-2"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 relative z-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
-          チャット
+          <span className="relative z-[3]">チャット</span>
         </button>
         <button
           onClick={() => setActivePanel('reaction')}
-          className="bg-yellow-500 text-white px-4 py-3 rounded-full shadow-lg hover:bg-yellow-600 flex items-center gap-2"
+          className="glass-refraction glass-tint-tertiary px-5 py-3 rounded-2xl flex items-center gap-2"
         >
-          <span className="text-lg">👋</span>
-          リアクション
+          <span className="text-lg relative z-[3]">👋</span>
+          <span className="relative z-[3]">リアクション</span>
+        </button>
+        <button
+          onClick={() => {
+            const next = trailMode === 'off' ? 'demo' : trailMode === 'demo' ? 'live' : 'off';
+            setTrailMode(next);
+          }}
+          className={`glass-refraction px-5 py-3 rounded-2xl flex items-center gap-2 ${
+            trailMode === 'demo' ? 'glass-tint-tertiary'
+              : trailMode === 'live' ? 'glass-tint-primary'
+              : 'glass-tint-surface'
+          }`}
+        >
+          <svg className="w-5 h-5 relative z-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+          </svg>
+          <span className="relative z-[3]">
+            {trailMode === 'off' ? '足跡' : trailMode === 'demo' ? 'DEMO' : '足跡 LIVE'}
+          </span>
         </button>
         <button
           onClick={() => setActivePanel('bump')}
-          className="bg-purple-600 text-white px-4 py-3 rounded-full shadow-lg hover:bg-purple-700 flex items-center gap-2"
+          className="glass-refraction glass-tint-secondary px-5 py-3 rounded-2xl flex items-center gap-2"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 relative z-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          Bump
+          <span className="relative z-[3]">Bump</span>
         </button>
       </div>
 
@@ -125,6 +144,8 @@ export default function Home() {
       {/* 地図 */}
       <Map
         userId={userId}
+        showTrails={trailMode !== 'off'}
+        demoTrails={trailMode === 'demo'}
         onOpenChat={openChat}
         onOpenReaction={openReaction}
         onLocationUpdate={setCurrentLocation}
