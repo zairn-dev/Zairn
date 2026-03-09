@@ -8,7 +8,8 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "pnpm --filter @zen-map/sdk build",
+    "build": "pnpm --filter @zen-map/sdk build && pnpm --filter @zen-map/geo-drop build",
+    "build:geo-drop": "pnpm --filter @zen-map/geo-drop build",
     "dev:web": "pnpm --filter web dev",
     "build:web": "pnpm --filter web build",
     "test:connection": "npx tsx --env-file=.env test/connection-test.ts",
