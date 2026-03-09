@@ -6,6 +6,10 @@
 // Core
 export { createGeoDrop } from './core';
 
+// Verification engine (for advanced use / custom integrations)
+export { createVerificationEngine } from './verification';
+export type { VerificationEngine, VerificationEngineOptions } from './verification';
+
 // Types
 export type {
   // SDK
@@ -23,8 +27,15 @@ export type {
   // IPFS
   IpfsConfig,
   IpfsUploadResult,
-  // Geofence
-  GeofenceConfig,
+  // Location proof
+  ProofMethodType,
+  ProofRequirement,
+  ProofConfig,
+  ProofSubmission,
+  ProofResult,
+  ProofVerifier,
+  VerificationResult,
+  // Location proof
   LocationProof,
   // Crypto
   EncryptedPayload,
@@ -32,9 +43,32 @@ export type {
   DropStats,
   // NFT
   NftMetadata,
+  // Share
+  DropShare,
+  // Persistence
+  PersistenceLevel,
+  PersistenceConfig,
+  PersistenceResult,
+  ChainConfig,
+  EvmSigner,
+  DropMetadataDocument,
+  RecoveredDrop,
 } from './types';
 
-// Utilities (standalone exports for direct use)
-export { encodeGeohash, decodeGeohash, calculateDistance, verifyProximity } from './geofence';
+// Persistence (DB-independent recovery)
+export { createPersistenceManager } from './persistence';
+export type { PersistenceManager } from './persistence';
+
+// Chain client (EVM on-chain registry)
+export { createChainClient } from './chain';
+export type { ChainClient } from './chain';
+
+// Geofence utilities
+export { encodeGeohash, decodeGeohash, calculateDistance, verifyProximity, geohashNeighbors, isMovementRealistic } from './geofence';
+export type { VerifyOptions } from './geofence';
+
+// Crypto utilities
 export { encrypt, decrypt, hashPassword, deriveLocationKey } from './crypto';
+
+// IPFS client
 export { IpfsClient } from './ipfs';

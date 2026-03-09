@@ -7,4 +7,4 @@
 export * from './types';
 
 // コア機能のエクスポート
-export { createLocationCore, calculateDistance, estimateMotionType } from './core';
+export { createLocationCore, calculateDistance, estimateMotionType, encodeGeohash, decodeGeohash } from './core';

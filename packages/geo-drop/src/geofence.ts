@@ -1,10 +1,10 @@
 /**
- * ジオフェンス検証
- * ドロップの場所に実際にいるかどうかを検証するロジック
+ * Geofence verification
+ * Logic to verify whether a user is actually at a drop's location
  */
 import type { LocationProof } from './types';
 
-// Haversine公式による距離計算（メートル）
+// Distance calculation using the Haversine formula (in meters)
 export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371000;
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -17,7 +17,7 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
   return R * c;
 }
 
-// Geohashエンコード
+// Geohash encoding
 const GEOHASH_BASE32 = '0123456789bcdefghjkmnpqrstuvwxyz';
 
 export function encodeGeohash(lat: number, lon: number, precision: number = 7): string {
@@ -66,32 +66,32 @@ export function decodeGeohash(geohash: string): { lat: number; lon: number } {
 }
 
 /**
- * 位置検証パラメータ
+ * Location verification parameters
  */
 export interface VerifyOptions {
-  /** ドロップの緯度 */
+  /** Drop latitude */
   targetLat: number;
-  /** ドロップの経度 */
+  /** Drop longitude */
   targetLon: number;
-  /** アンロック半径（メートル） */
+  /** Unlock radius (meters) */
   unlockRadius: number;
-  /** ユーザーの緯度 */
+  /** User latitude */
   userLat: number;
-  /** ユーザーの経度 */
+  /** User longitude */
   userLon: number;
-  /** GPSの精度（メートル） */
+  /** GPS accuracy (meters) */
   accuracy: number;
-  /** ユーザーID */
+  /** User ID */
   userId: string;
 }
 
 /**
- * ジオフェンス検証を実行
+ * Perform geofence verification
  *
- * 検証ロジック:
- * 1. ユーザーとドロップの距離を計算
- * 2. GPS精度を考慮した実効距離で判定
- * 3. 半径内なら検証OK
+ * Verification logic:
+ * 1. Calculate distance between user and drop
+ * 2. Determine effective distance accounting for GPS accuracy
+ * 3. Verified if within radius
  */
 export function verifyProximity(opts: VerifyOptions): LocationProof {
   const distance = calculateDistance(
@@ -99,9 +99,9 @@ export function verifyProximity(opts: VerifyOptions): LocationProof {
     opts.userLat, opts.userLon
   );
 
-  // GPS精度を考慮：実際の距離は ±accuracy の範囲にある
-  // 安全側に倒す：distance - accuracy が半径以下なら許可
-  // ただしaccuracyが大きすぎる場合（500m以上）は拒否
+  // Account for GPS accuracy: actual distance is within +/- accuracy range
+  // Err on the safe side: allow if distance - accuracy is within radius
+  // However, reject if accuracy is too large (over 500m)
   const maxAccuracy = 500;
   const effectiveAccuracy = Math.min(opts.accuracy, maxAccuracy);
   const verified = (distance - effectiveAccuracy) <= opts.unlockRadius;
@@ -119,16 +119,55 @@ export function verifyProximity(opts: VerifyOptions): LocationProof {
 }
 
 /**
- * レート制限チェック用のキー生成
- * 同じユーザーが短時間に異なる遠隔地からアンロック試行を防ぐ
+ * Get the 8 adjacent geohash cells in all directions
+ * Used in findNearbyDrops to search for drops across cell boundaries
  */
-export function rateLimitKey(userId: string, dropId: string): string {
-  return `geodrop:ratelimit:${userId}:${dropId}`;
+export function geohashNeighbors(geohash: string): string[] {
+  if (!geohash) return [];
+  const { lat, lon } = decodeGeohash(geohash);
+
+  // Approximate cell size based on geohash precision
+  // precision: lat half-width, lon half-width
+  const precisionSizes: Record<number, { dlat: number; dlon: number }> = {
+    1: { dlat: 23, dlon: 23 },
+    2: { dlat: 2.8, dlon: 5.6 },
+    3: { dlat: 0.7, dlon: 0.7 },
+    4: { dlat: 0.087, dlon: 0.175 },
+    5: { dlat: 0.022, dlon: 0.022 },
+    6: { dlat: 0.0027, dlon: 0.0055 },
+    7: { dlat: 0.00068, dlon: 0.00068 },
+    8: { dlat: 0.000085, dlon: 0.00017 },
+  };
+
+  const precision = geohash.length;
+  const size = precisionSizes[precision] || precisionSizes[7];
+  // Use 2x step to reach center of neighbor cells
+  const step = { dlat: size.dlat * 2, dlon: size.dlon * 2 };
+
+  const directions = [
+    [-1, -1], [-1, 0], [-1, 1],
+    [0, -1],           [0, 1],
+    [1, -1],  [1, 0],  [1, 1],
+  ];
+
+  const neighbors: string[] = [];
+  for (const [dy, dx] of directions) {
+    const nLat = lat + dy * step.dlat;
+    const nLon = lon + dx * step.dlon;
+    // Clamp to valid range
+    if (nLat >= -90 && nLat <= 90 && nLon >= -180 && nLon <= 180) {
+      const h = encodeGeohash(nLat, nLon, precision);
+      if (h !== geohash && !neighbors.includes(h)) {
+        neighbors.push(h);
+      }
+    }
+  }
+  return neighbors;
 }
 
 /**
- * 移動速度の妥当性チェック
- * 前回の位置と今回の位置から、移動速度が現実的かどうかを検証
+ * Movement speed plausibility check
+ * Verifies whether the speed between the previous and current location is realistic
  */
 export function isMovementRealistic(
   prevLat: number, prevLon: number, prevTimestamp: string,
@@ -139,7 +178,7 @@ export function isMovementRealistic(
   if (timeDiffMs <= 0) return false;
 
   const speedMs = distance / (timeDiffMs / 1000);
-  // 最大速度: 300 m/s（約1080 km/h = 飛行機レベル）
-  // これを超える移動はGPS偽装の可能性が高い
+  // Max speed: 300 m/s (approx. 1080 km/h = airplane level)
+  // Movement exceeding this is likely GPS spoofing
   return speedMs <= 300;
 }

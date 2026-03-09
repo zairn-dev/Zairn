@@ -1,17 +1,17 @@
 /**
- * 暗号化・復号ユーティリティ
- * ジオフェンス検証後にのみ復号キーを渡す仕組みの基盤
+ * Encryption/decryption utilities
+ * Foundation for the mechanism that only provides decryption keys after geofence verification
  */
 import type { EncryptedPayload } from './types';
 
-// Web Crypto API ベースの暗号化（ブラウザ + Node.js 互換）
+// Web Crypto API based encryption (browser + Node.js compatible)
 const ALGORITHM = 'AES-GCM';
 const KEY_LENGTH = 256;
 const IV_LENGTH = 12;
 const SALT_LENGTH = 16;
 
 /**
- * パスワードから暗号鍵を導出（PBKDF2）
+ * Derive an encryption key from a password (PBKDF2)
  */
 async function deriveKey(password: string, salt: Uint8Array): Promise<CryptoKey> {
   const encoder = new TextEncoder();
@@ -34,14 +34,14 @@ async function deriveKey(password: string, salt: Uint8Array): Promise<CryptoKey>
 }
 
 /**
- * ランダムバイト生成
+ * Generate random bytes
  */
 function randomBytes(length: number): Uint8Array {
   return crypto.getRandomValues(new Uint8Array(length));
 }
 
 /**
- * バイト配列をBase64に変換
+ * Convert byte array to Base64
  */
 function toBase64(bytes: Uint8Array): string {
   let binary = '';
@@ -50,7 +50,7 @@ function toBase64(bytes: Uint8Array): string {
 }
 
 /**
- * Base64をバイト配列に変換
+ * Convert Base64 to byte array
  */
 function fromBase64(base64: string): Uint8Array {
   const binary = atob(base64);
@@ -60,9 +60,9 @@ function fromBase64(base64: string): Uint8Array {
 }
 
 /**
- * データを暗号化
- * @param data 暗号化するデータ（文字列）
- * @param password 暗号化パスワード（ジオフェンス検証トークンや位置ベースのキー）
+ * Encrypt data
+ * @param data Data to encrypt (string)
+ * @param password Encryption password (geofence verification token or location-based key)
  */
 export async function encrypt(data: string, password: string): Promise<EncryptedPayload> {
   const salt = randomBytes(SALT_LENGTH);
@@ -85,7 +85,7 @@ export async function encrypt(data: string, password: string): Promise<Encrypted
 }
 
 /**
- * データを復号
+ * Decrypt data
  */
 export async function decrypt(payload: EncryptedPayload, password: string): Promise<string> {
   const salt = fromBase64(payload.salt);
@@ -103,7 +103,7 @@ export async function decrypt(payload: EncryptedPayload, password: string): Prom
 }
 
 /**
- * パスワードのSHA-256ハッシュを生成（DB保存用）
+ * Generate a SHA-256 hash of a password (for DB storage)
  */
 export async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -112,8 +112,8 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 /**
- * 位置ベースの暗号化キーを生成
- * geohash + drop_id + salt を組み合わせてユニークな暗号鍵を作る
+ * Generate a location-based encryption key
+ * Combines geohash + drop_id + salt to create a unique encryption key
  */
 export function deriveLocationKey(geohash: string, dropId: string, salt: string): string {
   return `geodrop:${geohash}:${dropId}:${salt}`;

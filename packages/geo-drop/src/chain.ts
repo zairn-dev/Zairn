@@ -1,0 +1,148 @@
+/**
+ * EVM chain client
+ * Handles communication with the GeoDropRegistry contract
+ * No external dependencies (raw JSON-RPC + manual ABI encoding)
+ */
+import type { ChainConfig, EvmSigner } from './types';
+
+// GeoDropRegistry function selectors (first 4 bytes of keccak256)
+const SELECTOR_REGISTER = '0xd0495692'; // registerDrop(bytes7,string)
+const SELECTOR_GET_CIDS = '0x586938e6'; // getDropCids(bytes7)
+
+export interface ChainClient {
+  /** Register a drop's metadata CID on-chain */
+  registerDrop(geohash: string, metadataCid: string): Promise<{ txHash: string; chainId?: number }>;
+  /** Get all metadata CIDs registered for a geohash (no gas required) */
+  getDropCids(geohash: string): Promise<string[]>;
+}
+
+/**
+ * Create a chain client
+ */
+export function createChainClient(config: ChainConfig): ChainClient {
+  const { rpcUrl, registryAddress, signer, chainId } = config;
+
+  // =====================
+  // ABI encoding helpers
+  // =====================
+
+  function encodeBytes7Param(geohash: string): string {
+    // ABI encoding: bytes7 is left-aligned, right-padded in a 32-byte slot
+    // Normalize geohash to 7 characters (right-pad with 0 if shorter)
+    const normalized = geohash.substring(0, 7).padEnd(7, '0');
+    const hex = Array.from(normalized)
+      .map(c => c.charCodeAt(0).toString(16).padStart(2, '0'))
+      .join('');
+    return hex.padEnd(64, '0');
+  }
+
+  function encodeStringParam(str: string, offset: number): { offsetHex: string; dataContent: string } {
+    // ABI encoding: dynamic string
+    // offset pointer (32 bytes)
+    const offsetHex = offset.toString(16).padStart(64, '0');
+    // length (32 bytes)
+    const length = str.length;
+    const lengthHex = length.toString(16).padStart(64, '0');
+    // data (padded to 32-byte boundary)
+    const dataHex = Array.from(str)
+      .map(c => c.charCodeAt(0).toString(16).padStart(2, '0'))
+      .join('');
+    const paddedData = dataHex.padEnd(Math.ceil(dataHex.length / 64) * 64, '0');
+    return { offsetHex, dataContent: lengthHex + paddedData };
+  }
+
+  function encodeRegisterDrop(geohash: string, metadataCid: string): string {
+    // registerDrop(bytes7 geohash, string metadataCid)
+    const geohashSlot = encodeBytes7Param(geohash);
+    // string offset = 0x40 (2 * 32 bytes from start of params)
+    const strEnc = encodeStringParam(metadataCid, 0x40);
+    return SELECTOR_REGISTER + geohashSlot + strEnc.offsetHex + strEnc.dataContent;
+  }
+
+  function encodeGetDropCids(geohash: string): string {
+    // getDropCids(bytes7 geohash)
+    const geohashSlot = encodeBytes7Param(geohash);
+    return SELECTOR_GET_CIDS + geohashSlot;
+  }
+
+  // =====================
+  // ABI decoding helpers
+  // =====================
+
+  function decodeStringArray(hex: string): string[] {
+    // ABI decoding: response from a view function returning string[]
+    // Remove 0x prefix
+    const data = hex.startsWith('0x') ? hex.slice(2) : hex;
+    if (data.length < 128) return [];
+
+    // First 32 bytes: offset to array data
+    const arrayOffset = parseInt(data.slice(0, 64), 16) * 2;
+    // Array length
+    const arrayLength = parseInt(data.slice(arrayOffset, arrayOffset + 64), 16);
+    if (arrayLength === 0) return [];
+
+    const results: string[] = [];
+
+    // Offset table for each element
+    const offsetsStart = arrayOffset + 64;
+    for (let i = 0; i < arrayLength; i++) {
+      const elemOffsetHex = data.slice(offsetsStart + i * 64, offsetsStart + (i + 1) * 64);
+      const elemOffset = parseInt(elemOffsetHex, 16) * 2 + arrayOffset + 64;
+      // String length
+      const strLength = parseInt(data.slice(elemOffset, elemOffset + 64), 16);
+      // String data
+      const strHex = data.slice(elemOffset + 64, elemOffset + 64 + strLength * 2);
+      let str = '';
+      for (let j = 0; j < strHex.length; j += 2) {
+        str += String.fromCharCode(parseInt(strHex.slice(j, j + 2), 16));
+      }
+      results.push(str);
+    }
+
+    return results;
+  }
+
+  // =====================
+  // JSON-RPC communication
+  // =====================
+
+  async function rpcCall(method: string, params: unknown[]): Promise<unknown> {
+    const res = await fetch(rpcUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+    });
+    if (!res.ok) throw new Error(`RPC request failed: ${res.status}`);
+    const json = await res.json() as { result?: unknown; error?: { message: string } };
+    if (json.error) throw new Error(`RPC error: ${json.error.message}`);
+    return json.result;
+  }
+
+  async function ethCall(data: string): Promise<string> {
+    return await rpcCall('eth_call', [{ to: registryAddress, data }, 'latest']) as string;
+  }
+
+  // =====================
+  // Public API
+  // =====================
+
+  return {
+    async registerDrop(geohash: string, metadataCid: string) {
+      if (!signer) throw new Error('Signer required for on-chain registration');
+
+      const data = encodeRegisterDrop(geohash, metadataCid);
+      const tx = await signer.sendTransaction({
+        to: registryAddress,
+        data,
+      });
+      await tx.wait(1);
+      return { txHash: tx.hash, chainId };
+    },
+
+    async getDropCids(geohash: string) {
+      const data = encodeGetDropCids(geohash);
+      const result = await ethCall(data);
+      return decodeStringArray(result);
+    },
+  };
+}
