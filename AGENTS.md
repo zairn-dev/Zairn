@@ -1,31 +1,60 @@
 # Repository Guidelines
 
-## Project Structure & Modules
-- `README.md`: Quickstart for setting up Supabase and using the SDK.
-- `database/schema.sql` and `database/policies.sql`: Core tables and RLS policies to apply in Supabase.
-- `sdk/javascript/index.ts`: Minimal JS/TS SDK that wraps Supabase Auth, CRUD, and realtime helpers.
+## Project Structure
+
+pnpm monorepo with two packages and two apps:
+
+- `packages/sdk/` — `@zen-map/sdk`: Location sharing SDK (Supabase wrapper)
+- `packages/geo-drop/` — `@zen-map/geo-drop`: Location-bound encrypted drops with optional IPFS
+- `apps/web/` — Main web frontend (Vite + React 19 + Tailwind CSS 4 + Leaflet)
+- `apps/geo-drop-demo/` — GeoDrop demo app (Vite + React)
+- `database/` — Core SQL schema and RLS policies
+- `test/` — Integration tests
 
 ## Build, Test, and Development
-- SDK ships as source only. In a consuming app, install `@supabase/supabase-js` and import from `sdk/javascript/index.ts`.
-- Example TypeScript check from repo root: `tsc --noEmit sdk/javascript/index.ts` (requires a local `tsconfig` or defaults).
-- Apply database changes via Supabase SQL Editor or CLI: `supabase db push` after copying the SQL files into your project.
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Dev servers
+pnpm dev:web                          # Main web app
+pnpm --filter geo-drop-demo dev       # GeoDrop demo
+
+# Type check
+pnpm --filter @zen-map/sdk exec tsc --noEmit
+pnpm --filter @zen-map/geo-drop exec tsc --noEmit
+
+# Build specific packages
+pnpm --filter @zen-map/geo-drop build
+pnpm --filter web build
+```
+
+Apply database changes via Supabase SQL Editor or CLI: `supabase db push`.
 
 ## Coding Style & Naming
-- Language: TypeScript (SDK) and SQL (database).
-- Indentation: 2 spaces; prefer trailing commas and double quotes only when required by Supabase client options.
-- Types: keep exported types (`ShareLevel`, `LocationCurrentRow`) narrow and reuse them in new helpers.
-- Functions: favor small, composable async helpers returning typed results; keep Supabase table/column names in snake_case to mirror SQL.
+
+- Language: TypeScript (SDK, apps) and SQL (database)
+- Indentation: 2 spaces
+- Types: keep exported types narrow and reuse them; table/column names in snake_case to mirror SQL
+- Functions: favor small, composable async helpers returning typed results
 
 ## Testing Guidelines
-- No dedicated test suite yet; for additions, add lightweight unit tests (e.g., Vitest/Jest) that mock Supabase client interactions.
-- Name tests after behavior, e.g., `createLocationCore allows updates for authenticated user`.
-- Always run static checks (`tsc --noEmit`) before submitting changes.
+
+- Integration tests in `test/` directory
+- Run static checks (`tsc --noEmit`) before submitting changes
+- Name tests after behavior, e.g., `createLocationCore allows updates for authenticated user`
 
 ## Commit & PR Guidelines
-- Follow Conventional Commit style where possible (`feat:`, `fix:`, `docs:`). Keep subject lines under ~72 chars.
-- PRs should describe scope, mention related issues, and include any schema or SDK impacts.
-- For SQL changes, summarize RLS implications and provide the exact statements touched. For SDK changes, note breaking API changes and update usage examples if needed.
+
+- Follow Conventional Commit style (`feat:`, `fix:`, `docs:`). Keep subject lines under 72 chars.
+- For SQL changes, summarize RLS implications. For SDK changes, note breaking API changes.
 
 ## Security & Configuration Tips
-- Keep `SUPABASE_URL` and keys in environment variables; do not commit them. Rotate keys if they were exposed.
-- Ensure RLS remains enabled on all tables; any new table should include matching policies before exposing writes.
+
+- Keep `SUPABASE_URL`, keys, and IPFS credentials in environment variables; never commit them.
+- Ensure RLS remains enabled on all tables; any new table must include matching policies.
+- `.env` and `.env.local` are gitignored. Use `.env.example` files for documentation.

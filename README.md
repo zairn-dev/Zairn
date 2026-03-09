@@ -10,6 +10,7 @@ Zenly was a unique app that made location sharing fun and meaningful with friend
 
 ## Features
 
+### Location Sharing (`@zen-map/sdk`)
 - Real-time location sharing with friends
 - Friend requests and management
 - Ghost mode (temporarily hide your location)
@@ -17,49 +18,103 @@ Zenly was a unique app that made location sharing fun and meaningful with friend
 - Direct and group chat
 - Location reactions (emoji pokes)
 - Bump detection (nearby friends)
-- Location history (with permission)
+- Location history & trail recording
+- Area exploration tracking (visited cells)
 - Time-limited sharing with expiration
+
+### GeoDrop (`@zen-map/geo-drop`)
+- Location-bound encrypted data drops
+- AES-256-GCM encryption with location-derived keys
+- Pluggable verification (GPS / secret / AR / custom)
+- IPFS storage (optional — works in DB-only mode too)
+- EVM on-chain persistence (optional)
+- Image / audio / video / file content support
+- Password-protected & private drops
 
 ## Tech Stack
 
 - **Backend**: Supabase (PostgreSQL + Auth + Realtime)
 - **SDK**: TypeScript
-- **Web Frontend**: Next.js 16 + React 19 + Tailwind CSS + Leaflet
-- **Security**: Row Level Security (RLS) for data protection
+- **Web Frontend**: Vite + React 19 + Tailwind CSS 4 + Leaflet
+- **Security**: Row Level Security (RLS) for all data
+- **Storage**: IPFS via Pinata / web3.storage (optional)
+
+## Project Structure
+
+```
+zen-map/
+├── packages/
+│   ├── sdk/                # @zen-map/sdk — location sharing core
+│   │   └── src/
+│   └── geo-drop/           # @zen-map/geo-drop — location-bound drops
+│       ├── src/
+│       ├── database/       # GeoDrop schema & RLS policies
+│       ├── contracts/      # Solidity smart contracts
+│       └── protocol/       # Protocol specification
+├── apps/
+│   ├── web/                # Main web app (map, friends, chat, trails)
+│   └── geo-drop-demo/      # GeoDrop demo app
+├── database/
+│   ├── schema.sql          # Core table definitions and indexes
+│   └── policies.sql        # RLS policies for all tables
+└── test/                   # Integration tests
+```
 
 ## Quickstart
 
-1. Create a Supabase project and grab `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
-2. Apply `database/schema.sql` then `database/policies.sql` in the Supabase SQL editor (or `supabase db push`).
-3. In your app, install `@supabase/supabase-js` and initialize the SDK:
+### Prerequisites
+
+- Node.js 18+
+- [pnpm](https://pnpm.io/) 9+
+- A [Supabase](https://supabase.com/) project
+
+### Setup
+
+```bash
+# Clone and install
+git clone https://github.com/yourname/zen-map.git
+cd zen-map
+pnpm install
+
+# Apply database schema
+# Paste database/schema.sql then database/policies.sql in Supabase SQL Editor
+
+# Configure environment
+cp apps/web/.env.example apps/web/.env.local
+# Edit with your VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
+
+# Start the web app
+pnpm dev:web
+```
+
+### GeoDrop Demo
+
+```bash
+cp apps/geo-drop-demo/.env.example apps/geo-drop-demo/.env
+# Edit with Supabase credentials (IPFS key is optional)
+
+# Apply geo-drop tables
+# Paste packages/geo-drop/database/schema.sql then policies.sql in Supabase SQL Editor
+
+pnpm --filter geo-drop-demo dev
+```
+
+### SDK Usage
 
 ```ts
-import { createLocationCore } from './sdk/javascript/index';
+import { createLocationCore } from '@zen-map/sdk';
 
 const core = createLocationCore({
-  supabaseUrl: process.env.SUPABASE_URL!,
-  supabaseAnonKey: process.env.SUPABASE_ANON_KEY!,
+  supabaseUrl: 'https://your-project.supabase.co',
+  supabaseAnonKey: 'your-anon-key',
 });
 
-await core.sendLocation(35.0, 139.0, 10);
+await core.sendLocation({ lat: 35.0, lon: 139.0, accuracy: 10 });
 const friends = await core.getVisibleFriends();
 
 const channel = core.subscribeLocations(row => {
   console.log('location updated', row);
 });
-```
-
-## Project Structure
-
-```
-├── database/
-│   ├── schema.sql      # Table definitions and indexes
-│   └── policies.sql    # RLS policies for all tables
-├── sdk/
-│   └── javascript/
-│       └── index.ts    # TypeScript SDK
-├── web/                # Next.js web frontend
-└── test/               # Integration tests
 ```
 
 ## RLS Overview

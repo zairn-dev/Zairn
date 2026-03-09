@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  /* Material 3 Expressive — Primary */
+  --md-primary: #6442d6;
+  --md-on-primary: #fff;
+  --md-primary-container: #e6deff;
+  --md-on-primary-container: #1e0059;
+
+  /* Secondary */
+  --md-secondary: #615b71;
+  --md-on-secondary: #fff;
+  --md-secondary-container: #e7dff8;
+  --md-on-secondary-container: #1d192b;
+
+  /* Tertiary */
+  --md-tertiary: #7d5260;
+  --md-on-tertiary: #fff;
+  --md-tertiary-container: #ffd9e3;
+  --md-on-tertiary-container: #31101d;
+
+  /* Error */
+  --md-error: #ba1a1a;
+  --md-on-error: #fff;
+  --md-error-container: #ffdad6;
+  --md-on-error-container: #410002;
+
+  /* Surface */
+  --md-surface: #f8f5ff;
+  --md-on-surface: #1c1b1f;
+  --md-surface-variant: #e7e0ec;
+  --md-on-surface-variant: #49454f;
+  --md-surface-container: #f2ecf9;
+  --md-surface-container-low: #f8f2ff;
+  --md-surface-container-high: #ece6f3;
+
+  /* Outline */
+  --md-outline: #79747e;
+  --md-outline-variant: #cac4d0;
+
+  /* Inverse */
+  --md-inverse-surface: #313033;
+  --md-inverse-on-surface: #f4eff4;
+  --md-inverse-primary: #cfbcff;
+
+  /* Shadow / scrim */
+  --md-shadow: rgba(0, 0, 0, 0.15);
+  --md-scrim: rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-primary: #cfbcff;
+    --md-on-primary: #35147e;
+    --md-primary-container: #4c2a96;
+    --md-on-primary-container: #e6deff;
+
+    --md-secondary: #cbc2db;
+    --md-on-secondary: #332d41;
+    --md-secondary-container: #4a4458;
+    --md-on-secondary-container: #e7dff8;
+
+    --md-tertiary: #efb8c8;
+    --md-on-tertiary: #4a2532;
+    --md-tertiary-container: #633b48;
+    --md-on-tertiary-container: #ffd9e3;
+
+    --md-error: #ffb4ab;
+    --md-on-error: #690005;
+    --md-error-container: #93000a;
+    --md-on-error-container: #ffdad6;
+
+    --md-surface: #1c1b1f;
+    --md-on-surface: #e6e1e5;
+    --md-surface-variant: #49454f;
+    --md-on-surface-variant: #cac4d0;
+    --md-surface-container: #211f26;
+    --md-surface-container-low: #1c1b1f;
+    --md-surface-container-high: #2b2930;
+
+    --md-outline: #938f99;
+    --md-outline-variant: #49454f;
+
+    --md-inverse-surface: #e6e1e5;
+    --md-inverse-on-surface: #313033;
+    --md-inverse-primary: #6442d6;
+
+    --md-shadow: rgba(0, 0, 0, 0.3);
+    --md-scrim: rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Glass effect utility */
+.glass {
+  background: color-mix(in srgb, var(--md-surface) 70%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--md-outline-variant);
+}
+
+/* Base styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Contain Leaflet's internal z-indexes so they don't bleed over app UI */
+.leaflet-container {
+  isolation: isolate;
+}
