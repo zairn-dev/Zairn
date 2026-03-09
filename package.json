@@ -17,7 +17,9 @@
     "test:sdk": "npx tsx --env-file=.env test/sdk-test.ts",
     "test:realtime": "npx tsx --env-file=.env test/realtime-test.ts",
     "test:features": "npx tsx --env-file=.env test/features-test.ts",
-    "test:chat": "npx tsx --env-file=.env test/chat-bump-test.ts"
+    "test:chat": "npx tsx --env-file=.env test/chat-bump-test.ts",
+    "test:extended": "npx tsx --env-file=.env test/extended-test.ts",
+    "test:remaining": "npx tsx --env-file=.env test/remaining-test.ts"
   },
   "devDependencies": {
     "tsx": "^4.19.0",

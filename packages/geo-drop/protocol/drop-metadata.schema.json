@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://geodrop.protocol/schemas/drop-metadata/v1",
+  "title": "DropMetadataDocument",
+  "description": "GeoDrop Protocol v1 metadata document. Stored on IPFS to enable DB-independent content recovery.",
+  "oneOf": [
+    { "$ref": "#/$defs/PlainMetadata" },
+    { "$ref": "#/$defs/EncryptedMetadata" }
+  ],
+  "$defs": {
+    "PlainMetadata": {
+      "type": "object",
+      "description": "Plaintext metadata (for public drops)",
+      "required": ["version", "dropId", "geohash", "contentCid", "encryptionSalt", "unlockRadiusMeters", "contentType", "title", "createdAt"],
+      "properties": {
+        "version": {
+          "const": 1,
+          "description": "Schema version"
+        },
+        "dropId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "UUID v4 identifier of the drop"
+        },
+        "geohash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12,
+          "pattern": "^[0-9b-hjkmnp-z]+$",
+          "description": "Geohash-base32 encoded location"
+        },
+        "contentCid": {
+          "type": "string",
+          "minLength": 1,
+          "description": "IPFS CID of the encrypted content"
+        },
+        "encryptionSalt": {
+          "type": "string",
+          "description": "Encryption salt (hex string)"
+        },
+        "unlockRadiusMeters": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Unlock radius in meters"
+        },
+        "contentType": {
+          "type": "string",
+          "enum": ["text", "image", "audio", "video", "file", "nft"],
+          "description": "Content type"
+        },
+        "title": {
+          "type": "string",
+          "description": "Drop title"
+        },
+        "proofConfig": {
+          "oneOf": [
+            { "$ref": "#/$defs/ProofConfig" },
+            { "type": "null" }
+          ],
+          "description": "Verification configuration (null = GPS only)"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp (ISO 8601)"
+        },
+        "encrypted": {
+          "not": { "const": true },
+          "description": "Must not be true for plaintext metadata"
+        }
+      },
+      "additionalProperties": false
+    },
+    "EncryptedMetadata": {
+      "type": "object",
+      "description": "Encrypted metadata (for private drops, decrypted with recoverySecret)",
+      "required": ["version", "encrypted", "geohash", "payload"],
+      "properties": {
+        "version": {
+          "const": 1,
+          "description": "Schema version"
+        },
+        "encrypted": {
+          "const": true,
+          "description": "Encryption flag"
+        },
+        "geohash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12,
+          "pattern": "^[0-9b-hjkmnp-z]+$",
+          "description": "Remains in plaintext for on-chain index consistency"
+        },
+        "payload": {
+          "$ref": "#/$defs/EncryptedPayload",
+          "description": "AES-256-GCM encrypted PlainMetadata"
+        }
+      },
+      "additionalProperties": false
+    },
+    "EncryptedPayload": {
+      "type": "object",
+      "description": "AES-256-GCM encrypted data envelope",
+      "required": ["ciphertext", "iv", "salt"],
+      "properties": {
+        "ciphertext": {
+          "type": "string",
+          "description": "Base64-encoded ciphertext"
+        },
+        "iv": {
+          "type": "string",
+          "description": "Base64-encoded initialization vector (12 bytes)"
+        },
+        "salt": {
+          "type": "string",
+          "description": "Base64-encoded PBKDF2 salt (16 bytes)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ProofConfig": {
+      "type": "object",
+      "description": "Verification configuration for a drop",
+      "required": ["mode", "requirements"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["all", "any"],
+          "description": "Verification mode: all=AND, any=OR"
+        },
+        "requirements": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ProofRequirement" },
+          "minItems": 1,
+          "description": "List of verification requirements"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ProofRequirement": {
+      "type": "object",
+      "description": "A single verification requirement",
+      "required": ["method", "params"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["gps", "secret", "ar", "custom"],
+          "description": "Verification method type"
+        },
+        "params": {
+          "type": "object",
+          "description": "Method-specific parameters"
+        },
+        "required": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this requirement is mandatory or optional"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

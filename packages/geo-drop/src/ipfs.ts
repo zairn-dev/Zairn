@@ -1,6 +1,6 @@
 /**
- * IPFS ストレージ
- * Pinata / web3.storage / カスタムゲートウェイに対応
+ * IPFS storage
+ * Supports Pinata / web3.storage / custom gateways
  */
 import type { IpfsConfig, IpfsUploadResult } from './types';
 
@@ -22,7 +22,7 @@ export class IpfsClient {
   }
 
   /**
-   * コンテンツをIPFSにアップロード
+   * Upload content to IPFS
    */
   async upload(content: File | Blob | string): Promise<IpfsUploadResult> {
     const blob = typeof content === 'string'
@@ -37,7 +37,7 @@ export class IpfsClient {
       case 'custom':
         return this.uploadToCustom(blob);
       default:
-        // Pinata がデフォルト（APIキーがあれば）
+        // Pinata is the default (if API key is present)
         if (this.pinningApiKey) {
           return this.uploadToPinata(blob);
         }
@@ -46,7 +46,7 @@ export class IpfsClient {
   }
 
   /**
-   * IPFSからコンテンツを取得
+   * Fetch content from IPFS
    */
   async fetch(cid: string): Promise<string> {
     const url = `${this.gateway}/${cid}`;
@@ -58,7 +58,7 @@ export class IpfsClient {
   }
 
   /**
-   * CIDからゲートウェイURLを生成
+   * Generate a gateway URL from a CID
    */
   getUrl(cid: string): string {
     return `${this.gateway}/${cid}`;
@@ -130,7 +130,7 @@ export class IpfsClient {
   }
 
   // =====================
-  // カスタム
+  // Custom
   // =====================
   private async uploadToCustom(blob: Blob): Promise<IpfsUploadResult> {
     if (!this.customPinningUrl) throw new Error('Custom pinning URL is required');

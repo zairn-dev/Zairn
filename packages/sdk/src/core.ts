@@ -155,7 +155,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
         .from('locations_current')
         .select('lat, lon, location_since')
         .eq('user_id', userId)
-        .single();
+        .maybeSingle();
 
       let locationSince = new Date().toISOString();
       if (current) {
@@ -314,8 +314,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .from('profiles')
       .select('*')
       .eq('user_id', targetId)
-      .single();
-    if (error && error.code !== 'PGRST116') throw error;
+      .maybeSingle();
+    if (error) throw error;
     return data as Profile | null;
   };
 
@@ -467,8 +467,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
         .from('user_settings')
         .select('*')
         .eq('user_id', userId)
-        .single();
-      if (error && error.code !== 'PGRST116') return null;
+        .maybeSingle();
+      if (error) return null;
       return data as UserSettings | null;
     } catch {
       // Return null if table doesn't exist or auth error
@@ -542,7 +542,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .select('group_id, groups(*)')
       .eq('user_id', userId);
     if (error) throw error;
-    return (data ?? []).map(d => d.groups) as Group[];
+    return (data ?? []).map(d => d.groups) as unknown as Group[];
   };
 
   const getGroupMembers = async (groupId: string): Promise<GroupMember[]> => {
@@ -654,7 +654,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
           .from('chat_rooms')
           .select('*')
           .eq('id', directRoom.room_id)
-          .single();
+          .maybeSingle();
         if (room) return room as ChatRoom;
       }
     }
@@ -683,7 +683,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .select('*')
       .eq('group_id', groupId)
       .eq('type', 'group')
-      .single();
+      .maybeSingle();
 
     if (existingRoom) return existingRoom as ChatRoom;
 
@@ -1177,8 +1177,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .from('notification_preferences')
       .select('*')
       .eq('user_id', userId)
-      .single();
-    if (error && error.code !== 'PGRST116') throw error;
+      .maybeSingle();
+    if (error) throw error;
     return data as NotificationPreferences | null;
   };
 
@@ -1218,8 +1218,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .select('*')
       .eq('user_id', userId)
       .eq('friend_id', friendId)
-      .single();
-    if (error && error.code !== 'PGRST116') throw error;
+      .maybeSingle();
+    if (error) throw error;
     return data as FriendStreak | null;
   };
 
@@ -1305,8 +1305,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .from('visited_cell_stats')
       .select('*')
       .eq('user_id', userId)
-      .single();
-    if (error && error.code !== 'PGRST116') throw error;
+      .maybeSingle();
+    if (error) throw error;
     return data as VisitedCellStats | null;
   };
 
