@@ -1,6 +1,7 @@
 import { useState, useMemo, lazy, Suspense } from 'react'
 import { useGeolocation } from '@/hooks/useGeolocation'
 import SlidePanel from '@/components/layout/SlidePanel'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 export type PanelType =
   | 'friends' | 'chat' | 'profile' | 'more'
@@ -69,13 +70,15 @@ export default function AppShell() {
     <div className="relative h-full w-full">
       {/* Map — always rendered (z-0 creates stacking context to contain Leaflet z-indexes) */}
       <div className="absolute inset-0 z-0">
-        <Suspense fallback={null}>
-          <MapView
-            currentLocation={currentLocation}
-            showTrails={showTrails}
-            showExploration={showExploration}
-          />
-        </Suspense>
+        <ErrorBoundary fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--md-on-surface-variant)' }}>Failed to load map</div>}>
+          <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--md-on-surface-variant)' }}>Loading map...</div>}>
+            <MapView
+              currentLocation={currentLocation}
+              showTrails={showTrails}
+              showExploration={showExploration}
+            />
+          </Suspense>
+        </ErrorBoundary>
       </div>
 
       {/* Map overlay buttons */}
@@ -105,7 +108,8 @@ export default function AppShell() {
       </div>
 
       {/* Slide panels */}
-      <Suspense fallback={null}>
+      <ErrorBoundary>
+       <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', padding: 24, color: 'var(--md-on-surface-variant)' }}>Loading...</div>}>
         <SlidePanel open={activePanel === 'friends'} onClose={closePanel} title="Friends">
           <FriendsPanel onOpenChat={handleOpenChat} />
         </SlidePanel>
@@ -144,7 +148,8 @@ export default function AppShell() {
         <SlidePanel open={activePanel === 'reactions'} onClose={closePanel} title="Reactions">
           <ReactionPanel />
         </SlidePanel>
-      </Suspense>
+       </Suspense>
+      </ErrorBoundary>
 
       {/* Bottom navigation */}
       <nav

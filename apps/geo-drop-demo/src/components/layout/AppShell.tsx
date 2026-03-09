@@ -1,5 +1,6 @@
 import { useState, useMemo, lazy, Suspense } from 'react'
 import { useGeolocation } from '@/hooks/useGeolocation'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import type { NearbyDrop } from '@zen-map/geo-drop'
 
 const DropMapView = lazy(() => import('@/components/map/DropMapView'))
@@ -63,17 +64,17 @@ export default function AppShell() {
     <div style={{ position: 'relative', height: '100%', width: '100%' }}>
       {/* Map -- always rendered in background */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        <Suspense fallback={null}>
+        <ErrorBoundary><Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--md-on-surface-variant)' }}>Loading...</div>}>
           <DropMapView
             currentLocation={currentLocation}
             onMapClick={handleMapClick}
             onDropSelect={handleDropSelect}
           />
-        </Suspense>
+        </Suspense></ErrorBoundary>
       </div>
 
       {/* Slide panels */}
-      <Suspense fallback={null}>
+      <ErrorBoundary><Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--md-on-surface-variant)' }}>Loading...</div>}>
         {activePanel === 'myDrops' && (
           <div
             style={{
@@ -280,7 +281,7 @@ export default function AppShell() {
             </div>
           </div>
         )}
-      </Suspense>
+      </Suspense></ErrorBoundary>
 
       {/* FAB: Create at my location */}
       {activePanel === null && currentLocation && (
@@ -311,7 +312,7 @@ export default function AppShell() {
       )}
 
       {/* CreateDropSheet */}
-      <Suspense fallback={null}>
+      <ErrorBoundary><Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--md-on-surface-variant)' }}>Loading...</div>}>
         {createLocation && (
           <CreateDropSheet
             location={createLocation}
@@ -319,10 +320,10 @@ export default function AppShell() {
             onCreated={() => setCreateLocation(null)}
           />
         )}
-      </Suspense>
+      </Suspense></ErrorBoundary>
 
       {/* DropDetail */}
-      <Suspense fallback={null}>
+      <ErrorBoundary><Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--md-on-surface-variant)' }}>Loading...</div>}>
         {selectedDrop && (
           <DropDetail
             dropId={selectedDrop.drop.id}
@@ -332,7 +333,7 @@ export default function AppShell() {
             onClose={() => setSelectedDrop(null)}
           />
         )}
-      </Suspense>
+      </Suspense></ErrorBoundary>
 
       {/* Bottom navigation */}
       <nav
