@@ -36,6 +36,7 @@ const GPS_ONLY_CONFIG: ProofConfig = { mode: 'all', requirements: [{ method: 'gp
  */
 export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   const supabase: SupabaseClient = createClient(opts.supabaseUrl, opts.supabaseAnonKey);
+  const hasIpfs = !!(opts.ipfs?.pinningApiKey || opts.ipfs?.pinningService);
   const ipfs = new IpfsClient(opts.ipfs);
 
   // =====================
@@ -125,13 +126,27 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     // Pre-generate UUID (dropId is needed for encryption key derivation)
     const dropId = crypto.randomUUID();
 
-    // Encrypt content -> IPFS
+    // Encrypt content
     const contentStr = typeof content === 'string' ? content : await new Response(content).text();
     const encSalt = crypto.getRandomValues(new Uint8Array(16));
     const encSaltStr = Array.from(encSalt).map(b => b.toString(16).padStart(2, '0')).join('');
     const locationKey = deriveLocationKey(geohash, dropId, encSaltStr);
-    const encrypted = await encrypt(contentStr, locationKey);
-    const ipfsResult = await ipfs.upload(JSON.stringify(encrypted));
+    const encryptedPayload = await encrypt(contentStr, locationKey);
+    const encryptedJson = JSON.stringify(encryptedPayload);
+
+    // Upload to IPFS if configured, otherwise store in DB
+    let ipfsCid: string | null = null;
+    let encryptedContent: string | null = null;
+    let previewUrl: string | null = null;
+
+    if (hasIpfs) {
+      const ipfsResult = await ipfs.upload(encryptedJson);
+      ipfsCid = ipfsResult.cid;
+      previewUrl = ipfs.getUrl(ipfsResult.cid);
+    } else {
+      // DB-only mode: store encrypted content directly
+      encryptedContent = encryptedJson;
+    }
 
     const { data: drop, error } = await supabase
       .from('geo_drops')
@@ -145,7 +160,8 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         title: data.title,
         description: data.description ?? null,
         content_type: data.content_type,
-        ipfs_cid: ipfsResult.cid,
+        ipfs_cid: ipfsCid,
+        encrypted_content: encryptedContent,
         encrypted: true,
         encryption_salt: encSaltStr,
         visibility: data.visibility ?? 'public',
@@ -153,7 +169,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         max_claims: data.max_claims ?? null,
         proof_config: data.proof_config ?? null,
         expires_at: data.expires_at?.toISOString() ?? null,
-        preview_url: ipfs.getUrl(ipfsResult.cid),
+        preview_url: previewUrl,
         metadata: data.metadata ?? null,
       })
       .select()
@@ -362,8 +378,15 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     if (rpcError) throw rpcError;
     if (incremented === false) throw new Error('Drop has reached maximum claims');
 
-    // Decrypt content from IPFS
-    const encryptedJson = await ipfs.fetch(drop.ipfs_cid);
+    // Decrypt content — from IPFS or DB depending on storage mode
+    let encryptedJson: string;
+    if (drop.ipfs_cid) {
+      encryptedJson = await ipfs.fetch(drop.ipfs_cid);
+    } else if (drop.encrypted_content) {
+      encryptedJson = drop.encrypted_content;
+    } else {
+      throw new Error('Drop has no content (neither IPFS CID nor encrypted_content)');
+    }
     const locationKey = deriveLocationKey(drop.geohash, drop.id, drop.encryption_salt ?? '');
     const content = await decrypt(JSON.parse(encryptedJson), locationKey);
 
@@ -508,7 +531,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     ],
     geo_drop: {
       lat: drop.lat, lon: drop.lon, geohash: drop.geohash,
-      drop_id: drop.id, ipfs_cid: drop.ipfs_cid,
+      drop_id: drop.id, ipfs_cid: drop.ipfs_cid ?? '',
     },
   });
 
@@ -544,7 +567,10 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     getMyStats,
 
     // IPFS
-    uploadToIpfs: (content) => ipfs.upload(content),
+    uploadToIpfs: (content) => {
+      if (!hasIpfs) throw new Error('IPFS is not configured. Provide ipfs config with pinningApiKey to use IPFS features.');
+      return ipfs.upload(content);
+    },
     fetchFromIpfs: (cid) => ipfs.fetch(cid),
 
     // Geofence

@@ -39,7 +39,7 @@ export function createPersistenceManager(
       version: 1,
       dropId: drop.id,
       geohash: drop.geohash,
-      contentCid: drop.ipfs_cid,
+      contentCid: drop.ipfs_cid ?? '',
       encryptionSalt: drop.encryption_salt ?? '',
       unlockRadiusMeters: drop.unlock_radius_meters,
       contentType: drop.content_type,

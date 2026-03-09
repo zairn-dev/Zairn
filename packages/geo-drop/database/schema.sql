@@ -20,7 +20,8 @@ create table if not exists geo_drops (
   title text not null,
   description text,
   content_type drop_content_type not null default 'text',
-  ipfs_cid text not null,
+  ipfs_cid text,
+  encrypted_content text, -- stores encrypted payload when IPFS is not used (db-only mode)
   encrypted boolean not null default true,
   encryption_salt text,
   -- Access control

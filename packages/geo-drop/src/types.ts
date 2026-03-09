@@ -160,7 +160,8 @@ export interface GeoDrop {
   title: string;
   description: string | null;
   content_type: DropContentType;
-  ipfs_cid: string;
+  ipfs_cid: string | null;
+  encrypted_content: string | null;
   encrypted: boolean;
   encryption_salt: string | null;
   // Access control
