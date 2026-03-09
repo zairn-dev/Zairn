@@ -2,6 +2,7 @@ import { GeoDropProvider } from '@/contexts/GeoDropContext'
 import { AuthProvider, useAuth } from '@/contexts/AuthContext'
 import AuthForm from '@/components/auth/AuthForm'
 import AppShell from '@/components/layout/AppShell'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 function AppContent() {
   const { user, loading } = useAuth()
@@ -29,10 +30,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <GeoDropProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </GeoDropProvider>
+    <ErrorBoundary>
+      <GeoDropProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </GeoDropProvider>
+    </ErrorBoundary>
   )
 }

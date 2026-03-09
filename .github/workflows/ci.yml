@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Type check SDK
+        run: pnpm --filter @zen-map/sdk exec tsc --noEmit
+      - name: Build geo-drop
+        run: pnpm --filter @zen-map/geo-drop build
+      - name: Type check web app
+        run: npx tsc --noEmit -p apps/web/tsconfig.json
+      - name: Type check geo-drop-demo
+        run: npx tsc --noEmit -p apps/geo-drop-demo/tsconfig.json
+      - name: Build web app
+        run: pnpm --filter web build
+      - name: Build geo-drop-demo
+        run: pnpm --filter geo-drop-demo build

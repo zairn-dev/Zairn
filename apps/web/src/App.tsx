@@ -2,6 +2,7 @@ import { SdkProvider } from '@/contexts/SdkContext'
 import { AuthProvider, useAuth } from '@/contexts/AuthContext'
 import AuthForm from '@/components/auth/AuthForm'
 import AppShell from '@/components/layout/AppShell'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 function AppContent() {
   const { user, loading } = useAuth()
@@ -29,10 +30,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <SdkProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </SdkProvider>
+    <ErrorBoundary>
+      <SdkProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </SdkProvider>
+    </ErrorBoundary>
   )
 }
