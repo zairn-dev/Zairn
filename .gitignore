@@ -4,3 +4,5 @@ node_modules/
 .claude/
 dist/
 nul
+CLAUDE.md
+AGENTS.md
