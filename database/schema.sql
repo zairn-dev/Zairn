@@ -16,6 +16,8 @@ create table if not exists locations_current (
   location_since timestamptz default now(),
   -- 移動ステータス
   speed real,  -- m/s
+  heading real,
+  altitude real,
   motion motion_type default 'unknown'
 );
 
@@ -46,6 +48,9 @@ create table if not exists profiles (
   username text unique,
   display_name text,
   avatar_url text,
+  status_emoji text,
+  status_text text,
+  status_expires_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -183,13 +188,6 @@ create table if not exists favorite_places (
 );
 
 create index if not exists idx_favorite_places_user on favorite_places (user_id);
-
--- =====================
--- プロフィール拡張（ステータス絵文字）
--- =====================
-alter table profiles add column if not exists status_emoji text;
-alter table profiles add column if not exists status_text text;
-alter table profiles add column if not exists status_expires_at timestamptz;
 
 -- =====================
 -- ブロック機能

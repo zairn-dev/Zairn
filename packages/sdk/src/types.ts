@@ -34,6 +34,8 @@ export interface LocationCurrentRow {
   is_charging: boolean;
   location_since: string | null;
   speed: number | null;
+  heading: number | null;
+  altitude: number | null;
   motion: MotionType;
 }
 
