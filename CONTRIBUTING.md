@@ -1,11 +1,11 @@
-# Contributing to zen-map
+# Contributing to zairn
 
 Thank you for your interest in contributing!
 
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/your-username/zen-map.git`
+2. Clone your fork: `git clone https://github.com/your-username/zairn.git`
 3. Install dependencies: `pnpm install`
 4. Create a branch: `git checkout -b feat/your-feature`
 
@@ -19,8 +19,8 @@ pnpm dev:web
 pnpm --filter geo-drop-demo dev
 
 # Type check everything
-pnpm --filter @zen-map/sdk exec tsc --noEmit
-pnpm --filter @zen-map/geo-drop build
+pnpm --filter @zairn/sdk exec tsc --noEmit
+pnpm --filter @zairn/geo-drop build
 npx tsc --noEmit -p apps/web/tsconfig.json
 npx tsc --noEmit -p apps/geo-drop-demo/tsconfig.json
 ```
@@ -51,8 +51,8 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 ## Project Structure
 
 ```
-packages/sdk/        — @zen-map/sdk (location sharing)
-packages/geo-drop/   — @zen-map/geo-drop (encrypted drops)
+packages/sdk/        — @zairn/sdk (location sharing)
+packages/geo-drop/   — @zairn/geo-drop (encrypted drops)
 apps/web/            — Main web app
 apps/geo-drop-demo/  — GeoDrop demo app
 database/            — SQL schema and RLS policies

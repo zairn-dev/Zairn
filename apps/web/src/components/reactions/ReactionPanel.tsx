@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
-import type { Profile, LocationReaction } from '@zen-map/sdk'
+import type { Profile, LocationReaction } from '@zairn/sdk'
 import { formatRelativeTime } from '@/utils/format'
 
 const EMOJIS = ['\u{1F44B}', '\u{1F525}', '\u{2764}\u{FE0F}', '\u{1F602}', '\u{1F389}', '\u{1F440}', '\u{1F4AF}', '\u{1F64C}']

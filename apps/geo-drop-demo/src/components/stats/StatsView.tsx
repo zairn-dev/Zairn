@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useGeoDrop } from '@/contexts/GeoDropContext'
-import type { DropStats } from '@zen-map/geo-drop'
+import type { DropStats } from '@zairn/geo-drop'
 
 export default function StatsView() {
   const { sdk } = useGeoDrop()

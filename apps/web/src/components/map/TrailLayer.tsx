@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Polyline, useMap } from 'react-leaflet'
-import type { LocationCore, LocationHistoryRow } from '@zen-map/sdk'
+import type { LocationCore, LocationHistoryRow } from '@zairn/sdk'
 
 interface TrailLayerProps {
   sdk: LocationCore

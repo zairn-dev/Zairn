@@ -20,9 +20,9 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Type check SDK
-        run: pnpm --filter @zen-map/sdk exec tsc --noEmit
+        run: pnpm --filter @zairn/sdk exec tsc --noEmit
       - name: Build geo-drop
-        run: pnpm --filter @zen-map/geo-drop build
+        run: pnpm --filter @zairn/geo-drop build
       - name: Type check web app
         run: npx tsc --noEmit -p apps/web/tsconfig.json
       - name: Type check geo-drop-demo

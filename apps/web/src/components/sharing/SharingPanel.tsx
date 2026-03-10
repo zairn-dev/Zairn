@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
-import type { Profile, ShareLevel } from '@zen-map/sdk'
+import type { Profile, ShareLevel } from '@zairn/sdk'
 
 interface FriendShareState {
   friendId: string

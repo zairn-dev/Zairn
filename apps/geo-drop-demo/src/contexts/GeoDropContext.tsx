@@ -2,8 +2,8 @@ import { createContext, useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { createGeoDrop } from '@zen-map/geo-drop'
-import type { GeoDropSDK } from '@zen-map/geo-drop'
+import { createGeoDrop } from '@zairn/geo-drop'
+import type { GeoDropSDK } from '@zairn/geo-drop'
 
 interface GeoDropContextValue {
   sdk: GeoDropSDK

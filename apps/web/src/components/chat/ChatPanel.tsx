@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
-import type { ChatRoom, Message, Profile } from '@zen-map/sdk'
+import type { ChatRoom, Message, Profile } from '@zairn/sdk'
 import { formatRelativeTime } from '@/utils/format'
 
 interface ChatPanelProps {

@@ -5,10 +5,10 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import { useSdk } from '@/contexts/SdkContext'
-import { calculateDistance } from '@zen-map/sdk'
+import { calculateDistance } from '@zairn/sdk'
 import TrailLayer from './TrailLayer'
 import ExplorationLayer from './ExplorationLayer'
-import type { LocationCurrentRow } from '@zen-map/sdk'
+import type { LocationCurrentRow } from '@zairn/sdk'
 
 delete (L.Icon.Default.prototype as any)._getIconUrl
 L.Icon.Default.mergeOptions({

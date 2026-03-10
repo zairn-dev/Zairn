@@ -13,7 +13,7 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import { useGeoDrop } from '@/contexts/GeoDropContext'
-import type { NearbyDrop } from '@zen-map/geo-drop'
+import type { NearbyDrop } from '@zairn/geo-drop'
 
 // Fix default Leaflet icon paths
 delete (L.Icon.Default.prototype as any)._getIconUrl

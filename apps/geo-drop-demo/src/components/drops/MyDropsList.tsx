@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useGeoDrop } from '@/contexts/GeoDropContext'
-import type { GeoDrop, DropStatus } from '@zen-map/geo-drop'
+import type { GeoDrop, DropStatus } from '@zairn/geo-drop'
 
 const statusColors: Record<DropStatus, { bg: string; fg: string }> = {
   active: { bg: 'var(--md-primary-container)', fg: 'var(--md-on-primary-container)' },

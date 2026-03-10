@@ -1,5 +1,5 @@
 /**
- * zen-map SDK 型定義
+ * zairn SDK 型定義
  * Single Source of Truth - 全ての型定義をここで管理
  */
 

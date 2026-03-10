@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
-import type { Profile, FriendRequest, FriendOfFriend } from '@zen-map/sdk'
+import type { Profile, FriendRequest, FriendOfFriend } from '@zairn/sdk'
 
 type Tab = 'friends' | 'requests' | 'search'
 

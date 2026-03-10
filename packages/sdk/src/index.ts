@@ -1,5 +1,5 @@
 /**
- * @zen-map/sdk
+ * @zairn/sdk
  * 位置情報共有アプリケーション用SDK
  */
 

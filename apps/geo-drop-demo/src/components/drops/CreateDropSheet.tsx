@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { useGeoDrop } from '@/contexts/GeoDropContext'
-import type { DropVisibility, DropContentType } from '@zen-map/geo-drop'
+import type { DropVisibility, DropContentType } from '@zairn/geo-drop'
 
 interface CreateDropSheetProps {
   location: { lat: number; lon: number }

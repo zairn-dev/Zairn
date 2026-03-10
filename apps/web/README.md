@@ -1,13 +1,13 @@
-# zen-map Web App
+# zairn Web App
 
-The main web frontend for zen-map. A real-time location sharing app with map visualization, friend management, chat, and more.
+The main web frontend for zairn. A real-time location sharing app with map visualization, friend management, chat, and more.
 
 ## Tech Stack
 
 - **Vite** + **React 19** + **TypeScript**
 - **Tailwind CSS 4** with Material 3 design tokens
 - **Leaflet** / **react-leaflet** for map rendering
-- **@zen-map/sdk** for Supabase integration
+- **@zairn/sdk** for Supabase integration
 
 ## Features
 

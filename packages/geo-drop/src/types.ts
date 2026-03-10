@@ -1,5 +1,5 @@
 /**
- * @zen-map/geo-drop Type Definitions
+ * @zairn/geo-drop Type Definitions
  * Types for location-bound data drops
  */
 

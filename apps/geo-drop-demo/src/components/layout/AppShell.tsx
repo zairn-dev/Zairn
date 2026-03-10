@@ -1,7 +1,7 @@
 import { useState, useMemo, lazy, Suspense } from 'react'
 import { useGeolocation } from '@/hooks/useGeolocation'
 import ErrorBoundary from '@/components/ErrorBoundary'
-import type { NearbyDrop } from '@zen-map/geo-drop'
+import type { NearbyDrop } from '@zairn/geo-drop'
 
 const DropMapView = lazy(() => import('@/components/map/DropMapView'))
 const CreateDropSheet = lazy(() => import('@/components/drops/CreateDropSheet'))

@@ -1,7 +1,7 @@
 {
-  "name": "@zen-map/sdk",
+  "name": "@zairn/sdk",
   "version": "0.1.0",
-  "description": "SDK for zen-map location sharing application",
+  "description": "SDK for zairn location sharing platform",
   "type": "module",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
@@ -39,7 +39,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/otanl/zen-map.git",
+    "url": "https://github.com/otanl/zairn.git",
     "directory": "packages/sdk"
   }
 }

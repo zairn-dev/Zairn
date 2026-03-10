@@ -1,5 +1,5 @@
 /**
- * zen-map SDK コア実装
+ * zairn SDK コア実装
  */
 import { createClient, SupabaseClient, RealtimeChannel } from '@supabase/supabase-js';
 import {
@@ -112,7 +112,7 @@ export function decodeGeohash(geohash: string): { lat: number; lon: number } {
 }
 
 /**
- * zen-map SDKのメインファクトリ関数
+ * zairn SDKのメインファクトリ関数
  */
 export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   const supabase: SupabaseClient = createClient(opts.supabaseUrl, opts.supabaseAnonKey);

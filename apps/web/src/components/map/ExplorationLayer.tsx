@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Rectangle, useMap } from 'react-leaflet'
-import type { LocationCore, VisitedCell } from '@zen-map/sdk'
+import type { LocationCore, VisitedCell } from '@zairn/sdk'
 
 interface ExplorationLayerProps {
   sdk: LocationCore
@@ -120,7 +120,7 @@ export default function ExplorationLayer({ sdk }: ExplorationLayerProps) {
         if (!cancelled) {
           if (data.length > 10) {
             // Use real data — need to decode geohash to bounds
-            const { decodeGeohash } = await import('@zen-map/sdk')
+            const { decodeGeohash } = await import('@zairn/sdk')
             const real: CellDisplay[] = data.map(c => {
               const { lat, lon } = decodeGeohash(c.geohash)
               const dlat = 0.00068

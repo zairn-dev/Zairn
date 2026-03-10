@@ -1,5 +1,5 @@
 /**
- * @zen-map/geo-drop
+ * @zairn/geo-drop
  * Location-bound decentralized data drops with IPFS and geofence verification
  */
 

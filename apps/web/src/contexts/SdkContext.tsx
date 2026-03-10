@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
-import { createLocationCore } from '@zen-map/sdk'
-import type { LocationCore } from '@zen-map/sdk'
+import { createLocationCore } from '@zairn/sdk'
+import type { LocationCore } from '@zairn/sdk'
 
 const SdkContext = createContext<LocationCore | null>(null)
 
