@@ -20,7 +20,7 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.49.4
         version: 2.95.3
-      '@zen-map/geo-drop':
+      '@zairn/geo-drop':
         specifier: workspace:*
         version: link:../../packages/geo-drop
       leaflet:
@@ -63,7 +63,7 @@ importers:
 
   apps/web:
     dependencies:
-      '@zen-map/sdk':
+      '@zairn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       leaflet:
@@ -109,7 +109,7 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.47.0
         version: 2.95.3
-      '@zen-map/sdk':
+      '@zairn/sdk':
         specifier: workspace:*
         version: link:../sdk
     devDependencies:
