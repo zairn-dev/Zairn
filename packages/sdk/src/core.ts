@@ -1032,7 +1032,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // =====================
   // アバター
   // =====================
-  const uploadAvatar = async (file: Blob & { name?: string }): Promise<string> => {
+  const uploadAvatar = async (file: { arrayBuffer(): Promise<ArrayBuffer>; type?: string; name?: string }): Promise<string> => {
     const userId = await getUserId();
     const ext = (file.name ?? 'avatar.jpg').split('.').pop() || 'jpg';
     const filePath = `${userId}/${Date.now()}.${ext}`;
@@ -1043,7 +1043,10 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       await supabase.storage.from('avatars').remove(existing.map(f => `${userId}/${f.name}`));
     }
 
-    const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file);
+    const buffer = await file.arrayBuffer();
+    const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, buffer, {
+      contentType: file.type ?? 'image/jpeg',
+    });
     if (uploadError) throw uploadError;
 
     const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(filePath);
