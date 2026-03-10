@@ -357,7 +357,7 @@ export interface LocationCore {
   getVisibleFriendsWithPlaces: () => Promise<(LocationCurrentRow & { place?: FavoritePlace })[]>;
 
   // アバター
-  uploadAvatar: (file: File) => Promise<string>;
+  uploadAvatar: (file: Blob & { name?: string }) => Promise<string>;
   deleteAvatar: () => Promise<void>;
 
   // ステータス絵文字
