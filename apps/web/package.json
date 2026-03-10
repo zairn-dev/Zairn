@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.99.0",
     "@zairn/sdk": "workspace:*",
     "leaflet": "^1.9.4",
     "react": "^19.2.0",
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.0",
     "@types/leaflet": "^1.9.14",
+    "@types/node": "^25.4.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
