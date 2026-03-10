@@ -1,4 +1,16 @@
-# zairn
+<p align="center">
+  <img src="assets/logo.png" alt="zairn" width="320" />
+</p>
+
+<p align="center">
+  <strong>Open-source location sharing + geo-anchored content platform</strong>
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> · <a href="#quickstart">Quick Start</a> · <a href="#architecture">Architecture</a> · <a href="CONTRIBUTING.md">Contributing</a>
+</p>
+
+---
 
 An open-source location-sharing platform inspired by **Zenly** and **Sekai Camera**. Combining Zenly's real-time friend location sharing with Sekai Camera's vision of leaving digital content anchored to physical locations.
 
@@ -119,6 +131,71 @@ const friends = await core.getVisibleFriends();
 const channel = core.subscribeLocations(row => {
   console.log('location updated', row);
 });
+```
+
+## Architecture
+
+### System Overview
+
+```mermaid
+graph LR
+  Client["Client App<br/>(Web / Mobile)"]
+  SDK["@zairn/sdk"]
+  GD["@zairn/geo-drop"]
+  SB["Supabase"]
+  PG["PostgreSQL<br/>+ RLS"]
+  RT["Realtime"]
+  IPFS["IPFS<br/>(optional)"]
+
+  Client --> SDK
+  Client --> GD
+  SDK --> SB
+  GD --> SB
+  GD -.-> IPFS
+  SB --> PG
+  SB --> RT
+  RT -.->|"live updates"| Client
+```
+
+### GeoDrop Flow
+
+```mermaid
+sequenceDiagram
+  participant U as Creator
+  participant SDK as @zairn/geo-drop
+  participant DB as Supabase
+  participant V as Visitor
+
+  U->>SDK: createDrop(content, location)
+  SDK->>SDK: AES-256-GCM encrypt<br/>(location-derived key)
+  SDK->>DB: Store encrypted payload
+  Note over DB: geo_drops table (RLS)
+
+  V->>SDK: findNearbyDrops(myLocation)
+  SDK->>DB: Query within radius
+  DB-->>V: List of drops (metadata only)
+
+  V->>SDK: unlockDrop(dropId, myLocation)
+  SDK->>SDK: Verify location (GPS/secret/AR)
+  SDK->>SDK: Derive key & decrypt
+  SDK-->>V: Decrypted content
+```
+
+### Data Model (Core)
+
+```mermaid
+erDiagram
+  profiles ||--o{ friend_requests : "sends/receives"
+  profiles ||--o{ locations_current : "has"
+  profiles ||--o{ locations_history : "records"
+  profiles ||--o{ share_rules : "owner/viewer"
+  profiles ||--o{ group_members : "joins"
+  groups ||--o{ group_members : "has"
+  profiles ||--o{ chat_room_members : "participates"
+  chat_rooms ||--o{ chat_room_members : "has"
+  chat_rooms ||--o{ messages : "contains"
+  profiles ||--o{ geo_drops : "creates"
+  geo_drops ||--o{ drop_claims : "unlocked by"
 ```
 
 ## RLS Overview
