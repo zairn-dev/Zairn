@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
-import type { NearbyUser, BumpEvent, Profile } from '@zen-map/sdk'
+import type { NearbyUser, BumpEvent, Profile } from '@zairn/sdk'
 import { formatRelativeTime, formatDistance } from '@/utils/format'
 
 interface BumpPanelProps {

@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@zen-map/geo-drop": "workspace:*",
+    "@zairn/geo-drop": "workspace:*",
     "@supabase/supabase-js": "^2.49.4",
     "leaflet": "^1.9.4",
     "react": "^19.1.0",

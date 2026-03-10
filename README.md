@@ -1,16 +1,20 @@
-# zen-map
+# zairn
 
-An open-source location-sharing app inspired by Zenly, the beloved app that was shut down in 2023. This project aims to recreate the core features using modern, open technologies.
+An open-source location-sharing platform inspired by **Zenly** and **Sekai Camera**. Combining Zenly's real-time friend location sharing with Sekai Camera's vision of leaving digital content anchored to physical locations.
 
 **Open source. Self-hostable. Privacy-first.**
 
-## Why zen-map?
+## Why zairn?
 
-Zenly was a unique app that made location sharing fun and meaningful with friends. When it was discontinued, many users lost a way to stay connected with their loved ones. zen-map aims to bring back that experience as an open-source alternative that anyone can use, modify, and self-host.
+Zenly made location sharing fun and meaningful with friends. Sekai Camera pioneered the concept of "air tagging" — attaching digital information to real-world places that others can discover when they visit. Both apps were ahead of their time and are no longer available.
+
+zairn brings back these ideas as a unified open-source platform:
+- **Zenly-style social map** — see where your friends are, chat, react, and explore together
+- **Sekai Camera-style GeoDrop** — leave encrypted messages, images, and media at real locations for others to discover and unlock on-site
 
 ## Features
 
-### Location Sharing (`@zen-map/sdk`)
+### Location Sharing (`@zairn/sdk`)
 - Real-time location sharing with friends
 - Friend requests and management
 - Ghost mode (temporarily hide your location)
@@ -22,7 +26,7 @@ Zenly was a unique app that made location sharing fun and meaningful with friend
 - Area exploration tracking (visited cells)
 - Time-limited sharing with expiration
 
-### GeoDrop (`@zen-map/geo-drop`)
+### GeoDrop (`@zairn/geo-drop`)
 - Location-bound encrypted data drops
 - AES-256-GCM encryption with location-derived keys
 - Pluggable verification (GPS / secret / AR / custom)
@@ -42,11 +46,11 @@ Zenly was a unique app that made location sharing fun and meaningful with friend
 ## Project Structure
 
 ```
-zen-map/
+zairn/
 ├── packages/
-│   ├── sdk/                # @zen-map/sdk — location sharing core
+│   ├── sdk/                # @zairn/sdk — location sharing core
 │   │   └── src/
-│   └── geo-drop/           # @zen-map/geo-drop — location-bound drops
+│   └── geo-drop/           # @zairn/geo-drop — location-bound drops
 │       ├── src/
 │       ├── database/       # GeoDrop schema & RLS policies
 │       ├── contracts/      # Solidity smart contracts
@@ -72,8 +76,8 @@ zen-map/
 
 ```bash
 # Clone and install
-git clone https://github.com/yourname/zen-map.git
-cd zen-map
+git clone https://github.com/yourname/zairn.git
+cd zairn
 pnpm install
 
 # Apply database schema
@@ -102,7 +106,7 @@ pnpm --filter geo-drop-demo dev
 ### SDK Usage
 
 ```ts
-import { createLocationCore } from '@zen-map/sdk';
+import { createLocationCore } from '@zairn/sdk';
 
 const core = createLocationCore({
   supabaseUrl: 'https://your-project.supabase.co',
@@ -135,4 +139,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Disclaimer
 
-This project is not affiliated with Zenly or Snap Inc. It is an independent open-source project inspired by Zenly's features.
+This project is not affiliated with Zenly, Snap Inc., or Tonchidot (Sekai Camera). It is an independent open-source project inspired by their concepts.

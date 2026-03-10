@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { formatRelativeTime } from '@/utils/format'
-import type { Profile, AreaRanking, FriendStreak, VisitedCellStats } from '@zen-map/sdk'
+import type { Profile, AreaRanking, FriendStreak, VisitedCellStats } from '@zairn/sdk'
 
 const EMOJI_GRID = ['😀','😎','🔥','❤️','🎉','💤','📍','🏃','🎮','📚','🍕','☕','🎵','✈️','🏠','💼']
 const DURATION_OPTIONS = [

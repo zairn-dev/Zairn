@@ -1,4 +1,4 @@
-# @zen-map/geo-drop
+# @zairn/geo-drop
 
 TypeScript reference implementation of the **GeoDrop Protocol**.
 
@@ -11,7 +11,7 @@ An open protocol for creating, discovering, and unlocking Location-Bound Content
 ## Installation
 
 ```bash
-pnpm add @zen-map/geo-drop @supabase/supabase-js
+pnpm add @zairn/geo-drop @supabase/supabase-js
 ```
 
 ## Setup
@@ -33,7 +33,7 @@ supabase functions deploy image-proof
 ## Quick Start
 
 ```typescript
-import { createGeoDrop } from '@zen-map/geo-drop';
+import { createGeoDrop } from '@zairn/geo-drop';
 
 const geo = createGeoDrop({
   supabaseUrl: 'https://xxx.supabase.co',

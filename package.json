@@ -1,5 +1,5 @@
 {
-  "name": "zen-map",
+  "name": "zairn",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -8,8 +8,8 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "pnpm --filter @zen-map/sdk build && pnpm --filter @zen-map/geo-drop build",
-    "build:geo-drop": "pnpm --filter @zen-map/geo-drop build",
+    "build": "pnpm --filter @zairn/sdk build && pnpm --filter @zairn/geo-drop build",
+    "build:geo-drop": "pnpm --filter @zairn/geo-drop build",
     "dev:web": "pnpm --filter web dev",
     "build:web": "pnpm --filter web build",
     "test:connection": "npx tsx --env-file=.env test/connection-test.ts",

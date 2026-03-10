@@ -375,7 +375,7 @@ IPFS content may disappear from the network when pins are removed. Redundant pin
 
 ### A. Reference Implementation
 
-TypeScript reference implementation: `@zen-map/geo-drop` (this repository, `packages/geo-drop/`)
+TypeScript reference implementation: `@zairn/geo-drop` (this repository, `packages/geo-drop/`)
 
 ### B. Related Technologies
 

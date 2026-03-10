@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
-import type { Group, GroupMember, Profile } from '@zen-map/sdk'
+import type { Group, GroupMember, Profile } from '@zairn/sdk'
 
 export default function GroupsPanel() {
   const core = useSdk()

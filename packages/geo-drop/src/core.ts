@@ -1,5 +1,5 @@
 /**
- * @zen-map/geo-drop Core SDK
+ * @zairn/geo-drop Core SDK
  * Creation, discovery, and unlocking of location-bound data drops
  */
 import { createClient, SupabaseClient, RealtimeChannel } from '@supabase/supabase-js';

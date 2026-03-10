@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
-import type { FavoritePlace, PlaceType } from '@zen-map/sdk'
+import type { FavoritePlace, PlaceType } from '@zairn/sdk'
 
 const PLACE_TYPES: { type: PlaceType; icon: string; label: string }[] = [
   { type: 'home', icon: '🏠', label: 'Home' },

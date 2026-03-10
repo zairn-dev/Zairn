@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
-import type { UserSettings, NotificationPreferences, Profile } from '@zen-map/sdk'
+import type { UserSettings, NotificationPreferences, Profile } from '@zairn/sdk'
 
 const GHOST_DURATIONS = [
   { label: '1 hour', value: 60 },

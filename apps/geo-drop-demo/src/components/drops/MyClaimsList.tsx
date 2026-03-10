@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useGeoDrop } from '@/contexts/GeoDropContext'
-import type { DropClaim, GeoDrop } from '@zen-map/geo-drop'
+import type { DropClaim, GeoDrop } from '@zairn/geo-drop'
 
 interface ClaimWithDrop extends DropClaim {
   dropTitle?: string

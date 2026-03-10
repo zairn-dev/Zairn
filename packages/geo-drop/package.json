@@ -1,5 +1,5 @@
 {
-  "name": "@zen-map/geo-drop",
+  "name": "@zairn/geo-drop",
   "version": "0.1.0",
   "description": "Location-bound decentralized data drops with IPFS and geofence verification",
   "type": "module",
@@ -29,7 +29,7 @@
   },
   "peerDependencies": {
     "@supabase/supabase-js": "^2.0.0",
-    "@zen-map/sdk": "workspace:*"
+    "@zairn/sdk": "workspace:*"
   },
   "keywords": [
     "location",
@@ -42,7 +42,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/otanl/zen-map.git",
+    "url": "https://github.com/otanl/zairn.git",
     "directory": "packages/geo-drop"
   }
 }
