@@ -1032,9 +1032,9 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // =====================
   // アバター
   // =====================
-  const uploadAvatar = async (file: File): Promise<string> => {
+  const uploadAvatar = async (file: Blob & { name?: string }): Promise<string> => {
     const userId = await getUserId();
-    const ext = file.name.split('.').pop() || 'jpg';
+    const ext = (file.name ?? 'avatar.jpg').split('.').pop() || 'jpg';
     const filePath = `${userId}/${Date.now()}.${ext}`;
 
     // 古いアバターを削除
