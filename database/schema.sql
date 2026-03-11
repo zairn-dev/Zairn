@@ -754,6 +754,9 @@ declare
   v_user_id uuid := auth.uid();
   v_owner_id uuid;
 begin
+  if v_user_id is null then
+    raise exception 'Authentication required';
+  end if;
   select owner_id into v_owner_id from groups where id = p_group_id;
   if v_owner_id is null then
     raise exception 'Group not found';
@@ -776,6 +779,9 @@ returns void as $$
 declare
   v_user_id uuid := auth.uid();
 begin
+  if v_user_id is null then
+    raise exception 'Authentication required';
+  end if;
   if v_user_id = p_blocked_id then
     raise exception 'Cannot block yourself';
   end if;
