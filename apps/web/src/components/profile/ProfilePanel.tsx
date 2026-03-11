@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
-import { formatRelativeTime } from '@/utils/format'
+import { formatRelativeTime, safeAvatarUrl } from '@/utils/format'
 import type { Profile, AreaRanking, FriendStreak, VisitedCellStats } from '@zairn/sdk'
 
 const EMOJI_GRID = ['😀','😎','🔥','❤️','🎉','💤','📍','🏃','🎮','📚','🍕','☕','🎵','✈️','🏠','💼']
@@ -39,7 +39,8 @@ export default function ProfilePanel() {
     loadProfile()
     loadStats()
     loadStreaks()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [core])
 
   async function loadProfile() {
     try {
@@ -72,11 +73,13 @@ export default function ProfilePanel() {
     try {
       const s = await core.getStreaks()
       setStreaks(s)
-      const profiles: Record<string, Profile | null> = {}
-      for (const streak of s) {
-        profiles[streak.friend_id] = await core.getProfile(streak.friend_id)
-      }
-      setStreakProfiles(profiles)
+      const entries = await Promise.all(
+        s.map(async (streak) => {
+          const p = await core.getProfile(streak.friend_id).catch(() => null)
+          return [streak.friend_id, p] as const
+        })
+      )
+      setStreakProfiles(Object.fromEntries(entries))
     } catch {}
   }
 
@@ -137,8 +140,8 @@ export default function ProfilePanel() {
     <div className="flex flex-col gap-6">
       {/* Avatar */}
       <div className="flex flex-col items-center gap-2">
-        {profile?.avatar_url ? (
-          <img src={profile.avatar_url} alt="avatar" className="w-20 h-20 rounded-full object-cover" />
+        {safeAvatarUrl(profile?.avatar_url) ? (
+          <img src={safeAvatarUrl(profile?.avatar_url)!} alt="avatar" className="w-20 h-20 rounded-full object-cover" />
         ) : (
           <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl" style={{ background: 'var(--md-surface-container-high)', color: 'var(--md-on-surface)' }}>
             {profile?.display_name?.[0]?.toUpperCase() ?? '?'}

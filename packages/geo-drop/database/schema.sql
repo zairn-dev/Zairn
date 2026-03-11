@@ -92,19 +92,83 @@ create table if not exists drop_location_logs (
 create index if not exists idx_drop_location_logs_user on drop_location_logs (user_id, created_at desc);
 
 -- Atomic increment of claim_count (with max_claims check, prevents race conditions)
-create or replace function increment_claim_count(drop_id uuid)
+-- increment_claim_count: security definer but requires authenticated user
+-- and checks that the caller has not already claimed this drop
+create or replace function increment_claim_count(p_drop_id uuid)
 returns boolean as $$
 declare
+  v_max_claims integer;
+  v_claim_count integer;
   updated_rows integer;
 begin
+  -- Require authentication
+  if auth.uid() is null then
+    raise exception 'Authentication required';
+  end if;
+
+  -- Lock the drop row to prevent TOCTOU race condition
+  select max_claims, claim_count into v_max_claims, v_claim_count
+  from geo_drops
+  where id = p_drop_id
+  for update;
+
+  if not found then
+    raise exception 'Drop not found';
+  end if;
+
+  -- Check max claims under lock
+  if v_max_claims is not null and v_claim_count >= v_max_claims then
+    return false;
+  end if;
+
+  -- Prevent double-claim (checked under the row lock)
+  if exists (select 1 from drop_claims where drop_id = p_drop_id and user_id = auth.uid()) then
+    raise exception 'Already claimed';
+  end if;
+
   update geo_drops
   set claim_count = claim_count + 1, updated_at = now()
-  where id = drop_id
-    and (max_claims is null or claim_count < max_claims);
+  where id = p_drop_id;
   get diagnostics updated_rows = row_count;
   return updated_rows > 0;
 end;
 $$ language plpgsql security definer;
+
+-- Compensating decrement if claim INSERT fails after increment
+create or replace function decrement_claim_count(p_drop_id uuid)
+returns void as $$
+begin
+  if auth.uid() is null then
+    raise exception 'Authentication required';
+  end if;
+
+  update geo_drops
+  set claim_count = greatest(claim_count - 1, 0), updated_at = now()
+  where id = p_drop_id;
+end;
+$$ language plpgsql security definer;
+
+-- Prevent direct manipulation of claim_count by non-service-role users
+-- Only increment_claim_count() should modify this column
+create or replace function protect_claim_count()
+returns trigger as $$
+begin
+  -- Allow if called from increment_claim_count (session variable set by that function)
+  -- or if claim_count hasn't changed
+  if NEW.claim_count != OLD.claim_count then
+    -- Only allow if the caller is a security definer function (checked via current_setting)
+    -- In practice, direct PostgREST updates bypass security definer context
+    if current_setting('role', true) != 'postgres' and current_setting('role', true) != 'service_role' then
+      NEW.claim_count := OLD.claim_count; -- silently reset to old value
+    end if;
+  end if;
+  return NEW;
+end;
+$$ language plpgsql;
+
+create or replace trigger trg_protect_claim_count
+before update on geo_drops
+for each row execute function protect_claim_count();
 
 -- Automatic processing of expired drops
 create or replace function cleanup_expired_drops()

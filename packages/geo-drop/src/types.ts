@@ -60,7 +60,7 @@ export interface ProofRequirement {
    * Method-specific parameters
    * - gps: {} (default; controlled by unlock_radius_meters)
    * - secret: { secret: string; label?: string } — secret obtained on-site (via QR/BLE/WiFi/NFC etc., acquisition method is up to the front-end)
-   * - ar: { reference_embedding: number[]; similarity_threshold?: number } — DINOv2 feature vector (compared server-side)
+   * - ar: { reference_embedding?: number[]; reference_embeddings?: number[][]; similarity_threshold?: number; max_age_seconds?: number } — DINOv2 feature vector(s). Multiple embeddings for multi-angle matching (client picks max similarity). max_age_seconds rejects stale captures
    * - custom: { verifier_id: string; [key: string]: unknown } — parameters passed to a custom verifier
    */
   params: Record<string, unknown>;
@@ -93,7 +93,7 @@ export interface ProofSubmission {
    * Method-specific response data
    * - gps: { lat: number; lon: number; accuracy: number }
    * - secret: { secret: string } — secret obtained on-site (acquisition method does not matter)
-   * - ar: { image: string } — base64 of captured image (vector extraction and comparison done server-side)
+   * - ar: { image: string; captured_at?: string; image_width?: number; image_height?: number } — base64 of captured image. captured_at (ISO 8601) for freshness check. Dimensions for screenshot detection
    * - custom: { verifier_id: string; [key: string]: unknown }
    */
   data: Record<string, unknown>;
@@ -371,8 +371,28 @@ export interface GeoDropOptions {
    * Defaults to supabaseUrl + '/functions/v1/image-proof' when unspecified
    */
   imageProofUrl?: string;
+  /**
+   * Enable server-side unlock via Edge Function (recommended for production).
+   * When true, unlockDrop calls the unlock-drop Edge Function instead of
+   * decrypting client-side, so encryption keys never reach the client.
+   * Defaults to supabaseUrl + '/functions/v1/unlock-drop'
+   */
+  serverUnlock?: boolean | string;
+  /**
+   * IPFS proxy Edge Function URL.
+   * When set, IPFS operations go through the proxy and API keys stay server-side.
+   * Defaults to supabaseUrl + '/functions/v1/ipfs-proxy' when serverUnlock is enabled.
+   */
+  ipfsProxyUrl?: string;
   /** Persistence configuration */
   persistence?: PersistenceConfig;
+  /**
+   * Server-side encryption secret for location key derivation.
+   * MUST match GEODROP_ENCRYPTION_SECRET in the Edge Function environment.
+   * Required for production — without this, encryption keys are predictable
+   * from publicly-visible DB columns.
+   */
+  encryptionSecret?: string;
 }
 
 export interface GeoDropSDK {

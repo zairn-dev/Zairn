@@ -26,7 +26,8 @@ export default function SettingsPanel() {
 
   useEffect(() => {
     loadAll()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [core])
 
   async function loadAll() {
     try {

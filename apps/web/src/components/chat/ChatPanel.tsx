@@ -200,6 +200,7 @@ function ThreadView({ sdk, userId, roomId, onBack }: { sdk: any; userId: string;
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && send()}
           placeholder="Type a message..."
+          maxLength={10000}
           className="flex-1 px-3 py-2 rounded-lg text-sm outline-none"
           style={{ background: 'var(--md-surface-container)', color: 'var(--md-on-surface)' }}
         />

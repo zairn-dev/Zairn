@@ -63,15 +63,44 @@ create policy "geo_drops_insert"
 on geo_drops for insert
 with check (auth.uid() = creator_id);
 
--- 更新は作成者のみ
+-- 更新は作成者のみ（creator_id の変更も禁止）
 create policy "geo_drops_update"
 on geo_drops for update
-using (auth.uid() = creator_id);
+using (auth.uid() = creator_id)
+with check (auth.uid() = creator_id);
 
 -- 削除は作成者のみ（論理削除推奨だが物理削除も許可）
 create policy "geo_drops_delete"
 on geo_drops for delete
 using (auth.uid() = creator_id);
+
+-- NOTE: RLSはカラムレベルの制限不可。センシティブカラム (encryption_salt,
+-- password_hash, encrypted_content) はSDK側のSELECTでカラム指定して除外済み。
+-- unlock-drop Edge FunctionはサービスロールでアクセスするためRLS非適用。
+
+-- 更新時にセンシティブカラム・セキュリティカラムの不正変更を防止するトリガー
+create or replace function protect_drop_sensitive_columns()
+returns trigger as $$
+begin
+  -- creator_id は変更不可（所有権移転防止）
+  if NEW.creator_id is distinct from OLD.creator_id then
+    raise exception 'Cannot modify creator_id';
+  end if;
+  -- encryption_salt は変更不可
+  if NEW.encryption_salt is distinct from OLD.encryption_salt then
+    raise exception 'Cannot modify encryption_salt';
+  end if;
+  -- geohash は変更不可 (暗号化キーに使われる)
+  if NEW.geohash is distinct from OLD.geohash then
+    raise exception 'Cannot modify geohash';
+  end if;
+  return NEW;
+end;
+$$ language plpgsql;
+
+create or replace trigger trg_protect_drop_sensitive_columns
+before update on geo_drops
+for each row execute function protect_drop_sensitive_columns();
 
 -- =====================
 -- drop_claims ポリシー
@@ -94,10 +123,11 @@ using (
   )
 );
 
--- クレーム作成は認証ユーザーのみ
+-- クレーム作成はEdge Function(service_role)経由のみ
+-- 直接INSERTを禁止（距離検証はEdge Functionで行う）
 create policy "drop_claims_insert"
 on drop_claims for insert
-with check (auth.uid() = user_id);
+with check (false);
 
 -- =====================
 -- drop_shares ポリシー

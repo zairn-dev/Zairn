@@ -71,13 +71,38 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
   const verifySecret: ProofVerifier = (req, sub) => {
     const expected = req.params.secret as string;
     const submitted = sub.data.secret as string;
-    const matched = expected === submitted;
+    // Constant-time comparison to prevent timing attacks
+    const enc = new TextEncoder();
+    const a = enc.encode(expected ?? '');
+    const b = enc.encode(submitted ?? '');
+    let matched = a.length === b.length;
+    const len = Math.max(a.length, b.length);
+    let xor = 0;
+    for (let i = 0; i < len; i++) {
+      xor |= (a[i] ?? 0) ^ (b[i] ?? 0);
+    }
+    matched = matched && xor === 0;
     return {
       method: 'secret',
       verified: matched,
       details: { matched, label: req.params.label ?? null },
     };
   };
+
+  // =====================
+  // AR helper: cosine similarity (client-side, no server call)
+  // =====================
+  function cosineSimilarity(a: number[], b: number[]): number {
+    if (a.length !== b.length) return 0;
+    let dot = 0, magA = 0, magB = 0;
+    for (let i = 0; i < a.length; i++) {
+      dot += a[i] * b[i];
+      magA += a[i] * a[i];
+      magB += b[i] * b[i];
+    }
+    const denom = Math.sqrt(magA) * Math.sqrt(magB);
+    return denom === 0 ? 0 : dot / denom;
+  }
 
   const verifyAr: ProofVerifier = async (req, sub, drop) => {
     const image = sub.data.image as string;
@@ -89,29 +114,89 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
       };
     }
 
-    const refEmbedding = req.params.reference_embedding as number[] | undefined;
+    // --- Client-side pre-checks (no server call) ---
+
+    // 1. Freshness check: reject stale captures
+    const maxAge = (req.params.max_age_seconds as number) ?? 300; // default 5 min
+    const capturedAt = sub.data.captured_at as string | undefined;
+    if (capturedAt) {
+      const age = (Date.now() - new Date(capturedAt).getTime()) / 1000;
+      if (age > maxAge || age < -30) { // allow 30s clock skew
+        return {
+          method: 'ar',
+          verified: false,
+          details: { error: 'Image too old or invalid timestamp', age_seconds: age, max_age_seconds: maxAge },
+        };
+      }
+    }
+
+    // 2. Screenshot detection: flag suspicious dimensions
+    const imgW = sub.data.image_width as number | undefined;
+    const imgH = sub.data.image_height as number | undefined;
+    let screenshotWarning = false;
+    if (imgW && imgH) {
+      const ratio = imgW / imgH;
+      // Phone cameras are typically 4:3 or 16:9. Exact 16:9/9:16 screen ratios with
+      // very high resolution are suspicious. Exact square crops are also unusual for photos.
+      if (Math.abs(ratio - 1.0) < 0.01) {
+        screenshotWarning = true; // exact square crop
+      }
+    }
+
+    // --- Collect reference embeddings ---
+    const singleRef = req.params.reference_embedding as number[] | undefined;
+    const multiRef = req.params.reference_embeddings as number[][] | undefined;
+    const refEmbeddings: number[][] = multiRef
+      ? multiRef
+      : singleRef
+        ? [singleRef]
+        : [];
+
     const threshold = (req.params.similarity_threshold as number) ?? opts.similarityThreshold;
 
     try {
-      const result = await callEdgeFunction<{ verified: boolean; similarity: number; threshold: number; model: string }>(
-        'verify',
-        {
-          image,
-          ...(refEmbedding
-            ? { reference_embedding: refEmbedding, threshold }
-            : { drop_id: drop.id, threshold }),
-        }
+      // Single server call: extract embedding only
+      const { embedding } = await callEdgeFunction<{ embedding: number[]; dimensions: number }>(
+        'extract',
+        { image }
       );
 
-      return {
-        method: 'ar',
-        verified: result.verified,
-        details: {
-          similarity: result.similarity,
-          threshold: result.threshold,
-          model: result.model,
-        },
-      };
+      if (refEmbeddings.length > 0) {
+        // Client-side similarity comparison against all reference embeddings
+        let maxSim = 0;
+        for (const ref of refEmbeddings) {
+          const sim = cosineSimilarity(embedding, ref);
+          if (sim > maxSim) maxSim = sim;
+        }
+
+        return {
+          method: 'ar',
+          verified: maxSim >= threshold,
+          details: {
+            similarity: maxSim,
+            threshold,
+            reference_count: refEmbeddings.length,
+            screenshot_warning: screenshotWarning,
+          },
+        };
+      } else {
+        // No local refs — fall back to server-side verify (legacy / drop_id lookup)
+        const result = await callEdgeFunction<{ verified: boolean; similarity: number; threshold: number; model: string }>(
+          'verify',
+          { image, drop_id: drop.id, threshold }
+        );
+
+        return {
+          method: 'ar',
+          verified: result.verified,
+          details: {
+            similarity: result.similarity,
+            threshold: result.threshold,
+            model: result.model,
+            screenshot_warning: screenshotWarning,
+          },
+        };
+      }
     } catch (e) {
       return {
         method: 'ar',

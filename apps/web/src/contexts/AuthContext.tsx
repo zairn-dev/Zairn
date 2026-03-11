@@ -20,17 +20,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
-      setLoading(false)
-    })
-
+    // Register listener first — it fires INITIAL_SESSION when getSession resolves
+    // This avoids the race where getSession resolves before the listener is registered
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
       setLoading(false)
     })
+
+    // Trigger the INITIAL_SESSION event
+    supabase.auth.getSession()
 
     return () => subscription.unsubscribe()
   }, [supabase])

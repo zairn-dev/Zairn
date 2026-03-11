@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 
 interface SlidePanelProps {
   open: boolean
@@ -8,6 +8,21 @@ interface SlidePanelProps {
 }
 
 export default function SlidePanel({ open, onClose, title, children }: SlidePanelProps) {
+  // Keep children mounted during the close animation, then unmount
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setMounted(true)
+    } else {
+      // Wait for the slide-out animation (300ms) before unmounting
+      const timer = setTimeout(() => setMounted(false), 300)
+      return () => clearTimeout(timer)
+    }
+  }, [open])
+
+  if (!mounted && !open) return null
+
   return (
     <>
       {/* Backdrop */}
@@ -53,7 +68,7 @@ export default function SlidePanel({ open, onClose, title, children }: SlidePane
           </button>
         </div>
 
-        {/* Content */}
+        {/* Content — only render children when mounted */}
         <div className="flex-1 overflow-y-auto p-4">{children}</div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
 import type { Profile, LocationReaction } from '@zairn/sdk'
@@ -13,15 +13,20 @@ export default function ReactionPanel() {
   const { user } = useAuth()
   const [tab, setTab] = useState<Tab>('send')
   const [toast, setToast] = useState('')
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const ch = sdk.subscribeReactions((r: LocationReaction) => {
       if (r.to_user_id === user?.id) {
         setToast(`${r.emoji} from ${r.from_user_id.slice(0, 6)}`)
-        setTimeout(() => setToast(''), 3000)
+        if (toastTimerRef.current) clearTimeout(toastTimerRef.current)
+        toastTimerRef.current = setTimeout(() => setToast(''), 3000)
       }
     })
-    return () => { ch.unsubscribe() }
+    return () => {
+      ch.unsubscribe()
+      if (toastTimerRef.current) clearTimeout(toastTimerRef.current)
+    }
   }, [sdk, user])
 
   return (

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
+import { safeAvatarUrl } from '@/utils/format'
 import type { Profile, FriendRequest, FriendOfFriend } from '@zairn/sdk'
 
 type Tab = 'friends' | 'requests' | 'search'
@@ -88,8 +89,8 @@ function FriendsTab({ sdk, onOpenChat }: { sdk: any; onOpenChat?: (id: string) =
         const name = f.display_name || f.user_id.slice(0, 8)
         return (
           <li key={f.user_id} className="flex items-center gap-3 p-2 rounded-lg" style={{ background: 'var(--md-surface-container)' }}>
-            {f.avatar_url ? (
-              <img src={f.avatar_url} alt="" className="w-9 h-9 rounded-full object-cover" />
+            {safeAvatarUrl(f.avatar_url) ? (
+              <img src={safeAvatarUrl(f.avatar_url)!} alt="" className="w-9 h-9 rounded-full object-cover" />
             ) : (
               <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm" style={{ background: 'var(--md-surface-container-high)', color: 'var(--md-on-surface)' }}>
                 {name[0]}

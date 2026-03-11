@@ -5,6 +5,8 @@
 import type { IpfsConfig, IpfsUploadResult } from './types';
 
 const DEFAULT_GATEWAY = 'https://w3s.link/ipfs';
+const MAX_FETCH_SIZE = 10 * 1024 * 1024; // 10MB max for fetched content
+const CID_RE = /^(Qm[1-9A-HJ-NP-Za-km-z]{44}|b[a-z2-7]{58,})$/;
 
 export class IpfsClient {
   private gateway: string;
@@ -49,18 +51,33 @@ export class IpfsClient {
    * Fetch content from IPFS
    */
   async fetch(cid: string): Promise<string> {
+    // Validate CID format to prevent SSRF
+    if (!CID_RE.test(cid)) throw new Error(`Invalid IPFS CID: ${cid}`);
+
     const url = `${this.gateway}/${cid}`;
     const response = await globalThis.fetch(url);
     if (!response.ok) {
       throw new Error(`IPFS fetch failed: ${response.status} ${response.statusText}`);
     }
-    return response.text();
+
+    // Check content-length header first (if available)
+    const contentLength = response.headers.get('content-length');
+    if (contentLength && parseInt(contentLength, 10) > MAX_FETCH_SIZE) {
+      throw new Error(`IPFS content too large: ${contentLength} bytes (max ${MAX_FETCH_SIZE})`);
+    }
+
+    const text = await response.text();
+    if (text.length > MAX_FETCH_SIZE) {
+      throw new Error(`IPFS content too large: ${text.length} bytes (max ${MAX_FETCH_SIZE})`);
+    }
+    return text;
   }
 
   /**
    * Generate a gateway URL from a CID
    */
   getUrl(cid: string): string {
+    if (!CID_RE.test(cid)) throw new Error(`Invalid IPFS CID: ${cid}`);
     return `${this.gateway}/${cid}`;
   }
 
