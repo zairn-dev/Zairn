@@ -539,9 +539,9 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // =====================
   const createGroup = async (name: string, description?: string): Promise<Group> => {
     // Cryptographically random invite code
-    const inviteCode = (typeof globalThis.crypto?.randomUUID === 'function')
-      ? globalThis.crypto.randomUUID().replace(/-/g, '').substring(0, 10).toUpperCase()
-      : Array.from(crypto.getRandomValues(new Uint8Array(5)), b => b.toString(36)).join('').substring(0, 10).toUpperCase();
+    const randomBytes = new Uint8Array(8);
+    (globalThis as any).crypto.getRandomValues(randomBytes);
+    const inviteCode = Array.from(randomBytes, (b: number) => b.toString(36)).join('').substring(0, 10).toUpperCase();
 
     // security definer関数でグループ + メンバー追加をアトミックに実行
     const { data: groupId, error } = await supabase.rpc('create_group_atomic', {
