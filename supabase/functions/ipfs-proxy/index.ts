@@ -35,9 +35,9 @@ function checkRateLimit(key: string): boolean {
 // =====================
 // CID validation
 // =====================
+const CID_RE = /^(Qm[1-9A-HJ-NP-Za-km-z]{44}|b[a-z2-7]{58,})$/
 function isValidCid(cid: string): boolean {
-  // CIDv0: Qm + 44 base58 chars, CIDv1: bafy... base32
-  return /^Qm[1-9A-HJ-NP-Za-km-z]{44}$/.test(cid) || /^bafy[a-z2-7]{55,}$/.test(cid)
+  return CID_RE.test(cid)
 }
 
 serve(async (req: Request) => {

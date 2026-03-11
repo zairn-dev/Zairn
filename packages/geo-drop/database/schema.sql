@@ -126,6 +126,8 @@ begin
     raise exception 'Already claimed';
   end if;
 
+  -- Set session flag so protect_claim_count trigger allows the change
+  perform set_config('app.claim_count_update', 'true', true);
   update geo_drops
   set claim_count = claim_count + 1, updated_at = now()
   where id = p_drop_id;
@@ -142,6 +144,7 @@ begin
     raise exception 'Authentication required';
   end if;
 
+  perform set_config('app.claim_count_update', 'true', true);
   update geo_drops
   set claim_count = greatest(claim_count - 1, 0), updated_at = now()
   where id = p_drop_id;
@@ -156,9 +159,8 @@ begin
   -- Allow if called from increment_claim_count (session variable set by that function)
   -- or if claim_count hasn't changed
   if NEW.claim_count != OLD.claim_count then
-    -- Only allow if the caller is a security definer function (checked via current_setting)
-    -- In practice, direct PostgREST updates bypass security definer context
-    if current_setting('role', true) != 'postgres' and current_setting('role', true) != 'service_role' then
+    -- Only allow if called from increment/decrement_claim_count (session flag)
+    if coalesce(current_setting('app.claim_count_update', true), '') != 'true' then
       NEW.claim_count := OLD.claim_count; -- silently reset to old value
     end if;
   end if;

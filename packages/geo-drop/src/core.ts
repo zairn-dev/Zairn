@@ -455,10 +455,9 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       .select()
       .single();
     if (claimError) {
-      // Unique constraint violation = already claimed -> no need to revert count (treated as idempotent)
-      if (claimError.code === '23505') throw new Error('Already claimed this drop');
-      // Compensate: decrement the count that was incremented before the failed insert
+      // Always compensate the incremented count on any claim insert failure
       try { await supabase.rpc('decrement_claim_count', { p_drop_id: dropId }); } catch { /* best-effort */ }
+      if (claimError.code === '23505') throw new Error('Already claimed this drop');
       throw claimError;
     }
 
