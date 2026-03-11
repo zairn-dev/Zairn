@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Polyline, useMap } from 'react-leaflet'
 import type { LocationCore, LocationHistoryRow } from '@zairn/sdk'
 
 interface TrailLayerProps {
   sdk: LocationCore
+  onDemoChange?: (isDemo: boolean) => void
+  /** Fixed center for demo trails (GPS position, not map center) */
+  centerLat?: number
+  centerLon?: number
 }
 
 interface TrailSegment {
@@ -13,6 +17,7 @@ interface TrailSegment {
   color: string
 }
 
+const SELF_COLOR = '#6442d6'
 const FRIEND_COLORS = ['#e6553a', '#22c55e', '#f59e0b', '#ec4899', '#14b8a6', '#8b5cf6']
 
 function getTimeStyle(recordedAt: string): { opacity: number; weight: number } {
@@ -24,12 +29,20 @@ function getTimeStyle(recordedAt: string): { opacity: number; weight: number } {
   return { opacity: 0.15, weight: 2 }
 }
 
+// Max gap between two consecutive points before splitting into separate segments
+const GAP_THRESHOLD_MS = 10 * 60 * 1000 // 10 minutes
+
 function buildSegments(history: LocationHistoryRow[], color: string): TrailSegment[] {
   if (history.length < 2) return []
+  // SDK returns DESC (newest first) — reverse to chronological order
+  const sorted = [...history].reverse()
   const segments: TrailSegment[] = []
-  for (let i = 0; i < history.length - 1; i++) {
-    const a = history[i]
-    const b = history[i + 1]
+  for (let i = 0; i < sorted.length - 1; i++) {
+    const a = sorted[i]
+    const b = sorted[i + 1]
+    // Skip segment if time gap is too large (avoids long straight lines across idle periods)
+    const gap = new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime()
+    if (gap > GAP_THRESHOLD_MS) continue
     const style = getTimeStyle(a.recorded_at)
     segments.push({
       positions: [[a.lat, a.lon], [b.lat, b.lon]],
@@ -40,12 +53,13 @@ function buildSegments(history: LocationHistoryRow[], color: string): TrailSegme
   return segments
 }
 
-// Generate demo trail as a single continuous polyline with time-based styling
+// =====================
+// Demo trails (fallback when no real data)
+// =====================
 function makeDemoTrail(
   cLat: number,
   cLon: number,
   color: string,
-  // Each point is [deltaLat, deltaLon] from map center
   route: [number, number][],
   totalMinutes: number,
 ): TrailSegment[] {
@@ -67,88 +81,108 @@ function makeDemoTrail(
   return segments
 }
 
-export default function TrailLayer({ sdk }: TrailLayerProps) {
+function buildDemoSegments(lat: number, lon: number): TrailSegment[] {
+  const all: TrailSegment[] = []
+  // Self: commute from south-west
+  all.push(...makeDemoTrail(lat, lon, SELF_COLOR, [
+    [-0.060, -0.080], [-0.055, -0.072], [-0.048, -0.063], [-0.042, -0.055],
+    [-0.035, -0.048], [-0.030, -0.040], [-0.025, -0.032], [-0.020, -0.025],
+    [-0.015, -0.018], [-0.010, -0.012], [-0.006, -0.007], [-0.003, -0.003],
+    [-0.001, -0.001], [0.000, 0.000],
+  ], 90))
+  // Alice: jog loop north-east
+  all.push(...makeDemoTrail(lat, lon, FRIEND_COLORS[0], [
+    [0.004, 0.003], [0.010, 0.010], [0.018, 0.020], [0.028, 0.030],
+    [0.038, 0.035], [0.045, 0.028], [0.050, 0.015], [0.048, 0.000],
+    [0.040, -0.010], [0.030, -0.015], [0.020, -0.010], [0.012, -0.003],
+    [0.004, 0.003],
+  ], 60))
+  // Bob: cycling from far east
+  all.push(...makeDemoTrail(lat, lon, FRIEND_COLORS[1], [
+    [-0.050, 0.120], [-0.045, 0.105], [-0.038, 0.090], [-0.032, 0.075],
+    [-0.025, 0.060], [-0.018, 0.045], [-0.012, 0.032], [-0.008, 0.020],
+    [-0.005, 0.012], [-0.003, 0.005],
+  ], 40))
+  // Charlie: walk west and back
+  all.push(...makeDemoTrail(lat, lon, FRIEND_COLORS[2], [
+    [0.000, -0.005], [-0.005, -0.015], [-0.010, -0.028], [-0.018, -0.042],
+    [-0.025, -0.055], [-0.022, -0.060], [-0.015, -0.052], [-0.010, -0.040],
+    [-0.005, -0.025], [-0.003, -0.010], [-0.005, -0.002],
+  ], 70))
+  return all
+}
+
+// =====================
+// Real data fetching
+// =====================
+async function fetchRealTrails(sdk: LocationCore): Promise<TrailSegment[] | null> {
+  const since = new Date(Date.now() - 24 * 3600000)
+  const { data: { user } } = await sdk.supabase.auth.getUser()
+  if (!user) return null
+
+  // Fetch own history
+  const myHistory = await sdk.getLocationHistory(user.id, { limit: 500, since })
+  if (myHistory.length < 2) return null // no meaningful trail data → fallback to demo
+
+  const allSegments: TrailSegment[] = []
+  allSegments.push(...buildSegments(myHistory, SELF_COLOR))
+
+  // Fetch trail-visible friends (individual failures don't discard own trail)
+  const friendIds = await sdk.getTrailFriendIds()
+  if (friendIds.length > 0) {
+    const results = await Promise.allSettled(
+      friendIds.slice(0, 10).map((id, idx) =>
+        sdk.getLocationHistory(id, { limit: 500, since }).then(h => ({
+          history: h,
+          color: FRIEND_COLORS[idx % FRIEND_COLORS.length],
+        }))
+      )
+    )
+    for (const result of results) {
+      if (result.status === 'fulfilled') {
+        allSegments.push(...buildSegments(result.value.history, result.value.color))
+      }
+    }
+  }
+
+  return allSegments
+}
+
+export default function TrailLayer({ sdk, onDemoChange, centerLat, centerLon }: TrailLayerProps) {
   const [segments, setSegments] = useState<TrailSegment[]>([])
   const map = useMap()
+  const onDemoChangeRef = useRef(onDemoChange)
+  onDemoChangeRef.current = onDemoChange
+
+  // Use provided GPS center for demo trails; only fall back to map center if not given
+  const demoCenterRef = useRef({ lat: centerLat ?? map.getCenter().lat, lon: centerLon ?? map.getCenter().lng })
+  if (centerLat != null && centerLon != null) {
+    demoCenterRef.current = { lat: centerLat, lon: centerLon }
+  }
 
   useEffect(() => {
     let cancelled = false
 
     const fetchTrails = async () => {
+      if (cancelled) return
       try {
+        const realSegments = await fetchRealTrails(sdk)
         if (cancelled) return
-        const c = map.getCenter()
-        const lat = c.lat
-        const lon = c.lng
-        const allSegments: TrailSegment[] = []
 
-        // Always show demo trails for testing
-        // Self: 10km commute from south-west to center
-        allSegments.push(...makeDemoTrail(lat, lon, '#6442d6', [
-          [-0.060, -0.080],
-          [-0.055, -0.072],
-          [-0.048, -0.063],
-          [-0.042, -0.055],
-          [-0.035, -0.048],
-          [-0.030, -0.040],
-          [-0.025, -0.032],
-          [-0.020, -0.025],
-          [-0.015, -0.018],
-          [-0.010, -0.012],
-          [-0.006, -0.007],
-          [-0.003, -0.003],
-          [-0.001, -0.001],
-          [0.000, 0.000],
-        ], 90))
-
-        // Alice: 8km jog loop north-east
-        allSegments.push(...makeDemoTrail(lat, lon, FRIEND_COLORS[0], [
-          [0.004, 0.003],
-          [0.010, 0.010],
-          [0.018, 0.020],
-          [0.028, 0.030],
-          [0.038, 0.035],
-          [0.045, 0.028],
-          [0.050, 0.015],
-          [0.048, 0.000],
-          [0.040, -0.010],
-          [0.030, -0.015],
-          [0.020, -0.010],
-          [0.012, -0.003],
-          [0.004, 0.003],
-        ], 60))
-
-        // Bob: 15km cycling from far east
-        allSegments.push(...makeDemoTrail(lat, lon, FRIEND_COLORS[1], [
-          [-0.050, 0.120],
-          [-0.045, 0.105],
-          [-0.038, 0.090],
-          [-0.032, 0.075],
-          [-0.025, 0.060],
-          [-0.018, 0.045],
-          [-0.012, 0.032],
-          [-0.008, 0.020],
-          [-0.005, 0.012],
-          [-0.003, 0.005],
-        ], 40))
-
-        // Charlie: 6km walk west to shops and back
-        allSegments.push(...makeDemoTrail(lat, lon, FRIEND_COLORS[2], [
-          [0.000, -0.005],
-          [-0.005, -0.015],
-          [-0.010, -0.028],
-          [-0.018, -0.042],
-          [-0.025, -0.055],
-          [-0.022, -0.060],
-          [-0.015, -0.052],
-          [-0.010, -0.040],
-          [-0.005, -0.025],
-          [-0.003, -0.010],
-          [-0.005, -0.002],
-        ], 70))
-
-        if (!cancelled) setSegments(allSegments)
-      } catch { /* ignore */ }
+        if (realSegments && realSegments.length > 0) {
+          setSegments(realSegments)
+          onDemoChangeRef.current?.(false)
+        } else {
+          const { lat, lon } = demoCenterRef.current
+          setSegments(buildDemoSegments(lat, lon))
+          onDemoChangeRef.current?.(true)
+        }
+      } catch {
+        if (cancelled) return
+        const { lat, lon } = demoCenterRef.current
+        setSegments(buildDemoSegments(lat, lon))
+        onDemoChangeRef.current?.(true)
+      }
     }
 
     fetchTrails()

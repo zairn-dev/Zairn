@@ -64,7 +64,13 @@ export default function MapView({ currentLocation, showTrails, showExploration }
   const sdk = useSdk()
   const [friends, setFriends] = useState<LocationCurrentRow[]>([])
   const [useDemoData, setUseDemoData] = useState(false)
+  const [trailIsDemo, setTrailIsDemo] = useState(false)
   const lastSentRef = useRef<{ lat: number; lon: number } | null>(null)
+
+  // Reset trail demo badge when trails are hidden
+  useEffect(() => {
+    if (!showTrails) setTrailIsDemo(false)
+  }, [showTrails])
 
   // Fetch friends every 15s — fall back to demo data if none found
   useEffect(() => {
@@ -151,6 +157,18 @@ export default function MapView({ currentLocation, showTrails, showExploration }
           Demo mode — showing sample friends
         </div>
       )}
+      {showTrails && trailIsDemo && (
+        <div
+          style={{
+            position: 'absolute', bottom: 60, left: 8, zIndex: 1000,
+            background: 'var(--md-tertiary-container)', color: 'var(--md-on-tertiary-container)',
+            padding: '4px 10px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 500,
+            pointerEvents: 'none',
+          }}
+        >
+          Demo trails — no history data yet
+        </div>
+      )}
       <MapContainer
         center={center}
         zoom={15}
@@ -205,7 +223,7 @@ export default function MapView({ currentLocation, showTrails, showExploration }
         )
       })}
 
-        {showTrails && <TrailLayer sdk={sdk} />}
+        {showTrails && <TrailLayer sdk={sdk} onDemoChange={setTrailIsDemo} centerLat={center[0]} centerLon={center[1]} />}
         {showExploration && <ExplorationLayer sdk={sdk} />}
       </MapContainer>
     </div>

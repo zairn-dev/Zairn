@@ -25,23 +25,38 @@ export default function SharingPanel() {
 
   useEffect(() => {
     loadFriends()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [core])
 
   async function loadFriends() {
     try {
       setLoading(true)
       setError('')
       const friendIds = await core.getFriends()
-      const states: FriendShareState[] = []
-      for (const fid of friendIds) {
-        const profile = await core.getProfile(fid)
-        states.push({
-          friendId: fid,
-          profile,
-          level: 'current',
-          expiresAt: null,
-        })
+
+      // share_rulesから実際のレベルを取得
+      const { data: rules } = await core.supabase
+        .from('share_rules')
+        .select('viewer_id, level, expires_at')
+        .in('viewer_id', friendIds.length > 0 ? friendIds : ['__none__'])
+
+      const ruleMap = new Map<string, { level: ShareLevel; expiresAt: string | null }>()
+      for (const r of rules ?? []) {
+        ruleMap.set(r.viewer_id, { level: r.level as ShareLevel, expiresAt: r.expires_at })
       }
+
+      const states: FriendShareState[] = await Promise.all(
+        friendIds.map(async (fid) => {
+          const profile = await core.getProfile(fid)
+          const rule = ruleMap.get(fid)
+          return {
+            friendId: fid,
+            profile,
+            level: rule?.level ?? 'none',
+            expiresAt: rule?.expiresAt ?? null,
+          }
+        })
+      )
       setFriends(states)
     } catch (e: any) {
       setError(e.message)

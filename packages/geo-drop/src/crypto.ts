@@ -103,18 +103,69 @@ export async function decrypt(payload: EncryptedPayload, password: string): Prom
 }
 
 /**
- * Generate a SHA-256 hash of a password (for DB storage)
+ * Generate a salted PBKDF2-SHA256 hash of a password (for DB storage)
+ * Format: "salt_base64:hash_base64"
  */
 export async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder();
-  const hash = await crypto.subtle.digest('SHA-256', encoder.encode(password));
-  return toBase64(new Uint8Array(hash));
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']
+  );
+  const hash = await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', salt: salt.buffer as ArrayBuffer, iterations: 100000, hash: 'SHA-256' },
+    keyMaterial, 256
+  );
+  return `${toBase64(salt)}:${toBase64(new Uint8Array(hash))}`;
+}
+
+/**
+ * Constant-time byte array comparison (prevents timing attacks)
+ */
+function constantTimeEqual(a: Uint8Array, b: Uint8Array): boolean {
+  if (a.length !== b.length) return false;
+  let result = 0;
+  for (let i = 0; i < a.length; i++) result |= a[i] ^ b[i];
+  return result === 0;
+}
+
+/**
+ * Verify a password against a salted hash (constant-time comparison)
+ */
+export async function verifyPassword(password: string, storedHash: string): Promise<boolean> {
+  const encoder = new TextEncoder();
+  if (!storedHash.includes(':')) {
+    // Legacy unsalted SHA-256 — constant-time compare on raw bytes
+    const hash = new Uint8Array(await crypto.subtle.digest('SHA-256', encoder.encode(password)));
+    return constantTimeEqual(hash, fromBase64(storedHash));
+  }
+  const [saltB64, hashB64] = storedHash.split(':');
+  const saltBytes = fromBase64(saltB64);
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']
+  );
+  const hash = new Uint8Array(await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', salt: saltBytes.buffer as ArrayBuffer, iterations: 100000, hash: 'SHA-256' },
+    keyMaterial, 256
+  ));
+  return constantTimeEqual(hash, fromBase64(hashB64));
 }
 
 /**
  * Generate a location-based encryption key
- * Combines geohash + drop_id + salt to create a unique encryption key
+ * Combines geohash + drop_id + salt + server secret to create a unique encryption key.
+ * The serverSecret should be an environment variable (GEODROP_ENCRYPTION_SECRET)
+ * that is only available server-side, making client-side decryption impossible
+ * even if all DB columns are known.
+ *
+ * @internal — Do NOT export from the package public API.
+ * Only the server-side unlock Edge Function should call this.
  */
-export function deriveLocationKey(geohash: string, dropId: string, salt: string): string {
-  return `geodrop:${geohash}:${dropId}:${salt}`;
+export function deriveLocationKey(geohash: string, dropId: string, salt: string, serverSecret?: string): string {
+  const base = `geodrop:${geohash}:${dropId}:${salt}`;
+  if (serverSecret) {
+    return `${base}:${serverSecret}`;
+  }
+  // Fallback without server secret (development/self-hosted only)
+  return base;
 }

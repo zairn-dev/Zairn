@@ -100,9 +100,9 @@ export function verifyProximity(opts: VerifyOptions): LocationProof {
   );
 
   // Account for GPS accuracy: actual distance is within +/- accuracy range
-  // Err on the safe side: allow if distance - accuracy is within radius
-  // However, reject if accuracy is too large (over 500m)
-  const maxAccuracy = 500;
+  // Cap accuracy to prevent manipulation (e.g., sending accuracy=499 to unlock from far away)
+  // Max effective accuracy is 50m or half the unlock radius, whichever is smaller
+  const maxAccuracy = Math.min(50, opts.unlockRadius / 2);
   const effectiveAccuracy = Math.min(opts.accuracy, maxAccuracy);
   const verified = (distance - effectiveAccuracy) <= opts.unlockRadius;
 

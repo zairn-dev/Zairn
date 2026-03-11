@@ -37,7 +37,8 @@ export default function FavoritesPanel({ currentLocation }: FavoritesPanelProps)
 
   useEffect(() => {
     loadPlaces()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [core])
 
   useEffect(() => {
     if (currentLocation) {
@@ -94,7 +95,7 @@ export default function FavoritesPanel({ currentLocation }: FavoritesPanelProps)
     const lat = parseFloat(formLat)
     const lon = parseFloat(formLon)
     const radius = parseInt(formRadius, 10)
-    if (isNaN(lat) || isNaN(lon) || isNaN(radius)) {
+    if (isNaN(lat) || isNaN(lon) || isNaN(radius) || lat < -90 || lat > 90 || lon < -180 || lon > 180 || radius < 1 || radius > 100000) {
       setError('Invalid coordinates or radius')
       return
     }

@@ -11,11 +11,12 @@ Traditionally, location-based content (geocaching, AR experiences, location-gate
 
 ### Design Principles
 
-1. **App-agnostic** — No dependency on any specific application, backend, or cloud service
-2. **Progressive decentralization** — Operators choose their persistence level, from centralized DB to fully on-chain
-3. **Physical proximity proof** — Content access requires proof of being at the location
-4. **Pluggable verification** — Freely extensible beyond GPS
-5. **Cryptographic locking** — Content is encrypted with a location-derived key; metadata alone is insufficient for decryption
+1. **Server-unaware** — The server stores only encrypted blobs and never participates in unlock decisions. All encryption and decryption happens on the client
+2. **Location as cryptographic key** — Content is encrypted with a key derived deterministically from the geographic location (geohash). Physical proximity is required to derive the decryption key
+3. **App-agnostic** — No dependency on any specific application, backend, or cloud service
+4. **Progressive decentralization** — Operators choose their persistence level, from centralized DB to fully on-chain
+5. **Physical proximity proof** — Content access requires proof of being at the location
+6. **Pluggable verification** — Freely extensible beyond GPS (secret, AR, custom verifiers)
 
 ---
 
@@ -85,7 +86,7 @@ Verification configuration required when accessing a drop.
 |--------|--------|----------------|-------------|
 | `gps` | `{}` | `{ lat, lon, accuracy }` | GPS proximity check. Controlled by `unlock_radius_meters` |
 | `secret` | `{ secret: string, label?: string }` | `{ secret: string }` | Secret value matching. Acquisition method (QR/BLE/WiFi/NFC) is unspecified |
-| `ar` | `{ reference_embedding: number[], similarity_threshold?: number }` | `{ image: string }` | DINOv2 image feature vector comparison (server-side) |
+| `ar` | `{ reference_embedding?: number[], reference_embeddings?: number[][], similarity_threshold?: number, max_age_seconds?: number }` | `{ image: string, captured_at?: ISO8601, image_width?: number, image_height?: number }` | Visual place verification with anti-spoofing (see §7.5) |
 | `custom` | `{ verifier_id: string, ... }` | `{ ... }` | Delegated to custom verifier |
 
 ### 1.4 ProofSubmission
@@ -355,6 +356,18 @@ For sensitive content, use metadata encryption with `recoverySecret` (§3.2).
 ### 7.3 On-Chain Spam
 
 The registry is permissionless, so arbitrary data can be registered. Client implementations should validate the `version` field of fetched metadata and ignore malformed data.
+
+### 7.5 AR Verification Anti-Spoofing
+
+The `ar` proof method provides visual place verification as a countermeasure against GPS spoofing. The following client-side checks minimize server load while improving security:
+
+**Multi-angle reference embeddings.** Drop creators can store multiple reference embeddings (`reference_embeddings: number[][]`) captured from different angles, times of day, or seasons. At unlock, the client extracts one embedding (single server call) and computes cosine similarity against all references locally. The maximum similarity is used for the threshold check.
+
+**Freshness check.** Submissions include `captured_at` (ISO 8601 timestamp). The client rejects images older than `max_age_seconds` (default: 300s), preventing replay attacks with previously captured photos or Street View screenshots.
+
+**Screenshot detection.** Submissions include `image_width` and `image_height`. The client flags suspicious aspect ratios (exact 1:1 square crops are unusual for camera photos). This is a heuristic warning, not a hard rejection.
+
+**Server load profile.** Only the embedding extraction call (`extract` action) hits the server. Similarity comparison, freshness checks, and screenshot detection are entirely client-side. For drops with local reference embeddings, this means exactly one Edge Function call per unlock attempt regardless of the number of reference images.
 
 ### 7.4 IPFS Pin Loss
 

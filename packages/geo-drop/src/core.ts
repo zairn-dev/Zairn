@@ -22,7 +22,7 @@ import type {
   PersistenceLevel,
 } from './types';
 import { IpfsClient } from './ipfs';
-import { encrypt, decrypt, hashPassword, deriveLocationKey } from './crypto';
+import { encrypt, decrypt, hashPassword, verifyPassword, deriveLocationKey } from './crypto';
 import { calculateDistance, encodeGeohash, decodeGeohash, isMovementRealistic, geohashNeighbors } from './geofence';
 import { createVerificationEngine } from './verification';
 import { createPersistenceManager } from './persistence';
@@ -31,6 +31,12 @@ import { createChainClient } from './chain';
 const DEFAULT_SIMILARITY_THRESHOLD = 0.70;
 const GPS_ONLY_CONFIG: ProofConfig = { mode: 'all', requirements: [{ method: 'gps', params: {} }] };
 
+function validateCoords(lat: number, lon: number): void {
+  if (!Number.isFinite(lat) || !Number.isFinite(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+    throw new Error('Invalid coordinates');
+  }
+}
+
 /**
  * Main factory function for the geo-drop SDK
  */
@@ -38,6 +44,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   const supabase: SupabaseClient = createClient(opts.supabaseUrl, opts.supabaseAnonKey);
   const hasIpfs = !!(opts.ipfs?.pinningApiKey || opts.ipfs?.pinningService);
   const ipfs = new IpfsClient(opts.ipfs);
+  const encryptionSecret = opts.encryptionSecret;
 
   // =====================
   // Auth helpers
@@ -118,6 +125,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   // =====================
 
   const createDrop = async (data: GeoDropCreate, content: File | Blob | string): Promise<GeoDrop> => {
+    validateCoords(data.lat, data.lon);
     const userId = await getUserId();
     const geohash = encodeGeohash(data.lat, data.lon);
 
@@ -130,7 +138,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     const contentStr = typeof content === 'string' ? content : await new Response(content).text();
     const encSalt = crypto.getRandomValues(new Uint8Array(16));
     const encSaltStr = Array.from(encSalt).map(b => b.toString(16).padStart(2, '0')).join('');
-    const locationKey = deriveLocationKey(geohash, dropId, encSaltStr);
+    const locationKey = deriveLocationKey(geohash, dropId, encSaltStr, encryptionSecret);
     const encryptedPayload = await encrypt(contentStr, locationKey);
     const encryptedJson = JSON.stringify(encryptedPayload);
 
@@ -215,10 +223,14 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   // Drop retrieval
   // =====================
 
+  // Exclude sensitive columns (encryption_salt, password_hash, encrypted_content)
+  // These are only accessed server-side in the unlock-drop Edge Function
+  const GEO_DROP_PUBLIC_COLUMNS = 'id,creator_id,title,description,content_type,lat,lon,geohash,unlock_radius_meters,visibility,max_claims,claim_count,proof_config,expires_at,status,preview_url,metadata,persistence_level,metadata_cid,chain_tx_hash,ipfs_cid,encrypted,created_at,updated_at';
+
   const getDrop = async (dropId: string): Promise<GeoDrop | null> => {
     const { data, error } = await supabase
       .from('geo_drops')
-      .select('*')
+      .select(GEO_DROP_PUBLIC_COLUMNS)
       .eq('id', dropId)
       .single();
     if (error && error.code !== 'PGRST116') throw error;
@@ -229,7 +241,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     const userId = await getUserId();
     let query = supabase
       .from('geo_drops')
-      .select('*')
+      .select(GEO_DROP_PUBLIC_COLUMNS)
       .eq('creator_id', userId)
       .order('created_at', { ascending: false });
 
@@ -291,9 +303,10 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     if (sharesError) throw sharesError;
     if (!shares?.length) return [];
 
+    const dropListColumns = 'id,creator_id,title,content_type,visibility,geohash,lat,lon,unlock_radius_meters,status,claim_count,max_claims,expires_at,created_at,updated_at,ipfs_cid,proof_config';
     const { data, error } = await supabase
       .from('geo_drops')
-      .select('*')
+      .select(dropListColumns)
       .in('id', shares.map(s => s.drop_id))
       .eq('status', 'active');
     if (error) throw error;
@@ -305,6 +318,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   // =====================
 
   const findNearbyDrops = async (lat: number, lon: number, radiusMeters: number = 1000): Promise<NearbyDrop[]> => {
+    validateCoords(lat, lon);
     const userId = await getUserId();
     const userGeohash = encodeGeohash(lat, lon, 5);
 
@@ -312,9 +326,11 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     const prefixes = [...new Set([...geohashNeighbors(userGeohash), userGeohash])];
     const orFilter = prefixes.map(p => `geohash.like.${p}%`).join(',');
 
+    // Exclude sensitive columns: encrypted_content, password_hash, encryption_salt
+    const dropListColumns = 'id,creator_id,title,content_type,visibility,geohash,lat,lon,unlock_radius_meters,status,claim_count,max_claims,expires_at,created_at,updated_at,ipfs_cid,proof_config';
     const { data, error } = await supabase
       .from('geo_drops')
-      .select('*')
+      .select(dropListColumns)
       .eq('status', 'active')
       .or(orFilter)
       .or('expires_at.is.null,expires_at.gt.now()');
@@ -337,6 +353,11 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   // Unlock
   // =====================
 
+  // Resolve server unlock URL
+  const serverUnlockUrl = opts.serverUnlock
+    ? (typeof opts.serverUnlock === 'string' ? opts.serverUnlock : `${opts.supabaseUrl}/functions/v1/unlock-drop`)
+    : null;
+
   const unlockDrop = async (
     dropId: string,
     lat: number,
@@ -345,19 +366,44 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     password?: string,
     proofs?: ProofSubmission[]
   ): Promise<{ content: string; claim: DropClaim; verification: VerificationResult }> => {
+    validateCoords(lat, lon);
     const userId = await getUserId();
 
+    // --- Server-side unlock (recommended for production) ---
+    if (serverUnlockUrl) {
+      const headers = await getAuthHeaders();
+      const res = await fetch(serverUnlockUrl, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ drop_id: dropId, lat, lon, accuracy, password, proofs }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: res.statusText })) as { error: string };
+        throw new Error(err.error);
+      }
+      return res.json();
+    }
+
+    // --- Client-side unlock (for development / self-hosted without Edge Functions) ---
     await checkAntiSpoof(userId, lat, lon);
     await logLocation(userId, lat, lon, 'unlock_attempt');
 
-    const drop = await getDrop(dropId);
+    // Client-side unlock needs full row including encryption_salt, password_hash, encrypted_content
+    // (getDrop uses GEO_DROP_PUBLIC_COLUMNS which excludes these)
+    const { data: drop, error: dropError } = await supabase
+      .from('geo_drops')
+      .select('*')
+      .eq('id', dropId)
+      .single();
+    if (dropError && dropError.code === 'PGRST116') throw new Error('Drop not found');
+    if (dropError) throw dropError;
     if (!drop) throw new Error('Drop not found');
     if (drop.status !== 'active') throw new Error('Drop is not active');
     if (drop.expires_at && new Date(drop.expires_at) <= new Date()) throw new Error('Drop has expired');
     // Password check
     if (drop.password_hash) {
       if (!password) throw new Error('Password required');
-      if (await hashPassword(password) !== drop.password_hash) throw new Error('Incorrect password');
+      if (!(await verifyPassword(password, drop.password_hash))) throw new Error('Incorrect password');
     }
 
     // Pluggable verification
@@ -374,7 +420,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     }
 
     // Atomically check max_claims and increment at SQL level (prevents race conditions)
-    const { data: incremented, error: rpcError } = await supabase.rpc('increment_claim_count', { drop_id: dropId });
+    const { data: incremented, error: rpcError } = await supabase.rpc('increment_claim_count', { p_drop_id: dropId });
     if (rpcError) throw rpcError;
     if (incremented === false) throw new Error('Drop has reached maximum claims');
 
@@ -387,7 +433,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     } else {
       throw new Error('Drop has no content (neither IPFS CID nor encrypted_content)');
     }
-    const locationKey = deriveLocationKey(drop.geohash, drop.id, drop.encryption_salt ?? '');
+    const locationKey = deriveLocationKey(drop.geohash, drop.id, drop.encryption_salt ?? '', encryptionSecret);
     const content = await decrypt(JSON.parse(encryptedJson), locationKey);
 
     // Distance (from GPS result or calculated)
@@ -411,6 +457,8 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     if (claimError) {
       // Unique constraint violation = already claimed -> no need to revert count (treated as idempotent)
       if (claimError.code === '23505') throw new Error('Already claimed this drop');
+      // Compensate: decrement the count that was incremented before the failed insert
+      try { await supabase.rpc('decrement_claim_count', { p_drop_id: dropId }); } catch { /* best-effort */ }
       throw claimError;
     }
 
@@ -501,7 +549,12 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'geo_drops' },
         (payload) => {
-          const drop = payload.new as GeoDrop;
+          const raw = payload.new as Record<string, unknown>;
+          // Strip sensitive columns before passing to callback
+          delete raw.encryption_salt;
+          delete raw.password_hash;
+          delete raw.encrypted_content;
+          const drop = raw as unknown as GeoDrop;
           const dropPrefix = drop.geohash?.substring(0, 5);
           if (!dropPrefix || !prefixes.has(dropPrefix)) return;
           if (calculateDistance(lat, lon, drop.lat, drop.lon) <= radiusMeters) {
@@ -603,13 +656,17 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       });
     },
 
+    // WARNING: This method bypasses location verification by design.
+    // It is intended ONLY for disaster recovery when the service DB is unavailable
+    // and the user has the IPFS metadata CID + recoverySecret.
+    // Do NOT expose this in end-user UI without additional access control.
     decryptRecoveredDrop: async (recovered) => {
       const m = recovered.metadata;
       if (!m.dropId || !m.contentCid || !m.geohash) {
         throw new Error('Incomplete metadata. If the drop is encrypted, provide recoverySecret to recoverDrop() first.');
       }
       const encryptedJson = await ipfs.fetch(m.contentCid);
-      const locationKey = deriveLocationKey(m.geohash, m.dropId, m.encryptionSalt);
+      const locationKey = deriveLocationKey(m.geohash, m.dropId, m.encryptionSalt, encryptionSecret);
       return decrypt(JSON.parse(encryptedJson), locationKey);
     },
 

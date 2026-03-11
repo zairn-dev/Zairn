@@ -23,7 +23,8 @@ export default function GroupsPanel() {
 
   useEffect(() => {
     loadGroups()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [core])
 
   async function loadGroups() {
     try {

@@ -88,7 +88,7 @@ zairn/
 
 ```bash
 # Clone and install
-git clone https://github.com/yourname/zairn.git
+git clone https://github.com/otanl/Zairn.git
 cd zairn
 pnpm install
 
@@ -113,6 +113,36 @@ cp apps/geo-drop-demo/.env.example apps/geo-drop-demo/.env
 # Paste packages/geo-drop/database/schema.sql then policies.sql in Supabase SQL Editor
 
 pnpm --filter geo-drop-demo dev
+```
+
+### Edge Functions (Production)
+
+For production deployments, enable server-side unlock to keep encryption keys off the client:
+
+```bash
+# Install Supabase CLI
+npm install -g supabase
+
+# Link your project
+supabase link --project-ref your-project-ref
+
+# Set secrets
+supabase secrets set PINATA_JWT=your-pinata-jwt
+supabase secrets set IPFS_GATEWAY=https://gateway.pinata.cloud/ipfs
+
+# Deploy functions
+supabase functions deploy unlock-drop
+supabase functions deploy ipfs-proxy
+```
+
+Then enable server-side unlock in the SDK:
+
+```ts
+const geoDrop = createGeoDrop({
+  supabaseUrl: '...',
+  supabaseAnonKey: '...',
+  serverUnlock: true,  // Uses Edge Function for secure unlock
+});
 ```
 
 ### SDK Usage
@@ -157,27 +187,45 @@ graph LR
   RT -.->|"live updates"| Client
 ```
 
-### GeoDrop Flow
+### GeoDrop: Client-Side Cryptographic Geofence
+
+GeoDrop uses a **server-unaware** architecture. The server never sees plaintext content — all encryption and decryption happens on the client using location-derived keys.
+
+```
+Content → AES-256-GCM encrypt (key = PBKDF2(geohash + dropId + salt))
+                ↓
+        Encrypted payload → IPFS or DB (server sees only ciphertext)
+                ↓
+Visitor at location → Derive same key from geohash → Client-side decrypt
+```
+
+Key properties:
+- **No server unlock decision** — The server stores only encrypted blobs and never participates in the unlock process
+- **Location = cryptographic key** — Decryption requires knowledge of the geohash, which requires physical proximity
+- **Progressive decentralization** — DB-only → IPFS → on-chain, with zero architecture changes
+
+See the full [Protocol Specification](packages/geo-drop/protocol/SPEC.md) for details.
 
 ```mermaid
 sequenceDiagram
   participant U as Creator
   participant SDK as @zairn/geo-drop
-  participant DB as Supabase
+  participant DB as Supabase / IPFS
   participant V as Visitor
 
   U->>SDK: createDrop(content, location)
-  SDK->>SDK: AES-256-GCM encrypt<br/>(location-derived key)
-  SDK->>DB: Store encrypted payload
-  Note over DB: geo_drops table (RLS)
+  SDK->>SDK: AES-256-GCM encrypt<br/>(key derived from geohash)
+  SDK->>DB: Store encrypted payload only
+  Note over DB: Server never sees plaintext
 
   V->>SDK: findNearbyDrops(myLocation)
   SDK->>DB: Query within radius
-  DB-->>V: List of drops (metadata only)
+  DB-->>V: Encrypted metadata
 
   V->>SDK: unlockDrop(dropId, myLocation)
-  SDK->>SDK: Verify location (GPS/secret/AR)
-  SDK->>SDK: Derive key & decrypt
+  SDK->>SDK: Verify proximity (GPS/secret/AR)
+  SDK->>SDK: Derive key from geohash → decrypt
+  Note over SDK: Entire unlock is client-side
   SDK-->>V: Decrypted content
 ```
 

@@ -67,8 +67,8 @@ export type { ChainClient } from './chain';
 export { encodeGeohash, decodeGeohash, calculateDistance, verifyProximity, geohashNeighbors, isMovementRealistic } from './geofence';
 export type { VerifyOptions } from './geofence';
 
-// Crypto utilities
-export { encrypt, decrypt, hashPassword, deriveLocationKey } from './crypto';
+// Crypto utilities (deriveLocationKey is internal-only — not exported)
+export { encrypt, decrypt, hashPassword } from './crypto';
 
 // IPFS client
 export { IpfsClient } from './ipfs';

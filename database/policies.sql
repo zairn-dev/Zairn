@@ -14,14 +14,36 @@ create policy "read_visible_locations"
 on locations_current for select
 using (
   auth.uid() = user_id
-  or exists (
-    select 1 from share_rules
-    where owner_id = user_id
-      and viewer_id = auth.uid()
-      and level in ('current','history')
-      and (expires_at is null or expires_at > now())
+  or (
+    exists (
+      select 1 from share_rules
+      where owner_id = user_id
+        and viewer_id = auth.uid()
+        and level in ('current','history')
+        and (expires_at is null or expires_at > now())
+    )
+    and not exists (
+      select 1 from blocked_users
+      where (blocker_id = user_id and blocked_id = auth.uid())
+        or (blocker_id = auth.uid() and blocked_id = user_id)
+    )
+    -- ゴーストモード有効なユーザーの位置は他者に見せない
+    and not exists (
+      select 1 from user_settings
+      where user_settings.user_id = locations_current.user_id
+        and ghost_mode = true
+        and (ghost_until is null or ghost_until > now())
+    )
   )
 );
+
+create policy "delete_own_location"
+on locations_current for delete
+using (auth.uid() = user_id);
+
+create policy "delete_own_history"
+on locations_history for delete
+using (auth.uid() = user_id);
 
 create policy "manage_own_share_rules"
 on share_rules
@@ -33,18 +55,8 @@ create policy "read_rules_as_viewer"
 on share_rules for select
 using (auth.uid() = viewer_id);
 
--- フレンドリクエスト承認時の双方向共有ルール作成を許可
-create policy "share_rules_insert_mutual"
-on share_rules for insert
-with check (
-  auth.uid() = owner_id
-  or exists (
-    select 1 from friend_requests
-    where status = 'accepted'
-      and ((from_user_id = auth.uid() and to_user_id = owner_id)
-        or (to_user_id = auth.uid() and from_user_id = owner_id))
-  )
-);
+-- share_rules の INSERT は manage_own_share_rules (FOR ALL, owner_id = auth.uid()) でカバー。
+-- 相手側のルール作成は accept_friend_request security definer 関数で実行。
 
 create policy "write_own_history"
 on locations_history for insert
@@ -54,12 +66,26 @@ create policy "read_history_when_allowed"
 on locations_history for select
 using (
   auth.uid() = user_id
-  or exists (
-    select 1 from share_rules
-    where owner_id = user_id
-      and viewer_id = auth.uid()
-      and level = 'history'
-      and (expires_at is null or expires_at > now())
+  or (
+    exists (
+      select 1 from share_rules
+      where owner_id = user_id
+        and viewer_id = auth.uid()
+        and level = 'history'
+        and (expires_at is null or expires_at > now())
+    )
+    and not exists (
+      select 1 from blocked_users
+      where (blocker_id = user_id and blocked_id = auth.uid())
+        or (blocker_id = auth.uid() and blocked_id = user_id)
+    )
+    -- ゴーストモード中のユーザーの履歴は閲覧不可
+    and not exists (
+      select 1 from user_settings
+      where user_settings.user_id = locations_history.user_id
+        and ghost_mode = true
+        and (ghost_until is null or ghost_until > now())
+    )
   )
 );
 
@@ -68,9 +94,10 @@ using (
 -- =====================
 alter table profiles enable row level security;
 
-create policy "profiles_read_public"
+-- 認証ユーザーのみ閲覧可能（未認証の列挙を防止）
+create policy "profiles_read_authenticated"
 on profiles for select
-using (true);
+using (auth.uid() is not null);
 
 create policy "profiles_insert_own"
 on profiles for insert
@@ -87,15 +114,28 @@ alter table friend_requests enable row level security;
 
 create policy "friend_requests_insert"
 on friend_requests for insert
-with check (auth.uid() = from_user_id);
+with check (
+  auth.uid() = from_user_id
+  and not exists (
+    select 1 from blocked_users
+    where (blocker_id = to_user_id and blocked_id = auth.uid())
+      or (blocker_id = auth.uid() and blocked_id = to_user_id)
+  )
+);
 
 create policy "friend_requests_read"
 on friend_requests for select
 using (auth.uid() = from_user_id or auth.uid() = to_user_id);
 
+-- accept は security definer関数経由のみ。直接UPDATEはrejectのみ許可
+-- from_user_id/to_user_id の変更およびaccepted→rejected遷移はトリガーで防止
 create policy "friend_requests_update"
 on friend_requests for update
-using (auth.uid() = to_user_id);
+using (auth.uid() = to_user_id)
+with check (
+  auth.uid() = to_user_id
+  and status = 'rejected'
+);
 
 create policy "friend_requests_delete"
 on friend_requests for delete
@@ -133,9 +173,8 @@ using (
   )
 );
 
-create policy "groups_read_by_invite"
-on groups for select
-using (invite_code is not null);
+-- invite_codeを知っているユーザーのみ（SDKでフィルタ、RLSはメンバー/オーナーに制限）
+-- 削除: 全グループが公開される脆弱性があったため
 
 create policy "groups_insert"
 on groups for insert
@@ -154,13 +193,28 @@ using (auth.uid() = owner_id);
 -- =====================
 alter table group_members enable row level security;
 
+-- 同じグループのメンバーのみ見える
 create policy "group_members_select"
 on group_members for select
-using (true);
+using (
+  exists (
+    select 1 from group_members my_membership
+    where my_membership.group_id = group_members.group_id
+      and my_membership.user_id = auth.uid()
+  )
+);
 
+-- グループ参加: オーナーの自己追加、またはjoin_group RPC経由のみ
+-- SDK からの直接INSERTは拒否（join_group security definer関数を使用）
 create policy "group_members_insert"
 on group_members for insert
-with check (auth.uid() = user_id);
+with check (
+  auth.uid() = user_id
+  and exists (
+    select 1 from groups g
+    where g.id = group_members.group_id and g.owner_id = auth.uid()
+  )
+);
 
 create policy "group_members_delete"
 on group_members for delete
@@ -188,9 +242,11 @@ using (
   )
 );
 
+-- ルーム作成: security definer関数（create_direct_chat / create_group_chat）経由のみ
+-- 直接INSERTを禁止（フレンド/ブロック/重複チェックは関数内で実施）
 create policy "chat_rooms_insert"
 on chat_rooms for insert
-with check (true);
+with check (false);
 
 -- =====================
 -- chat_room_members ポリシー
@@ -206,9 +262,51 @@ using (
   )
 );
 
+-- メンバー追加: 自分自身のみ + DMはフレンドかつ2人まで / グループはメンバーのみ
 create policy "chat_room_members_insert"
 on chat_room_members for insert
-with check (true);
+with check (
+  auth.uid() = user_id
+  and (
+    -- DMルーム: フレンドであること + ルームのメンバーが2人未満であること
+    (
+      exists (
+        select 1 from chat_rooms cr
+        where cr.id = room_id and cr.type = 'direct'
+      )
+      and exists (
+        select 1 from friend_requests
+        where status = 'accepted'
+          and (
+            (from_user_id = auth.uid() and to_user_id in (
+              select cm.user_id from chat_room_members cm where cm.room_id = chat_room_members.room_id
+            ))
+            or (to_user_id = auth.uid() and from_user_id in (
+              select cm.user_id from chat_room_members cm where cm.room_id = chat_room_members.room_id
+            ))
+            -- 最初のメンバー（ルームがまだ空）の場合は自分だけチェック
+            or not exists (select 1 from chat_room_members cm where cm.room_id = chat_room_members.room_id)
+          )
+      )
+      and (select count(*) from chat_room_members cm where cm.room_id = chat_room_members.room_id) < 2
+    )
+    -- グループルーム: グループメンバーであること
+    or exists (
+      select 1 from chat_rooms cr
+      join group_members gm on gm.group_id = cr.group_id
+      where cr.id = room_id and gm.user_id = auth.uid()
+    )
+  )
+  and not exists (
+    select 1 from blocked_users
+    where (blocker_id = auth.uid() and blocked_id in (
+      select cm.user_id from chat_room_members cm where cm.room_id = chat_room_members.room_id
+    ))
+    or (blocked_id = auth.uid() and blocker_id in (
+      select cm.user_id from chat_room_members cm where cm.room_id = chat_room_members.room_id
+    ))
+  )
+);
 
 create policy "chat_room_members_update"
 on chat_room_members for update
@@ -250,6 +348,16 @@ with check (
   )
 );
 
+-- メッセージの更新・削除は送信者本人のみ
+create policy "messages_update_own"
+on messages for update
+using (auth.uid() = sender_id)
+with check (auth.uid() = sender_id);
+
+create policy "messages_delete_own"
+on messages for delete
+using (auth.uid() = sender_id);
+
 -- =====================
 -- location_reactions ポリシー
 -- =====================
@@ -269,6 +377,11 @@ with check (
       and ((from_user_id = auth.uid() and to_user_id = location_reactions.to_user_id)
         or (to_user_id = auth.uid() and from_user_id = location_reactions.to_user_id))
   )
+  and not exists (
+    select 1 from blocked_users
+    where (blocker_id = location_reactions.to_user_id and blocked_id = auth.uid())
+      or (blocker_id = auth.uid() and blocked_id = location_reactions.to_user_id)
+  )
 );
 
 create policy "location_reactions_delete"
@@ -286,7 +399,20 @@ using (user_id = auth.uid() or nearby_user_id = auth.uid());
 
 create policy "bump_events_insert"
 on bump_events for insert
-with check (auth.uid() = user_id);
+with check (
+  auth.uid() = user_id
+  and exists (
+    select 1 from friend_requests
+    where status = 'accepted'
+      and ((from_user_id = auth.uid() and to_user_id = bump_events.nearby_user_id)
+        or (to_user_id = auth.uid() and from_user_id = bump_events.nearby_user_id))
+  )
+  and not exists (
+    select 1 from blocked_users
+    where (blocker_id = bump_events.nearby_user_id and blocked_id = auth.uid())
+      or (blocker_id = auth.uid() and blocked_id = bump_events.nearby_user_id)
+  )
+);
 
 -- =====================
 -- favorite_places ポリシー
@@ -298,15 +424,21 @@ create policy "favorite_places_select_own"
 on favorite_places for select
 using (auth.uid() = user_id);
 
--- フレンドのお気に入りも見える（位置ラベル表示用）
+-- フレンドのお気に入りは位置共有が有効な場合のみ見える
 create policy "favorite_places_select_friends"
 on favorite_places for select
 using (
   exists (
-    select 1 from friend_requests
-    where status = 'accepted'
-      and ((from_user_id = auth.uid() and to_user_id = favorite_places.user_id)
-        or (to_user_id = auth.uid() and from_user_id = favorite_places.user_id))
+    select 1 from share_rules
+    where owner_id = favorite_places.user_id
+      and viewer_id = auth.uid()
+      and level in ('current', 'history')
+      and (expires_at is null or expires_at > now())
+  )
+  and not exists (
+    select 1 from blocked_users
+    where (blocker_id = favorite_places.user_id and blocked_id = auth.uid())
+      or (blocker_id = auth.uid() and blocked_id = favorite_places.user_id)
   )
 );
 
@@ -327,9 +459,11 @@ using (auth.uid() = user_id);
 -- =====================
 alter table blocked_users enable row level security;
 
+-- 自分がブロックした相手 + 自分をブロックした相手の両方が見える
+-- （isBlocked() で双方向チェックが必要）
 create policy "blocked_users_select_own"
 on blocked_users for select
-using (auth.uid() = blocker_id);
+using (auth.uid() = blocker_id or auth.uid() = blocked_id);
 
 create policy "blocked_users_insert_own"
 on blocked_users for insert
@@ -378,9 +512,10 @@ using (auth.uid() = user_id);
 -- =====================
 alter table friend_streaks enable row level security;
 
+-- 自分が主体のストリークのみ閲覧可能（相手の視点のストリークは非公開）
 create policy "friend_streaks_select"
 on friend_streaks for select
-using (auth.uid() = user_id or auth.uid() = friend_id);
+using (auth.uid() = user_id);
 
 create policy "friend_streaks_insert_own"
 on friend_streaks for insert
@@ -400,7 +535,7 @@ create policy "visited_cells_select_own"
 on visited_cells for select
 using (auth.uid() = user_id);
 
--- フレンドのセルも見える（ランキング・比較用）
+-- フレンドのセルも見える（ランキング・比較用、ブロックチェック付き）
 create policy "visited_cells_select_friends"
 on visited_cells for select
 using (
@@ -409,6 +544,11 @@ using (
     where status = 'accepted'
       and ((from_user_id = auth.uid() and to_user_id = visited_cells.user_id)
         or (to_user_id = auth.uid() and from_user_id = visited_cells.user_id))
+  )
+  and not exists (
+    select 1 from blocked_users
+    where (blocker_id = visited_cells.user_id and blocked_id = auth.uid())
+      or (blocker_id = auth.uid() and blocked_id = visited_cells.user_id)
   )
 );
 
@@ -424,8 +564,8 @@ using (auth.uid() = user_id);
 -- =====================
 -- Supabase Storage ポリシー（avatarsバケット）
 -- =====================
--- ダッシュボードまたはマイグレーションで実行:
--- create policy "avatars_read_public" on storage.objects for select using (bucket_id = 'avatars');
--- create policy "avatars_insert_own" on storage.objects for insert with check (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
--- create policy "avatars_update_own" on storage.objects for update using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
--- create policy "avatars_delete_own" on storage.objects for delete using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
+-- Supabase Storage ポリシー（ダッシュボードの SQL Editor で実行）
+create policy "avatars_read_public" on storage.objects for select using (bucket_id = 'avatars');
+create policy "avatars_insert_own" on storage.objects for insert with check (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
+create policy "avatars_update_own" on storage.objects for update using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
+create policy "avatars_delete_own" on storage.objects for delete using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);

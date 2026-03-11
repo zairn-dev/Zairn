@@ -64,6 +64,7 @@ export function estimateMotionType(speedMs: number | null | undefined): MotionTy
 const GEOHASH_BASE32 = '0123456789bcdefghjkmnpqrstuvwxyz';
 
 export function encodeGeohash(lat: number, lon: number, precision: number = 7): string {
+  precision = Math.max(1, Math.min(12, precision));
   let minLat = -90, maxLat = 90, minLon = -180, maxLon = 180;
   let isLon = true, bits = 0, hashVal = 0;
   let result = '';
@@ -92,6 +93,9 @@ export function encodeGeohash(lat: number, lon: number, precision: number = 7): 
  * Geohashデコード（geohash → lat/lonの中心点）
  */
 export function decodeGeohash(geohash: string): { lat: number; lon: number } {
+  if (!geohash || !GEOHASH_CHARS_RE.test(geohash)) {
+    throw new Error(`Invalid geohash: ${geohash}`);
+  }
   let minLat = -90, maxLat = 90, minLon = -180, maxLon = 180;
   let isLon = true;
 
@@ -109,6 +113,24 @@ export function decodeGeohash(geohash: string): { lat: number; lon: number } {
     }
   }
   return { lat: (minLat + maxLat) / 2, lon: (minLon + maxLon) / 2 };
+}
+
+/**
+ * UUID v4 format validation (prevents PostgREST filter injection via .or() / .in())
+ */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+function assertUuid(value: string, name = 'id'): void {
+  if (!UUID_RE.test(value)) throw new Error(`Invalid UUID for ${name}: ${value}`);
+}
+
+/**
+ * Sanitize geohash prefix for LIKE queries (prevent pattern injection with % and _)
+ */
+const GEOHASH_CHARS_RE = /^[0-9bcdefghjkmnpqrstuvwxyz]+$/;
+function sanitizeGeohashPrefix(prefix: string): string {
+  const lower = prefix.toLowerCase();
+  if (!GEOHASH_CHARS_RE.test(lower)) throw new Error(`Invalid geohash prefix: ${prefix}`);
+  return lower;
 }
 
 /**
@@ -150,6 +172,12 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
         update = { lat: latOrUpdate, lon: lon!, accuracy };
       }
 
+      // 入力バリデーション（NaN/Infinityも弾く）
+      if (!Number.isFinite(update.lat) || update.lat < -90 || update.lat > 90) throw new Error('Invalid latitude: must be between -90 and 90');
+      if (!Number.isFinite(update.lon) || update.lon < -180 || update.lon > 180) throw new Error('Invalid longitude: must be between -180 and 180');
+      if (update.accuracy != null && (!Number.isFinite(update.accuracy) || update.accuracy < 0 || update.accuracy > 10000)) throw new Error('Invalid accuracy: must be between 0 and 10000');
+      if (update.battery_level != null && (!Number.isFinite(update.battery_level) || update.battery_level < 0 || update.battery_level > 100)) throw new Error('Invalid battery level: must be between 0 and 100');
+
       // 現在の位置を取得して、滞在時間を計算
       const { data: current } = await supabase
         .from('locations_current')
@@ -181,34 +209,36 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
           speed: update.speed ?? null,
           motion,
         });
-      // Silently ignore errors (table may not exist or schema mismatch)
-      if (error) return;
-    } catch {
-      // Silently ignore all errors
+      if (error) throw error;
+    } catch (e) {
+      // Re-throw authentication errors; ignore ghost mode early returns
+      if (e instanceof Error && e.message === 'Not authenticated') throw e;
+      throw e;
     }
   };
 
   const getVisibleFriends = async (): Promise<LocationCurrentRow[]> => {
-    try {
-      const { data, error } = await supabase.from('locations_current').select('*');
-      if (error) return [];
-      return (data ?? []) as LocationCurrentRow[];
-    } catch {
+    const { data, error } = await supabase.from('locations_current').select('*');
+    if (error) {
+      // 認証エラーは再throw（セッション切れ等をクライアントに伝える）
+      if (error.code === 'PGRST301' || error.message?.includes('JWT')) throw error;
       return [];
     }
+    return (data ?? []) as LocationCurrentRow[];
   };
 
   const getLocationHistory = async (
     userId: string,
     options?: { limit?: number; since?: Date }
   ): Promise<LocationHistoryRow[]> => {
+    assertUuid(userId, 'userId');
     let query = supabase
       .from('locations_history')
       .select('*')
       .eq('user_id', userId)
-      .order('recorded_at', { ascending: false });
+      .order('recorded_at', { ascending: false })
+      .limit(Math.min(options?.limit ?? 500, 5000));
 
-    if (options?.limit) query = query.limit(options.limit);
     if (options?.since) query = query.gte('recorded_at', options.since.toISOString());
 
     const { data, error } = await query;
@@ -235,12 +265,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   const TRAIL_MIN_DISTANCE_METERS = 30;
 
   const sendLocationWithTrail = async (update: LocationUpdate): Promise<void> => {
-    // sendLocation handles auth check and ghost mode internally.
-    // If auth fails, it throws — caller (Map.tsx) catches it.
-    await sendLocation(update);
-
-    // Ghost mode check for history saving (wrapped in try-catch so
-    // it doesn't add a new failure point if auth/settings aren't ready)
+    // Ghost mode check — do it once before both sendLocation and history save
     try {
       const settings = await getSettings();
       if (settings?.ghost_mode) {
@@ -249,9 +274,12 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
         }
       }
     } catch {
-      // Auth not ready or settings table missing — skip history
+      // Auth not ready or settings table missing — skip everything
       return;
     }
+
+    // sendLocation handles its own ghost mode check but that's cheap (cached by Supabase)
+    await sendLocation(update);
 
     // 距離ベースのサンプリングで履歴保存
     try {
@@ -275,19 +303,40 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
 
   const getTrailFriendIds = async (): Promise<string[]> => {
     const userId = await getUserId();
+    assertUuid(userId, 'userId');
     const { data, error } = await supabase
       .from('share_rules')
       .select('owner_id')
       .eq('viewer_id', userId)
-      .eq('level', 'history');
+      .eq('level', 'history')
+      .or('expires_at.is.null,expires_at.gt.' + new Date().toISOString());
     if (error) throw error;
-    return (data ?? []).map(r => r.owner_id).filter((id: string) => id !== userId);
+
+    const ownerIds = (data ?? []).map(r => r.owner_id).filter((id: string) => id !== userId);
+    if (ownerIds.length === 0) return [];
+
+    // Filter out blocked users
+    const { data: blocks } = await supabase
+      .from('blocked_users')
+      .select('blocker_id, blocked_id')
+      .or(`blocker_id.eq.${userId},blocked_id.eq.${userId}`);
+    if (blocks && blocks.length > 0) {
+      const blockedSet = new Set(
+        blocks.map(b => b.blocker_id === userId ? b.blocked_id : b.blocker_id)
+      );
+      return ownerIds.filter(id => !blockedSet.has(id));
+    }
+    return ownerIds;
   };
 
   // =====================
   // 共有ルール
   // =====================
+  const VALID_SHARE_LEVELS: ShareLevel[] = ['none', 'current', 'history'];
+
   const allow = async (viewerId: string, level: ShareLevel = 'current'): Promise<void> => {
+    assertUuid(viewerId, 'viewerId');
+    if (!VALID_SHARE_LEVELS.includes(level)) throw new Error(`Invalid share level: ${level}`);
     const ownerId = await getUserId();
     const { error } = await supabase
       .from('share_rules')
@@ -296,6 +345,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const revoke = async (viewerId: string): Promise<void> => {
+    assertUuid(viewerId, 'viewerId');
     const ownerId = await getUserId();
     const { error } = await supabase
       .from('share_rules')
@@ -309,6 +359,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // プロフィール
   // =====================
   const getProfile = async (userId?: string): Promise<Profile | null> => {
+    if (userId) assertUuid(userId, 'userId');
     const targetId = userId ?? await getUserId();
     const { data, error } = await supabase
       .from('profiles')
@@ -337,10 +388,13 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const searchProfiles = async (query: string): Promise<Profile[]> => {
+    // Sanitize: strip PostgREST filter operators to prevent injection
+    const sanitized = query.replace(/[%_,.()"'\\]/g, '');
+    if (!sanitized) return [];
     const { data, error } = await supabase
       .from('profiles')
-      .select('*')
-      .or(`username.ilike.%${query}%,display_name.ilike.%${query}%`)
+      .select('user_id,username,display_name,avatar_url,status_emoji,status_text,created_at')
+      .or(`username.ilike.%${sanitized}%,display_name.ilike.%${sanitized}%`)
       .limit(20);
     if (error) throw error;
     return (data ?? []) as Profile[];
@@ -350,6 +404,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // フレンドリクエスト
   // =====================
   const sendFriendRequest = async (toUserId: string): Promise<FriendRequest> => {
+    assertUuid(toUserId, 'toUserId');
     const fromUserId = await getUserId();
     if (fromUserId === toUserId) throw new Error('Cannot send friend request to yourself');
 
@@ -385,26 +440,9 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const acceptFriendRequest = async (requestId: number): Promise<void> => {
-    const userId = await getUserId();
-
-    const { data: request, error: updateError } = await supabase
-      .from('friend_requests')
-      .update({ status: 'accepted', updated_at: new Date().toISOString() })
-      .eq('id', requestId)
-      .eq('to_user_id', userId)
-      .select()
-      .single();
-    if (updateError) throw updateError;
-
-    const req = request as FriendRequest;
-
-    const { error: shareError } = await supabase
-      .from('share_rules')
-      .upsert([
-        { owner_id: req.from_user_id, viewer_id: req.to_user_id, level: 'history' },
-        { owner_id: req.to_user_id, viewer_id: req.from_user_id, level: 'history' },
-      ]);
-    if (shareError) throw shareError;
+    // security definer関数で承認 + 双方向share_rules作成をアトミックに実行
+    const { error } = await supabase.rpc('accept_friend_request', { p_request_id: requestId });
+    if (error) throw error;
   };
 
   const rejectFriendRequest = async (requestId: number): Promise<void> => {
@@ -429,6 +467,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
 
   const getFriends = async (): Promise<string[]> => {
     const userId = await getUserId();
+    assertUuid(userId, 'userId');
     const { data, error } = await supabase
       .from('friend_requests')
       .select('from_user_id, to_user_id')
@@ -443,37 +482,28 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const removeFriend = async (friendId: string): Promise<void> => {
-    const userId = await getUserId();
-
-    await supabase
-      .from('friend_requests')
-      .delete()
-      .eq('status', 'accepted')
-      .or(`and(from_user_id.eq.${userId},to_user_id.eq.${friendId}),and(from_user_id.eq.${friendId},to_user_id.eq.${userId})`);
-
-    await supabase
-      .from('share_rules')
-      .delete()
-      .or(`and(owner_id.eq.${userId},viewer_id.eq.${friendId}),and(owner_id.eq.${friendId},viewer_id.eq.${userId})`);
+    assertUuid(friendId, 'friendId');
+    // security definer関数でfriend_requests + share_rulesの削除をアトミックに実行
+    const { error } = await supabase.rpc('remove_friend', { p_friend_id: friendId });
+    if (error) throw error;
   };
 
   // =====================
   // ユーザー設定
   // =====================
   const getSettings = async (): Promise<UserSettings | null> => {
-    try {
-      const userId = await getUserId();
-      const { data, error } = await supabase
-        .from('user_settings')
-        .select('*')
-        .eq('user_id', userId)
-        .maybeSingle();
-      if (error) return null;
-      return data as UserSettings | null;
-    } catch {
-      // Return null if table doesn't exist or auth error
+    const userId = await getUserId();
+    const { data, error } = await supabase
+      .from('user_settings')
+      .select('*')
+      .eq('user_id', userId)
+      .maybeSingle();
+    if (error) {
+      // 認証エラーは再throw
+      if (error.code === 'PGRST301' || error.message?.includes('JWT')) throw error;
       return null;
     }
+    return data as UserSettings | null;
   };
 
   const updateSettings = async (
@@ -508,29 +538,25 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // グループ
   // =====================
   const createGroup = async (name: string, description?: string): Promise<Group> => {
-    const userId = await getUserId();
-    const inviteCode = Math.random().toString(36).substring(2, 10).toUpperCase();
+    // Cryptographically random invite code
+    const inviteCode = (typeof globalThis.crypto?.randomUUID === 'function')
+      ? globalThis.crypto.randomUUID().replace(/-/g, '').substring(0, 10).toUpperCase()
+      : Array.from(crypto.getRandomValues(new Uint8Array(5)), b => b.toString(36)).join('').substring(0, 10).toUpperCase();
 
-    const { data: group, error: groupError } = await supabase
+    // security definer関数でグループ + メンバー追加をアトミックに実行
+    const { data: groupId, error } = await supabase.rpc('create_group_atomic', {
+      p_name: name,
+      p_description: description ?? null,
+      p_invite_code: inviteCode,
+    });
+    if (error) throw error;
+
+    const { data: group, error: fetchError } = await supabase
       .from('groups')
-      .insert({
-        name,
-        description: description ?? null,
-        owner_id: userId,
-        invite_code: inviteCode,
-      })
-      .select()
+      .select('*')
+      .eq('id', groupId)
       .single();
-    if (groupError) throw groupError;
-
-    const { error: memberError } = await supabase
-      .from('group_members')
-      .insert({
-        group_id: (group as Group).id,
-        user_id: userId,
-        role: 'owner',
-      });
-    if (memberError) throw memberError;
+    if (fetchError) throw fetchError;
 
     return group as Group;
   };
@@ -546,6 +572,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const getGroupMembers = async (groupId: string): Promise<GroupMember[]> => {
+    assertUuid(groupId, 'groupId');
     const { data, error } = await supabase
       .from('group_members')
       .select('*')
@@ -555,34 +582,25 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const joinGroup = async (inviteCode: string): Promise<Group> => {
-    const userId = await getUserId();
+    // security definer関数でinvite_codeを検証してメンバー追加
+    const { data: groupId, error } = await supabase.rpc('join_group_by_invite', {
+      p_invite_code: inviteCode.toUpperCase(),
+    });
+    if (error) throw new Error('Invalid invite code');
 
     const { data: group, error: groupError } = await supabase
       .from('groups')
       .select('*')
-      .eq('invite_code', inviteCode.toUpperCase())
+      .eq('id', groupId)
       .single();
-    if (groupError) throw new Error('Invalid invite code');
-
-    const { error: memberError } = await supabase
-      .from('group_members')
-      .insert({
-        group_id: (group as Group).id,
-        user_id: userId,
-        role: 'member',
-      });
-    if (memberError) throw memberError;
+    if (groupError) throw groupError;
 
     return group as Group;
   };
 
   const leaveGroup = async (groupId: string): Promise<void> => {
-    const userId = await getUserId();
-    const { error } = await supabase
-      .from('group_members')
-      .delete()
-      .eq('group_id', groupId)
-      .eq('user_id', userId);
+    assertUuid(groupId, 'groupId');
+    const { error } = await supabase.rpc('leave_group', { p_group_id: groupId });
     if (error) throw error;
   };
 
@@ -600,6 +618,9 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // Realtime購読
   // =====================
   const subscribeLocations = (onUpdate: (row: LocationCurrentRow) => void): RealtimeChannel => {
+    // Note: Supabase Realtime RLS must be enabled in the dashboard for server-side filtering.
+    // The client-side filter here reduces unnecessary processing but does NOT provide security.
+    // Enable Realtime RLS: Dashboard → Database → Replication → Enable RLS for locations_current
     return supabase
       .channel('locations')
       .on(
@@ -633,68 +654,39 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // チャット機能
   // =====================
   const getOrCreateDirectChat = async (otherUserId: string): Promise<ChatRoom> => {
-    const userId = await getUserId();
+    // security definer関数でフレンド・ブロックチェック + ルーム作成をアトミックに実行
+    // 競合状態（重複ルーム作成）も防止される
+    const { data: roomId, error } = await supabase.rpc('create_direct_chat', {
+      p_other_user_id: otherUserId,
+    });
+    if (error) throw error;
 
-    const { data: existingRooms } = await supabase
-      .from('chat_room_members')
-      .select('room_id')
-      .eq('user_id', userId);
-
-    if (existingRooms && existingRooms.length > 0) {
-      const roomIds = existingRooms.map(r => r.room_id);
-      const { data: otherMember } = await supabase
-        .from('chat_room_members')
-        .select('room_id, chat_rooms!inner(id, type)')
-        .eq('user_id', otherUserId)
-        .in('room_id', roomIds);
-
-      const directRoom = otherMember?.find((m: any) => m.chat_rooms?.type === 'direct');
-      if (directRoom) {
-        const { data: room } = await supabase
-          .from('chat_rooms')
-          .select('*')
-          .eq('id', directRoom.room_id)
-          .maybeSingle();
-        if (room) return room as ChatRoom;
-      }
-    }
-
-    const { data: newRoom, error: roomError } = await supabase
+    const { data: room, error: fetchError } = await supabase
       .from('chat_rooms')
-      .insert({ type: 'direct' })
-      .select()
+      .select('*')
+      .eq('id', roomId)
       .single();
-    if (roomError) throw roomError;
+    if (fetchError) throw fetchError;
 
-    const { error: memberError } = await supabase
-      .from('chat_room_members')
-      .insert([
-        { room_id: (newRoom as ChatRoom).id, user_id: userId },
-        { room_id: (newRoom as ChatRoom).id, user_id: otherUserId },
-      ]);
-    if (memberError) throw memberError;
-
-    return newRoom as ChatRoom;
+    return room as ChatRoom;
   };
 
   const getOrCreateGroupChat = async (groupId: string): Promise<ChatRoom> => {
-    const { data: existingRoom } = await supabase
-      .from('chat_rooms')
-      .select('*')
-      .eq('group_id', groupId)
-      .eq('type', 'group')
-      .maybeSingle();
-
-    if (existingRoom) return existingRoom as ChatRoom;
-
-    const { data: newRoom, error } = await supabase
-      .from('chat_rooms')
-      .insert({ type: 'group', group_id: groupId })
-      .select()
-      .single();
+    // security definer関数でメンバーチェック + ルーム作成をアトミックに実行
+    // 競合状態（重複ルーム作成）も防止される
+    const { data: roomId, error } = await supabase.rpc('create_group_chat', {
+      p_group_id: groupId,
+    });
     if (error) throw error;
 
-    return newRoom as ChatRoom;
+    const { data: room, error: fetchError } = await supabase
+      .from('chat_rooms')
+      .select('*')
+      .eq('id', roomId)
+      .single();
+    if (fetchError) throw fetchError;
+
+    return room as ChatRoom;
   };
 
   const getChatRooms = async (): Promise<ChatRoom[]> => {
@@ -717,6 +709,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const getChatRoomMembers = async (roomId: string): Promise<string[]> => {
+    assertUuid(roomId, 'roomId');
     const { data, error } = await supabase
       .from('chat_room_members')
       .select('user_id')
@@ -731,6 +724,9 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     messageType: MessageType = 'text',
     metadata?: Record<string, unknown>
   ): Promise<Message> => {
+    assertUuid(roomId, 'roomId');
+    if (content.length > 10000) throw new Error('Message too long (max 10000 characters)');
+    if (metadata && JSON.stringify(metadata).length > 5000) throw new Error('Metadata too large');
     const userId = await getUserId();
     const { data, error } = await supabase
       .from('messages')
@@ -764,13 +760,14 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     roomId: string,
     options?: { limit?: number; before?: number }
   ): Promise<Message[]> => {
+    assertUuid(roomId, 'roomId');
     let query = supabase
       .from('messages')
       .select('*')
       .eq('room_id', roomId)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .limit(Math.min(options?.limit ?? 100, 1000));
 
-    if (options?.limit) query = query.limit(options.limit);
     if (options?.before) query = query.lt('id', options.before);
 
     const { data, error } = await query;
@@ -779,6 +776,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const markAsRead = async (roomId: string): Promise<void> => {
+    assertUuid(roomId, 'roomId');
     const userId = await getUserId();
     const { error } = await supabase
       .from('chat_room_members')
@@ -789,6 +787,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const subscribeMessages = (roomId: string, onMessage: (message: Message) => void): RealtimeChannel => {
+    assertUuid(roomId, 'roomId');
     return supabase
       .channel(`messages:${roomId}`)
       .on(
@@ -807,6 +806,10 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // リアクション機能
   // =====================
   const sendReaction = async (toUserId: string, emoji: string, message?: string): Promise<LocationReaction> => {
+    assertUuid(toUserId, 'toUserId');
+    // Emoji: max 10 grapheme clusters (allows compound emoji), message: max 200 chars
+    if (emoji.length > 40) throw new Error('Emoji too long');
+    if (message && message.length > 200) throw new Error('Reaction message too long (max 200 characters)');
     const fromUserId = await getUserId();
     const { data, error } = await supabase
       .from('location_reactions')
@@ -832,9 +835,9 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .from('location_reactions')
       .select('*')
       .eq('to_user_id', userId)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .limit(Math.min(options?.limit ?? 100, 1000));
 
-    if (options?.limit) query = query.limit(options.limit);
     if (options?.since) query = query.gte('created_at', options.since.toISOString());
 
     const { data, error } = await query;
@@ -848,9 +851,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .from('location_reactions')
       .select('*')
       .eq('from_user_id', userId)
-      .order('created_at', { ascending: false });
-
-    if (options?.limit) query = query.limit(options.limit);
+      .order('created_at', { ascending: false })
+      .limit(Math.min(options?.limit ?? 100, 1000));
 
     const { data, error } = await query;
     if (error) throw error;
@@ -880,6 +882,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     myLon: number,
     radiusMeters: number = 500
   ): Promise<NearbyUser[]> => {
+    radiusMeters = Math.max(0, Math.min(50000, radiusMeters));
     const friends = await getVisibleFriends();
     const userId = await getUserId();
 
@@ -903,6 +906,10 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   };
 
   const recordBump = async (nearbyUserId: string, distance: number, lat: number, lon: number): Promise<BumpEvent> => {
+    assertUuid(nearbyUserId, 'nearbyUserId');
+    if (!Number.isFinite(distance) || distance < 0) throw new Error('Invalid distance');
+    if (!Number.isFinite(lat) || lat < -90 || lat > 90) throw new Error('Invalid latitude');
+    if (!Number.isFinite(lon) || lon < -180 || lon > 180) throw new Error('Invalid longitude');
     const userId = await getUserId();
     const { data, error } = await supabase
       .from('bump_events')
@@ -925,13 +932,14 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
 
   const getBumpHistory = async (options?: { limit?: number; since?: Date }): Promise<BumpEvent[]> => {
     const userId = await getUserId();
+    assertUuid(userId, 'userId');
     let query = supabase
       .from('bump_events')
       .select('*')
       .or(`user_id.eq.${userId},nearby_user_id.eq.${userId}`)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .limit(Math.min(options?.limit ?? 100, 1000));
 
-    if (options?.limit) query = query.limit(options.limit);
     if (options?.since) query = query.gte('created_at', options.since.toISOString());
 
     const { data, error } = await query;
@@ -1010,21 +1018,30 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   const getVisibleFriendsWithPlaces = async (): Promise<(LocationCurrentRow & { place?: FavoritePlace })[]> => {
     try {
       const friends = await getVisibleFriends();
-      const result: (LocationCurrentRow & { place?: FavoritePlace })[] = [];
+      if (friends.length === 0) return [];
 
-      for (const friend of friends) {
-        try {
-          const place = await checkAtFavoritePlace(friend.lat, friend.lon, friend.user_id);
-          result.push({ ...friend, place: place ?? undefined });
-        } catch {
-          // Ignore errors for individual friends
-          result.push({ ...friend });
-        }
+      // Batch fetch all favorite places for all visible friends at once (avoids N+1)
+      const userIds = friends.map(f => f.user_id);
+      const { data: allPlaces } = await supabase
+        .from('favorite_places')
+        .select('*')
+        .in('user_id', userIds);
+
+      const placesByUser = new Map<string, FavoritePlace[]>();
+      for (const place of (allPlaces ?? []) as FavoritePlace[]) {
+        const list = placesByUser.get(place.user_id) ?? [];
+        list.push(place);
+        placesByUser.set(place.user_id, list);
       }
 
-      return result;
+      return friends.map(friend => {
+        const userPlaces = placesByUser.get(friend.user_id) ?? [];
+        const matchedPlace = userPlaces.find(p =>
+          calculateDistance(friend.lat, friend.lon, p.lat, p.lon) <= p.radius_meters
+        );
+        return { ...friend, place: matchedPlace };
+      });
     } catch {
-      // Return empty array if getVisibleFriends fails
       return [];
     }
   };
@@ -1032,22 +1049,42 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // =====================
   // アバター
   // =====================
-  const uploadAvatar = async (file: { arrayBuffer(): Promise<ArrayBuffer>; type?: string; name?: string }): Promise<string> => {
-    const userId = await getUserId();
-    const ext = (file.name ?? 'avatar.jpg').split('.').pop() || 'jpg';
-    const filePath = `${userId}/${Date.now()}.${ext}`;
+  const ALLOWED_AVATAR_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  const ALLOWED_AVATAR_EXTS = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+  const MAX_AVATAR_SIZE = 5 * 1024 * 1024; // 5MB
 
-    // 古いアバターを削除
-    const { data: existing } = await supabase.storage.from('avatars').list(userId);
-    if (existing && existing.length > 0) {
-      await supabase.storage.from('avatars').remove(existing.map(f => `${userId}/${f.name}`));
+  const uploadAvatar = async (file: { arrayBuffer(): Promise<ArrayBuffer>; type: string; name?: string }): Promise<string> => {
+    const userId = await getUserId();
+    const ext = (file.name ?? 'avatar.jpg').split('.').pop()?.toLowerCase() || 'jpg';
+
+    // Validate file extension
+    if (!ALLOWED_AVATAR_EXTS.includes(ext)) throw new Error(`Invalid file type: .${ext}. Allowed: ${ALLOWED_AVATAR_EXTS.join(', ')}`);
+    // Validate MIME type (required — reject if missing to prevent SVG/HTML XSS)
+    if (!file.type || !ALLOWED_AVATAR_TYPES.includes(file.type)) {
+      throw new Error(`Invalid or missing content type: ${file.type ?? 'undefined'}. Allowed: ${ALLOWED_AVATAR_TYPES.join(', ')}`);
     }
 
+    // サイズチェックを旧アバター削除の前に実行（失敗時にアバターが消えるのを防ぐ）
     const buffer = await file.arrayBuffer();
+    if (buffer.byteLength > MAX_AVATAR_SIZE) throw new Error(`File too large (${(buffer.byteLength / 1024 / 1024).toFixed(1)}MB). Max: 5MB`);
+
+    const filePath = `${userId}/${Date.now()}.${ext}`;
+
+    // 古いアバター一覧を取得（削除は新アバターのアップロード成功後に行う）
+    const { data: existing } = await supabase.storage.from('avatars').list(userId);
+
     const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, buffer, {
-      contentType: file.type ?? 'image/jpeg',
+      contentType: file.type,
     });
     if (uploadError) throw uploadError;
+
+    // アップロード成功後に古いアバターを削除（失敗してもアバターが消えない）
+    if (existing && existing.length > 0) {
+      const oldFiles = existing.map(f => `${userId}/${f.name}`).filter(p => p !== filePath);
+      if (oldFiles.length > 0) {
+        await supabase.storage.from('avatars').remove(oldFiles);
+      }
+    }
 
     const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(filePath);
     const publicUrl = urlData.publicUrl;
@@ -1091,19 +1128,13 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // ブロック機能
   // =====================
   const blockUser = async (userId: string): Promise<void> => {
-    const blockerId = await getUserId();
-    if (blockerId === userId) throw new Error('Cannot block yourself');
-
-    const { error } = await supabase
-      .from('blocked_users')
-      .upsert({ blocker_id: blockerId, blocked_id: userId });
+    assertUuid(userId, 'userId');
+    const { error } = await supabase.rpc('block_user_atomic', { p_blocked_id: userId });
     if (error) throw error;
-
-    // ブロック時にフレンド関係も解除
-    try { await removeFriend(userId); } catch { /* already not friends */ }
   };
 
   const unblockUser = async (userId: string): Promise<void> => {
+    assertUuid(userId, 'userId');
     const blockerId = await getUserId();
     const { error } = await supabase
       .from('blocked_users')
@@ -1125,6 +1156,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
 
   const isBlocked = async (targetUserId: string): Promise<boolean> => {
     const userId = await getUserId();
+    assertUuid(userId, 'userId');
+    assertUuid(targetUserId, 'targetUserId');
     const { data } = await supabase
       .from('blocked_users')
       .select('blocker_id')
@@ -1137,6 +1170,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // 共有期限
   // =====================
   const setShareExpiry = async (viewerId: string, expiresAt: Date): Promise<void> => {
+    assertUuid(viewerId, 'viewerId');
     const ownerId = await getUserId();
     const { error } = await supabase
       .from('share_rules')
@@ -1228,6 +1262,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
 
   const getStreaks = async (): Promise<FriendStreak[]> => {
     const userId = await getUserId();
+    assertUuid(userId, 'userId');
     const { data, error } = await supabase
       .from('friend_streaks')
       .select('*')
@@ -1273,7 +1308,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .eq('user_id', userId);
 
     if (options?.areaPrefix) {
-      query = query.like('geohash', `${options.areaPrefix}%`);
+      query = query.like('geohash', `${sanitizeGeohashPrefix(options.areaPrefix)}%`);
     }
     if (options?.since) {
       query = query.gte('last_visited_at', options.since.toISOString());
@@ -1288,13 +1323,27 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     friendId: string,
     options?: { areaPrefix?: string }
   ): Promise<VisitedCell[]> => {
+    // Verify the caller is actually friends with the target user
+    const userId = await getUserId();
+    assertUuid(userId, 'userId');
+    assertUuid(friendId, 'friendId');
+    const { data: friendCheck } = await supabase
+      .from('friend_requests')
+      .select('id')
+      .eq('status', 'accepted')
+      .or(`and(from_user_id.eq.${userId},to_user_id.eq.${friendId}),and(from_user_id.eq.${friendId},to_user_id.eq.${userId})`)
+      .limit(1);
+    if (!friendCheck || friendCheck.length === 0) {
+      throw new Error('Not friends with this user');
+    }
+
     let query = supabase
       .from('visited_cells')
       .select('*')
       .eq('user_id', friendId);
 
     if (options?.areaPrefix) {
-      query = query.like('geohash', `${options.areaPrefix}%`);
+      query = query.like('geohash', `${sanitizeGeohashPrefix(options.areaPrefix)}%`);
     }
 
     const { data, error } = await query;
@@ -1317,9 +1366,10 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     areaPrefix: string,
     limit: number = 20
   ): Promise<AreaRanking[]> => {
+    const safeLimit = Math.max(1, Math.min(100, limit));
     const { data, error } = await supabase.rpc('get_area_rankings', {
-      area_prefix: areaPrefix,
-      result_limit: limit,
+      area_prefix: sanitizeGeohashPrefix(areaPrefix),
+      result_limit: safeLimit,
     });
     if (error) throw error;
     return (data ?? []) as AreaRanking[];
@@ -1332,21 +1382,22 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     const friendIds = await getFriends();
     const allIds = [userId, ...friendIds];
 
-    // フレンド+自分のセル数を集計
-    const results: AreaRanking[] = [];
-    for (const id of allIds) {
+    // Batch: fetch all counts in parallel instead of sequential N+1
+    const countPromises = allIds.map(async (id) => {
       let query = supabase
         .from('visited_cells')
         .select('geohash', { count: 'exact', head: true })
         .eq('user_id', id);
 
       if (options?.areaPrefix) {
-        query = query.like('geohash', `${options.areaPrefix}%`);
+        query = query.like('geohash', `${sanitizeGeohashPrefix(options.areaPrefix)}%`);
       }
 
       const { count } = await query;
-      results.push({ user_id: id, cell_count: count ?? 0, rank: 0 });
-    }
+      return { user_id: id, cell_count: count ?? 0, rank: 0 } as AreaRanking;
+    });
+
+    const results = await Promise.all(countPromises);
 
     // ランキング計算
     results.sort((a, b) => b.cell_count - a.cell_count);

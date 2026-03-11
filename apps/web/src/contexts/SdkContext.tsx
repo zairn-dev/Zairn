@@ -7,10 +7,12 @@ const SdkContext = createContext<LocationCore | null>(null)
 
 export function SdkProvider({ children }: { children: ReactNode }) {
   const core = useMemo(() => {
-    return createLocationCore({
-      supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
-      supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY,
-    })
+    const url = import.meta.env.VITE_SUPABASE_URL
+    const key = import.meta.env.VITE_SUPABASE_ANON_KEY
+    if (!url || !key) {
+      throw new Error('Missing Supabase configuration. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.')
+    }
+    return createLocationCore({ supabaseUrl: url, supabaseAnonKey: key })
   }, [])
 
   return <SdkContext.Provider value={core}>{children}</SdkContext.Provider>

@@ -19,6 +19,20 @@ export function formatRelativeTime(date: string | Date): string {
   return `${Math.floor(days / 30)}mo ago`
 }
 
+/**
+ * Sanitize avatar URL — only allow https: protocol to prevent XSS via javascript: or data: URIs
+ */
+export function safeAvatarUrl(url: string | null | undefined): string | null {
+  if (!url) return null
+  try {
+    const parsed = new URL(url)
+    if (parsed.protocol === 'https:') return url
+    return null
+  } catch {
+    return null
+  }
+}
+
 export function formatDistance(meters: number): string {
   if (meters < 1000) {
     return `${Math.round(meters)}m`
