@@ -159,6 +159,17 @@ on user_settings for update
 using (auth.uid() = user_id);
 
 -- =====================
+-- グループメンバーシップ確認ヘルパー（RLS再帰回避）
+-- =====================
+create or replace function is_group_member(p_group_id uuid, p_user_id uuid)
+returns boolean as $$
+  select exists (
+    select 1 from group_members
+    where group_id = p_group_id and user_id = p_user_id
+  );
+$$ language sql security definer;
+
+-- =====================
 -- groups ポリシー
 -- =====================
 alter table groups enable row level security;
@@ -167,10 +178,7 @@ create policy "groups_read_member"
 on groups for select
 using (
   auth.uid() = owner_id
-  or exists (
-    select 1 from group_members
-    where group_id = groups.id and user_id = auth.uid()
-  )
+  or is_group_member(groups.id, auth.uid())
 );
 
 -- invite_codeを知っているユーザーのみ（SDKでフィルタ、RLSはメンバー/オーナーに制限）
@@ -193,15 +201,11 @@ using (auth.uid() = owner_id);
 -- =====================
 alter table group_members enable row level security;
 
--- 同じグループのメンバーのみ見える
+-- 同じグループのメンバーのみ見える（is_group_member で再帰回避）
 create policy "group_members_select"
 on group_members for select
 using (
-  exists (
-    select 1 from group_members my_membership
-    where my_membership.group_id = group_members.group_id
-      and my_membership.user_id = auth.uid()
-  )
+  is_group_member(group_members.group_id, auth.uid())
 );
 
 -- グループ参加: オーナーの自己追加、またはjoin_group RPC経由のみ
