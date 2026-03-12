@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "description": "Open-source location sharing & geo-anchored content platform",
+  "license": "MIT",
+  "author": "Zairn Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/otanl/Zairn.git"
+  },
   "workspaces": [
     "packages/*",
     "apps/*"

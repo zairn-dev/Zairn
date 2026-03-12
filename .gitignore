@@ -1,8 +1,26 @@
+# Environment
 .env
 .env.local
+
+# Dependencies
 node_modules/
-.claude/
+
+# Build output
 dist/
+build/
+
+# IDE & editor
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
 nul
+
+# Project-specific
 CLAUDE.md
 AGENTS.md

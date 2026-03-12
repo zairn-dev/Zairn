@@ -2,6 +2,9 @@
   "name": "web",
   "private": true,
   "version": "0.1.0",
+  "description": "Zairn web app — real-time location sharing map with friends, chat, and GeoDrop",
+  "license": "MIT",
+  "author": "Zairn Contributors",
   "type": "module",
   "scripts": {
     "dev": "vite",

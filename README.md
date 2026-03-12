@@ -41,7 +41,8 @@ zairn brings back these ideas as a unified open-source platform:
 ### GeoDrop (`@zairn/geo-drop`)
 - Location-bound encrypted data drops
 - AES-256-GCM encryption with location-derived keys
-- Pluggable verification (GPS / secret / AR / custom)
+- Pluggable verification (GPS / secret / AR / ZKP / custom)
+- Zero-knowledge proof of proximity (Groth16/snarkjs)
 - IPFS storage (optional — works in DB-only mode too)
 - EVM on-chain persistence (optional)
 - Image / audio / video / file content support
