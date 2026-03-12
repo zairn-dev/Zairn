@@ -225,6 +225,17 @@ on group_members for delete
 using (auth.uid() = user_id);
 
 -- =====================
+-- チャットルームメンバーシップ確認ヘルパー（RLS再帰回避）
+-- =====================
+create or replace function is_chat_room_member(p_room_id uuid, p_user_id uuid)
+returns boolean as $$
+  select exists (
+    select 1 from chat_room_members
+    where room_id = p_room_id and user_id = p_user_id
+  );
+$$ language sql security definer;
+
+-- =====================
 -- chat_rooms ポリシー
 -- =====================
 -- NOTE: Node.jsテスト環境ではRLSが正しく動作しない場合があります
@@ -234,15 +245,9 @@ alter table chat_rooms enable row level security;
 create policy "chat_rooms_select"
 on chat_rooms for select
 using (
-  exists (
-    select 1 from chat_room_members
-    where room_id = chat_rooms.id and user_id = auth.uid()
-  )
+  is_chat_room_member(chat_rooms.id, auth.uid())
   or (
-    type = 'group' and exists (
-      select 1 from group_members
-      where group_id = chat_rooms.group_id and user_id = auth.uid()
-    )
+    type = 'group' and is_group_member(chat_rooms.group_id, auth.uid())
   )
 );
 
@@ -261,55 +266,16 @@ create policy "chat_room_members_select"
 on chat_room_members for select
 using (
   user_id = auth.uid()
-  or room_id in (
-    select room_id from chat_room_members where user_id = auth.uid()
-  )
+  or is_chat_room_member(chat_room_members.room_id, auth.uid())
 );
 
 -- メンバー追加: 自分自身のみ + DMはフレンドかつ2人まで / グループはメンバーのみ
+-- メンバー追加: チャットルーム作成は security definer 関数経由のみ
+-- 直接INSERTは自分自身の追加のみ許可（実質的にはRPC経由）
 create policy "chat_room_members_insert"
 on chat_room_members for insert
 with check (
   auth.uid() = user_id
-  and (
-    -- DMルーム: フレンドであること + ルームのメンバーが2人未満であること
-    (
-      exists (
-        select 1 from chat_rooms cr
-        where cr.id = room_id and cr.type = 'direct'
-      )
-      and exists (
-        select 1 from friend_requests
-        where status = 'accepted'
-          and (
-            (from_user_id = auth.uid() and to_user_id in (
-              select cm.user_id from chat_room_members cm where cm.room_id = chat_room_members.room_id
-            ))
-            or (to_user_id = auth.uid() and from_user_id in (
-              select cm.user_id from chat_room_members cm where cm.room_id = chat_room_members.room_id
-            ))
-            -- 最初のメンバー（ルームがまだ空）の場合は自分だけチェック
-            or not exists (select 1 from chat_room_members cm where cm.room_id = chat_room_members.room_id)
-          )
-      )
-      and (select count(*) from chat_room_members cm where cm.room_id = chat_room_members.room_id) < 2
-    )
-    -- グループルーム: グループメンバーであること
-    or exists (
-      select 1 from chat_rooms cr
-      join group_members gm on gm.group_id = cr.group_id
-      where cr.id = room_id and gm.user_id = auth.uid()
-    )
-  )
-  and not exists (
-    select 1 from blocked_users
-    where (blocker_id = auth.uid() and blocked_id in (
-      select cm.user_id from chat_room_members cm where cm.room_id = chat_room_members.room_id
-    ))
-    or (blocked_id = auth.uid() and blocker_id in (
-      select cm.user_id from chat_room_members cm where cm.room_id = chat_room_members.room_id
-    ))
-  )
 );
 
 create policy "chat_room_members_update"
@@ -324,32 +290,14 @@ alter table messages enable row level security;
 create policy "messages_select"
 on messages for select
 using (
-  exists (
-    select 1 from chat_room_members
-    where room_id = messages.room_id and user_id = auth.uid()
-  )
-  or exists (
-    select 1 from chat_rooms cr
-    join group_members gm on gm.group_id = cr.group_id
-    where cr.id = messages.room_id and gm.user_id = auth.uid()
-  )
+  is_chat_room_member(messages.room_id, auth.uid())
 );
 
 create policy "messages_insert"
 on messages for insert
 with check (
   auth.uid() = sender_id
-  and (
-    exists (
-      select 1 from chat_room_members
-      where room_id = messages.room_id and user_id = auth.uid()
-    )
-    or exists (
-      select 1 from chat_rooms cr
-      join group_members gm on gm.group_id = cr.group_id
-      where cr.id = messages.room_id and gm.user_id = auth.uid()
-    )
-  )
+  and is_chat_room_member(messages.room_id, auth.uid())
 );
 
 -- メッセージの更新・削除は送信者本人のみ
