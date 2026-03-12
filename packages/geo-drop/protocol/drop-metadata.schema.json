@@ -144,7 +144,7 @@
       "properties": {
         "method": {
           "type": "string",
-          "enum": ["gps", "secret", "ar", "custom"],
+          "enum": ["gps", "secret", "ar", "zkp", "custom"],
           "description": "Verification method type"
         },
         "params": {

@@ -75,6 +75,7 @@ Drops can be protected with multiple verification methods.
 | `gps` | GPS proximity check (default) | `{}` |
 | `secret` | Secret value matching (QR/BLE/WiFi/NFC) | `{ secret, label? }` |
 | `ar` | DINOv2 image feature comparison | `{ reference_embedding, similarity_threshold? }` |
+| `zkp` | Zero-knowledge proof of proximity (Groth16) | `{ verification_key, artifacts_url? }` |
 | `custom` | Custom verifier | `{ verifier_id, ... }` |
 
 ### Multi-factor verification
@@ -139,6 +140,61 @@ const { content } = await geo.unlockDrop(
   [{ method: 'ar', data: { image: capturedImageBase64 } }]
 );
 ```
+
+### Zero-Knowledge Proof of Location (ZKP)
+
+Prove proximity without revealing exact coordinates. Uses Groth16 (snarkjs) with a circom circuit.
+
+```typescript
+import { generateProximityProof } from '@zairn/geo-drop';
+
+// 1. Create a drop with ZKP verification
+const drop = await geo.createDrop(
+  {
+    title: 'Privacy-Preserving Drop',
+    content_type: 'text',
+    lat: 35.6812,
+    lon: 139.7671,
+    unlock_radius_meters: 50,
+    proof_config: {
+      mode: 'all',
+      requirements: [
+        {
+          method: 'zkp',
+          params: {
+            verification_key: verificationKeyJson, // from trusted setup
+            artifacts_url: 'https://cdn.example.com/zkp/',
+          },
+        },
+      ],
+    },
+  },
+  'Only provably-nearby users can see this!'
+);
+
+// 2. Generate ZK proof on client (coordinates stay private)
+const { proof, publicSignals } = await generateProximityProof(
+  userLat, userLon,
+  drop.lat, drop.lon,
+  drop.unlock_radius_meters,
+  { artifactsBaseUrl: 'https://cdn.example.com/zkp/' }
+);
+
+// 3. Unlock with ZK proof (server never learns exact coordinates)
+const { content } = await geo.unlockDrop(
+  drop.id, 0, 0, 0, // lat/lon/accuracy not needed for ZKP
+  undefined,
+  [{ method: 'zkp', data: { proof, publicSignals } }]
+);
+```
+
+**Circuit details:** See [`circuits/README.md`](./circuits/README.md) for build & trusted setup instructions.
+
+**How it works:**
+- Fixed-point arithmetic (×1e6 ≈ 0.11m resolution) with cos(lat) longitude correction
+- Proves `dLat² + (dLon × cos(lat))² ≤ R²` without revealing (userLat, userLon)
+- Public signals are validated against drop parameters to prevent proof reuse
+- snarkjs is an optional dependency — only loaded when ZKP is actually used
 
 ### Custom verifier
 
@@ -284,7 +340,7 @@ The protocol consists of three layers:
 │  Protocol Layer (GeoDrop Protocol)          │  ← Interoperable by spec
 │  - DropMetadataDocument (JSON)              │
 │  - Encryption (AES-GCM + PBKDF2)           │
-│  - Verification (GPS/Secret/AR/Custom)      │
+│  - Verification (GPS/Secret/AR/ZKP/Custom)   │
 │  - On-chain Registry (IGeoDropRegistry)     │
 ├─────────────────────────────────────────────┤
 │  Storage Layer                              │  ← IPFS + EVM chain
@@ -310,6 +366,7 @@ src/                           # Reference implementation (TypeScript)
 ├── verification.ts            # Pluggable verification engine
 ├── persistence.ts             # Persistence orchestrator (IPFS/on-chain)
 ├── chain.ts                   # EVM chain client
+├── zkp.ts                     # Zero-knowledge proof of location (Groth16/snarkjs)
 ├── geofence.ts                # Haversine distance, geohash, proximity
 ├── crypto.ts                  # AES-GCM encryption, PBKDF2 key derivation
 └── ipfs.ts                    # IPFS pinning (Pinata/web3.storage/custom)
@@ -317,6 +374,10 @@ src/                           # Reference implementation (TypeScript)
 contracts/
 ├── IGeoDropRegistry.sol       # Protocol interface (Solidity)
 └── GeoDropRegistry.sol        # Reference implementation
+
+circuits/
+├── proximity.circom           # ZK proximity proof circuit (Groth16)
+└── README.md                  # Circuit build & trusted setup instructions
 
 database/
 └── schema.sql                 # Supabase table definitions (impl-specific)
@@ -334,6 +395,7 @@ edge-functions/
 - `max_claims` enforced atomically at SQL level (TOCTOU prevention)
 - Duplicate claims prevented by DB UNIQUE constraint
 - AR reference embeddings stored and compared server-side (never exposed to client)
+- **ZK Location Proof**: Groth16-based proximity proof — verifier learns only "within radius", never exact coordinates. Public signal validation prevents proof reuse across drops.
 - Details: [`protocol/SPEC.md` §7](./protocol/SPEC.md#7-security-considerations)
 
 ## Implementing in Other Languages
