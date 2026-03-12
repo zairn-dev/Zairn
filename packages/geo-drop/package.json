@@ -31,6 +31,14 @@
     "@supabase/supabase-js": "^2.0.0",
     "@zairn/sdk": "workspace:*"
   },
+  "peerDependenciesMeta": {
+    "snarkjs": {
+      "optional": true
+    }
+  },
+  "optionalDependencies": {
+    "snarkjs": "^0.7.0"
+  },
   "keywords": [
     "location",
     "geofence",

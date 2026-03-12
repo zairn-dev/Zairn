@@ -14,6 +14,8 @@ import type {
   LocationProof,
 } from './types';
 import { verifyProximity } from './geofence';
+import { verifyProximityProof, validatePublicSignals } from './zkp';
+import type { Groth16Proof, VerificationKey } from './zkp';
 
 export interface VerificationEngineOptions {
   /** Edge Function URL for image-based AR verification */
@@ -207,6 +209,60 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
   };
 
   // =====================
+  // ZKP verifier: Zero-Knowledge Proof of Location
+  // =====================
+
+  const verifyZkp: ProofVerifier = async (req, sub, drop) => {
+    const proof = sub.data.proof as Groth16Proof | undefined;
+    const publicSignals = sub.data.publicSignals as string[] | undefined;
+    const vkey = req.params.verification_key as VerificationKey | undefined;
+
+    if (!proof || !publicSignals) {
+      return {
+        method: 'zkp',
+        verified: false,
+        details: { error: 'Missing proof or publicSignals in ZKP submission' },
+      };
+    }
+    if (!vkey) {
+      return {
+        method: 'zkp',
+        verified: false,
+        details: { error: 'No verification_key configured in proof requirement' },
+      };
+    }
+
+    // 1. Validate public signals match this drop's parameters (prevents proof reuse)
+    if (!validatePublicSignals(publicSignals, drop.lat, drop.lon, drop.unlock_radius_meters)) {
+      return {
+        method: 'zkp',
+        verified: false,
+        details: { error: 'Public signals do not match drop parameters (possible proof reuse)' },
+      };
+    }
+
+    // 2. Verify the Groth16 proof cryptographically
+    try {
+      const valid = await verifyProximityProof(proof, publicSignals, vkey);
+      return {
+        method: 'zkp',
+        verified: valid,
+        details: {
+          proof_valid: valid,
+          protocol: 'groth16',
+          curve: 'bn128',
+        },
+      };
+    } catch (e) {
+      return {
+        method: 'zkp',
+        verified: false,
+        details: { error: e instanceof Error ? e.message : 'ZKP verification failed' },
+      };
+    }
+  };
+
+  // =====================
   // Edge Function call
   // =====================
 
@@ -242,6 +298,7 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
       case 'gps': return verifyGps;
       case 'secret': return verifySecret;
       case 'ar': return verifyAr;
+      case 'zkp': return verifyZkp;
       default:
         throw new Error(`No verifier registered for method: ${method}`);
     }

@@ -74,7 +74,7 @@ Verification configuration required when accessing a drop.
 
 ```json
 {
-  "method": "gps" | "secret" | "ar" | "custom",
+  "method": "gps" | "secret" | "ar" | "zkp" | "custom",
   "params": { ... },
   "required": true | false
 }
@@ -87,6 +87,7 @@ Verification configuration required when accessing a drop.
 | `gps` | `{}` | `{ lat, lon, accuracy }` | GPS proximity check. Controlled by `unlock_radius_meters` |
 | `secret` | `{ secret: string, label?: string }` | `{ secret: string }` | Secret value matching. Acquisition method (QR/BLE/WiFi/NFC) is unspecified |
 | `ar` | `{ reference_embedding?: number[], reference_embeddings?: number[][], similarity_threshold?: number, max_age_seconds?: number }` | `{ image: string, captured_at?: ISO8601, image_width?: number, image_height?: number }` | Visual place verification with anti-spoofing (see §7.5) |
+| `zkp` | `{ verification_key: object, artifacts_url?: string }` | `{ proof: Groth16Proof, publicSignals: string[] }` | Zero-knowledge proximity proof (see §7.6) |
 | `custom` | `{ verifier_id: string, ... }` | `{ ... }` | Delegated to custom verifier |
 
 ### 1.4 ProofSubmission
@@ -95,7 +96,7 @@ Verification data submitted by the user at unlock time.
 
 ```json
 {
-  "method": "gps" | "secret" | "ar" | "custom",
+  "method": "gps" | "secret" | "ar" | "zkp" | "custom",
   "data": { ... }
 }
 ```
@@ -369,6 +370,39 @@ The `ar` proof method provides visual place verification as a countermeasure aga
 
 **Server load profile.** Only the embedding extraction call (`extract` action) hits the server. Similarity comparison, freshness checks, and screenshot detection are entirely client-side. For drops with local reference embeddings, this means exactly one Edge Function call per unlock attempt regardless of the number of reference images.
 
+### 7.6 Zero-Knowledge Proximity Proof (ZKP)
+
+The `zkp` verification method allows a user to prove they are within the unlock radius of a drop **without revealing their exact coordinates** to the verifier. This is a significant privacy improvement over GPS-based verification, where the server or verifier learns the user's precise location.
+
+**Protocol:** Groth16 (BN128 curve) via snarkjs.
+
+**Circuit:** `proximity.circom` computes squared Euclidean distance with latitude correction in fixed-point arithmetic (scale factor 1e6, ~0.11m resolution per unit):
+
+```
+dLat = userLat - targetLat
+dLon = (userLon - targetLon) × cos(targetLat)
+assert: dLat² + dLon² ≤ radiusSquared
+```
+
+**Public inputs** (known to verifier):
+- `targetLat`, `targetLon` — drop's coordinates (fixed-point)
+- `radiusSquared` — unlock radius squared in fixed-point units
+- `cosLatScaled` — cos(targetLat) × 1e6
+
+**Private inputs** (known only to prover):
+- `userLat`, `userLon` — user's coordinates (fixed-point)
+
+**Security properties:**
+- **Zero-knowledge:** The verifier learns only "user is within radius" — nothing about the user's actual position within (or outside) that radius
+- **Soundness:** A user outside the radius cannot generate a valid proof (circuit is unsatisfiable)
+- **Proof binding:** `validatePublicSignals()` ensures proof cannot be replayed across different drops — public signals must match the target drop's lat, lon, and radius
+- **Trusted setup:** Groth16 requires a one-time trusted setup ceremony. For production, use a multi-party computation (MPC) ceremony (e.g., Hermez-style). Verification keys are stored in `proof_config.requirements[].params.verification_key`
+
+**Limitations:**
+- Latitude correction uses cos(targetLat) as a constant approximation — accurate for small radii but introduces minor error at continental scale
+- Fixed-point quantization limits precision to ~0.11m (sufficient for all practical unlock radii)
+- Groth16 requires a trusted setup per circuit version
+
 ### 7.4 IPFS Pin Loss
 
 IPFS content may disappear from the network when pins are removed. Redundant pinning across multiple services is recommended. On-chain registry CIDs are permanent, but availability of the corresponding content is not guaranteed.
@@ -396,3 +430,6 @@ TypeScript reference implementation: `@zairn/geo-drop` (this repository, `packag
 - [Geohash](https://en.wikipedia.org/wiki/Geohash) — Hierarchical spatial index
 - [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) — Browser-compatible cryptography
 - [EIP-170](https://eips.ethereum.org/EIPS/eip-170) — Contract size limit (registry is well within bounds)
+- [snarkjs](https://github.com/iden3/snarkjs) — zkSNARK implementation in JavaScript (Groth16/PLONK)
+- [circom](https://github.com/iden3/circom) — Circuit compiler for zkSNARKs
+- [Groth16](https://eprint.iacr.org/2016/260) — Efficient zk-SNARK proof system (constant-size proofs, fast verification)

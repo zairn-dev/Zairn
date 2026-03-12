@@ -63,6 +63,23 @@ export type { PersistenceManager } from './persistence';
 export { createChainClient } from './chain';
 export type { ChainClient } from './chain';
 
+// ZKP (Zero-Knowledge Proof of Location)
+export {
+  generateProximityProof,
+  verifyProximityProof,
+  validatePublicSignals,
+  toFixedPoint,
+  metersToRadiusSquared,
+  cosLatScaled,
+} from './zkp';
+export type {
+  Groth16Proof,
+  ZkProximityProof,
+  CircuitArtifacts,
+  VerificationKey,
+  ZkpConfig,
+} from './zkp';
+
 // Geofence utilities
 export { encodeGeohash, decodeGeohash, calculateDistance, verifyProximity, geohashNeighbors, isMovementRealistic } from './geofence';
 export type { VerifyOptions } from './geofence';
