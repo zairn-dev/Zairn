@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build & Type Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,3 +32,39 @@ jobs:
         run: pnpm --filter web build
       - name: Build geo-drop-demo
         run: pnpm --filter geo-drop-demo build
+
+  test:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - run: pnpm install --frozen-lockfile
+      - name: Start local Supabase
+        run: supabase start
+      - name: Create .env for tests
+        run: |
+          echo "SUPABASE_URL=http://127.0.0.1:54321" >> .env
+          echo "SUPABASE_ANON_KEY=$(supabase status -o json | jq -r '.ANON_KEY')" >> .env
+      - name: Test connection
+        run: pnpm test:connection
+      - name: Test SDK
+        run: pnpm test:sdk
+      - name: Test features
+        run: pnpm test:features
+      - name: Test auth
+        run: pnpm test:auth
+      - name: Test chat
+        run: pnpm test:chat
+      - name: Stop Supabase
+        if: always()
+        run: supabase stop
