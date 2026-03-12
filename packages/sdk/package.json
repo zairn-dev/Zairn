@@ -30,6 +30,7 @@
   "peerDependencies": {
     "@supabase/supabase-js": "^2.0.0"
   },
+  "author": "Zairn Contributors",
   "keywords": [
     "location",
     "sharing",
@@ -39,7 +40,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/otanl/zairn.git",
+    "url": "https://github.com/otanl/Zairn.git",
     "directory": "packages/sdk"
   }
 }

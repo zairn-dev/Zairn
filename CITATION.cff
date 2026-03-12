@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+title: "Zairn: Open-Source Location Sharing & Geo-Anchored Content Platform"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - name: "Zairn Contributors"
+repository-code: "https://github.com/otanl/Zairn"
+url: "https://github.com/otanl/Zairn"
+license: MIT
+version: 0.1.0
+date-released: "2026-03-12"
+keywords:
+  - location-sharing
+  - geofencing
+  - zero-knowledge-proof
+  - ipfs
+  - supabase
+  - geodrop
+  - privacy
+  - open-source
+abstract: >-
+  An open-source location-sharing platform combining Zenly-style
+  real-time friend location sharing with Sekai Camera-style
+  geo-anchored content (GeoDrop). Features include pluggable
+  location verification (GPS, secret, AR, ZKP), client-side
+  AES-256-GCM encryption with location-derived keys, IPFS/on-chain
+  persistence, and zero-knowledge proof of proximity using
+  Groth16/snarkjs.

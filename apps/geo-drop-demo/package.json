@@ -1,7 +1,10 @@
 {
   "name": "geo-drop-demo",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "Interactive demo for the GeoDrop location-bound content protocol",
+  "license": "MIT",
+  "author": "Zairn Contributors",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -1,7 +1,7 @@
 # GeoDrop Protocol Specification v1
 
-**Status:** Draft
-**Version:** 1.0.0-draft
+**Status:** Stable
+**Version:** 1.0.0
 
 ## Abstract
 
