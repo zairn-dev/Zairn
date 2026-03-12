@@ -20,8 +20,8 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Type check SDK
-        run: pnpm --filter @zairn/sdk exec tsc --noEmit
+      - name: Build SDK
+        run: pnpm --filter @zairn/sdk build
       - name: Build geo-drop
         run: pnpm --filter @zairn/geo-drop build
       - name: Type check web app
