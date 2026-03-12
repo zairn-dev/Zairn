@@ -49,8 +49,19 @@ jobs:
         with:
           version: latest
       - run: pnpm install --frozen-lockfile
-      - name: Start local Supabase
-        run: supabase start
+      - name: Start local Supabase (skip migrations, apply via psql)
+        run: |
+          mv supabase/migrations supabase/_migrations_backup
+          supabase start
+          mv supabase/_migrations_backup supabase/migrations
+      - name: Apply schema via psql
+        run: |
+          DB_URL="postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+          psql "$DB_URL" -f database/schema.sql
+          psql "$DB_URL" -f database/policies.sql
+          psql "$DB_URL" -f packages/geo-drop/database/schema.sql
+          psql "$DB_URL" -f packages/geo-drop/database/policies.sql
+          psql "$DB_URL" -c "INSERT INTO storage.buckets (id, name, public) VALUES ('avatars', 'avatars', true) ON CONFLICT DO NOTHING;"
       - name: Create .env for tests
         run: |
           echo "SUPABASE_URL=http://127.0.0.1:54321" >> .env
