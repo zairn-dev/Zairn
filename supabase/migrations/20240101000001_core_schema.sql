@@ -1,4 +1,4 @@
-﻿create type share_level as enum ('none','current','history');
+create type share_level as enum ('none','current','history');
 
 -- 移動ステータスの種類
 create type motion_type as enum ('stationary', 'walking', 'running', 'cycling', 'driving', 'transit', 'unknown');
