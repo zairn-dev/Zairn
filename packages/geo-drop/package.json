@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "description": "Location-bound decentralized data drops with IPFS and geofence verification",
   "type": "module",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     }
   },
   "files": [
@@ -29,7 +29,7 @@
   },
   "peerDependencies": {
     "@supabase/supabase-js": "^2.0.0",
-    "@zairn/sdk": "workspace:*"
+    "@zairn/sdk": ">=0.1.0"
   },
   "peerDependenciesMeta": {
     "snarkjs": {
