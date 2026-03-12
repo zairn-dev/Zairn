@@ -94,28 +94,46 @@ zairn/
 
 ### Prerequisites
 
-- Node.js 18+
-- [pnpm](https://pnpm.io/) 9+
-- A [Supabase](https://supabase.com/) project
+- **Node.js** ≥ 18
+- **[pnpm](https://pnpm.io/)** ≥ 9
+- **[Supabase CLI](https://supabase.com/docs/guides/cli)** ≥ 1.100 (for `supabase db push`)
+- A [Supabase](https://supabase.com/) project (free tier is sufficient)
 
 ### Setup
 
 ```bash
 # Clone and install
 git clone https://github.com/zairn-dev/Zairn.git
-cd zairn
+cd Zairn
 pnpm install
 
-# Apply database schema
-# Paste database/schema.sql then database/policies.sql in Supabase SQL Editor
+# Apply database schema (requires Supabase CLI linked to your project)
+supabase link --project-ref <your-project-ref>
+supabase db push
 
 # Configure environment
-cp apps/web/.env.example apps/web/.env.local
-# Edit with your VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
+cp .env.example .env
+# Set SUPABASE_URL and SUPABASE_ANON_KEY (from Supabase dashboard → Settings → API)
 
 # Start the web app
+cp apps/web/.env.example apps/web/.env.local
+# Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
 pnpm dev:web
 ```
+
+### Verify Installation (Reviewer Reproduction Path)
+
+After setup, run the following three commands to validate core functionality:
+
+```bash
+pnpm test:connection   # Verifies Supabase database connectivity
+pnpm test:sdk          # Validates SDK operations: location updates, friend management, visibility rules
+pnpm test:features     # Validates social workflows: chat, reactions, groups, ghost mode
+```
+
+All tests require only two environment variables (`SUPABASE_URL`, `SUPABASE_ANON_KEY`) in a `.env` file at the project root. No additional secrets or API keys are needed for core tests.
+
+**Expected result:** Each command prints test results to stdout. A successful run completes with no unhandled errors. Additional test suites are available: `pnpm test:auth`, `pnpm test:realtime`, `pnpm test:chat`.
 
 ### GeoDrop Demo
 
@@ -187,7 +205,7 @@ const channel = core.subscribeLocations(row => {
 
 ### GeoDrop: Client-Side Cryptographic Geofence
 
-GeoDrop uses a **server-unaware** architecture. The server never sees plaintext content — all encryption and decryption happens on the client using location-derived keys.
+GeoDrop uses a **server-unaware** architecture. The server never sees drop content in plaintext — all encryption and decryption happens on the client using location-derived keys.
 
 ```
 Content → AES-256-GCM encrypt (key = PBKDF2(geohash + dropId + salt))
@@ -198,7 +216,7 @@ Visitor at location → Derive same key from geohash → Client-side decrypt
 ```
 
 Key properties:
-- **No server unlock decision** — The server stores only encrypted blobs and never participates in the unlock process
+- **No server unlock decision** — The server stores only encrypted blobs and never sees drop content in plaintext
 - **Location = cryptographic key** — Decryption requires knowledge of the geohash, which requires physical proximity
 - **Progressive decentralization** — DB-only → IPFS → on-chain, with zero architecture changes
 
