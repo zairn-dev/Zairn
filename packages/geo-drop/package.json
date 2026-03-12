@@ -29,7 +29,7 @@
   },
   "peerDependencies": {
     "@supabase/supabase-js": "^2.0.0",
-    "@zairn/sdk": ">=0.1.0"
+    "@zairn/sdk": "workspace:*"
   },
   "peerDependenciesMeta": {
     "snarkjs": {
