@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="680" viewBox="0 0 1100 680">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c3e50"/>
+    </marker>
+    <marker id="arrow-back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 26px sans-serif; fill: #1f2937; }
+      .subtitle { font: 500 14px sans-serif; fill: #6b7280; }
+      .label { font: 600 18px sans-serif; fill: #111827; }
+      .text { font: 500 14px sans-serif; fill: #1f2937; }
+      .small { font: 500 12px sans-serif; fill: #374151; }
+      .mono { font: 500 13px monospace; fill: #1e40af; }
+      .box { stroke-width: 2; rx: 10; ry: 10; }
+      .actor-creator { fill: #eef6ff; stroke: #1e40af; }
+      .actor-sdk { fill: #f0fdf4; stroke: #166534; }
+      .actor-db { fill: #fefce8; stroke: #854d0e; }
+      .actor-visitor { fill: #f5f3ff; stroke: #6d28d9; }
+      .note { fill: #fef9c3; stroke: #a16207; stroke-width: 1.5; rx: 6; ry: 6; }
+      .line { stroke: #2c3e50; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .line-back { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arrow-back); stroke-dasharray: 6 4; }
+      .lifeline { stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 4 4; }
+      .phase-line { stroke: #e2e8f0; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <text x="40" y="42" class="title">GeoDrop: Client-Side Cryptographic Geofence</text>
+  <text x="40" y="64" class="subtitle">Server-unaware architecture — all encryption and decryption happens on the client</text>
+
+  <!-- Actor headers -->
+  <rect x="60" y="90" width="160" height="50" class="box actor-creator"/>
+  <text x="140" y="121" class="label" text-anchor="middle">Creator</text>
+
+  <rect x="320" y="90" width="180" height="50" class="box actor-sdk"/>
+  <text x="410" y="121" class="label" text-anchor="middle">@zairn/geo-drop</text>
+
+  <rect x="620" y="90" width="180" height="50" class="box actor-db"/>
+  <text x="710" y="121" class="label" text-anchor="middle">Supabase / IPFS</text>
+
+  <rect x="900" y="90" width="160" height="50" class="box actor-visitor"/>
+  <text x="980" y="121" class="label" text-anchor="middle">Visitor</text>
+
+  <!-- Lifelines -->
+  <line x1="140" y1="140" x2="140" y2="640" class="lifeline"/>
+  <line x1="410" y1="140" x2="410" y2="640" class="lifeline"/>
+  <line x1="710" y1="140" x2="710" y2="640" class="lifeline"/>
+  <line x1="980" y1="140" x2="980" y2="640" class="lifeline"/>
+
+  <!-- Phase 1: Create Drop -->
+  <line x1="30" y1="170" x2="1070" y2="170" class="phase-line"/>
+  <text x="45" y="188" class="small" fill="#6b7280">CREATE</text>
+
+  <!-- Creator → SDK: createDrop -->
+  <path d="M 140 200 L 400 200" class="line"/>
+  <text x="270" y="195" class="mono" text-anchor="middle">createDrop(content, location)</text>
+
+  <!-- SDK self: encrypt -->
+  <rect x="360" y="220" width="250" height="45" class="box actor-sdk"/>
+  <text x="485" y="240" class="text" text-anchor="middle">AES-256-GCM encrypt</text>
+  <text x="485" y="255" class="small" text-anchor="middle">key = PBKDF2(geohash + dropId + salt)</text>
+
+  <!-- SDK → DB: store -->
+  <path d="M 410 265 L 700 290" class="line"/>
+  <text x="555" y="284" class="text" text-anchor="middle">Store encrypted payload only</text>
+
+  <!-- Note: server never sees plaintext -->
+  <rect x="620" y="305" width="240" height="35" class="note"/>
+  <text x="740" y="328" class="text" text-anchor="middle" fill="#854d0e">Server never sees plaintext</text>
+
+  <!-- Phase 2: Discover -->
+  <line x1="30" y1="365" x2="1070" y2="365" class="phase-line"/>
+  <text x="45" y="383" class="small" fill="#6b7280">DISCOVER</text>
+
+  <!-- Visitor → SDK: findNearbyDrops -->
+  <path d="M 980 400 L 420 400" class="line"/>
+  <text x="700" y="395" class="mono" text-anchor="middle">findNearbyDrops(myLocation)</text>
+
+  <!-- SDK → DB: query -->
+  <path d="M 410 420 L 700 420" class="line"/>
+  <text x="555" y="416" class="text" text-anchor="middle">Query within radius</text>
+
+  <!-- DB → Visitor: encrypted metadata -->
+  <path d="M 710 445 L 970 445" class="line-back"/>
+  <text x="840" y="440" class="text" text-anchor="middle">Encrypted metadata</text>
+
+  <!-- Phase 3: Unlock -->
+  <line x1="30" y1="475" x2="1070" y2="475" class="phase-line"/>
+  <text x="45" y="493" class="small" fill="#6b7280">UNLOCK</text>
+
+  <!-- Visitor → SDK: unlockDrop -->
+  <path d="M 980 510 L 420 510" class="line"/>
+  <text x="700" y="505" class="mono" text-anchor="middle">unlockDrop(dropId, myLocation)</text>
+
+  <!-- SDK self: verify proximity -->
+  <rect x="330" y="530" width="280" height="30" class="box actor-sdk"/>
+  <text x="470" y="550" class="text" text-anchor="middle">Verify proximity (GPS / secret / AR / ZKP)</text>
+
+  <!-- SDK self: derive key & decrypt -->
+  <rect x="330" y="570" width="280" height="30" class="box actor-sdk"/>
+  <text x="470" y="590" class="text" text-anchor="middle">Derive key from geohash → decrypt</text>
+
+  <!-- Note: entire unlock is client-side -->
+  <rect x="330" y="610" width="240" height="30" class="note"/>
+  <text x="450" y="630" class="text" text-anchor="middle" fill="#854d0e">Entire unlock is client-side</text>
+
+  <!-- SDK → Visitor: decrypted content -->
+  <path d="M 500 640 L 970 640" class="line-back"/>
+  <text x="735" y="656" class="text" text-anchor="middle">Decrypted content</text>
+
+</svg>

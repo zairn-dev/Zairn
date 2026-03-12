@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <defs>
+    <style>
+      .title { font: 700 26px sans-serif; fill: #1f2937; }
+      .subtitle { font: 500 14px sans-serif; fill: #6b7280; }
+      .label { font: 600 16px sans-serif; fill: #111827; }
+      .field { font: 500 13px monospace; fill: #374151; }
+      .small { font: 500 11px sans-serif; fill: #6b7280; }
+      .rel-label { font: 500 12px sans-serif; fill: #64748b; }
+      .box { stroke-width: 2; rx: 8; ry: 8; }
+      .header-core { fill: #dbeafe; stroke: #1e40af; stroke-width: 2; }
+      .body-core { fill: #f0f6ff; stroke: #1e40af; stroke-width: 2; }
+      .header-social { fill: #dcfce7; stroke: #166534; stroke-width: 2; }
+      .body-social { fill: #f0fdf4; stroke: #166534; stroke-width: 2; }
+      .header-chat { fill: #fef3c7; stroke: #854d0e; stroke-width: 2; }
+      .body-chat { fill: #fffbeb; stroke: #854d0e; stroke-width: 2; }
+      .header-geo { fill: #fee2e2; stroke: #991b1b; stroke-width: 2; }
+      .body-geo { fill: #fef2f2; stroke: #991b1b; stroke-width: 2; }
+      .rel-line { stroke: #94a3b8; stroke-width: 1.8; fill: none; }
+      .one-dot { fill: #94a3b8; }
+      .many-dot { fill: none; stroke: #94a3b8; stroke-width: 1.8; }
+    </style>
+  </defs>
+
+  <text x="40" y="42" class="title">Data Model (Core)</text>
+  <text x="40" y="64" class="subtitle">Entity relationships — profiles as the central hub connecting location, social, messaging, and geo-drop tables</text>
+
+  <!-- ==================== -->
+  <!-- PROFILES (center) -->
+  <!-- ==================== -->
+  <rect x="460" y="185" width="210" height="32" rx="8" ry="0" class="header-core"/>
+  <rect x="460" y="185" width="210" height="135" class="body-core"/>
+  <text x="565" y="207" class="label" text-anchor="middle">profiles</text>
+  <line x1="460" y1="217" x2="670" y2="217" stroke="#1e40af" stroke-width="1"/>
+  <text x="475" y="237" class="field">user_id (PK)</text>
+  <text x="475" y="257" class="field">display_name</text>
+  <text x="475" y="277" class="field">avatar_url</text>
+  <text x="475" y="297" class="field">bio</text>
+
+  <!-- ==================== -->
+  <!-- LEFT COLUMN — Location -->
+  <!-- ==================== -->
+
+  <!-- locations_current -->
+  <rect x="40" y="95" width="220" height="32" rx="8" ry="0" class="header-core"/>
+  <rect x="40" y="95" width="220" height="115" class="body-core"/>
+  <text x="150" y="117" class="label" text-anchor="middle">locations_current</text>
+  <line x1="40" y1="127" x2="260" y2="127" stroke="#1e40af" stroke-width="1"/>
+  <text x="55" y="147" class="field">user_id, lat, lon</text>
+  <text x="55" y="167" class="field">battery, motion_type</text>
+  <text x="55" y="187" class="field">stay_duration</text>
+
+  <!-- locations_history -->
+  <rect x="40" y="245" width="220" height="32" rx="8" ry="0" class="header-core"/>
+  <rect x="40" y="245" width="220" height="95" class="body-core"/>
+  <text x="150" y="267" class="label" text-anchor="middle">locations_history</text>
+  <line x1="40" y1="277" x2="260" y2="277" stroke="#1e40af" stroke-width="1"/>
+  <text x="55" y="297" class="field">user_id, lat, lon</text>
+  <text x="55" y="317" class="field">accuracy, recorded_at</text>
+
+  <!-- share_rules -->
+  <rect x="40" y="385" width="220" height="32" rx="8" ry="0" class="header-social"/>
+  <rect x="40" y="385" width="220" height="95" class="body-social"/>
+  <text x="150" y="407" class="label" text-anchor="middle">share_rules</text>
+  <line x1="40" y1="417" x2="260" y2="417" stroke="#166534" stroke-width="1"/>
+  <text x="55" y="437" class="field">owner_id, viewer_id</text>
+  <text x="55" y="457" class="field">level, expires_at</text>
+
+  <!-- ==================== -->
+  <!-- RIGHT COLUMN — Social / Chat / GeoDrop -->
+  <!-- ==================== -->
+
+  <!-- friend_requests -->
+  <rect x="870" y="95" width="250" height="32" rx="8" ry="0" class="header-social"/>
+  <rect x="870" y="95" width="250" height="95" class="body-social"/>
+  <text x="995" y="117" class="label" text-anchor="middle">friend_requests</text>
+  <line x1="870" y1="127" x2="1120" y2="127" stroke="#166534" stroke-width="1"/>
+  <text x="885" y="147" class="field">from_user_id, to_user_id</text>
+  <text x="885" y="167" class="field">status</text>
+
+  <!-- groups + group_members -->
+  <rect x="870" y="225" width="250" height="32" rx="8" ry="0" class="header-social"/>
+  <rect x="870" y="225" width="250" height="95" class="body-social"/>
+  <text x="995" y="247" class="label" text-anchor="middle">groups</text>
+  <line x1="870" y1="257" x2="1120" y2="257" stroke="#166534" stroke-width="1"/>
+  <text x="885" y="277" class="field">name, created_by</text>
+  <text x="885" y="297" class="field">group_members</text>
+
+  <!-- chat_rooms + messages -->
+  <rect x="870" y="355" width="250" height="32" rx="8" ry="0" class="header-chat"/>
+  <rect x="870" y="355" width="250" height="115" class="body-chat"/>
+  <text x="995" y="377" class="label" text-anchor="middle">chat_rooms</text>
+  <line x1="870" y1="387" x2="1120" y2="387" stroke="#854d0e" stroke-width="1"/>
+  <text x="885" y="407" class="field">chat_room_members</text>
+  <text x="885" y="427" class="field">messages</text>
+  <text x="885" y="447" class="field">type (direct / group)</text>
+
+  <!-- geo_drops -->
+  <rect x="460" y="400" width="210" height="32" rx="8" ry="0" class="header-geo"/>
+  <rect x="460" y="400" width="210" height="115" class="body-geo"/>
+  <text x="565" y="422" class="label" text-anchor="middle">geo_drops</text>
+  <line x1="460" y1="432" x2="670" y2="432" stroke="#991b1b" stroke-width="1"/>
+  <text x="475" y="452" class="field">creator_id, lat, lon</text>
+  <text x="475" y="472" class="field">encrypted_content</text>
+  <text x="475" y="492" class="field">drop_claims</text>
+
+  <!-- ==================== -->
+  <!-- RELATIONSHIP LINES -->
+  <!-- ==================== -->
+
+  <!-- profiles ──── locations_current -->
+  <line x1="460" y1="220" x2="260" y2="155" class="rel-line"/>
+  <circle cx="460" cy="220" r="4" class="one-dot"/>
+  <text x="370" y="178" class="rel-label">has</text>
+
+  <!-- profiles ──── locations_history -->
+  <line x1="460" y1="260" x2="260" y2="290" class="rel-line"/>
+  <circle cx="460" cy="260" r="4" class="one-dot"/>
+  <text x="365" y="268" class="rel-label">records</text>
+
+  <!-- profiles ──── share_rules -->
+  <line x1="465" y1="320" x2="260" y2="420" class="rel-line"/>
+  <circle cx="465" cy="320" r="4" class="one-dot"/>
+  <text x="340" y="380" class="rel-label">owner / viewer</text>
+
+  <!-- profiles ──── friend_requests -->
+  <line x1="670" y1="220" x2="870" y2="145" class="rel-line"/>
+  <circle cx="670" cy="220" r="4" class="one-dot"/>
+  <text x="750" y="175" class="rel-label">sends / receives</text>
+
+  <!-- profiles ──── groups -->
+  <line x1="670" y1="260" x2="870" y2="270" class="rel-line"/>
+  <circle cx="670" cy="260" r="4" class="one-dot"/>
+  <text x="760" y="256" class="rel-label">joins</text>
+
+  <!-- profiles ──── chat_rooms -->
+  <line x1="670" y1="295" x2="870" y2="400" class="rel-line"/>
+  <circle cx="670" cy="295" r="4" class="one-dot"/>
+  <text x="745" y="345" class="rel-label">participates</text>
+
+  <!-- profiles ──── geo_drops -->
+  <line x1="565" y1="320" x2="565" y2="400" class="rel-line"/>
+  <circle cx="565" cy="320" r="4" class="one-dot"/>
+  <text x="575" y="365" class="rel-label">creates</text>
+
+  <!-- ==================== -->
+  <!-- LEGEND -->
+  <!-- ==================== -->
+  <rect x="40" y="530" width="410" height="40" rx="6" ry="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="55" y="543" width="24" height="14" rx="3" ry="3" fill="#dbeafe" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="86" y="555" class="small">Location</text>
+  <rect x="145" y="543" width="24" height="14" rx="3" ry="3" fill="#dcfce7" stroke="#166534" stroke-width="1.5"/>
+  <text x="176" y="555" class="small">Social</text>
+  <rect x="225" y="543" width="24" height="14" rx="3" ry="3" fill="#fef3c7" stroke="#854d0e" stroke-width="1.5"/>
+  <text x="256" y="555" class="small">Chat</text>
+  <rect x="295" y="543" width="24" height="14" rx="3" ry="3" fill="#fee2e2" stroke="#991b1b" stroke-width="1.5"/>
+  <text x="326" y="555" class="small">GeoDrop</text>
+  <line x1="385" y1="550" x2="410" y2="550" class="rel-line"/>
+  <circle cx="385" cy="550" r="3" class="one-dot"/>
+  <text x="416" y="555" class="small">1 : N</text>
+
+</svg>

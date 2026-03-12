@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c3e50"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#166534"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#991b1b"/>
+    </marker>
+    <style>
+      .title { font: 700 26px sans-serif; fill: #1f2937; }
+      .label { font: 600 18px sans-serif; fill: #111827; }
+      .text { font: 500 14px sans-serif; fill: #1f2937; }
+      .small { font: 500 12px sans-serif; fill: #374151; }
+      .mono { font: 500 13px monospace; fill: #1e40af; }
+      .math { font: italic 500 14px serif; fill: #1f2937; }
+      .box { stroke-width: 2; rx: 10; ry: 10; }
+      .prover { fill: #eef6ff; stroke: #1e40af; }
+      .circuit { fill: #fefce8; stroke: #854d0e; }
+      .verifier { fill: #f0fdf4; stroke: #166534; }
+      .public { fill: #f5f3ff; stroke: #6d28d9; }
+      .private { fill: #fef2f2; stroke: #991b1b; }
+      .result-ok { fill: #dcfce7; stroke: #166534; }
+      .result-ng { fill: #fee2e2; stroke: #991b1b; }
+      .line { stroke: #2c3e50; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .line-green { stroke: #166534; stroke-width: 2.2; fill: none; marker-end: url(#arrow-green); }
+      .line-red { stroke: #991b1b; stroke-width: 2; fill: none; marker-end: url(#arrow-red); stroke-dasharray: 6 4; }
+      .divider { stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 4 4; }
+    </style>
+  </defs>
+
+  <text x="40" y="42" class="title">Zero-Knowledge Proximity Proof Flow</text>
+  <text x="40" y="64" class="small">Prover demonstrates proximity without revealing coordinates. Groth16 on BN128, circom circuit, snarkjs runtime.</text>
+
+  <!-- Phase labels -->
+  <text x="190" y="100" class="label" text-anchor="middle">Prover (Client)</text>
+  <text x="630" y="100" class="label" text-anchor="middle">Circuit (proximity.circom)</text>
+  <text x="1070" y="100" class="label" text-anchor="middle">Verifier</text>
+
+  <!-- Vertical dividers -->
+  <line x1="410" y1="88" x2="410" y2="690" class="divider"/>
+  <line x1="850" y1="88" x2="850" y2="690" class="divider"/>
+
+  <!-- ==================== -->
+  <!-- PROVER SIDE -->
+  <!-- ==================== -->
+
+  <!-- Private inputs -->
+  <rect x="40" y="125" width="340" height="90" class="box private"/>
+  <text x="60" y="153" class="label">Private Inputs</text>
+  <text x="60" y="178" class="mono">userLat  (fixed-point, x1e6)</text>
+  <text x="60" y="198" class="mono">userLon  (fixed-point, x1e6)</text>
+
+  <!-- Public inputs (prover knows them too) -->
+  <rect x="40" y="245" width="340" height="115" class="box public"/>
+  <text x="60" y="273" class="label">Public Inputs</text>
+  <text x="60" y="296" class="mono">targetLat, targetLon</text>
+  <text x="60" y="316" class="mono">radiusSquared</text>
+  <text x="60" y="336" class="mono">cosLatScaled</text>
+
+  <!-- snarkjs.groth16.fullProve -->
+  <rect x="60" y="400" width="280" height="58" class="box prover"/>
+  <text x="200" y="425" class="label" text-anchor="middle">snarkjs.groth16</text>
+  <text x="200" y="447" class="text" text-anchor="middle">.fullProve(input, wasm, zkey)</text>
+
+  <!-- Output: proof + publicSignals -->
+  <rect x="60" y="498" width="280" height="65" class="box prover"/>
+  <text x="200" y="525" class="label" text-anchor="middle">Output</text>
+  <text x="200" y="547" class="mono" text-anchor="middle">{ proof, publicSignals }</text>
+
+  <!-- Prover arrows -->
+  <path d="M 200 215 L 200 245" class="line"/>
+  <path d="M 200 360 L 200 400" class="line"/>
+  <path d="M 200 458 L 200 498" class="line"/>
+
+  <!-- ==================== -->
+  <!-- CIRCUIT -->
+  <!-- ==================== -->
+
+  <rect x="435" y="125" width="390" height="310" class="box circuit"/>
+  <text x="630" y="155" class="label" text-anchor="middle">Proximity Circuit</text>
+
+  <!-- Step 1 -->
+  <text x="455" y="188" class="text">1. Compute deltas</text>
+  <text x="475" y="210" class="math">dLat = userLat - targetLat</text>
+  <text x="475" y="230" class="math">dLon_raw = userLon - targetLon</text>
+
+  <!-- Step 2 -->
+  <text x="455" y="262" class="text">2. Latitude correction</text>
+  <text x="475" y="284" class="math">dLon = dLon_raw * cosLatScaled / 1e6</text>
+
+  <!-- Step 3 -->
+  <text x="455" y="316" class="text">3. Squared Euclidean distance</text>
+  <text x="475" y="338" class="math">distSq = dLat^2 + dLon^2</text>
+
+  <!-- Step 4 -->
+  <text x="455" y="370" class="text">4. Range check</text>
+  <text x="475" y="392" class="math">assert: distSq &lt;= radiusSquared</text>
+
+  <!-- Circuit info -->
+  <rect x="435" y="465" width="390" height="55" class="box circuit"/>
+  <text x="630" y="490" class="text" text-anchor="middle">~5 constraints (R1CS) | BN128 curve</text>
+  <text x="630" y="508" class="text" text-anchor="middle">Unsatisfiable if user outside radius</text>
+
+  <!-- Arrows: prover → circuit -->
+  <path d="M 380 170 L 435 170" class="line-red"/>
+  <text x="382" y="162" class="small" fill="#991b1b">private</text>
+
+  <path d="M 380 300 L 435 300" class="line"/>
+  <text x="382" y="292" class="small">public</text>
+
+  <!-- ==================== -->
+  <!-- VERIFIER SIDE -->
+  <!-- ==================== -->
+
+  <!-- Public inputs (verifier computes independently) -->
+  <rect x="875" y="125" width="370" height="130" class="box public"/>
+  <text x="895" y="153" class="label">Expected Public Signals</text>
+  <text x="895" y="176" class="text">Computed from drop metadata:</text>
+  <text x="895" y="199" class="mono">toFixedPoint(drop.lat)</text>
+  <text x="895" y="219" class="mono">metersToRadiusSquared(radius)</text>
+  <text x="895" y="239" class="mono">cosLatScaled(drop.lat)</text>
+
+  <!-- Validate public signals -->
+  <rect x="875" y="285" width="370" height="65" class="box verifier"/>
+  <text x="1060" y="313" class="label" text-anchor="middle">validatePublicSignals()</text>
+  <text x="1060" y="335" class="text" text-anchor="middle">Match signals to drop params</text>
+
+  <!-- Verify proof -->
+  <rect x="875" y="390" width="370" height="65" class="box verifier"/>
+  <text x="1060" y="418" class="label" text-anchor="middle">snarkjs.groth16.verify()</text>
+  <text x="1060" y="440" class="text" text-anchor="middle">Cryptographic proof check</text>
+
+  <!-- Results -->
+  <rect x="875" y="510" width="165" height="55" class="box result-ok"/>
+  <text x="957" y="535" class="label" text-anchor="middle" fill="#166534">verified</text>
+  <text x="957" y="553" class="small" text-anchor="middle">= true</text>
+
+  <rect x="1080" y="510" width="165" height="55" class="box result-ng"/>
+  <text x="1162" y="535" class="label" text-anchor="middle" fill="#991b1b">rejected</text>
+  <text x="1162" y="553" class="small" text-anchor="middle">= false</text>
+
+  <!-- Verifier arrows -->
+  <path d="M 1060 255 L 1060 285" class="line"/>
+  <path d="M 1060 350 L 1060 390" class="line"/>
+  <path d="M 1010 455 L 957 510" class="line-green"/>
+  <path d="M 1110 455 L 1162 510" class="line-red"/>
+
+  <!-- Proof transfer: prover → verifier -->
+  <path d="M 340 530 L 875 317" class="line" stroke-dasharray="8 6"/>
+  <text x="490" y="553" class="small">proof + publicSignals (no coordinates leaked)</text>
+
+  <!-- Verification key (from trusted setup) -->
+  <rect x="875" y="610" width="370" height="55" class="box public"/>
+  <text x="1060" y="633" class="text" text-anchor="middle">Verification Key (from trusted setup)</text>
+  <text x="1060" y="651" class="small" text-anchor="middle">Stored in proof_config.params.verification_key</text>
+
+  <path d="M 1060 610 L 1060 455" class="line" stroke-dasharray="6 4"/>
+
+  <!-- Privacy guarantee callout -->
+  <rect x="40" y="620" width="360" height="55" rx="8" ry="8" fill="#fef9c3" stroke="#a16207" stroke-width="1.5"/>
+  <text x="60" y="645" class="text" fill="#854d0e">Privacy guarantee: verifier learns only</text>
+  <text x="60" y="663" class="text" fill="#854d0e">"user is within radius" — nothing else.</text>
+</svg>

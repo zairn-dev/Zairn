@@ -4,8 +4,8 @@ message: "If you use this software, please cite it as below."
 type: software
 authors:
   - name: "Zairn Contributors"
-repository-code: "https://github.com/otanl/Zairn"
-url: "https://github.com/otanl/Zairn"
+repository-code: "https://github.com/zairn-dev/Zairn"
+url: "https://github.com/zairn-dev/Zairn"
 license: MIT
 version: 0.1.0
 date-released: "2026-03-12"

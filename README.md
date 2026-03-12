@@ -7,6 +7,11 @@
 </p>
 
 <p align="center">
+  <a href="https://doi.org/10.5281/zenodo.18981934"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.18981934.svg" alt="DOI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+</p>
+
+<p align="center">
   <a href="#features">Features</a> · <a href="#quickstart">Quick Start</a> · <a href="#architecture">Architecture</a> · <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
@@ -47,6 +52,14 @@ zairn brings back these ideas as a unified open-source platform:
 - EVM on-chain persistence (optional)
 - Image / audio / video / file content support
 - Password-protected & private drops
+
+#### Zero-Knowledge Proximity Proof
+
+Prove you're within a drop's unlock radius without revealing your exact coordinates:
+
+<p align="center">
+  <img src="assets/zkp-flow.svg" alt="Zero-Knowledge Proximity Proof Flow" width="800" />
+</p>
 
 ## Tech Stack
 
@@ -89,7 +102,7 @@ zairn/
 
 ```bash
 # Clone and install
-git clone https://github.com/otanl/Zairn.git
+git clone https://github.com/zairn-dev/Zairn.git
 cd zairn
 pnpm install
 
@@ -168,25 +181,9 @@ const channel = core.subscribeLocations(row => {
 
 ### System Overview
 
-```mermaid
-graph LR
-  Client["Client App<br/>(Web / Mobile)"]
-  SDK["@zairn/sdk"]
-  GD["@zairn/geo-drop"]
-  SB["Supabase"]
-  PG["PostgreSQL<br/>+ RLS"]
-  RT["Realtime"]
-  IPFS["IPFS<br/>(optional)"]
-
-  Client --> SDK
-  Client --> GD
-  SDK --> SB
-  GD --> SB
-  GD -.-> IPFS
-  SB --> PG
-  SB --> RT
-  RT -.->|"live updates"| Client
-```
+<p align="center">
+  <img src="assets/system-overview.svg" alt="System Overview" width="900" />
+</p>
 
 ### GeoDrop: Client-Side Cryptographic Geofence
 
@@ -207,45 +204,15 @@ Key properties:
 
 See the full [Protocol Specification](packages/geo-drop/protocol/SPEC.md) for details.
 
-```mermaid
-sequenceDiagram
-  participant U as Creator
-  participant SDK as @zairn/geo-drop
-  participant DB as Supabase / IPFS
-  participant V as Visitor
-
-  U->>SDK: createDrop(content, location)
-  SDK->>SDK: AES-256-GCM encrypt<br/>(key derived from geohash)
-  SDK->>DB: Store encrypted payload only
-  Note over DB: Server never sees plaintext
-
-  V->>SDK: findNearbyDrops(myLocation)
-  SDK->>DB: Query within radius
-  DB-->>V: Encrypted metadata
-
-  V->>SDK: unlockDrop(dropId, myLocation)
-  SDK->>SDK: Verify proximity (GPS/secret/AR)
-  SDK->>SDK: Derive key from geohash → decrypt
-  Note over SDK: Entire unlock is client-side
-  SDK-->>V: Decrypted content
-```
+<p align="center">
+  <img src="assets/geodrop-flow.svg" alt="GeoDrop Client-Side Cryptographic Geofence Flow" width="900" />
+</p>
 
 ### Data Model (Core)
 
-```mermaid
-erDiagram
-  profiles ||--o{ friend_requests : "sends/receives"
-  profiles ||--o{ locations_current : "has"
-  profiles ||--o{ locations_history : "records"
-  profiles ||--o{ share_rules : "owner/viewer"
-  profiles ||--o{ group_members : "joins"
-  groups ||--o{ group_members : "has"
-  profiles ||--o{ chat_room_members : "participates"
-  chat_rooms ||--o{ chat_room_members : "has"
-  chat_rooms ||--o{ messages : "contains"
-  profiles ||--o{ geo_drops : "creates"
-  geo_drops ||--o{ drop_claims : "unlocked by"
-```
+<p align="center">
+  <img src="assets/data-model.svg" alt="Data Model (Core)" width="900" />
+</p>
 
 ## RLS Overview
 
