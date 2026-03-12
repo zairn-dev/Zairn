@@ -1,0 +1,2 @@
+# Force LF for SQL files (required for Supabase CLI migration parser)
+*.sql text eol=lf
