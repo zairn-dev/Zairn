@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="600" viewBox="0 0 1280 600">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c3e50"/>
+    </marker>
+    <marker id="arrow-dash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1e40af"/>
+    </marker>
+    <style>
+      .title { font: 700 26px sans-serif; fill: #1f2937; }
+      .subtitle { font: 500 14px sans-serif; fill: #6b7280; }
+      .label { font: 600 18px sans-serif; fill: #111827; }
+      .text { font: 500 14px sans-serif; fill: #1f2937; }
+      .small { font: 500 12px sans-serif; fill: #374151; }
+      .box { stroke-width: 2; rx: 10; ry: 10; }
+      .client { fill: #eef6ff; stroke: #1e40af; }
+      .sdk { fill: #f0fdf4; stroke: #166534; }
+      .backend { fill: #fefce8; stroke: #854d0e; }
+      .optional { fill: #fef2f2; stroke: #991b1b; }
+      .line { stroke: #2c3e50; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .line-dash { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arrow-dash); stroke-dasharray: 6 4; }
+      .line-back { stroke: #1e40af; stroke-width: 2; fill: none; marker-end: url(#arrow-back); stroke-dasharray: 4 3; }
+      .phase-bg { fill: #f8fafc; stroke: #e2e8f0; stroke-width: 1; rx: 12; ry: 12; }
+    </style>
+  </defs>
+
+  <text x="40" y="42" class="title">System Overview</text>
+  <text x="40" y="64" class="subtitle">Client → SDK → Supabase architecture with optional decentralized persistence</text>
+
+  <!-- Phase backgrounds -->
+  <rect x="30" y="85" width="300" height="490" class="phase-bg"/>
+  <rect x="350" y="85" width="310" height="490" class="phase-bg"/>
+  <rect x="680" y="85" width="310" height="490" class="phase-bg"/>
+  <rect x="1010" y="85" width="240" height="490" class="phase-bg"/>
+
+  <!-- Phase labels -->
+  <text x="180" y="112" class="small" text-anchor="middle" fill="#6b7280">Client</text>
+  <text x="505" y="112" class="small" text-anchor="middle" fill="#6b7280">SDK Packages</text>
+  <text x="835" y="112" class="small" text-anchor="middle" fill="#6b7280">Backend</text>
+  <text x="1130" y="112" class="small" text-anchor="middle" fill="#6b7280">Storage (optional)</text>
+
+  <!-- ==================== -->
+  <!-- CLIENT -->
+  <!-- ==================== -->
+
+  <rect x="60" y="160" width="240" height="100" class="box client"/>
+  <text x="180" y="195" class="label" text-anchor="middle">Client App</text>
+  <text x="180" y="218" class="text" text-anchor="middle">Web / Mobile</text>
+  <text x="180" y="238" class="small" text-anchor="middle">React + Leaflet map UI</text>
+
+  <!-- ==================== -->
+  <!-- SDK PACKAGES -->
+  <!-- ==================== -->
+
+  <!-- @zairn/sdk -->
+  <rect x="380" y="130" width="250" height="125" class="box sdk"/>
+  <text x="505" y="158" class="label" text-anchor="middle">@zairn/sdk</text>
+  <text x="505" y="181" class="small" text-anchor="middle">Location sharing · Friends</text>
+  <text x="505" y="199" class="small" text-anchor="middle">Chat · Reactions · Groups</text>
+  <text x="505" y="217" class="small" text-anchor="middle">Ghost mode · Trails · Explore</text>
+  <text x="505" y="235" class="small" text-anchor="middle">Realtime subscriptions</text>
+
+  <!-- @zairn/geo-drop -->
+  <rect x="380" y="290" width="250" height="145" class="box sdk"/>
+  <text x="505" y="318" class="label" text-anchor="middle">@zairn/geo-drop</text>
+  <text x="505" y="341" class="small" text-anchor="middle">Encrypted location-bound drops</text>
+  <text x="505" y="359" class="small" text-anchor="middle">AES-256-GCM · PBKDF2</text>
+  <text x="505" y="377" class="small" text-anchor="middle">Pluggable verification engine</text>
+  <text x="505" y="395" class="small" text-anchor="middle">GPS / secret / AR / ZKP / custom</text>
+  <text x="505" y="413" class="small" text-anchor="middle">Client-side encrypt &amp; decrypt</text>
+
+  <!-- ==================== -->
+  <!-- BACKEND -->
+  <!-- ==================== -->
+
+  <!-- Supabase -->
+  <rect x="710" y="130" width="250" height="75" class="box backend"/>
+  <text x="835" y="160" class="label" text-anchor="middle">Supabase</text>
+  <text x="835" y="180" class="text" text-anchor="middle">Auth + API gateway</text>
+
+  <!-- PostgreSQL + RLS -->
+  <rect x="710" y="240" width="250" height="75" class="box backend"/>
+  <text x="835" y="268" class="label" text-anchor="middle">PostgreSQL + RLS</text>
+  <text x="835" y="290" class="text" text-anchor="middle">Row-level security policies</text>
+
+  <!-- Realtime -->
+  <rect x="710" y="350" width="250" height="75" class="box backend"/>
+  <text x="835" y="378" class="label" text-anchor="middle">Realtime</text>
+  <text x="835" y="398" class="text" text-anchor="middle">Live location broadcasts</text>
+
+  <!-- ==================== -->
+  <!-- OPTIONAL STORAGE -->
+  <!-- ==================== -->
+
+  <!-- IPFS -->
+  <rect x="1040" y="200" width="180" height="70" class="box optional"/>
+  <text x="1130" y="228" class="label" text-anchor="middle">IPFS</text>
+  <text x="1130" y="248" class="small" text-anchor="middle">Content-addressed blobs</text>
+
+  <!-- EVM -->
+  <rect x="1040" y="310" width="180" height="70" class="box optional"/>
+  <text x="1130" y="338" class="label" text-anchor="middle">EVM Chain</text>
+  <text x="1130" y="358" class="small" text-anchor="middle">On-chain metadata index</text>
+
+  <!-- ==================== -->
+  <!-- ARROWS — all routed to avoid crossing boxes -->
+  <!-- ==================== -->
+
+  <!-- Client → @zairn/sdk (horizontal) -->
+  <path d="M 300 195 L 380 192" class="line"/>
+
+  <!-- Client → @zairn/geo-drop (down left side, then right) -->
+  <path d="M 180 260 L 180 360 L 380 360" class="line"/>
+
+  <!-- @zairn/sdk → Supabase (horizontal, top lane) -->
+  <path d="M 630 165 L 710 165" class="line"/>
+
+  <!-- @zairn/geo-drop → Supabase (up through gap between columns, then right) -->
+  <path d="M 505 290 L 505 277 L 665 277 L 665 168 L 710 168" class="line"/>
+
+  <!-- Supabase → PostgreSQL -->
+  <path d="M 835 205 L 835 240" class="line"/>
+
+  <!-- PostgreSQL → Realtime -->
+  <path d="M 835 315 L 835 350" class="line"/>
+
+  <!-- Realtime → Client (live updates) — routed below all boxes via bottom lane -->
+  <path d="M 710 400 L 690 400 L 690 460 L 100 460 L 100 260" class="line-back"/>
+  <text x="400" y="455" class="small" fill="#1e40af">live updates</text>
+
+  <!-- geo-drop ··→ IPFS (optional) — routed below backend, then up -->
+  <path d="M 505 435 L 505 500 L 1100 500 L 1100 270" class="line-dash"/>
+
+  <!-- geo-drop ··→ EVM (optional) — routed below backend, then up -->
+  <path d="M 525 435 L 525 530 L 1160 530 L 1160 380" class="line-dash"/>
+
+  <!-- "optional" label on bottom route -->
+  <text x="810" y="495" class="small" fill="#64748b">optional (IPFS / EVM)</text>
+
+</svg>
