@@ -135,15 +135,45 @@ All tests require only two environment variables (`SUPABASE_URL`, `SUPABASE_ANON
 
 **Expected result:** Each command prints test results to stdout. A successful run completes with no unhandled errors. Additional test suites are available: `pnpm test:auth`, `pnpm test:realtime`, `pnpm test:chat`.
 
+### Local Development (Offline)
+
+No remote Supabase project needed. Run everything locally with Docker:
+
+```bash
+# Prerequisites: Docker Desktop must be running
+
+# Start local Supabase (Postgres + Auth + Realtime + Storage + Edge Functions)
+pnpm db:start
+# The CLI prints local credentials (URL, anon key, service_role key)
+
+# Configure environment with local credentials
+cp .env.example .env
+# Uncomment the local Supabase lines and comment out the remote ones
+
+# For the web app
+cp apps/web/.env.example apps/web/.env.local
+# Use VITE_SUPABASE_URL=http://127.0.0.1:54321 and the printed anon key
+
+# Start dev server
+pnpm dev:web
+
+# Run tests against local Supabase
+pnpm test:connection && pnpm test:sdk && pnpm test:features
+
+# Reset database (re-runs all migrations + seed)
+pnpm db:reset
+
+# Stop local Supabase
+pnpm db:stop
+```
+
 ### GeoDrop Demo
 
 ```bash
 cp apps/geo-drop-demo/.env.example apps/geo-drop-demo/.env
 # Edit with Supabase credentials (IPFS key is optional)
 
-# Apply geo-drop tables
-# Paste packages/geo-drop/database/schema.sql then policies.sql in Supabase SQL Editor
-
+# GeoDrop tables are included in the migrations (supabase db push or supabase start)
 pnpm --filter geo-drop-demo dev
 ```
 

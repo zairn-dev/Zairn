@@ -26,7 +26,10 @@
     "test:features": "npx tsx --env-file=.env test/features-test.ts",
     "test:chat": "npx tsx --env-file=.env test/chat-bump-test.ts",
     "test:extended": "npx tsx --env-file=.env test/extended-test.ts",
-    "test:remaining": "npx tsx --env-file=.env test/remaining-test.ts"
+    "test:remaining": "npx tsx --env-file=.env test/remaining-test.ts",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset"
   },
   "devDependencies": {
     "tsx": "^4.19.0",

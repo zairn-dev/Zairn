@@ -1,0 +1,2 @@
+-- Seed data for local development
+-- Tests create their own users via Supabase Auth API, so no seed users are needed.

@@ -21,6 +21,10 @@ build/
 Thumbs.db
 nul
 
+# Supabase local
+supabase/.temp/
+supabase/.branches/
+
 # Project-specific
 CLAUDE.md
 AGENTS.md
