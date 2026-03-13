@@ -1,0 +1,723 @@
+{
+  "meta": {
+    "date": "2026-03-13T10:16:50.581Z",
+    "platform": "win32 x64",
+    "node": "v24.11.1",
+    "iterations": 50,
+    "target": {
+      "lat": 35.6586,
+      "lon": 139.7454,
+      "radius": 50
+    }
+  },
+  "experimentA": {
+    "prototype": {
+      "prove": {
+        "n": 50,
+        "mean": 54.27215000000001,
+        "std": 102.88197057793798,
+        "median": 40.778549999999996,
+        "q1": 35.2814000000003,
+        "q3": 42.153099999999995,
+        "iqr": 6.8716999999996915,
+        "p95": 47.05119999999988,
+        "min": 32.41269999999986,
+        "max": 766.4024000000002
+      },
+      "proveWarm": {
+        "n": 49,
+        "mean": 39.738879591836735,
+        "std": 4.939676051793112,
+        "median": 40.70939999999973,
+        "q1": 35.2814000000003,
+        "q3": 42.05590000000029,
+        "iqr": 6.774499999999989,
+        "p95": 45.56230000000005,
+        "min": 32.41269999999986,
+        "max": 60.15420000000017
+      },
+      "verify": {
+        "n": 50,
+        "mean": 10.579200000000029,
+        "std": 3.8357313321781197,
+        "median": 9.466600000000085,
+        "q1": 8.995600000000195,
+        "q3": 10.630199999999604,
+        "iqr": 1.6345999999994092,
+        "p95": 13.757499999999936,
+        "min": 8.58159999999998,
+        "max": 33.78749999999991
+      },
+      "verifyWarm": {
+        "n": 49,
+        "mean": 10.398126530612272,
+        "std": 3.6531929087087165,
+        "median": 9.466200000000299,
+        "q1": 8.995600000000195,
+        "q3": 10.488599999999906,
+        "iqr": 1.4929999999997108,
+        "p95": 12.929200000000037,
+        "min": 8.58159999999998,
+        "max": 33.78749999999991
+      },
+      "proofSize": 723,
+      "payloadSize": 797
+    },
+    "zairn": {
+      "prove": {
+        "n": 50,
+        "mean": 81.26534799999997,
+        "std": 9.082092767217407,
+        "median": 82.97180000000026,
+        "q1": 77.66710000000057,
+        "q3": 86.5694999999996,
+        "iqr": 8.902399999999034,
+        "p95": 92.59619999999995,
+        "min": 62.897599999999784,
+        "max": 103.71720000000005
+      },
+      "proveWarm": {
+        "n": 49,
+        "mean": 81.48389999999998,
+        "std": 9.042390734825052,
+        "median": 83.03560000000016,
+        "q1": 78.7568999999994,
+        "q3": 86.5694999999996,
+        "iqr": 7.812600000000202,
+        "p95": 92.59619999999995,
+        "min": 62.897599999999784,
+        "max": 103.71720000000005
+      },
+      "verify": {
+        "n": 50,
+        "mean": 9.96652799999999,
+        "std": 1.7857609691086573,
+        "median": 9.614000000000033,
+        "q1": 9.420499999999265,
+        "q3": 10.021700000000237,
+        "iqr": 0.6012000000009721,
+        "p95": 11.000900000000001,
+        "min": 8.909099999999853,
+        "max": 21.816600000000108
+      },
+      "verifyWarm": {
+        "n": 49,
+        "mean": 9.970085714285705,
+        "std": 1.8040877152086372,
+        "median": 9.595299999999952,
+        "q1": 9.420499999999265,
+        "q3": 10.021700000000237,
+        "iqr": 0.6012000000009721,
+        "p95": 11.000900000000001,
+        "min": 8.909099999999853,
+        "max": 21.816600000000108
+      },
+      "proofSize": 724,
+      "payloadSize": 963
+    }
+  },
+  "experimentB": [
+    {
+      "element": "drop_id",
+      "attack": "Cross-drop replay",
+      "prototypeBlocked": false,
+      "zairnBlocked": true
+    },
+    {
+      "element": "policy_version",
+      "attack": "Policy downgrade/upgrade",
+      "prototypeBlocked": false,
+      "zairnBlocked": true
+    },
+    {
+      "element": "epoch",
+      "attack": "Stale context reuse",
+      "prototypeBlocked": false,
+      "zairnBlocked": true
+    },
+    {
+      "element": "server_nonce",
+      "attack": "Session hijacking",
+      "prototypeBlocked": false,
+      "zairnBlocked": true
+    }
+  ],
+  "experimentC": [
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 48,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 48,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 48,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 48,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 48.5,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 48.5,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 48.5,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 48.5,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 49,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 49,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 49,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 49,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 49.5,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 49.5,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 49.5,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 49.5,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 50,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 50,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 50,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 50,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 50.5,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 50.5,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 50.5,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 50.5,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 51,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 51,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 51,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 51,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 51.5,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 51.5,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 51.5,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 51.5,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 52,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 52,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 52,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Tokyo (35.66°N)",
+      "lat": 35.6586,
+      "distance": 52,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 48,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 48,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 48,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 48,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 48.5,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 48.5,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 48.5,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 48.5,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 49,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 49,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 49,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 49,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 49.5,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 49.5,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 49.5,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 49.5,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 50,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 50,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 50,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 50,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "ACCEPT"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 50.5,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 50.5,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 50.5,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 50.5,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 51,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 51,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 51,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 51,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 51.5,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 51.5,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 51.5,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 51.5,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 52,
+      "bearing": "N",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 52,
+      "bearing": "E",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 52,
+      "bearing": "S",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    },
+    {
+      "site": "Helsinki (60.17°N)",
+      "lat": 60.1699,
+      "distance": 52,
+      "bearing": "W",
+      "prototype": "ACCEPT",
+      "zairn": "FAIL"
+    }
+  ]
+}
