@@ -45,15 +45,14 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: Install Supabase CLI
         run: |
-          curl -fsSL https://raw.githubusercontent.com/supabase/cli/main/install.sh | sh
-          supabase --version
-      - run: pnpm install --frozen-lockfile
+          npx --yes supabase --version
       - name: Start local Supabase (skip migrations, apply via psql)
         run: |
           mv supabase/migrations supabase/_migrations_backup
-          supabase start
+          npx supabase start
           mv supabase/_migrations_backup supabase/migrations
       - name: Apply schema via psql
         run: |
@@ -66,7 +65,7 @@ jobs:
       - name: Create .env for tests
         run: |
           echo "SUPABASE_URL=http://127.0.0.1:54321" >> .env
-          echo "SUPABASE_ANON_KEY=$(supabase status -o json | jq -r '.ANON_KEY')" >> .env
+          echo "SUPABASE_ANON_KEY=$(npx supabase status -o json | jq -r '.ANON_KEY')" >> .env
       - name: Test connection
         run: pnpm test:connection
       - name: Test SDK
@@ -79,4 +78,4 @@ jobs:
         run: pnpm test:chat
       - name: Stop Supabase
         if: always()
-        run: supabase stop
+        run: npx supabase stop
