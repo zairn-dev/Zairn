@@ -19,12 +19,29 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "zkp:compile": "powershell -ExecutionPolicy Bypass -File ./circuits/build-zairn-zkp.ps1 -CompileOnly",
+    "zkp:build": "powershell -ExecutionPolicy Bypass -File ./circuits/build-zairn-zkp.ps1",
+    "zkp:witness": "node ./circuits/run-witness.cjs ./circuits/build/zairn_zkp_js/zairn_zkp.wasm ./circuits/example-zairn-zkp-input.json ./circuits/build/zairn_zkp.wtns",
+    "zkp:prove": "snarkjs groth16 prove ./circuits/zairn_zkp_final.zkey ./circuits/build/zairn_zkp.wtns ./circuits/build/zairn_zkp_proof.json ./circuits/build/zairn_zkp_public.json",
+    "zkp:verify": "snarkjs groth16 verify ./circuits/verification_key.json ./circuits/build/zairn_zkp_public.json ./circuits/build/zairn_zkp_proof.json",
+    "zkp:bench": "node ./test/benchmark-zkp.mjs",
+    "zkp:evaluate": "node ./test/evaluate-zairn-zkp.mjs",
+    "zkp:paper-eval": "node ./test/evaluate-regular-paper.mjs",
+    "zkp:boundary": "node ./test/evaluate-boundary-cases.mjs",
+    "zkp:boundary:sweep": "node ./test/evaluate-boundary-sweep.mjs",
+    "zkp:latency": "node ./test/evaluate-unlock-latency.mjs",
+    "zkp:endtoend": "node ./test/evaluate-end-to-end.mjs",
+    "zkp:repro": "node ./test/reproducibility-check.mjs",
+    "zkp:prototype:bench": "node ./test/prototype-bench.mjs",
+    "zkp:prototype:latency": "node ./test/prototype-latency.mjs",
+    "zkp:test": "tsx test/verify-features.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.0"
   },
   "devDependencies": {
+    "circom2": "^0.2.22",
     "typescript": "^5.6.0"
   },
   "peerDependencies": {

@@ -65,6 +65,8 @@ export type { ChainClient } from './chain';
 
 // ZKP (Zero-Knowledge Proof of Location)
 export {
+  buildZkStatementBinding,
+  generateZairnZkpProof,
   generateProximityProof,
   verifyProximityProof,
   validatePublicSignals,
@@ -75,6 +77,8 @@ export {
 export type {
   Groth16Proof,
   ZkProximityProof,
+  ZkContextBinding,
+  ZkStatementBinding,
   CircuitArtifacts,
   VerificationKey,
   ZkpConfig,
@@ -84,8 +88,8 @@ export type {
 export { encodeGeohash, decodeGeohash, calculateDistance, verifyProximity, geohashNeighbors, isMovementRealistic } from './geofence';
 export type { VerifyOptions } from './geofence';
 
-// Crypto utilities (deriveLocationKey is internal-only — not exported)
-export { encrypt, decrypt, hashPassword } from './crypto';
+// Crypto utilities
+export { encrypt, decrypt, hashPassword, deriveLocationKey } from './crypto';
 
 // IPFS client
 export { IpfsClient } from './ipfs';

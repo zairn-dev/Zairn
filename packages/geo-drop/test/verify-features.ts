@@ -97,7 +97,20 @@ assert(zeroTime === false, 'isMovementRealistic zero time diff');
 // 2. Crypto utilities
 // =====================
 
-import { encrypt, decrypt, hashPassword, deriveLocationKey } from '../src/crypto';
+import {
+  encrypt,
+  decrypt,
+  hashPassword,
+  deriveLocationKey,
+  verifyPassword,
+} from '../src/crypto';
+import {
+  buildZkStatementBinding,
+  cosLatScaled,
+  metersToRadiusSquared,
+  toFixedPoint,
+  validatePublicSignals,
+} from '../src/zkp';
 
 console.log('\n=== 2. Crypto Utilities ===');
 
@@ -124,10 +137,12 @@ try {
   assert(true, 'decrypt with wrong key throws error');
 }
 
-// 2.4 hashPassword deterministic
+// 2.4 hashPassword + verifyPassword
 const hash1 = await hashPassword('test-password');
 const hash2 = await hashPassword('test-password');
-assert(hash1 === hash2, 'hashPassword is deterministic');
+assert(hash1 !== hash2, 'hashPassword is salted');
+assert(await verifyPassword('test-password', hash1), 'verifyPassword accepts matching password');
+assert(!(await verifyPassword('different-password', hash1)), 'verifyPassword rejects different password');
 const hash3 = await hashPassword('different-password');
 assert(hash1 !== hash3, 'hashPassword different for different passwords');
 
@@ -142,13 +157,63 @@ assert(locationDecrypted === 'Secret at Tokyo Tower', 'Full location-based encry
 
 
 // =====================
-// 3. Verification Engine
+// 3. Zairn-ZKP statement binding
+// =====================
+
+console.log('\n=== 3. Zairn-ZKP Statement Binding ===');
+
+const statement = await buildZkStatementBinding({
+  dropId: 'drop-123',
+  policyVersion: '2',
+  epoch: 42,
+  serverNonce: 'nonce-xyz',
+});
+assert(typeof statement.contextDigest === 'string', 'buildZkStatementBinding returns contextDigest');
+assert(statement.epoch === '42', 'buildZkStatementBinding normalizes epoch');
+assert(typeof statement.challengeDigest === 'string', 'buildZkStatementBinding returns challengeDigest');
+
+const baseSignals = [
+  '1',
+  toFixedPoint(35.6812).toString(),
+  toFixedPoint(139.7671).toString(),
+  metersToRadiusSquared(50).toString(),
+  cosLatScaled(35.6812).toString(),
+];
+assert(
+  validatePublicSignals(baseSignals, 35.6812, 139.7671, 50),
+  'validatePublicSignals accepts legacy signal layout'
+);
+
+const contextSignals = [
+  ...baseSignals,
+  statement.contextDigest,
+  statement.epoch,
+  statement.challengeDigest,
+];
+assert(
+  validatePublicSignals(contextSignals, 35.6812, 139.7671, 50, statement),
+  'validatePublicSignals accepts context-bound signal layout'
+);
+assert(
+  !validatePublicSignals(
+    [...baseSignals, statement.contextDigest, statement.epoch, '999'],
+    35.6812,
+    139.7671,
+    50,
+    statement
+  ),
+  'validatePublicSignals rejects mismatched challenge digest'
+);
+
+
+// =====================
+// 4. Verification Engine
 // =====================
 
 import { createVerificationEngine } from '../src/verification';
 import type { GeoDrop, ProofConfig, ProofSubmission } from '../src/types';
 
-console.log('\n=== 3. Verification Engine ===');
+console.log('\n=== 4. Verification Engine ===');
 
 const mockDrop: GeoDrop = {
   id: 'test-drop-id',
@@ -383,7 +448,8 @@ try {
 console.log('\n=== 6. IPFS Client ===');
 
 const ipfsClient = new IpfsClient({ gateway: 'https://w3s.link/ipfs' });
-assert(ipfsClient.getUrl('QmTest') === 'https://w3s.link/ipfs/QmTest', 'IPFS getUrl correct');
+const validCid = 'QmYwAPJzv5CZsnAzt8auVZRnGzr1s8wHRD2K6hQ6hDNR8m';
+assert(ipfsClient.getUrl(validCid) === `https://w3s.link/ipfs/${validCid}`, 'IPFS getUrl correct');
 
 // No pinning key → upload should throw
 try {
@@ -411,6 +477,8 @@ const expectedExports = [
   'createPersistenceManager',
   // Chain
   'createChainClient',
+  // ZKP
+  'buildZkStatementBinding', 'generateZairnZkpProof',
   // Geofence
   'encodeGeohash', 'decodeGeohash', 'calculateDistance', 'verifyProximity', 'geohashNeighbors', 'isMovementRealistic',
   // Crypto
