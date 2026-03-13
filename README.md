@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://github.com/zairn-dev/Zairn/actions/workflows/ci.yml"><img src="https://github.com/zairn-dev/Zairn/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://doi.org/10.5281/zenodo.18981934"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.18981934.svg" alt="DOI"></a>
+  <a href="https://doi.org/10.5281/zenodo.19003580"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19003580.svg" alt="DOI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
 </p>
 
