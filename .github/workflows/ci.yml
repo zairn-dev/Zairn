@@ -45,9 +45,10 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      - uses: supabase/setup-cli@v1
-        with:
-          version: latest
+      - name: Install Supabase CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/supabase/cli/main/install.sh | sh
+          supabase --version
       - run: pnpm install --frozen-lockfile
       - name: Start local Supabase (skip migrations, apply via psql)
         run: |
