@@ -14,8 +14,17 @@ import type {
   LocationProof,
 } from './types';
 import { verifyProximity } from './geofence';
-import { verifyProximityProof, validatePublicSignals } from './zkp';
-import type { Groth16Proof, VerificationKey } from './zkp';
+import {
+  buildZkStatementBinding,
+  verifyProximityProof,
+  validatePublicSignals,
+} from './zkp';
+import type {
+  Groth16Proof,
+  VerificationKey,
+  ZkContextBinding,
+  ZkStatementBinding,
+} from './zkp';
 
 export interface VerificationEngineOptions {
   /** Edge Function URL for image-based AR verification */
@@ -216,6 +225,7 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
     const proof = sub.data.proof as Groth16Proof | undefined;
     const publicSignals = sub.data.publicSignals as string[] | undefined;
     const vkey = req.params.verification_key as VerificationKey | undefined;
+    const statement = await resolveZkStatement(req.params, sub.data, drop);
 
     if (!proof || !publicSignals) {
       return {
@@ -233,11 +243,21 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
     }
 
     // 1. Validate public signals match this drop's parameters (prevents proof reuse)
-    if (!validatePublicSignals(publicSignals, drop.lat, drop.lon, drop.unlock_radius_meters)) {
+    if (!validatePublicSignals(
+      publicSignals,
+      drop.lat,
+      drop.lon,
+      drop.unlock_radius_meters,
+      statement
+    )) {
       return {
         method: 'zkp',
         verified: false,
-        details: { error: 'Public signals do not match drop parameters (possible proof reuse)' },
+        details: {
+          error: statement
+            ? 'Public signals do not match drop parameters or active statement context'
+            : 'Public signals do not match drop parameters (possible proof reuse)',
+        },
       };
     }
 
@@ -251,6 +271,7 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
           proof_valid: valid,
           protocol: 'groth16',
           curve: 'bn128',
+          context_bound: !!statement,
         },
       };
     } catch (e) {
@@ -278,6 +299,29 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
       throw new Error(err.error);
     }
     return res.json() as Promise<T>;
+  }
+
+  async function resolveZkStatement(
+    params: Record<string, unknown>,
+    data: Record<string, unknown>,
+    drop: GeoDrop
+  ): Promise<ZkStatementBinding | undefined> {
+    const explicit = data.statement as ZkStatementBinding | undefined;
+    if (explicit) return explicit;
+
+    const serverNonce = params.server_nonce as string | undefined;
+    const epoch = params.epoch as string | number | undefined;
+    if (!serverNonce || epoch == null) return undefined;
+
+    const dropId = (params.drop_id as string | undefined) ?? drop.id;
+    const policyVersion = params.policy_version as string | undefined;
+    const context: ZkContextBinding = {
+      dropId,
+      policyVersion,
+      epoch,
+      serverNonce,
+    };
+    return buildZkStatementBinding(context);
   }
 
   // =====================

@@ -52,6 +52,25 @@ export interface ZkProximityProof {
   publicSignals: string[];
 }
 
+/** Context-binding values included in the Zairn-ZKP statement */
+export interface ZkContextBinding {
+  /** Drop identifier for cross-drop replay resistance */
+  dropId: string;
+  /** Optional policy/config version for statement evolution */
+  policyVersion?: string;
+  /** Freshness window identifier */
+  epoch: number | string;
+  /** Server-issued nonce for session binding */
+  serverNonce: string;
+}
+
+/** Public statement values expected by the verifier */
+export interface ZkStatementBinding {
+  contextDigest: string;
+  epoch: string;
+  challengeDigest: string;
+}
+
 /** Artifacts needed for proof generation */
 export interface CircuitArtifacts {
   /** URL or Buffer of the compiled circuit WASM */
@@ -71,6 +90,8 @@ export interface ZkpConfig {
   artifacts?: CircuitArtifacts;
   /** Verification key for proof verification */
   verificationKey?: VerificationKey;
+  /** Circuit basename under artifactsBaseUrl. Defaults to `proximity`. */
+  circuitName?: string;
 }
 
 // =====================
@@ -132,13 +153,14 @@ export async function generateProximityProof(
   targetLat: number,
   targetLon: number,
   unlockRadius: number,
-  config: ZkpConfig
+  config: ZkpConfig,
+  statement?: ZkStatementBinding
 ): Promise<ZkProximityProof> {
   const snarkjs = await loadSnarkjs();
 
   const artifacts = resolveArtifacts(config);
 
-  const input = {
+  const input: Record<string, string> = {
     targetLat: toFixedPoint(targetLat).toString(),
     targetLon: toFixedPoint(targetLon).toString(),
     radiusSquared: metersToRadiusSquared(unlockRadius).toString(),
@@ -146,6 +168,11 @@ export async function generateProximityProof(
     userLat: toFixedPoint(userLat).toString(),
     userLon: toFixedPoint(userLon).toString(),
   };
+  if (statement) {
+    input.contextDigest = statement.contextDigest;
+    input.epoch = statement.epoch;
+    input.challengeDigest = statement.challengeDigest;
+  }
 
   const { proof, publicSignals } = await snarkjs.groth16.fullProve(
     input,
@@ -154,6 +181,35 @@ export async function generateProximityProof(
   );
 
   return { proof, publicSignals };
+}
+
+/**
+ * Generate a context-bound Zairn-ZKP proof.
+ *
+ * This is the application-oriented path used by the revised design:
+ * the proof is tied to a specific drop, policy version, freshness epoch,
+ * and server-issued challenge.
+ */
+export async function generateZairnZkpProof(
+  userLat: number,
+  userLon: number,
+  targetLat: number,
+  targetLon: number,
+  unlockRadius: number,
+  context: ZkContextBinding,
+  config: ZkpConfig
+): Promise<ZkProximityProof & { statement: ZkStatementBinding }> {
+  const statement = await buildZkStatementBinding(context);
+  const proof = await generateProximityProof(
+    userLat,
+    userLon,
+    targetLat,
+    targetLon,
+    unlockRadius,
+    { ...config, circuitName: config.circuitName ?? 'zairn_zkp' },
+    statement
+  );
+  return { ...proof, statement };
 }
 
 // =====================
@@ -182,11 +238,14 @@ export async function verifyProximityProof(
  * This prevents proof reuse across different drops.
  *
  * Public signals layout (from circuit):
- *   [0] valid       (always 1)
- *   [1] targetLat   (fixed-point)
- *   [2] targetLon   (fixed-point)
+ *   [0] valid            (always 1)
+ *   [1] targetLat        (fixed-point)
+ *   [2] targetLon        (fixed-point)
  *   [3] radiusSquared
  *   [4] cosLatScaled
+ *   [5] contextDigest    (optional, Zairn-ZKP path)
+ *   [6] epoch            (optional, Zairn-ZKP path)
+ *   [7] challengeDigest  (optional, Zairn-ZKP path)
  *
  * @returns true if public signals match the expected drop parameters
  */
@@ -194,7 +253,8 @@ export function validatePublicSignals(
   publicSignals: string[],
   targetLat: number,
   targetLon: number,
-  unlockRadius: number
+  unlockRadius: number,
+  statement?: ZkStatementBinding
 ): boolean {
   if (publicSignals.length < 5) return false;
 
@@ -217,7 +277,35 @@ export function validatePublicSignals(
   // Check cosLat matches (prevents manipulation of correction factor)
   if (BigInt(sigCosLat) !== cosLatScaled(targetLat)) return false;
 
+  if (!statement) return true;
+  if (publicSignals.length < 8) return false;
+
+  const sigContextDigest = publicSignals[5];
+  const sigEpoch = publicSignals[6];
+  const sigChallengeDigest = publicSignals[7];
+
+  if (sigContextDigest !== statement.contextDigest) return false;
+  if (sigEpoch !== statement.epoch) return false;
+  if (sigChallengeDigest !== statement.challengeDigest) return false;
+
   return true;
+}
+
+/**
+ * Build the public statement binding used by Zairn-ZKP.
+ */
+export async function buildZkStatementBinding(
+  context: ZkContextBinding
+): Promise<ZkStatementBinding> {
+  const policyVersion = context.policyVersion ?? '1';
+  const epoch = String(context.epoch);
+  return {
+    contextDigest: await hashToField(
+      `${context.dropId}:${policyVersion}:${epoch}`
+    ),
+    epoch,
+    challengeDigest: await hashToField(context.serverNonce),
+  };
 }
 
 // =====================
@@ -234,9 +322,10 @@ function resolveArtifacts(config: ZkpConfig): CircuitArtifacts {
       'ZKP artifacts not configured. Provide artifacts or artifactsBaseUrl in ZkpConfig.'
     );
   }
+  const circuitName = config.circuitName ?? 'proximity';
   return {
-    wasmUrl: `${base}/proximity.wasm`,
-    zkeyUrl: `${base}/proximity_final.zkey`,
+    wasmUrl: `${base}/${circuitName}.wasm`,
+    zkeyUrl: `${base}/${circuitName}_final.zkey`,
   };
 }
 
@@ -256,4 +345,13 @@ async function loadSnarkjs(): Promise<any> {
       'snarkjs is required for ZK proofs. Install it: pnpm add snarkjs'
     );
   }
+}
+
+async function hashToField(value: string): Promise<string> {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  const hex = Array.from(new Uint8Array(digest), byte =>
+    byte.toString(16).padStart(2, '0')
+  ).join('');
+  return BigInt(`0x${hex}`).toString();
 }

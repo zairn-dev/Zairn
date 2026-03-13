@@ -152,14 +152,14 @@ export async function verifyPassword(password: string, storedHash: string): Prom
 }
 
 /**
- * Generate a location-based encryption key
+ * Generate a location-based encryption key.
  * Combines geohash + drop_id + salt + server secret to create a unique encryption key.
  * The serverSecret should be an environment variable (GEODROP_ENCRYPTION_SECRET)
  * that is only available server-side, making client-side decryption impossible
  * even if all DB columns are known.
  *
- * @internal — Do NOT export from the package public API.
- * Only the server-side unlock Edge Function should call this.
+ * Exported for advanced use cases (custom unlock flows, testing).
+ * In production, prefer the server-side unlock Edge Function.
  */
 export function deriveLocationKey(geohash: string, dropId: string, salt: string, serverSecret?: string): string {
   const base = `geodrop:${geohash}:${dropId}:${salt}`;

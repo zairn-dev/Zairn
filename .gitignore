@@ -8,6 +8,9 @@ node_modules/
 # Build output
 dist/
 build/
+packages/geo-drop/circuits/*.ptau
+packages/geo-drop/circuits/*_0000.zkey
+packages/geo-drop/circuits/*_final.zkey
 
 # IDE & editor
 .claude/
