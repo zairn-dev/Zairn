@@ -4,7 +4,28 @@ Thank you for your interest in contributing! Whether it's code, documentation, e
 
 ## Getting Started
 
-### 1. Fork & clone
+### Quick start (one command)
+
+```bash
+git clone https://github.com/your-username/Zairn.git
+cd Zairn
+pnpm demo:bootstrap
+# → installs deps, starts Supabase, applies schema, creates .env, builds
+```
+
+Requires Docker Desktop running. After bootstrap, start the app:
+
+```bash
+pnpm dev:web                  # Main web app at http://localhost:5173
+pnpm --filter geo-drop-demo dev   # GeoDrop demo
+```
+
+### Manual setup
+
+<details>
+<summary>Step-by-step (if bootstrap doesn't work for your environment)</summary>
+
+#### 1. Fork & clone
 
 ```bash
 git clone https://github.com/your-username/Zairn.git
@@ -12,7 +33,7 @@ cd Zairn
 pnpm install
 ```
 
-### 2. Start local Supabase
+#### 2. Start local Supabase
 
 ```bash
 # Requires Docker Desktop running
@@ -26,16 +47,22 @@ cp .env.example .env          # Uncomment local lines
 cp apps/web/.env.example apps/web/.env.local
 ```
 
-### 3. Run the app
+#### 3. Run the app
 
 ```bash
 pnpm dev:web                  # Main web app at http://localhost:5173
 pnpm --filter geo-drop-demo dev   # GeoDrop demo
 ```
 
+</details>
+
 ### 4. Run tests
 
 ```bash
+# Unit tests (no Supabase required)
+pnpm test:unit                # geo-drop crypto, geofence, trust-scorer, zkp, encrypted-search
+
+# Integration tests (require local Supabase running)
 pnpm test:connection          # Database connectivity
 pnpm test:sdk                 # SDK core functions
 pnpm test:features            # Social features (chat, groups, reactions)
@@ -95,6 +122,19 @@ Keep the subject line under 72 characters. Note breaking changes and RLS impact.
 - `snake_case` for database columns
 - `camelCase` for TypeScript
 - Material 3 CSS variables (`var(--md-primary)`) for UI
+
+## Writing Tests
+
+- **Unit tests** go in `packages/geo-drop/test/*.test.ts` (vitest)
+  - Pure function tests — no Supabase dependency
+  - Run with `pnpm test:unit` or `pnpm --filter @zairn/geo-drop test`
+  - Use `vitest --watch` during development
+- **Integration tests** go in `test/*.ts` (tsx scripts)
+  - Require a running Supabase instance
+  - Use `.env` for credentials
+
+When adding new pure functions (crypto, geofence, scoring), add unit tests.
+When adding features that interact with Supabase, add integration tests.
 
 ## Project Structure
 

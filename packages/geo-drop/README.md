@@ -76,6 +76,7 @@ Drops can be protected with multiple verification methods.
 | `secret` | Secret value matching (QR/BLE/WiFi/NFC) | `{ secret, label? }` |
 | `ar` | DINOv2 image feature comparison | `{ reference_embedding, similarity_threshold? }` |
 | `zkp` | Zero-knowledge proof of proximity (Groth16) | `{ verification_key, artifacts_url? }` |
+| `zkp-region` | Zero-knowledge polygon containment (Groth16) | `{ verification_key, polygon, artifacts_url? }` |
 | `custom` | Custom verifier | `{ verifier_id, ... }` |
 
 ### Multi-factor verification

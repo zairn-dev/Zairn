@@ -75,10 +75,44 @@ const channel = core.subscribeLocations(row => {
 - `getFavoritePlaces()` — List favorite places
 - `updateFavoritePlace(id, data)` / `deleteFavoritePlace(id)`
 
+### Sharing Policies (SecureCheck)
+- `addSharingPolicy(policy)` — Add a context-dependent sharing policy
+- `getSharingPolicies()` — List your policies
+- `updateSharingPolicy(id, updates)` — Update a policy
+- `deleteSharingPolicy(id)` — Delete a policy
+- `getVisibleFriendsFiltered(lat, lon)` — Get friends with policy-based filtering
+
+Policies support conditions: `time_range`, `geofence`, `proximity`, `trust_score`.
+Effect levels: `none`, `coarse` (grid-snapped), `current`, `history`.
+
+```typescript
+// Auto-ghost when at home
+await core.addSharingPolicy({
+  conditions: [{ type: 'geofence', lat: 35.68, lon: 139.76, radius_m: 100, inside: true }],
+  effect_level: 'none',
+  priority: 10,
+  label: 'Ghost at home',
+});
+
+// Show coarse location at night
+await core.addSharingPolicy({
+  conditions: [{ type: 'time_range', start: '00:00', end: '06:00', timezone: 'Asia/Tokyo' }],
+  effect_level: 'coarse',
+  coarse_radius_m: 500,
+  priority: 5,
+});
+```
+
 ### Settings
 - `enableGhostMode(until?)` — Hide your location
 - `disableGhostMode()` — Become visible again
 - `updateSettings(data)` — Update user settings
+
+### Exploration
+- `getMyVisitedCells(options?)` — Get your visited geohash cells
+- `getFriendVisitedCells(friendId, options?)` — Get a friend's visited cells
+- `getAreaRanking(areaPrefix, limit?)` — Leaderboard for an area
+- `encodeGeohash(lat, lon, precision?)` / `decodeGeohash(hash)`
 
 ### Realtime
 - `subscribeLocations(callback)` — Real-time friend location updates
