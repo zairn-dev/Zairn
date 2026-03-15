@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+:root {
+  --md-primary: #6442d6;
+  --md-on-primary: #fff;
+  --md-surface: #f8f5ff;
+  --md-on-surface: #1c1b1f;
+  --md-surface-container: #f2ecf9;
+  --md-outline: #79747e;
+  --md-error: #ba1a1a;
+}
+
+body {
+  margin: 0;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+}
+
+#root {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
