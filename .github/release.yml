@@ -1,0 +1,29 @@
+changelog:
+  categories:
+    - title: "🚀 Features"
+      labels:
+        - enhancement
+    - title: "🐛 Bug Fixes"
+      labels:
+        - bug
+    - title: "📚 Documentation"
+      labels:
+        - documentation
+        - docs
+    - title: "🧪 Examples"
+      labels:
+        - example-app
+    - title: "🔬 Research"
+      labels:
+        - research
+        - zkp
+    - title: "🔧 Maintenance"
+      labels:
+        - chore
+        - dependencies
+    - title: "Other Changes"
+      labels:
+        - "*"
+  exclude:
+    labels:
+      - skip-changelog
