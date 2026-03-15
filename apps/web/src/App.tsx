@@ -1,11 +1,28 @@
+import { useState, useCallback } from 'react'
 import { SdkProvider } from '@/contexts/SdkContext'
 import { AuthProvider, useAuth } from '@/contexts/AuthContext'
 import AuthForm from '@/components/auth/AuthForm'
 import AppShell from '@/components/layout/AppShell'
+import OnboardingFlow from '@/components/onboarding/OnboardingFlow'
 import ErrorBoundary from '@/components/ErrorBoundary'
 
 function AppContent() {
   const { user, loading } = useAuth()
+  const [onboarded, setOnboarded] = useState<boolean | null>(null)
+
+  // Check onboarding status when user changes
+  const isOnboarded = useCallback(() => {
+    if (!user) return false
+    return localStorage.getItem(`zairn:onboarded:${user.id}`) === '1'
+  }, [user])
+
+  // Update onboarded state when user loads
+  if (user && onboarded === null) {
+    setOnboarded(isOnboarded())
+  }
+  if (!user && onboarded !== null) {
+    setOnboarded(null)
+  }
 
   if (loading) {
     return (
@@ -23,6 +40,10 @@ function AppContent() {
 
   if (!user) {
     return <AuthForm />
+  }
+
+  if (!onboarded) {
+    return <OnboardingFlow onComplete={() => setOnboarded(true)} />
   }
 
   return <AppShell />
