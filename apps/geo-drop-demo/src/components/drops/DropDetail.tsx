@@ -47,7 +47,7 @@ export default function DropDetail({
     return () => { cancelled = true }
   }, [sdk, dropId])
 
-  const handleUnlock = async (extraProofs?: { method: string; data: Record<string, unknown> }[]) => {
+  const handleUnlock = async (extraProofs?: { method: ProofMethodType; data: Record<string, unknown> }[]) => {
     if (!currentLocation) return
     setUnlocking(true)
     setError(null)
@@ -399,7 +399,7 @@ export default function DropDetail({
               {unlockedContent === null && (
                 <button
                   type="button"
-                  onClick={handleUnlock}
+                  onClick={() => handleUnlock()}
                   disabled={!canUnlock || !currentLocation || unlocking}
                   style={{
                     flex: 1,
