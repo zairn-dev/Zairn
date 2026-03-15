@@ -136,6 +136,17 @@ Keep the subject line under 72 characters. Note breaking changes and RLS impact.
 When adding new pure functions (crypto, geofence, scoring), add unit tests.
 When adding features that interact with Supabase, add integration tests.
 
+## Releases
+
+We release every 2 weeks with auto-generated release notes.
+
+**How it works:**
+1. Maintainer creates a GitHub Release (tag: `v0.x.y`) from `main`
+2. Release notes are auto-generated from merged PRs, categorized by label (see `.github/release.yml`)
+3. The `publish.yml` workflow automatically publishes `@zairn/sdk` and `@zairn/geo-drop` to npm
+
+**Versioning:** We follow [SemVer](https://semver.org/). During `0.x`, minor bumps may include breaking changes.
+
 ## Project Structure
 
 ```
