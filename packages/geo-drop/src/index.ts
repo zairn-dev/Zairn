@@ -103,5 +103,19 @@ export type { VerifyOptions } from './geofence';
 // Crypto utilities
 export { encrypt, decrypt, hashPassword, deriveLocationKey } from './crypto';
 
+// Encrypted geographic search (GridSE)
+export {
+  generateIndexTokens,
+  generateSearchTokens,
+  matchTokens,
+  selectPrecisionForRadius,
+} from './encrypted-search';
+export type {
+  EncryptedSearchConfig,
+  LocationIndexTokens,
+  SearchTokenSet,
+  EncryptedSearchMatch,
+} from './encrypted-search';
+
 // IPFS client
 export { IpfsClient } from './ipfs';
