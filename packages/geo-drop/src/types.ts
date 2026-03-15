@@ -399,6 +399,34 @@ export interface TrustThresholds {
 }
 
 // =====================
+// Step-up verification
+// =====================
+
+/** Returned by unlockDrop when trust score is in the step-up range */
+export interface StepUpRequired {
+  type: 'step-up-required';
+  /** The trust score that triggered step-up (between stepUp and proceed thresholds) */
+  trustScore: number;
+  /** Human-readable reason for the step-up request */
+  reason: string;
+  /** Proof methods available for step-up verification on this drop */
+  availableMethods: ProofMethodType[];
+  /** The drop ID being unlocked */
+  dropId: string;
+}
+
+/** Successful unlock result */
+export interface UnlockSuccess {
+  type: 'success';
+  content: string;
+  claim: DropClaim;
+  verification: VerificationResult;
+}
+
+/** Union type for unlockDrop return value */
+export type UnlockResult = UnlockSuccess | StepUpRequired;
+
+// =====================
 // SDK
 // =====================
 export interface GeoDropOptions {
@@ -445,7 +473,7 @@ export interface GeoDropSDK {
 
   // Discovery & unlock
   findNearbyDrops: (lat: number, lon: number, radiusMeters?: number) => Promise<NearbyDrop[]>;
-  unlockDrop: (dropId: string, lat: number, lon: number, accuracy: number, password?: string, proofs?: ProofSubmission[]) => Promise<{ content: string; claim: DropClaim; verification: VerificationResult }>;
+  unlockDrop: (dropId: string, lat: number, lon: number, accuracy: number, password?: string, proofs?: ProofSubmission[]) => Promise<UnlockResult>;
 
   // Location proof
   getProofConfig: (dropId: string) => Promise<ProofConfig | null>;

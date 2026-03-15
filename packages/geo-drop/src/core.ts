@@ -16,10 +16,13 @@ import type {
   IpfsUploadResult,
   LocationProof,
   ProofConfig,
+  ProofMethodType,
   ProofSubmission,
   VerificationResult,
   RecoveredDrop,
   PersistenceLevel,
+  StepUpRequired,
+  UnlockResult,
 } from './types';
 import { IpfsClient } from './ipfs';
 import { encrypt, decrypt, hashPassword, verifyPassword, deriveLocationKey } from './crypto';
@@ -367,7 +370,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     accuracy: number,
     password?: string,
     proofs?: ProofSubmission[]
-  ): Promise<{ content: string; claim: DropClaim; verification: VerificationResult }> => {
+  ): Promise<UnlockResult> => {
     validateCoords(lat, lon);
     const userId = await getUserId();
 
@@ -383,7 +386,10 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         const err = await res.json().catch(() => ({ error: res.statusText })) as { error: string };
         throw new Error(err.error);
       }
-      return res.json();
+      const result = await res.json();
+      // Server may return the legacy format (no type field) — normalize
+      if (!result.type) result.type = 'success';
+      return result as UnlockResult;
     }
 
     // --- Client-side unlock (for development / self-hosted without Edge Functions) ---
@@ -402,11 +408,38 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       { lat, lon, accuracy: accuracy ?? null, timestamp: new Date().toISOString() },
       trustHistory,
     );
-    if (gateTrustScore(trustResult) === 'deny') {
+    const trustGate = gateTrustScore(trustResult);
+    if (trustGate === 'deny') {
       throw new Error('Location trust check failed: suspicious location pattern detected');
     }
 
     await logLocation(userId, lat, lon, 'unlock_attempt');
+
+    // Step-up: if trust is marginal, check whether the caller already provided
+    // additional proofs. If not, return StepUpRequired so the client can prompt.
+    if (trustGate === 'step-up') {
+      const hasExtraProofs = (proofs ?? []).some(p => p.method !== 'gps');
+      if (!hasExtraProofs) {
+        // Determine which step-up methods the drop supports
+        const dropForConfig = await getDrop(dropId);
+        const proofConfig = dropForConfig?.proof_config ?? GPS_ONLY_CONFIG;
+        const configuredMethods = proofConfig.requirements.map(r => r.method);
+        const stepUpMethods: ProofMethodType[] = ['secret', 'ar', 'zkp', 'zkp-region']
+          .filter(m => configuredMethods.includes(m as ProofMethodType)) as ProofMethodType[];
+        // If drop has no extra methods configured, fall through and attempt GPS-only
+        if (stepUpMethods.length > 0) {
+          return {
+            type: 'step-up-required',
+            trustScore: trustResult.trustScore,
+            reason: trustResult.spoofingSuspected
+              ? 'Your GPS signal appears unstable. Please provide additional verification.'
+              : 'Additional verification needed to confirm your location.',
+            availableMethods: stepUpMethods,
+            dropId,
+          } satisfies StepUpRequired;
+        }
+      }
+    }
 
     // Client-side unlock needs full row including encryption_salt, password_hash, encrypted_content
     // (getDrop uses GEO_DROP_PUBLIC_COLUMNS which excludes these)
@@ -481,7 +514,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       throw claimError;
     }
 
-    return { content, claim: claim as DropClaim, verification };
+    return { type: 'success', content, claim: claim as DropClaim, verification };
   };
 
   // =====================

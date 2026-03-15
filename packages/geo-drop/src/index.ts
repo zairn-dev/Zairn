@@ -53,6 +53,10 @@ export type {
   EvmSigner,
   DropMetadataDocument,
   RecoveredDrop,
+  // Step-up verification
+  StepUpRequired,
+  UnlockSuccess,
+  UnlockResult,
 } from './types';
 
 // Persistence (DB-independent recovery)
