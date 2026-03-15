@@ -197,6 +197,32 @@ const { content } = await geo.unlockDrop(
 - Public signals are validated against drop parameters to prevent proof reuse
 - snarkjs is an optional dependency — only loaded when ZKP is actually used
 
+### Step-up verification
+
+When the trust scorer detects marginal GPS reliability (score between 0.3–0.7), `unlockDrop` returns a `StepUpRequired` response instead of throwing. The client can then prompt for additional proof.
+
+```typescript
+const result = await geo.unlockDrop(drop.id, lat, lon, accuracy);
+
+if (result.type === 'step-up-required') {
+  console.log(result.reason);           // "Your GPS signal appears unstable..."
+  console.log(result.availableMethods); // ['secret', 'ar']
+  console.log(result.trustScore);       // 0.45
+
+  // Re-attempt with additional proof
+  const retry = await geo.unlockDrop(
+    drop.id, lat, lon, accuracy,
+    undefined,
+    [{ method: 'secret', data: { secret: 'CAFE-1234' } }]
+  );
+  if (retry.type === 'success') {
+    console.log(retry.content); // decrypted!
+  }
+} else {
+  console.log(result.content); // direct success
+}
+```
+
 ### Custom verifier
 
 ```typescript

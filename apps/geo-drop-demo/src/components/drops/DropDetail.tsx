@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useGeoDrop } from '@/contexts/GeoDropContext'
-import type { GeoDrop, DropContentType } from '@zairn/geo-drop'
+import type { GeoDrop, DropContentType, ProofMethodType } from '@zairn/geo-drop'
 
 interface DropDetailProps {
   dropId: string
@@ -24,6 +24,12 @@ export default function DropDetail({
   const [error, setError] = useState<string | null>(null)
   const [password, setPassword] = useState('')
   const [unlockedContent, setUnlockedContent] = useState<string | null>(null)
+  const [stepUp, setStepUp] = useState<{
+    reason: string
+    availableMethods: ProofMethodType[]
+    trustScore: number
+  } | null>(null)
+  const [secretInput, setSecretInput] = useState('')
 
   useEffect(() => {
     let cancelled = false
@@ -41,7 +47,7 @@ export default function DropDetail({
     return () => { cancelled = true }
   }, [sdk, dropId])
 
-  const handleUnlock = async () => {
+  const handleUnlock = async (extraProofs?: { method: string; data: Record<string, unknown> }[]) => {
     if (!currentLocation) return
     setUnlocking(true)
     setError(null)
@@ -53,13 +59,31 @@ export default function DropDetail({
         currentLocation.lon,
         currentLocation.accuracy,
         drop?.visibility === 'password' ? password : undefined,
+        extraProofs,
       )
-      setUnlockedContent(result.content)
+      if (result.type === 'step-up-required') {
+        setStepUp({
+          reason: result.reason,
+          availableMethods: result.availableMethods,
+          trustScore: result.trustScore,
+        })
+      } else {
+        setUnlockedContent(result.content)
+        setStepUp(null)
+      }
     } catch (err: any) {
       setError(err?.message ?? 'Failed to unlock drop')
     } finally {
       setUnlocking(false)
     }
+  }
+
+  const handleStepUpSubmit = (method: ProofMethodType) => {
+    if (method === 'secret') {
+      if (!secretInput.trim()) return
+      handleUnlock([{ method: 'secret', data: { secret: secretInput.trim() } }])
+    }
+    // Future: AR (camera capture), ZKP (proof generation)
   }
 
   const formatDate = (iso: string) => {
@@ -210,6 +234,87 @@ export default function DropDetail({
                 }}
               >
                 {error}
+              </div>
+            )}
+
+            {/* Step-up verification */}
+            {stepUp && (
+              <div
+                style={{
+                  background: 'var(--md-tertiary-container)',
+                  color: 'var(--md-on-tertiary-container)',
+                  padding: '14px 16px',
+                  borderRadius: 16,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    marginBottom: 6,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  Additional Verification Required
+                </div>
+                <p style={{ margin: '0 0 10px', fontSize: '0.85rem', lineHeight: 1.4 }}>
+                  {stepUp.reason}
+                </p>
+                <p style={{ margin: '0 0 10px', fontSize: '0.75rem', opacity: 0.8 }}>
+                  Trust score: {(stepUp.trustScore * 100).toFixed(0)}%
+                </p>
+
+                {stepUp.availableMethods.includes('secret') && (
+                  <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                    <input
+                      type="text"
+                      placeholder="Enter secret code (QR / NFC)"
+                      value={secretInput}
+                      onChange={(e) => setSecretInput(e.target.value)}
+                      style={{
+                        flex: 1,
+                        padding: '10px 14px',
+                        borderRadius: 12,
+                        border: '1px solid var(--md-outline-variant)',
+                        background: 'var(--md-surface-container)',
+                        color: 'var(--md-on-surface)',
+                        fontSize: '0.85rem',
+                        outline: 'none',
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleStepUpSubmit('secret')}
+                      disabled={unlocking || !secretInput.trim()}
+                      style={{
+                        padding: '10px 16px',
+                        borderRadius: 12,
+                        border: 'none',
+                        background: 'var(--md-tertiary)',
+                        color: 'var(--md-on-tertiary)',
+                        fontSize: '0.85rem',
+                        fontWeight: 500,
+                        cursor: unlocking ? 'not-allowed' : 'pointer',
+                        opacity: unlocking ? 0.5 : 1,
+                      }}
+                    >
+                      Verify
+                    </button>
+                  </div>
+                )}
+
+                {stepUp.availableMethods.includes('ar') && (
+                  <p style={{ margin: '8px 0 0', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                    AR verification: camera capture coming soon
+                  </p>
+                )}
+
+                {stepUp.availableMethods.includes('zkp') && (
+                  <p style={{ margin: '8px 0 0', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                    ZKP verification: proof generation coming soon
+                  </p>
+                )}
               </div>
             )}
 

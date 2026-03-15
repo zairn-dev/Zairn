@@ -168,10 +168,12 @@ function GameView({ geo }: { geo: ReturnType<typeof createGeoDrop> }) {
     if (!myPos) { alert('GPS not available'); return }
     try {
       const result = await geo.unlockDrop(dropId, myPos.lat, myPos.lon, myPos.accuracy)
-      if (result.content) {
-        setUnlockedIds(prev => new Set(prev).add(dropId))
-        setUnlockedContent(prev => ({ ...prev, [dropId]: result.content }))
+      if (result.type === 'step-up-required') {
+        alert(`Additional verification needed: ${result.reason}`)
+        return
       }
+      setUnlockedIds(prev => new Set(prev).add(dropId))
+      setUnlockedContent(prev => ({ ...prev, [dropId]: result.content }))
     } catch (e: any) {
       alert(`Cannot unlock: ${e.message}`)
     }

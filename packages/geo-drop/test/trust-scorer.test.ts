@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { computeTrustScore, gateTrustScore } from '../src/trust-scorer';
-import type { LocationPoint, TrustScoreResult } from '../src/types';
+import type { LocationPoint, TrustScoreResult, StepUpRequired, UnlockSuccess, UnlockResult } from '../src/types';
 
 function makePoint(lat: number, lon: number, minutesAgo: number, accuracy: number | null = 10): LocationPoint {
   return {
@@ -132,5 +132,58 @@ describe('gateTrustScore', () => {
     expect(gateTrustScore(make(0.7))).toBe('proceed');
     expect(gateTrustScore(make(0.3))).toBe('step-up');
     expect(gateTrustScore(make(0.29))).toBe('deny');
+  });
+});
+
+describe('StepUpRequired / UnlockResult types', () => {
+  it('StepUpRequired has correct shape', () => {
+    const stepUp: StepUpRequired = {
+      type: 'step-up-required',
+      trustScore: 0.45,
+      reason: 'GPS signal unstable',
+      availableMethods: ['secret', 'ar'],
+      dropId: 'test-drop-id',
+    };
+    expect(stepUp.type).toBe('step-up-required');
+    expect(stepUp.availableMethods).toContain('secret');
+    expect(stepUp.trustScore).toBe(0.45);
+  });
+
+  it('UnlockSuccess has correct shape', () => {
+    const success: UnlockSuccess = {
+      type: 'success',
+      content: 'decrypted content',
+      claim: {} as any,
+      verification: { verified: true, proofs: [], timestamp: new Date().toISOString() },
+    };
+    expect(success.type).toBe('success');
+    expect(success.content).toBe('decrypted content');
+  });
+
+  it('UnlockResult discriminates by type field', () => {
+    const results: UnlockResult[] = [
+      {
+        type: 'step-up-required',
+        trustScore: 0.5,
+        reason: 'test',
+        availableMethods: ['secret'],
+        dropId: 'drop-1',
+      },
+      {
+        type: 'success',
+        content: 'hello',
+        claim: {} as any,
+        verification: { verified: true, proofs: [], timestamp: '' },
+      },
+    ];
+
+    for (const r of results) {
+      if (r.type === 'step-up-required') {
+        expect(r.availableMethods.length).toBeGreaterThan(0);
+        expect(r.dropId).toBeTruthy();
+      } else {
+        expect(r.content).toBe('hello');
+      }
+    }
   });
 });
