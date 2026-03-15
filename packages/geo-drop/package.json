@@ -35,14 +35,17 @@
     "zkp:repro": "node ./test/reproducibility-check.mjs",
     "zkp:prototype:bench": "node ./test/prototype-bench.mjs",
     "zkp:prototype:latency": "node ./test/prototype-latency.mjs",
-    "zkp:test": "tsx test/verify-features.ts"
+    "zkp:test": "tsx test/verify-features.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.0"
   },
   "devDependencies": {
     "circom2": "^0.2.22",
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "vitest": "^4.1.0"
   },
   "peerDependencies": {
     "@supabase/supabase-js": "^2.0.0",
