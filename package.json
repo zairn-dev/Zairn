@@ -28,6 +28,7 @@
     "test:extended": "npx tsx --env-file=.env test/extended-test.ts",
     "test:remaining": "npx tsx --env-file=.env test/remaining-test.ts",
     "test:unit": "pnpm --filter @zairn/geo-drop test",
+    "demo:bootstrap": "bash scripts/demo-bootstrap.sh",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset"
