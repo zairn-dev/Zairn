@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  --md-primary: #6442d6;
+  --md-on-primary: #fff;
+  --md-surface: #f8f5ff;
+  --md-on-surface: #1c1b1f;
+  --md-surface-container: #f2ecf9;
+  --md-outline: #79747e;
+  --md-error: #ba1a1a;
+  --md-tertiary: #7d5260;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}

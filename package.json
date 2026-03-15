@@ -29,6 +29,9 @@
     "test:remaining": "npx tsx --env-file=.env test/remaining-test.ts",
     "test:unit": "pnpm --filter @zairn/geo-drop test",
     "demo:bootstrap": "bash scripts/demo-bootstrap.sh",
+    "dev:social-map": "pnpm --filter social-map-example dev",
+    "dev:treasure-hunt": "pnpm --filter treasure-hunt-example dev",
+    "dev:zkp-demo": "pnpm --filter zkp-demo-example dev",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset"
