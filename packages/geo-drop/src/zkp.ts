@@ -94,6 +94,21 @@ export interface ZkpConfig {
   circuitName?: string;
 }
 
+/** A polygon vertex (lat/lon in degrees) */
+export interface PolygonVertex {
+  lat: number;
+  lon: number;
+}
+
+/** Result of region proof generation */
+export interface ZkRegionProof {
+  proof: Groth16Proof;
+  publicSignals: string[];
+}
+
+/** Maximum polygon vertices supported by the circuit */
+export const MAX_POLYGON_VERTICES = 16;
+
 // =====================
 // Coordinate conversion
 // =====================
@@ -306,6 +321,174 @@ export async function buildZkStatementBinding(
     epoch,
     challengeDigest: await hashToField(context.serverNonce),
   };
+}
+
+// =====================
+// Region (polygon containment) proof
+// =====================
+
+/**
+ * Prepare polygon vertices as fixed-point circuit inputs.
+ * Pads to MAX_POLYGON_VERTICES with zeros for inactive slots.
+ */
+function preparePolygonInputs(polygon: PolygonVertex[]): {
+  polyLat: string[];
+  polyLon: string[];
+  vertexCount: string;
+} {
+  if (polygon.length < 3) {
+    throw new Error('Polygon must have at least 3 vertices');
+  }
+  if (polygon.length > MAX_POLYGON_VERTICES) {
+    throw new Error(`Polygon exceeds maximum of ${MAX_POLYGON_VERTICES} vertices`);
+  }
+
+  const LAT_SHIFT = 90_000_000n;
+  const LON_SHIFT = 180_000_000n;
+
+  const polyLat: string[] = [];
+  const polyLon: string[] = [];
+
+  for (let i = 0; i < MAX_POLYGON_VERTICES; i++) {
+    if (i < polygon.length) {
+      // Shift to non-negative (same as circuit)
+      polyLat.push((toFixedPoint(polygon[i].lat) + LAT_SHIFT).toString());
+      polyLon.push((toFixedPoint(polygon[i].lon) + LON_SHIFT).toString());
+    } else {
+      // Padding: inactive vertices
+      polyLat.push('0');
+      polyLon.push('0');
+    }
+  }
+
+  return { polyLat, polyLon, vertexCount: polygon.length.toString() };
+}
+
+/**
+ * Generate a ZK region containment proof.
+ *
+ * Proves the user is inside a polygon defined by the given vertices,
+ * without revealing exact user coordinates.
+ *
+ * @param userLat  - User's latitude in degrees
+ * @param userLon  - User's longitude in degrees
+ * @param polygon  - Polygon vertices (3..16), ordered consistently (CW or CCW)
+ * @param config   - Circuit artifacts configuration (circuitName defaults to 'region_zkp')
+ * @param statement - Optional context binding for replay resistance
+ * @returns Groth16 proof and public signals
+ */
+export async function generateRegionProof(
+  userLat: number,
+  userLon: number,
+  polygon: PolygonVertex[],
+  config: ZkpConfig,
+  statement?: ZkStatementBinding,
+): Promise<ZkRegionProof> {
+  const snarkjs = await loadSnarkjs();
+
+  const regionConfig = { ...config, circuitName: config.circuitName ?? 'region_zkp' };
+  const artifacts = resolveArtifacts(regionConfig);
+
+  const { polyLat, polyLon, vertexCount } = preparePolygonInputs(polygon);
+
+  const input: Record<string, string | string[]> = {
+    userLat: toFixedPoint(userLat).toString(),
+    userLon: toFixedPoint(userLon).toString(),
+    polyLat,
+    polyLon,
+    vertexCount,
+  };
+
+  if (statement) {
+    input.contextDigest = statement.contextDigest;
+    input.epoch = statement.epoch;
+    input.challengeDigest = statement.challengeDigest;
+  }
+
+  const { proof, publicSignals } = await snarkjs.groth16.fullProve(
+    input,
+    artifacts.wasmUrl,
+    artifacts.zkeyUrl,
+  );
+
+  return { proof, publicSignals };
+}
+
+/**
+ * Generate a context-bound region containment proof.
+ */
+export async function generateZairnRegionProof(
+  userLat: number,
+  userLon: number,
+  polygon: PolygonVertex[],
+  context: ZkContextBinding,
+  config: ZkpConfig,
+): Promise<ZkRegionProof & { statement: ZkStatementBinding }> {
+  const statement = await buildZkStatementBinding(context);
+  const proof = await generateRegionProof(
+    userLat,
+    userLon,
+    polygon,
+    config,
+    statement,
+  );
+  return { ...proof, statement };
+}
+
+/**
+ * Verify a ZK region containment proof.
+ */
+export async function verifyRegionProof(
+  proof: Groth16Proof,
+  publicSignals: string[],
+  verificationKey: VerificationKey,
+): Promise<boolean> {
+  const snarkjs = await loadSnarkjs();
+  return snarkjs.groth16.verify(verificationKey, publicSignals, proof);
+}
+
+/**
+ * Validate that region proof public signals match expected polygon parameters.
+ *
+ * Public signals layout (from region_zkp circuit, MAX_VERTICES=16):
+ *   [0]     valid (always 1)
+ *   [1..16] polyLat[0..15]
+ *   [17..32] polyLon[0..15]
+ *   [33]    vertexCount
+ *   [34]    contextDigest  (optional)
+ *   [35]    epoch          (optional)
+ *   [36]    challengeDigest (optional)
+ */
+export function validateRegionPublicSignals(
+  publicSignals: string[],
+  polygon: PolygonVertex[],
+  statement?: ZkStatementBinding,
+): boolean {
+  // 1 (valid) + 16 (polyLat) + 16 (polyLon) + 1 (vertexCount) = 34
+  if (publicSignals.length < 34) return false;
+
+  // Check valid flag
+  if (publicSignals[0] !== '1') return false;
+
+  const { polyLat, polyLon, vertexCount } = preparePolygonInputs(polygon);
+
+  // Check polygon vertices
+  for (let i = 0; i < MAX_POLYGON_VERTICES; i++) {
+    if (publicSignals[1 + i] !== polyLat[i]) return false;
+    if (publicSignals[17 + i] !== polyLon[i]) return false;
+  }
+
+  // Check vertex count
+  if (publicSignals[33] !== vertexCount) return false;
+
+  if (!statement) return true;
+  if (publicSignals.length < 37) return false;
+
+  if (publicSignals[34] !== statement.contextDigest) return false;
+  if (publicSignals[35] !== statement.epoch) return false;
+  if (publicSignals[36] !== statement.challengeDigest) return false;
+
+  return true;
 }
 
 // =====================

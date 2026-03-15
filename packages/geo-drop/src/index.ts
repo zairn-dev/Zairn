@@ -73,6 +73,12 @@ export {
   toFixedPoint,
   metersToRadiusSquared,
   cosLatScaled,
+  // Region (polygon containment)
+  generateRegionProof,
+  generateZairnRegionProof,
+  verifyRegionProof,
+  validateRegionPublicSignals,
+  MAX_POLYGON_VERTICES,
 } from './zkp';
 export type {
   Groth16Proof,
@@ -82,6 +88,8 @@ export type {
   CircuitArtifacts,
   VerificationKey,
   ZkpConfig,
+  PolygonVertex,
+  ZkRegionProof,
 } from './zkp';
 
 // Trust scoring
