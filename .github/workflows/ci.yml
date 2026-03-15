@@ -7,6 +7,26 @@ on:
     branches: [main]
 
 jobs:
+  unit-test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build SDK (dependency)
+        run: pnpm --filter @zairn/sdk build
+      - name: Build geo-drop
+        run: pnpm --filter @zairn/geo-drop build
+      - name: Run unit tests
+        run: pnpm test:unit
+
   build:
     name: Build & Type Check
     runs-on: ubuntu-latest
