@@ -34,8 +34,8 @@ import {
   SharingEffectLevel,
   PolicyCondition,
 } from './types';
-import { computeTrustScore, gateTrustScore } from '@zairn/geo-drop';
-import type { LocationPoint } from '@zairn/geo-drop';
+import { computeTrustScore, gateTrustScore } from './trust-scorer';
+import type { LocationPoint } from './trust-scorer';
 import { evaluatePolicies, coarsenLocation } from './policy-engine';
 
 /**

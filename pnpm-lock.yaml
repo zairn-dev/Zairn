@@ -138,9 +138,6 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.47.0
         version: 2.95.3
-      '@zairn/geo-drop':
-        specifier: workspace:*
-        version: link:../geo-drop
     devDependencies:
       typescript:
         specifier: ^5.6.0
