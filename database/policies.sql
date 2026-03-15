@@ -515,6 +515,23 @@ using (auth.uid() = user_id)
 with check (auth.uid() = user_id);
 
 -- =====================
+-- sharing_policies ポリシー（SecureCheck）
+-- =====================
+alter table sharing_policies enable row level security;
+
+-- オーナーは自分のポリシーを完全管理
+create policy "sharing_policies_manage_own"
+on sharing_policies
+for all
+using (auth.uid() = owner_id)
+with check (auth.uid() = owner_id);
+
+-- viewer_idが設定されている場合、その相手もポリシーを閲覧可能（透明性）
+create policy "sharing_policies_read_as_viewer"
+on sharing_policies for select
+using (auth.uid() = viewer_id);
+
+-- =====================
 -- Supabase Storage ポリシー（avatarsバケット）
 -- =====================
 -- Supabase Storage ポリシー（ダッシュボードの SQL Editor で実行）

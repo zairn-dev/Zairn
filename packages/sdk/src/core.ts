@@ -28,7 +28,15 @@ import {
   VisitedCell,
   VisitedCellStats,
   AreaRanking,
+  SharingPolicy,
+  SharingPolicyCreate,
+  FilteredLocation,
+  SharingEffectLevel,
+  PolicyCondition,
 } from './types';
+import { computeTrustScore, gateTrustScore } from '@zairn/geo-drop';
+import type { LocationPoint } from '@zairn/geo-drop';
+import { evaluatePolicies, coarsenLocation } from './policy-engine';
 
 /**
  * 2点間の距離を計算（メートル）- Haversine公式
@@ -190,6 +198,21 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
         const distance = calculateDistance(current.lat, current.lon, update.lat, update.lon);
         if (distance < 50 && current.location_since) {
           locationSince = current.location_since;
+        }
+
+        // Trust scoring: use previous location as single-entry history
+        const trustHistory: LocationPoint[] = [{
+          lat: current.lat,
+          lon: current.lon,
+          accuracy: null,
+          timestamp: current.location_since ?? new Date().toISOString(),
+        }];
+        const trustResult = computeTrustScore(
+          { lat: update.lat, lon: update.lon, accuracy: update.accuracy ?? null, timestamp: new Date().toISOString() },
+          trustHistory,
+        );
+        if (gateTrustScore(trustResult) === 'deny') {
+          throw new Error('Location trust check failed: suspicious location pattern detected');
         }
       }
 
@@ -353,6 +376,159 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       .eq('owner_id', ownerId)
       .eq('viewer_id', viewerId);
     if (error) throw error;
+  };
+
+  // =====================
+  // 共有ポリシー（SecureCheck）
+  // =====================
+  const addSharingPolicy = async (policy: SharingPolicyCreate): Promise<SharingPolicy> => {
+    if (policy.viewer_id) assertUuid(policy.viewer_id, 'viewer_id');
+    const ownerId = await getUserId();
+    const { data, error } = await supabase
+      .from('sharing_policies')
+      .insert({
+        owner_id: ownerId,
+        viewer_id: policy.viewer_id ?? null,
+        conditions: policy.conditions,
+        effect_level: policy.effect_level,
+        coarse_radius_m: policy.coarse_radius_m ?? null,
+        priority: policy.priority ?? 0,
+        label: policy.label ?? null,
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return data as SharingPolicy;
+  };
+
+  const getSharingPolicies = async (): Promise<SharingPolicy[]> => {
+    const ownerId = await getUserId();
+    const { data, error } = await supabase
+      .from('sharing_policies')
+      .select('*')
+      .eq('owner_id', ownerId)
+      .order('priority', { ascending: false });
+    if (error) throw error;
+    return (data ?? []) as SharingPolicy[];
+  };
+
+  const updateSharingPolicy = async (
+    policyId: string,
+    updates: Partial<SharingPolicyCreate>,
+  ): Promise<SharingPolicy> => {
+    assertUuid(policyId, 'policyId');
+    if (updates.viewer_id) assertUuid(updates.viewer_id, 'viewer_id');
+    const ownerId = await getUserId();
+    const { data, error } = await supabase
+      .from('sharing_policies')
+      .update({
+        ...(updates.viewer_id !== undefined && { viewer_id: updates.viewer_id }),
+        ...(updates.conditions !== undefined && { conditions: updates.conditions }),
+        ...(updates.effect_level !== undefined && { effect_level: updates.effect_level }),
+        ...(updates.coarse_radius_m !== undefined && { coarse_radius_m: updates.coarse_radius_m }),
+        ...(updates.priority !== undefined && { priority: updates.priority }),
+        ...(updates.label !== undefined && { label: updates.label }),
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', policyId)
+      .eq('owner_id', ownerId)
+      .select()
+      .single();
+    if (error) throw error;
+    return data as SharingPolicy;
+  };
+
+  const deleteSharingPolicy = async (policyId: string): Promise<void> => {
+    assertUuid(policyId, 'policyId');
+    const ownerId = await getUserId();
+    const { error } = await supabase
+      .from('sharing_policies')
+      .delete()
+      .eq('id', policyId)
+      .eq('owner_id', ownerId);
+    if (error) throw error;
+  };
+
+  const getVisibleFriendsFiltered = async (
+    myLat: number,
+    myLon: number,
+  ): Promise<FilteredLocation[]> => {
+    const userId = await getUserId();
+
+    // Fetch friends and their policies in parallel
+    const [friends, policiesResult, rulesResult] = await Promise.all([
+      getVisibleFriends(),
+      supabase
+        .from('sharing_policies')
+        .select('*')
+        .eq('enabled', true),
+      supabase
+        .from('share_rules')
+        .select('owner_id, viewer_id, level')
+        .eq('viewer_id', userId),
+    ]);
+
+    // Build share level map: owner_id → level
+    const shareLevels = new Map<string, ShareLevel>();
+    for (const rule of rulesResult.data ?? []) {
+      shareLevels.set(rule.owner_id, rule.level as ShareLevel);
+    }
+
+    // Group policies by owner_id
+    const allPolicies = (policiesResult.data ?? []) as SharingPolicy[];
+    const policiesByOwner = new Map<string, SharingPolicy[]>();
+    for (const p of allPolicies) {
+      const list = policiesByOwner.get(p.owner_id) ?? [];
+      list.push(p);
+      policiesByOwner.set(p.owner_id, list);
+    }
+
+    const results: FilteredLocation[] = [];
+    const now = new Date();
+
+    for (const friend of friends) {
+      if (friend.user_id === userId) continue;
+
+      const shareLevel = shareLevels.get(friend.user_id) ?? 'none';
+      if (shareLevel === 'none') continue;
+
+      const ownerPolicies = policiesByOwner.get(friend.user_id) ?? [];
+      const { level, coarseRadiusM } = evaluatePolicies(
+        ownerPolicies,
+        userId,
+        {
+          ownerLat: friend.lat,
+          ownerLon: friend.lon,
+          viewerLat: myLat,
+          viewerLon: myLon,
+          now,
+        },
+        shareLevel,
+      );
+
+      if (level === 'none') continue;
+
+      let { lat, lon } = friend;
+      let coarsened = false;
+
+      if (level === 'coarse' && coarseRadiusM) {
+        const snapped = coarsenLocation(lat, lon, coarseRadiusM);
+        lat = snapped.lat;
+        lon = snapped.lon;
+        coarsened = true;
+      }
+
+      results.push({
+        ...friend,
+        lat,
+        lon,
+        share_level: shareLevel,
+        effective_level: level,
+        coarsened,
+      });
+    }
+
+    return results;
   };
 
   // =====================
@@ -883,8 +1059,31 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     radiusMeters: number = 500
   ): Promise<NearbyUser[]> => {
     radiusMeters = Math.max(0, Math.min(50000, radiusMeters));
-    const friends = await getVisibleFriends();
     const userId = await getUserId();
+
+    // Trust scoring: check caller's location against their last known position
+    const { data: currentLoc } = await supabase
+      .from('locations_current')
+      .select('lat, lon, updated_at')
+      .eq('user_id', userId)
+      .maybeSingle();
+    if (currentLoc) {
+      const trustHistory: LocationPoint[] = [{
+        lat: currentLoc.lat,
+        lon: currentLoc.lon,
+        accuracy: null,
+        timestamp: currentLoc.updated_at,
+      }];
+      const trustResult = computeTrustScore(
+        { lat: myLat, lon: myLon, accuracy: null, timestamp: new Date().toISOString() },
+        trustHistory,
+      );
+      if (gateTrustScore(trustResult) === 'deny') {
+        throw new Error('Location trust check failed: suspicious location pattern detected');
+      }
+    }
+
+    const friends = await getVisibleFriends();
 
     const nearby: NearbyUser[] = [];
 
@@ -1423,6 +1622,12 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     // 共有ルール
     allow,
     revoke,
+    // 共有ポリシー（SecureCheck）
+    addSharingPolicy,
+    getSharingPolicies,
+    updateSharingPolicy,
+    deleteSharingPolicy,
+    getVisibleFriendsFiltered,
     // プロフィール
     getProfile,
     updateProfile,

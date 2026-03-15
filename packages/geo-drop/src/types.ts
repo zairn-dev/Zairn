@@ -361,6 +361,41 @@ export interface RecoveredDrop {
 }
 
 // =====================
+// Location Trust Scoring
+// =====================
+
+/** A single location point used for trust scoring */
+export interface LocationPoint {
+  lat: number;
+  lon: number;
+  accuracy: number | null;
+  timestamp: string;
+  speed?: number | null;
+}
+
+/** Result of trust scoring */
+export interface TrustScoreResult {
+  /** Overall trust score: 0.0 (untrusted) to 1.0 (fully trusted) */
+  trustScore: number;
+  /** True when trustScore < 0.3 */
+  spoofingSuspected: boolean;
+  /** Breakdown of individual signal scores */
+  signals: {
+    movementPlausibility: number;
+    accuracyAnomaly: number;
+    temporalConsistency: number;
+  };
+}
+
+/** Action gate thresholds */
+export interface TrustThresholds {
+  /** Score >= this: proceed normally (default 0.7) */
+  proceed: number;
+  /** Score >= this but < proceed: step-up verification (default 0.3) */
+  stepUp: number;
+}
+
+// =====================
 // SDK
 // =====================
 export interface GeoDropOptions {
