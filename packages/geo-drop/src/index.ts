@@ -84,6 +84,10 @@ export type {
   ZkpConfig,
 } from './zkp';
 
+// Trust scoring
+export { computeTrustScore, gateTrustScore } from './trust-scorer';
+export type { LocationPoint, TrustScoreResult, TrustThresholds } from './types';
+
 // Geofence utilities
 export { encodeGeohash, decodeGeohash, calculateDistance, verifyProximity, geohashNeighbors, isMovementRealistic } from './geofence';
 export type { VerifyOptions } from './geofence';

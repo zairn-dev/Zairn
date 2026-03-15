@@ -804,6 +804,33 @@ end;
 $$ language plpgsql security definer;
 
 -- =====================
+-- 共有ポリシー（SecureCheck: コンテキスト依存の共有粒度制御）
+-- =====================
+create type sharing_effect_level as enum ('none', 'coarse', 'current', 'history');
+
+create table if not exists sharing_policies (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  -- viewer_id: 特定ユーザー or NULL（全フレンドに適用）
+  viewer_id uuid references auth.users(id) on delete cascade,
+  -- 条件（AND論理で評価）
+  conditions jsonb not null default '[]',
+  -- 効果
+  effect_level sharing_effect_level not null default 'current',
+  coarse_radius_m real,
+  -- 優先度（大きいほど高優先）
+  priority integer not null default 0,
+  -- メタデータ
+  label text,
+  enabled boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_sharing_policies_owner on sharing_policies (owner_id);
+create index if not exists idx_sharing_policies_viewer on sharing_policies (owner_id, viewer_id);
+
+-- =====================
 -- Supabase Storageバケット（avatars）
 -- =====================
 -- Supabaseダッシュボードまたはマイグレーションで実行:

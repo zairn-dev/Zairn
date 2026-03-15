@@ -276,6 +276,55 @@ export interface AreaRanking {
 }
 
 // =====================
+// 共有ポリシー（SecureCheck）
+// =====================
+export type SharingEffectLevel = 'none' | 'coarse' | 'current' | 'history';
+
+export type PolicyCondition =
+  | { type: 'time_range'; start: string; end: string; timezone?: string }
+  | { type: 'geofence'; lat: number; lon: number; radius_m: number; inside: boolean }
+  | { type: 'proximity'; max_distance_m: number }
+  | { type: 'trust_score'; min: number };
+
+export interface SharingPolicyEffect {
+  level: SharingEffectLevel;
+  coarse_radius_m?: number;
+}
+
+export interface SharingPolicy {
+  id: string;
+  owner_id: string;
+  viewer_id: string | null;
+  conditions: PolicyCondition[];
+  effect_level: SharingEffectLevel;
+  coarse_radius_m: number | null;
+  priority: number;
+  label: string | null;
+  enabled: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SharingPolicyCreate {
+  viewer_id?: string | null;
+  conditions: PolicyCondition[];
+  effect_level: SharingEffectLevel;
+  coarse_radius_m?: number;
+  priority?: number;
+  label?: string;
+}
+
+/** Location after policy filtering (may be coarsened) */
+export interface FilteredLocation extends LocationCurrentRow {
+  /** Original share level from share_rules */
+  share_level: ShareLevel;
+  /** Effective level after policy evaluation */
+  effective_level: SharingEffectLevel;
+  /** True if coordinates were coarsened */
+  coarsened: boolean;
+}
+
+// =====================
 // SDK戻り値の型
 // =====================
 export interface LocationCore {
@@ -395,6 +444,13 @@ export interface LocationCore {
   getFriendRanking: (options?: { areaPrefix?: string }) => Promise<AreaRanking[]>;
   encodeGeohash: (lat: number, lon: number, precision?: number) => string;
   decodeGeohash: (geohash: string) => { lat: number; lon: number };
+
+  // 共有ポリシー（SecureCheck）
+  addSharingPolicy: (policy: SharingPolicyCreate) => Promise<SharingPolicy>;
+  getSharingPolicies: () => Promise<SharingPolicy[]>;
+  updateSharingPolicy: (policyId: string, updates: Partial<SharingPolicyCreate>) => Promise<SharingPolicy>;
+  deleteSharingPolicy: (policyId: string) => Promise<void>;
+  getVisibleFriendsFiltered: (myLat: number, myLon: number) => Promise<FilteredLocation[]>;
 
   // ユーティリティ
   calculateDistance: (lat1: number, lon1: number, lat2: number, lon2: number) => number;

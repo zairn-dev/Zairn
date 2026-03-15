@@ -24,6 +24,8 @@ import type {
 import { IpfsClient } from './ipfs';
 import { encrypt, decrypt, hashPassword, verifyPassword, deriveLocationKey } from './crypto';
 import { calculateDistance, encodeGeohash, decodeGeohash, isMovementRealistic, geohashNeighbors } from './geofence';
+import { computeTrustScore, gateTrustScore } from './trust-scorer';
+import type { LocationPoint } from './types';
 import { createVerificationEngine } from './verification';
 import { createPersistenceManager } from './persistence';
 import { createChainClient } from './chain';
@@ -385,7 +387,25 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     }
 
     // --- Client-side unlock (for development / self-hosted without Edge Functions) ---
-    await checkAntiSpoof(userId, lat, lon);
+    // Trust scoring: fetch recent logs and compute trust score
+    const { data: recentLogs } = await supabase
+      .from('drop_location_logs')
+      .select('lat, lon, created_at')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(5);
+
+    const trustHistory: LocationPoint[] = (recentLogs ?? []).map(l => ({
+      lat: l.lat, lon: l.lon, accuracy: null, timestamp: l.created_at,
+    }));
+    const trustResult = computeTrustScore(
+      { lat, lon, accuracy: accuracy ?? null, timestamp: new Date().toISOString() },
+      trustHistory,
+    );
+    if (gateTrustScore(trustResult) === 'deny') {
+      throw new Error('Location trust check failed: suspicious location pattern detected');
+    }
+
     await logLocation(userId, lat, lon, 'unlock_attempt');
 
     // Client-side unlock needs full row including encryption_salt, password_hash, encrypted_content
