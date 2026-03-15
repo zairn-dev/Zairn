@@ -41,6 +41,8 @@ create table if not exists geo_drops (
   persistence_level text not null default 'db-only',
   metadata_cid text,
   chain_tx_hash text,
+  -- Encrypted search (GridSE tokens)
+  search_tokens jsonb, -- [{ precision: number, token: string }, ...]
   -- Timestamps
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -50,6 +52,7 @@ create index if not exists idx_geo_drops_creator on geo_drops (creator_id);
 create index if not exists idx_geo_drops_geohash on geo_drops (geohash);
 create index if not exists idx_geo_drops_status on geo_drops (status);
 create index if not exists idx_geo_drops_geohash_status on geo_drops (geohash, status);
+create index if not exists idx_geo_drops_search_tokens on geo_drops using gin (search_tokens jsonb_path_ops);
 
 -- Claims (collection records)
 create table if not exists drop_claims (
