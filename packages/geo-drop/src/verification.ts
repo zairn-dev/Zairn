@@ -18,12 +18,15 @@ import {
   buildZkStatementBinding,
   verifyProximityProof,
   validatePublicSignals,
+  verifyRegionProof,
+  validateRegionPublicSignals,
 } from './zkp';
 import type {
   Groth16Proof,
   VerificationKey,
   ZkContextBinding,
   ZkStatementBinding,
+  PolygonVertex,
 } from './zkp';
 
 export interface VerificationEngineOptions {
@@ -284,6 +287,76 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
   };
 
   // =====================
+  // ZKP-Region verifier: Polygon containment proof
+  // =====================
+
+  const verifyZkpRegion: ProofVerifier = async (req, sub, drop) => {
+    const proof = sub.data.proof as Groth16Proof | undefined;
+    const publicSignals = sub.data.publicSignals as string[] | undefined;
+    const vkey = req.params.verification_key as VerificationKey | undefined;
+    const polygon = req.params.polygon as PolygonVertex[] | undefined;
+    const statement = await resolveZkStatement(req.params, sub.data, drop);
+
+    if (!proof || !publicSignals) {
+      return {
+        method: 'zkp-region' as ProofMethodType,
+        verified: false,
+        details: { error: 'Missing proof or publicSignals in region proof submission' },
+      };
+    }
+    if (!vkey) {
+      return {
+        method: 'zkp-region' as ProofMethodType,
+        verified: false,
+        details: { error: 'No verification_key configured in proof requirement' },
+      };
+    }
+    if (!polygon || polygon.length < 3) {
+      return {
+        method: 'zkp-region' as ProofMethodType,
+        verified: false,
+        details: { error: 'Polygon with at least 3 vertices required in proof requirement' },
+      };
+    }
+
+    // 1. Validate public signals match the polygon
+    if (!validateRegionPublicSignals(publicSignals, polygon, statement)) {
+      return {
+        method: 'zkp-region' as ProofMethodType,
+        verified: false,
+        details: {
+          error: statement
+            ? 'Public signals do not match polygon parameters or statement context'
+            : 'Public signals do not match polygon parameters (possible proof reuse)',
+        },
+      };
+    }
+
+    // 2. Verify the Groth16 proof
+    try {
+      const valid = await verifyRegionProof(proof, publicSignals, vkey);
+      return {
+        method: 'zkp-region' as ProofMethodType,
+        verified: valid,
+        details: {
+          proof_valid: valid,
+          protocol: 'groth16',
+          curve: 'bn128',
+          region_type: 'polygon',
+          vertex_count: polygon.length,
+          context_bound: !!statement,
+        },
+      };
+    } catch (e) {
+      return {
+        method: 'zkp-region' as ProofMethodType,
+        verified: false,
+        details: { error: e instanceof Error ? e.message : 'Region proof verification failed' },
+      };
+    }
+  };
+
+  // =====================
   // Edge Function call
   // =====================
 
@@ -343,6 +416,7 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
       case 'secret': return verifySecret;
       case 'ar': return verifyAr;
       case 'zkp': return verifyZkp;
+      case 'zkp-region': return verifyZkpRegion;
       default:
         throw new Error(`No verifier registered for method: ${method}`);
     }
