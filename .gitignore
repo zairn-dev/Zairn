@@ -28,6 +28,13 @@ nul
 supabase/.temp/
 supabase/.branches/
 
+# TLS / secrets
+*.crt
+*.key
+
+# Generated evaluation results (reproducible from scripts)
+packages/geo-drop/test/*-2026-*.json
+
 # Project-specific
 CLAUDE.md
 AGENTS.md
