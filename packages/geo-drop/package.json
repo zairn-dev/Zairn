@@ -76,5 +76,6 @@
     "type": "git",
     "url": "https://github.com/zairn-dev/Zairn.git",
     "directory": "packages/geo-drop"
-  }
+  },
+  "homepage": "https://github.com/zairn-dev/Zairn/tree/main/packages/geo-drop"
 }
