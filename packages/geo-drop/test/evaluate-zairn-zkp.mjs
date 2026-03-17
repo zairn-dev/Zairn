@@ -16,9 +16,13 @@ function hashToDecimal(value) {
   return BigInt(`0x${digest}`).toString();
 }
 
+function lengthPrefixEncode(...fields) {
+  return fields.map(f => `${String(f).length.toString(10).padStart(4, '0')}${f}`).join('');
+}
+
 function buildStatement({ dropId, policyVersion = '1', epoch, serverNonce }) {
   return {
-    contextDigest: hashToDecimal(`${dropId}:${policyVersion}:${epoch}`),
+    contextDigest: hashToDecimal(lengthPrefixEncode(dropId, policyVersion, String(epoch))),
     epoch: String(epoch),
     challengeDigest: hashToDecimal(serverNonce),
   };

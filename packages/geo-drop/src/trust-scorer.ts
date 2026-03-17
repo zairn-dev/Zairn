@@ -7,7 +7,7 @@
  */
 
 import { calculateDistance } from './geofence.js';
-import type { LocationPoint, TrustScoreResult, TrustThresholds } from './types.js';
+import type { LocationPoint, TrustScoreResult, TrustScoreResultV2, TrustThresholds, GpsFix, NetworkHint, TrustContext } from './types.js';
 
 // =====================
 // Signal weights
@@ -86,6 +86,48 @@ function scoreTemporalConsistency(
 }
 
 // =====================
+// Signal 4: RAIM-style fix consistency (V2)
+// =====================
+
+function scoreFixConsistency(recentFixes: GpsFix[]): number {
+  if (recentFixes.length < 3) return 0.8; // insufficient data
+
+  const n = recentFixes.length;
+  const meanLat = recentFixes.reduce((s, f) => s + f.lat, 0) / n;
+  const meanLon = recentFixes.reduce((s, f) => s + f.lon, 0) / n;
+  const meanAcc = recentFixes.reduce((s, f) => s + f.accuracy, 0) / n;
+
+  const varLat = recentFixes.reduce((s, f) => s + (f.lat - meanLat) ** 2, 0) / n;
+  const varLon = recentFixes.reduce((s, f) => s + (f.lon - meanLon) ** 2, 0) / n;
+
+  // Convert stddev degrees → meters (lat: 111320 m/deg, lon: adjusted by cos(lat))
+  const stdLatM = Math.sqrt(varLat) * 111320;
+  const stdLonM = Math.sqrt(varLon) * 111320 * Math.cos((meanLat * Math.PI) / 180);
+  const maxStd = Math.max(stdLatM, stdLonM);
+
+  // Compare scatter against reported accuracy
+  if (meanAcc <= 0) return 0.5; // avoid division by zero
+  const ratio = maxStd / meanAcc;
+
+  if (ratio <= 0.5) return 1.0;
+  if (ratio <= 1.0) return 1.0 - 0.3 * ((ratio - 0.5) / 0.5);  // 1.0 → 0.7
+  if (ratio <= 2.0) return 0.7 - 0.3 * ((ratio - 1.0) / 1.0);  // 0.7 → 0.4
+  return 0.2;
+}
+
+// =====================
+// Signal 5: Network position cross-check (V2)
+// =====================
+
+function scoreNetworkConsistency(current: LocationPoint, hint: NetworkHint): number {
+  const dist = calculateDistance(current.lat, current.lon, hint.lat, hint.lon);
+  if (dist < hint.accuracy) return 1.0;
+  if (dist < 2 * hint.accuracy) return 0.7;
+  if (dist < 5 * hint.accuracy) return 0.5;
+  return 0.3;
+}
+
+// =====================
 // Public API
 // =====================
 
@@ -125,6 +167,72 @@ export function computeTrustScore(
  * - 'step-up': trustScore >= stepUp threshold (default 0.3)
  * - 'deny':    trustScore < stepUp threshold
  */
+/**
+ * Compute a V2 trust score with optional RAIM fix consistency and network cross-check.
+ *
+ * When no context signals are provided, delegates to V1 (identical result).
+ * Dynamic weight allocation based on available signals:
+ * - Both fixes + network: movement 0.30, accuracy 0.10, temporal 0.15, fix 0.25, network 0.20
+ * - Fixes only:           movement 0.35, accuracy 0.15, temporal 0.20, fix 0.30
+ * - Network only:         movement 0.40, accuracy 0.15, temporal 0.20, network 0.25
+ */
+export function computeTrustScoreV2(
+  current: LocationPoint,
+  history: LocationPoint[],
+  context?: TrustContext,
+): TrustScoreResultV2 {
+  const hasFixes = context?.recentFixes && context.recentFixes.length > 0;
+  const hasNetwork = context?.networkHint != null;
+
+  // No extra signals → delegate to V1 for exact backward compatibility
+  if (!hasFixes && !hasNetwork) {
+    return computeTrustScore(current, history) as TrustScoreResultV2;
+  }
+
+  const movementPlausibility = scoreMovement(current, history);
+  const accuracyAnomaly = scoreAccuracy(current);
+  const temporalConsistency = scoreTemporalConsistency(current, history);
+
+  let fixConsistency: number | undefined;
+  let networkConsistency: number | undefined;
+
+  let wM: number, wA: number, wT: number, wF: number, wN: number;
+
+  if (hasFixes && hasNetwork) {
+    wM = 0.30; wA = 0.10; wT = 0.15; wF = 0.25; wN = 0.20;
+    fixConsistency = scoreFixConsistency(context!.recentFixes!);
+    networkConsistency = scoreNetworkConsistency(current, context!.networkHint!);
+  } else if (hasFixes) {
+    wM = 0.35; wA = 0.15; wT = 0.20; wF = 0.30; wN = 0;
+    fixConsistency = scoreFixConsistency(context!.recentFixes!);
+  } else {
+    // hasNetwork only
+    wM = 0.40; wA = 0.15; wT = 0.20; wF = 0; wN = 0.25;
+    networkConsistency = scoreNetworkConsistency(current, context!.networkHint!);
+  }
+
+  const raw =
+    wM * movementPlausibility +
+    wA * accuracyAnomaly +
+    wT * temporalConsistency +
+    wF * (fixConsistency ?? 0) +
+    wN * (networkConsistency ?? 0);
+
+  const trustScore = Math.round(Math.max(0, Math.min(1, raw)) * 100) / 100;
+
+  return {
+    trustScore,
+    spoofingSuspected: trustScore < 0.3,
+    signals: {
+      movementPlausibility,
+      accuracyAnomaly,
+      temporalConsistency,
+      ...(fixConsistency !== undefined && { fixConsistency }),
+      ...(networkConsistency !== undefined && { networkConsistency }),
+    },
+  };
+}
+
 export function gateTrustScore(
   result: TrustScoreResult,
   thresholds?: Partial<TrustThresholds>,

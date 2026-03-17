@@ -316,11 +316,25 @@ export async function buildZkStatementBinding(
   const epoch = String(context.epoch);
   return {
     contextDigest: await hashToField(
-      `${context.dropId}:${policyVersion}:${epoch}`
+      lengthPrefixEncode(context.dropId, policyVersion, epoch)
     ),
     epoch,
     challengeDigest: await hashToField(context.serverNonce),
   };
+}
+
+/**
+ * Length-prefixed canonical encoding for hash pre-images.
+ * Each field is encoded as a 4-digit decimal length prefix followed by its UTF-8 value.
+ * This provides formally unambiguous domain separation regardless of field content,
+ * unlike separator-based encoding which requires restricting the character set.
+ *
+ * Example: lengthPrefixEncode("drop-42", "2", "7") → "0007drop-420001200017"
+ */
+export function lengthPrefixEncode(...fields: string[]): string {
+  return fields
+    .map((f) => `${f.length.toString(10).padStart(4, '0')}${f}`)
+    .join('');
 }
 
 // =====================

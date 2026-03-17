@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { computeTrustScore, gateTrustScore } from '../src/trust-scorer';
-import type { LocationPoint, TrustScoreResult, StepUpRequired, UnlockSuccess, UnlockResult } from '../src/types';
+import { computeTrustScore, computeTrustScoreV2, gateTrustScore } from '../src/trust-scorer';
+import type { LocationPoint, TrustScoreResult, TrustScoreResultV2, StepUpRequired, UnlockSuccess, UnlockResult, GpsFix, NetworkHint, TrustContext } from '../src/types';
 
 function makePoint(lat: number, lon: number, minutesAgo: number, accuracy: number | null = 10): LocationPoint {
   return {
@@ -185,5 +185,174 @@ describe('StepUpRequired / UnlockResult types', () => {
         expect(r.content).toBe('hello');
       }
     }
+  });
+});
+
+// =====================
+// Trust Scorer V2 tests
+// =====================
+
+function makeFix(lat: number, lon: number, accuracy: number, minutesAgo: number): GpsFix {
+  return { lat, lon, accuracy, timestamp: new Date(Date.now() - minutesAgo * 60_000).toISOString() };
+}
+
+describe('computeTrustScoreV2', () => {
+  // --- Fix consistency tests ---
+
+  it('gives high fix consistency for stable GPS fixes', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    const fixes: GpsFix[] = [
+      makeFix(35.68000, 139.76000, 10, 0),
+      makeFix(35.68001, 139.76001, 10, 0.5),
+      makeFix(35.67999, 139.75999, 10, 1),
+      makeFix(35.68002, 139.76002, 10, 1.5),
+    ];
+    const result = computeTrustScoreV2(current, history, { recentFixes: fixes });
+    expect(result.signals.fixConsistency).toBeDefined();
+    expect(result.signals.fixConsistency!).toBeGreaterThanOrEqual(0.9);
+  });
+
+  it('gives low fix consistency for scattered fixes', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    // Scatter: fixes jump ~500m apart but report 10m accuracy
+    const fixes: GpsFix[] = [
+      makeFix(35.6800, 139.7600, 10, 0),
+      makeFix(35.6850, 139.7650, 10, 0.5),
+      makeFix(35.6750, 139.7550, 10, 1),
+      makeFix(35.6900, 139.7700, 10, 1.5),
+    ];
+    const result = computeTrustScoreV2(current, history, { recentFixes: fixes });
+    expect(result.signals.fixConsistency).toBeDefined();
+    expect(result.signals.fixConsistency!).toBeLessThanOrEqual(0.4);
+  });
+
+  it('returns 0.8 fix consistency for insufficient fixes (<3)', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    const fixes: GpsFix[] = [
+      makeFix(35.6800, 139.7600, 10, 0),
+      makeFix(35.6801, 139.7601, 10, 0.5),
+    ];
+    const result = computeTrustScoreV2(current, history, { recentFixes: fixes });
+    expect(result.signals.fixConsistency).toBe(0.8);
+  });
+
+  // --- Network consistency tests ---
+
+  it('gives high network score when GPS matches network hint', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    const hint: NetworkHint = { lat: 35.6801, lon: 139.7601, accuracy: 500, source: 'wifi' };
+    const result = computeTrustScoreV2(current, history, { networkHint: hint });
+    expect(result.signals.networkConsistency).toBe(1.0);
+  });
+
+  it('gives 0.7 network score when within 2x accuracy', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    // ~1.5km away, accuracy=1000m → within 2x
+    const hint: NetworkHint = { lat: 35.6900, lon: 139.7700, accuracy: 1000, source: 'cell' };
+    const result = computeTrustScoreV2(current, history, { networkHint: hint });
+    expect(result.signals.networkConsistency).toBe(0.7);
+  });
+
+  it('gives 0.3 network score when far from hint', () => {
+    const current = makePoint(35.6800, 139.7600, 0); // Tokyo
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    // Osaka hint, accuracy=1000m → way beyond 5x
+    const hint: NetworkHint = { lat: 34.6900, lon: 135.5000, accuracy: 1000, source: 'ip' };
+    const result = computeTrustScoreV2(current, history, { networkHint: hint });
+    expect(result.signals.networkConsistency).toBe(0.3);
+  });
+
+  // --- Delegation to V1 ---
+
+  it('returns identical result to V1 when context is undefined', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    const v1 = computeTrustScore(current, history);
+    const v2 = computeTrustScoreV2(current, history);
+    expect(v2.trustScore).toBe(v1.trustScore);
+    expect(v2.signals.movementPlausibility).toBe(v1.signals.movementPlausibility);
+    expect(v2.signals.accuracyAnomaly).toBe(v1.signals.accuracyAnomaly);
+    expect(v2.signals.temporalConsistency).toBe(v1.signals.temporalConsistency);
+  });
+
+  it('returns identical result to V1 when context is empty', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    const v1 = computeTrustScore(current, history);
+    const v2 = computeTrustScoreV2(current, history, {});
+    expect(v2.trustScore).toBe(v1.trustScore);
+  });
+
+  // --- Combined tests ---
+
+  it('gives high score for honest user with all signals', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    const context: TrustContext = {
+      recentFixes: [
+        makeFix(35.68000, 139.76000, 10, 0),
+        makeFix(35.68001, 139.76001, 10, 0.5),
+        makeFix(35.67999, 139.75999, 10, 1),
+      ],
+      networkHint: { lat: 35.6801, lon: 139.7601, accuracy: 500, source: 'wifi' },
+    };
+    const result = computeTrustScoreV2(current, history, context);
+    expect(result.trustScore).toBeGreaterThanOrEqual(0.7);
+    expect(result.spoofingSuspected).toBe(false);
+    expect(result.signals.fixConsistency).toBeDefined();
+    expect(result.signals.networkConsistency).toBeDefined();
+  });
+
+  it('detects spoofer with all signals low', () => {
+    // Teleportation + scattered fixes + network mismatch
+    const current = makePoint(34.69, 135.50, 0, 0.5); // Osaka, suspiciously precise
+    const history = [
+      makePoint(35.68, 139.76, 1), // Tokyo
+      makePoint(34.69, 135.50, 2),
+      makePoint(35.68, 139.76, 3),
+    ];
+    const context: TrustContext = {
+      recentFixes: [
+        makeFix(35.68, 139.76, 5, 0),
+        makeFix(34.69, 135.50, 5, 0.5),
+        makeFix(35.68, 139.76, 5, 1),
+      ],
+      networkHint: { lat: 40.71, lon: -74.00, accuracy: 5000, source: 'ip' }, // New York
+    };
+    const result = computeTrustScoreV2(current, history, context);
+    expect(result.trustScore).toBeLessThan(0.3);
+    expect(result.spoofingSuspected).toBe(true);
+  });
+
+  it('detects VPN spoofer: normal GPS but network mismatch', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    const context: TrustContext = {
+      networkHint: { lat: 37.7749, lon: -122.4194, accuracy: 5000, source: 'ip' }, // San Francisco
+    };
+    const result = computeTrustScoreV2(current, history, context);
+    expect(result.signals.networkConsistency).toBe(0.3);
+    // Movement and temporal fine, but network drags it down
+    expect(result.trustScore).toBeLessThan(0.9);
+  });
+
+  it('is compatible with gateTrustScore', () => {
+    const current = makePoint(35.6800, 139.7600, 0);
+    const history = [makePoint(35.6801, 139.7601, 1)];
+    const context: TrustContext = {
+      recentFixes: [
+        makeFix(35.68000, 139.76000, 10, 0),
+        makeFix(35.68001, 139.76001, 10, 0.5),
+        makeFix(35.67999, 139.75999, 10, 1),
+      ],
+    };
+    const result = computeTrustScoreV2(current, history, context);
+    const gate = gateTrustScore(result);
+    expect(['proceed', 'step-up', 'deny']).toContain(gate);
   });
 });

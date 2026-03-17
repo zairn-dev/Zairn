@@ -399,6 +399,41 @@ export interface TrustThresholds {
 }
 
 // =====================
+// Trust scoring V2 (RAIM-style integrity)
+// =====================
+
+/** A single raw GPS fix for RAIM-style consistency analysis */
+export interface GpsFix {
+  lat: number;
+  lon: number;
+  accuracy: number;
+  timestamp: string;
+}
+
+/** Network-derived position hint for cross-check */
+export interface NetworkHint {
+  lat: number;
+  lon: number;
+  /** Estimated accuracy in meters (typically 1–50 km for IP geolocation) */
+  accuracy: number;
+  source: 'ip' | 'cell' | 'wifi';
+}
+
+/** Additional context for V2 trust scoring */
+export interface TrustContext {
+  recentFixes?: GpsFix[];
+  networkHint?: NetworkHint;
+}
+
+/** Extended trust score result with V2 signals */
+export interface TrustScoreResultV2 extends TrustScoreResult {
+  signals: TrustScoreResult['signals'] & {
+    fixConsistency?: number;
+    networkConsistency?: number;
+  };
+}
+
+// =====================
 // Step-up verification
 // =====================
 

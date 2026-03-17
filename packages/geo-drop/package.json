@@ -35,6 +35,9 @@
     "zkp:repro": "node ./test/reproducibility-check.mjs",
     "zkp:prototype:bench": "node ./test/prototype-bench.mjs",
     "zkp:prototype:latency": "node ./test/prototype-latency.mjs",
+    "zkp:off-circuit": "node ./test/evaluate-off-circuit-baseline.mjs",
+    "zkp:defense": "node ./test/evaluate-defense-in-depth.mjs",
+    "zkp:browser:serve": "npx serve . -p 3456 -C",
     "zkp:test": "tsx test/verify-features.ts",
     "test": "vitest run",
     "test:watch": "vitest"
