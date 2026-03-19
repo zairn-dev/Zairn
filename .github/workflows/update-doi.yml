@@ -1,0 +1,78 @@
+name: Update DOI after release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-doi:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Wait for Zenodo to mint DOI
+        run: sleep 60
+
+      - name: Fetch latest Zenodo DOI
+        id: doi
+        run: |
+          # Zenodo concept DOI resolves to the latest version
+          CONCEPT_DOI="10.5281/zenodo.19003580"
+          # Follow redirect to get the version-specific DOI
+          RESOLVED=$(curl -sI "https://doi.org/${CONCEPT_DOI}" | grep -i '^location:' | tail -1 | tr -d '\r' | sed 's/^[Ll]ocation: //')
+          if [ -z "$RESOLVED" ]; then
+            echo "Could not resolve DOI redirect, skipping"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Extract DOI from URL: https://zenodo.org/doi/10.5281/zenodo.NNNNN
+          NEW_DOI=$(echo "$RESOLVED" | grep -oP '10\.5281/zenodo\.\d+' || true)
+          if [ -z "$NEW_DOI" ]; then
+            echo "Could not extract DOI from: $RESOLVED"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "new_doi=$NEW_DOI" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "Resolved DOI: $NEW_DOI"
+
+      - name: Update README.md
+        if: steps.doi.outputs.skip != 'true'
+        run: |
+          NEW_DOI="${{ steps.doi.outputs.new_doi }}"
+          # Replace any zenodo DOI in the badge line
+          sed -i "s|10\.5281/zenodo\.[0-9]*|${NEW_DOI}|g" README.md
+          echo "Updated README.md with DOI: $NEW_DOI"
+
+      - name: Update CITATION.cff
+        if: steps.doi.outputs.skip != 'true'
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          VERSION="${TAG#v}"  # strip leading 'v'
+          DATE=$(date -u +%Y-%m-%d)
+          sed -i "s/^version: .*/version: ${VERSION}/" CITATION.cff
+          sed -i "s/^date-released: .*/date-released: \"${DATE}\"/" CITATION.cff
+          echo "Updated CITATION.cff: version=$VERSION date=$DATE"
+
+      - name: Check for changes
+        if: steps.doi.outputs.skip != 'true'
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.doi.outputs.skip != 'true' && steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md CITATION.cff
+          git commit -m "docs: auto-update DOI to ${{ steps.doi.outputs.new_doi }} [skip ci]"
+          git push
