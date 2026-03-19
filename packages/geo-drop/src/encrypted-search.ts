@@ -24,7 +24,7 @@
  * - GridSE: Towards Practical Secure Geographic Search, USENIX Security 2024
  */
 
-import { encodeGeohash, geohashNeighbors } from './geofence';
+import { encodeGeohash, geohashNeighbors } from './geofence.js';
 
 // =====================
 // Types

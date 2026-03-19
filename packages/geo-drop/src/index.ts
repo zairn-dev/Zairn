@@ -97,7 +97,8 @@ export type {
 } from './zkp';
 
 // Trust scoring
-export { computeTrustScore, computeTrustScoreV2, gateTrustScore } from './trust-scorer';
+export { computeTrustScore, computeTrustScoreV2, gateTrustScore, createTrustSession } from './trust-scorer';
+export type { TrustSession } from './trust-scorer';
 export type { LocationPoint, TrustScoreResult, TrustScoreResultV2, TrustThresholds, GpsFix, NetworkHint, TrustContext } from './types';
 
 // Geofence utilities
@@ -120,6 +121,24 @@ export type {
   SearchTokenSet,
   EncryptedSearchMatch,
 } from './encrypted-search';
+
+// SBPP (Search-Bound Proximity Proofs)
+export {
+  createSession as createSbppSession,
+  isSessionValid as isSbppSessionValid,
+  SbppSessionStore,
+  buildSbppChallengeDigest,
+  verifySbppBinding,
+  sbppSearch,
+  sbppMatch,
+  sbppVerifyBinding,
+} from './sbpp';
+export type {
+  SbppSession,
+  SbppSessionOptions,
+  SbppSearchResult,
+  SbppProofContext,
+} from './sbpp';
 
 // IPFS client
 export { IpfsClient } from './ipfs';

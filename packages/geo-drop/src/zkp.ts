@@ -62,6 +62,8 @@ export interface ZkContextBinding {
   epoch: number | string;
   /** Server-issued nonce for session binding */
   serverNonce: string;
+  /** SBPP search session nonce — when set, included in contextDigest for protocol-level binding */
+  searchSessionNonce?: string;
 }
 
 /** Public statement values expected by the verifier */
@@ -314,9 +316,14 @@ export async function buildZkStatementBinding(
 ): Promise<ZkStatementBinding> {
   const policyVersion = context.policyVersion ?? '1';
   const epoch = String(context.epoch);
+  // When searchSessionNonce is provided (SBPP), include it in contextDigest
+  // to bind the proof to the search session at the protocol level.
+  const contextFields = context.searchSessionNonce
+    ? [context.dropId, policyVersion, epoch, context.searchSessionNonce]
+    : [context.dropId, policyVersion, epoch];
   return {
     contextDigest: await hashToField(
-      lengthPrefixEncode(context.dropId, policyVersion, epoch)
+      lengthPrefixEncode(...contextFields)
     ),
     epoch,
     challengeDigest: await hashToField(context.serverNonce),

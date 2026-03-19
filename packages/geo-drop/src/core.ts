@@ -32,6 +32,16 @@ import type { LocationPoint } from './types';
 import { createVerificationEngine } from './verification';
 import { createPersistenceManager } from './persistence';
 import { createChainClient } from './chain';
+import {
+  createSession as createSbppSession,
+  SbppSessionStore,
+  sbppSearch,
+  sbppMatch,
+  sbppVerifyBinding,
+  buildSbppChallengeDigest,
+  generateIndexTokens,
+} from './sbpp';
+import type { SbppSession, EncryptedSearchConfig, LocationIndexTokens } from './sbpp';
 
 const DEFAULT_SIMILARITY_THRESHOLD = 0.70;
 const GPS_ONLY_CONFIG: ProofConfig = { mode: 'all', requirements: [{ method: 'gps', params: {} }] };
@@ -50,6 +60,10 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   const hasIpfs = !!(opts.ipfs?.pinningApiKey || opts.ipfs?.pinningService);
   const ipfs = new IpfsClient(opts.ipfs);
   const encryptionSecret = opts.encryptionSecret;
+
+  // SBPP session management
+  const sbppSessionStore = new SbppSessionStore();
+  const sbppSearchConfig: EncryptedSearchConfig | null = opts.encryptedSearchConfig ?? null;
 
   // =====================
   // Auth helpers
@@ -720,6 +734,73 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       const encryptedJson = await ipfs.fetch(m.contentCid);
       const locationKey = deriveLocationKey(m.geohash, m.dropId, m.encryptionSalt, encryptionSecret);
       return decrypt(JSON.parse(encryptedJson), locationKey);
+    },
+
+    // =====================
+    // SBPP (Search-Bound Proximity Proofs)
+    // =====================
+
+    initSearchSession: (ttlMs?: number) => {
+      return sbppSessionStore.issue({ ttlMs });
+    },
+
+    findNearbyDropsSbpp: async (
+      lat: number,
+      lon: number,
+      radiusMeters: number = 1000,
+      session: SbppSession,
+    ): Promise<NearbyDrop[]> => {
+      validateCoords(lat, lon);
+
+      if (!sbppSearchConfig) {
+        throw new Error('SBPP requires encryptedSearchConfig in GeoDropOptions');
+      }
+
+      // Generate encrypted search tokens (GridSE-style)
+      const { searchTokens } = await sbppSearch(
+        lat, lon, radiusMeters, session, sbppSearchConfig,
+      );
+
+      // Match against indexed drops
+      // In production: send tokens to Edge Function for server-side matching.
+      // Here: client-side matching against locally available index tokens.
+      const { data: indexedDropsRaw, error } = await supabase
+        .from('drop_index_tokens')
+        .select('drop_id, tokens');
+
+      if (error) throw error;
+
+      const indexedDrops = (indexedDropsRaw ?? []).map((row: { drop_id: string; tokens: LocationIndexTokens }) => ({
+        dropId: row.drop_id,
+        tokens: row.tokens,
+      }));
+
+      const matches = sbppMatch(
+        searchTokens, indexedDrops,
+        sbppSessionStore, session.sessionId, session.nonce,
+      );
+
+      if (matches.length === 0) return [];
+
+      // Fetch full drop data for matched IDs
+      const matchedIds = matches.map(m => m.dropId);
+      const { data: drops, error: dropError } = await supabase
+        .from('geo_drops')
+        .select('id,creator_id,title,content_type,visibility,geohash,lat,lon,unlock_radius_meters,status,claim_count,max_claims,expires_at,created_at,updated_at,ipfs_cid,proof_config')
+        .eq('status', 'active')
+        .in('id', matchedIds)
+        .or('expires_at.is.null,expires_at.gt.now()');
+
+      if (dropError) throw dropError;
+
+      return (drops ?? [] as GeoDrop[])
+        .map(d => {
+          const drop = d as GeoDrop;
+          const distance = calculateDistance(lat, lon, drop.lat, drop.lon);
+          return { drop, distance_meters: Math.round(distance), can_unlock: distance <= drop.unlock_radius_meters };
+        })
+        .filter(n => n.distance_meters <= radiusMeters)
+        .sort((a, b) => a.distance_meters - b.distance_meters);
     },
 
     // Utilities
