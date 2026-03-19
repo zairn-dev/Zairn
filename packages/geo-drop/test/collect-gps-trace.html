@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPS Trace Collector — Trust Scorer Evaluation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, 'Segoe UI', Roboto, monospace; background: #0d1117; color: #c9d1d9; padding: 16px; font-size: 14px; }
+    h1 { font-size: 16px; color: #58a6ff; margin-bottom: 4px; }
+    .sub { font-size: 12px; color: #8b949e; margin-bottom: 12px; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    button { padding: 10px 16px; border: 1px solid #30363d; border-radius: 6px; background: #21262d; color: #c9d1d9; font-size: 14px; cursor: pointer; }
+    button.active { background: #238636; border-color: #2ea043; }
+    button.danger { background: #da3633; border-color: #f85149; }
+    select, input { padding: 8px; border: 1px solid #30363d; border-radius: 6px; background: #161b22; color: #c9d1d9; font-size: 14px; }
+    .panel { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+    .label { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .big { font-size: 28px; font-weight: bold; }
+    .score-row { display: flex; gap: 12px; }
+    .score-box { flex: 1; text-align: center; }
+    .ok { color: #3fb950; } .warn { color: #d29922; } .bad { color: #f85149; }
+    .fix-list { max-height: 200px; overflow-y: auto; font-size: 12px; line-height: 1.6; }
+    .fix-item { border-bottom: 1px solid #21262d; padding: 2px 0; }
+    pre { background: #0d1117; padding: 8px; border-radius: 4px; font-size: 11px; overflow-x: auto; white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
+    .copy-btn { width: 100%; margin-top: 8px; padding: 12px; font-size: 15px; }
+  </style>
+</head>
+<body>
+  <h1>GPS Trace Collector</h1>
+  <div class="sub">Collect real GPS fixes and evaluate Trust Scorer V1/V2 in real-time.</div>
+
+  <div class="controls">
+    <select id="scenario">
+      <option value="honest-walk">Honest: Walking</option>
+      <option value="honest-stationary">Honest: Stationary</option>
+      <option value="honest-indoor">Honest: Indoor</option>
+      <option value="mock-teleport">Attack: Mock Location</option>
+      <option value="vpn">Attack: VPN Active</option>
+    </select>
+    <button id="startBtn" onclick="toggleCollection()">Start</button>
+    <button onclick="resetAll()">Reset</button>
+  </div>
+
+  <div class="panel">
+    <div class="label">Status</div>
+    <div id="status">Ready. Select scenario and press Start.</div>
+  </div>
+
+  <div class="panel">
+    <div class="label">Current Scores</div>
+    <div class="score-row">
+      <div class="score-box">
+        <div class="label">V1</div>
+        <div class="big" id="v1score">—</div>
+      </div>
+      <div class="score-box">
+        <div class="label">V2</div>
+        <div class="big" id="v2score">—</div>
+      </div>
+      <div class="score-box">
+        <div class="label">Gate V2</div>
+        <div class="big" id="gate">—</div>
+      </div>
+    </div>
+    <div style="margin-top:8px; font-size:12px;">
+      <div class="label">V2 Signals</div>
+      <div id="signals">—</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="label">Fixes collected: <span id="fixCount">0</span></div>
+    <div class="fix-list" id="fixList"></div>
+  </div>
+
+  <div class="panel">
+    <div class="label">Results JSON</div>
+    <pre id="jsonOutput">{}</pre>
+    <button class="copy-btn" onclick="copyResults()">Copy Results to Clipboard</button>
+  </div>
+
+  <script>
+  // ═══════════════════════════════════════
+  // Trust Scorer (inlined, matches src/)
+  // ═══════════════════════════════════════
+
+  function calcDist(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a = Math.min(1, Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function scoreMovement(c, h) {
+    if (!h.length) return 0.8;
+    const p = h[0];
+    const d = calcDist(p.lat, p.lon, c.lat, c.lon);
+    const dt = new Date(c.timestamp).getTime() - new Date(p.timestamp).getTime();
+    if (dt <= 0) return 0.0;
+    const s = d / (dt / 1000);
+    if (s <= 50) return 1.0;
+    if (s <= 150) return 1.0 - 0.5*((s-50)/100);
+    if (s <= 300) return 0.5 - 0.4*((s-150)/150);
+    return 0.0;
+  }
+
+  function scoreAccuracy(c) {
+    const a = c.accuracy;
+    if (a == null) return 0.5;
+    if (a < 2) return 0.3;
+    if (a <= 100) return 1.0;
+    if (a <= 500) return 0.7;
+    return 0.4;
+  }
+
+  function scoreTemporal(c, h) {
+    if (h.length < 2) return 0.7;
+    const pts = [c, ...h.slice(0, 4)];
+    let v = 0;
+    for (let i = 0; i < pts.length-1; i++) {
+      const d = calcDist(pts[i].lat, pts[i].lon, pts[i+1].lat, pts[i+1].lon);
+      const dt = new Date(pts[i].timestamp).getTime() - new Date(pts[i+1].timestamp).getTime();
+      if (dt <= 0) { v++; continue; }
+      if (d/(dt/1000) > 100) v++;
+    }
+    return v===0?1.0:v===1?0.6:v===2?0.3:0.0;
+  }
+
+  function scoreFix(fixes) {
+    if (fixes.length < 3) return 0.8;
+    const n = fixes.length;
+    const mLat = fixes.reduce((s,f)=>s+f.lat,0)/n;
+    const mLon = fixes.reduce((s,f)=>s+f.lon,0)/n;
+    const mAcc = fixes.reduce((s,f)=>s+f.accuracy,0)/n;
+    const vLat = fixes.reduce((s,f)=>s+(f.lat-mLat)**2,0)/n;
+    const vLon = fixes.reduce((s,f)=>s+(f.lon-mLon)**2,0)/n;
+    const sLatM = Math.sqrt(vLat)*111320;
+    const sLonM = Math.sqrt(vLon)*111320*Math.cos(mLat*Math.PI/180);
+    const mx = Math.max(sLatM, sLonM);
+    if (mAcc <= 0) return 0.5;
+    const r = mx / mAcc;
+    if (r <= 0.5) return 1.0;
+    if (r <= 1.0) return 1.0-0.3*((r-0.5)/0.5);
+    if (r <= 2.0) return 0.7-0.3*((r-1.0)/1.0);
+    return 0.2;
+  }
+
+  function scoreNet(c, hint) {
+    const d = calcDist(c.lat, c.lon, hint.lat, hint.lon);
+    if (d < hint.accuracy) return 1.0;
+    if (d < 2*hint.accuracy) return 0.7;
+    if (d < 5*hint.accuracy) return 0.5;
+    return 0.3;
+  }
+
+  function trustV1(c, h) {
+    const m = scoreMovement(c,h), a = scoreAccuracy(c), t = scoreTemporal(c,h);
+    const s = Math.round(Math.max(0,Math.min(1, 0.5*m+0.2*a+0.3*t))*100)/100;
+    return { score: s, signals: { movement: m, accuracy: a, temporal: t } };
+  }
+
+  function trustV2(c, h, ctx) {
+    const hasFix = ctx?.fixes?.length > 0;
+    const hasNet = ctx?.net != null;
+    if (!hasFix && !hasNet) return trustV1(c, h);
+    const m = scoreMovement(c,h), a = scoreAccuracy(c), t = scoreTemporal(c,h);
+    let fc, nc, wM,wA,wT,wF,wN;
+    if (hasFix && hasNet) { wM=.30;wA=.10;wT=.15;wF=.25;wN=.20; fc=scoreFix(ctx.fixes); nc=scoreNet(c,ctx.net); }
+    else if (hasFix) { wM=.35;wA=.15;wT=.20;wF=.30;wN=0; fc=scoreFix(ctx.fixes); }
+    else { wM=.40;wA=.15;wT=.20;wF=0;wN=.25; nc=scoreNet(c,ctx.net); }
+    const raw = wM*m+wA*a+wT*t+wF*(fc??0)+wN*(nc??0);
+    const s = Math.round(Math.max(0,Math.min(1,raw))*100)/100;
+    return { score: s, signals: { movement: m, accuracy: a, temporal: t, fix: fc, net: nc } };
+  }
+
+  function gate(score) {
+    if (score >= 0.7) return 'proceed';
+    if (score >= 0.3) return 'step-up';
+    return 'deny';
+  }
+
+  // ═══════════════════════════════════════
+  // Collection logic
+  // ═══════════════════════════════════════
+
+  let collecting = false;
+  let watchId = null;
+  let fixes = [];
+  let results = [];
+  let startTime = null;
+
+  function toggleCollection() {
+    if (collecting) stopCollection();
+    else startCollection();
+  }
+
+  function startCollection() {
+    if (!navigator.geolocation) {
+      document.getElementById('status').textContent = 'Geolocation not supported!';
+      return;
+    }
+    collecting = true;
+    startTime = Date.now();
+    document.getElementById('startBtn').textContent = 'Stop';
+    document.getElementById('startBtn').classList.add('active');
+    document.getElementById('status').textContent = 'Collecting GPS fixes...';
+
+    watchId = navigator.geolocation.watchPosition(
+      onFix,
+      onError,
+      { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+    );
+  }
+
+  function stopCollection() {
+    collecting = false;
+    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+    watchId = null;
+    document.getElementById('startBtn').textContent = 'Start';
+    document.getElementById('startBtn').classList.remove('active');
+    document.getElementById('status').textContent = `Stopped. ${fixes.length} fixes collected.`;
+    updateJSON();
+  }
+
+  function resetAll() {
+    stopCollection();
+    fixes = [];
+    results = [];
+    document.getElementById('fixCount').textContent = '0';
+    document.getElementById('fixList').innerHTML = '';
+    document.getElementById('v1score').textContent = '—';
+    document.getElementById('v2score').textContent = '—';
+    document.getElementById('gate').textContent = '—';
+    document.getElementById('signals').textContent = '—';
+    document.getElementById('jsonOutput').textContent = '{}';
+    document.getElementById('status').textContent = 'Reset. Select scenario and press Start.';
+  }
+
+  function onFix(pos) {
+    const fix = {
+      lat: pos.coords.latitude,
+      lon: pos.coords.longitude,
+      accuracy: pos.coords.accuracy,
+      altitude: pos.coords.altitude,
+      altitudeAccuracy: pos.coords.altitudeAccuracy,
+      heading: pos.coords.heading,
+      speed: pos.coords.speed,
+      timestamp: new Date(pos.timestamp).toISOString(),
+      elapsed_ms: pos.timestamp - startTime,
+    };
+    fixes.push(fix);
+
+    // Update fix list
+    const el = document.getElementById('fixList');
+    const item = document.createElement('div');
+    item.className = 'fix-item';
+    item.textContent = `#${fixes.length} ${fix.lat.toFixed(6)}, ${fix.lon.toFixed(6)} acc=${fix.accuracy?.toFixed(1)}m spd=${fix.speed?.toFixed(1) ?? '?'}`;
+    el.insertBefore(item, el.firstChild);
+    document.getElementById('fixCount').textContent = fixes.length;
+
+    // Score if we have enough history
+    if (fixes.length >= 2) {
+      const current = fixes[fixes.length - 1];
+      const history = fixes.slice(0, -1).reverse(); // newest-first
+
+      const v1 = trustV1(current, history);
+      const recentFixes = fixes.slice(-5).map(f => ({ lat: f.lat, lon: f.lon, accuracy: f.accuracy, timestamp: f.timestamp }));
+      // No network hint from browser — V2 with fixes only
+      const v2 = trustV2(current, history, { fixes: recentFixes });
+
+      const v1El = document.getElementById('v1score');
+      const v2El = document.getElementById('v2score');
+      const gateEl = document.getElementById('gate');
+      v1El.textContent = v1.score.toFixed(2);
+      v2El.textContent = v2.score.toFixed(2);
+      const g = gate(v2.score);
+      gateEl.textContent = g;
+      v1El.className = 'big ' + (v1.score >= 0.7 ? 'ok' : v1.score >= 0.3 ? 'warn' : 'bad');
+      v2El.className = 'big ' + (v2.score >= 0.7 ? 'ok' : v2.score >= 0.3 ? 'warn' : 'bad');
+      gateEl.className = 'big ' + (g === 'proceed' ? 'ok' : g === 'step-up' ? 'warn' : 'bad');
+
+      const s = v2.signals;
+      document.getElementById('signals').textContent =
+        `mov=${s.movement?.toFixed(2)} acc=${s.accuracy?.toFixed(2)} tmp=${s.temporal?.toFixed(2)} fix=${s.fix?.toFixed(2) ?? '—'} net=${s.net?.toFixed(2) ?? '—'}`;
+
+      results.push({
+        fixIndex: fixes.length,
+        v1: v1.score,
+        v2: v2.score,
+        gate: g,
+        signals: v2.signals,
+      });
+    }
+
+    document.getElementById('status').textContent = `Collecting... ${fixes.length} fixes (${((Date.now()-startTime)/1000).toFixed(0)}s)`;
+    updateJSON();
+  }
+
+  function onError(err) {
+    document.getElementById('status').textContent = `GPS Error: ${err.message} (code ${err.code})`;
+  }
+
+  function updateJSON() {
+    const scenario = document.getElementById('scenario').value;
+    const output = {
+      scenario,
+      device: {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+      },
+      collected: new Date().toISOString(),
+      fixCount: fixes.length,
+      durationMs: fixes.length > 1 ? new Date(fixes[fixes.length-1].timestamp) - new Date(fixes[0].timestamp) : 0,
+      fixes,
+      scoring: results,
+      summary: fixes.length >= 2 ? {
+        v1Final: results[results.length-1].v1,
+        v2Final: results[results.length-1].v2,
+        gateFinal: results[results.length-1].gate,
+        v1Mean: (results.reduce((s,r)=>s+r.v1,0)/results.length).toFixed(3),
+        v2Mean: (results.reduce((s,r)=>s+r.v2,0)/results.length).toFixed(3),
+        v1Min: Math.min(...results.map(r=>r.v1)),
+        v2Min: Math.min(...results.map(r=>r.v2)),
+      } : null,
+    };
+    document.getElementById('jsonOutput').textContent = JSON.stringify(output, null, 2);
+  }
+
+  function copyResults() {
+    const text = document.getElementById('jsonOutput').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      document.getElementById('status').textContent = 'Results copied to clipboard!';
+    }).catch(() => {
+      // Fallback for non-secure context
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      document.getElementById('status').textContent = 'Results copied!';
+    });
+  }
+  </script>
+</body>
+</html>

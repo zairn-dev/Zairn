@@ -1,0 +1,15 @@
+{
+  "scenario": "mock-nearby",
+  "device": {"userAgent": "Mozilla/5.0 (Linux; Android 10; K)", "platform": "Linux armv81"},
+  "collected": "2026-03-19T03:52:59.454Z",
+  "fixCount": 61,
+  "durationMs": 60041,
+  "notes": "Mock location ~550m from real position (35.689,139.776). All fixes at (35.6918,139.7709), accuracy 0.01m. Per-fix gate: all proceed at θ_p=0.7. V2 scores 0.77-0.90. S2=0.3 (accuracy flag) but composite stays above 0.7.",
+  "mock_location": {"lat": 35.6918216, "lon": 139.7709318},
+  "real_location_approx": {"lat": 35.6893, "lon": 139.7762},
+  "distance_m": 550,
+  "mock_accuracy": 0.01,
+  "v2_range": [0.77, 0.90],
+  "gate_at_0.7": "all proceed (not detected)",
+  "gate_at_0.9": "all step-up (detected)"
+}

@@ -242,3 +242,55 @@ export function gateTrustScore(
   if (result.trustScore >= t.stepUp) return 'step-up';
   return 'deny';
 }
+
+/**
+ * Session-aware trust gate with latch semantics.
+ *
+ * Once the gate transitions to 'step-up' or 'deny', the session is
+ * latched: all subsequent fixes in the same session return the latched
+ * state regardless of score. This prevents a spoofer from triggering
+ * one suspicious fix (teleportation) and then settling at the spoofed
+ * location with high scores.
+ *
+ * Usage:
+ *   const session = createTrustSession();
+ *   // For each fix:
+ *   const decision = session.gate(trustResult);
+ *   // decision is latched after first non-proceed
+ */
+export interface TrustSession {
+  /** Gate a trust score result. Latches on first non-proceed. */
+  gate(result: TrustScoreResult, thresholds?: Partial<TrustThresholds>): 'proceed' | 'step-up' | 'deny';
+  /** Whether the session is latched (non-proceed state). */
+  readonly latched: boolean;
+  /** The latched state, or null if not yet latched. */
+  readonly latchedState: 'step-up' | 'deny' | null;
+  /** Number of fixes processed. */
+  readonly fixCount: number;
+  /** Reset the session (e.g., after successful step-up verification). */
+  reset(): void;
+}
+
+/**
+ * Create a session-aware trust gate with latch semantics.
+ */
+export function createTrustSession(): TrustSession {
+  let _latched: 'step-up' | 'deny' | null = null;
+  let _fixCount = 0;
+
+  return {
+    gate(result, thresholds) {
+      _fixCount++;
+      if (_latched !== null) return _latched;
+      const decision = gateTrustScore(result, thresholds);
+      if (decision !== 'proceed') {
+        _latched = decision;
+      }
+      return decision;
+    },
+    get latched() { return _latched !== null; },
+    get latchedState() { return _latched; },
+    get fixCount() { return _fixCount; },
+    reset() { _latched = null; _fixCount = 0; },
+  };
+}
