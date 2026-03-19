@@ -50,6 +50,8 @@ export interface SbppSession {
   expiresAt: number;
   /** Digest of the result set returned by server (set after matching) */
   resultSetDigest?: string;
+  /** Candidate drop IDs from the search result (set after matching) */
+  candidateDropIds?: Set<string>;
 }
 
 /** Options for creating an SBPP session */
@@ -197,6 +199,20 @@ export class SbppSessionStore {
     return this.sessions.get(sessionId)?.resultSetDigest;
   }
 
+  /** Set the candidate drop set for a session (called after matching) */
+  setCandidateSet(sessionId: string, dropIds: Set<string>): boolean {
+    const session = this.sessions.get(sessionId);
+    if (!session) return false;
+    session.candidateDropIds = dropIds;
+    return true;
+  }
+
+  /** Check if a drop was in the session's candidate set */
+  isCandidateDrop(sessionId: string, dropId: string): boolean {
+    const session = this.sessions.get(sessionId);
+    return session?.candidateDropIds?.has(dropId) ?? false;
+  }
+
   /** Purge expired sessions */
   purgeExpired(now?: number): number {
     const t = now ?? Date.now();
@@ -319,15 +335,14 @@ export function sbppMatch(
   }
 
   const matches = matchTokens(searchTokens, indexedDrops);
+  const matchedIds = matches.map(m => m.dropId);
 
-  // Compute and store result-set digest for later verification.
-  // This binds the proof to the specific set of drops returned.
+  // Store result-set digest AND candidate set for later verification.
   const resultDigest = computeResultSetDigest(
-    sessionId,
-    matches.map(m => m.dropId),
-    searchTokens.precision,
+    sessionId, matchedIds, searchTokens.precision,
   );
   sessionStore.setResultDigest(sessionId, resultDigest);
+  sessionStore.setCandidateSet(sessionId, new Set(matchedIds));
 
   return matches;
 }
@@ -371,10 +386,10 @@ export function sbppVerifyBinding(
     return { valid: false, reason: 'binding_mismatch' };
   }
 
-  // 4. Verify dropId was in the result set (if result-set binding is active)
-  // This is an additional check: even if the digest matches, the server
-  // confirms that the drop was actually returned in the search results.
-  // (The digest already commits to the result set, so this is defense-in-depth.)
+  // 4. Verify dropId was in the result set (defense-in-depth)
+  if (resultSetDigest && !sessionStore.isCandidateDrop(sessionId, dropId)) {
+    return { valid: false, reason: 'drop_not_in_result_set' };
+  }
 
   // 5. Consume session (one proof per session)
   sessionStore.consume(sessionId);
