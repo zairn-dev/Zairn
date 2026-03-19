@@ -15,7 +15,7 @@
  * The key question: which attacks succeed against which variants?
  */
 
-import { createSession, SbppSessionStore, buildSbppChallengeDigest, verifySbppBinding, sbppVerifyBinding } from '../dist/sbpp.js';
+import { createSession, SbppSessionStore, buildSbppChallengeDigest, verifySbppBinding, sbppVerifyBinding, computeResultSetDigest } from '../dist/sbpp.js';
 import { generateSearchTokens, generateIndexTokens, matchTokens } from '../dist/encrypted-search.js';
 import { lengthPrefixEncode } from '../dist/zkp.js';
 import { createHash } from 'node:crypto';
@@ -256,18 +256,74 @@ function runAttacks() {
     };
   }
 
+  // ─── A4: Result-set escape ───
+  // Attacker proves proximity to a drop NOT in the search results.
+  // V4a (Core, nonce only): no result-set binding → attack succeeds
+  // V4b (Full, nonce + rd): result-set digest committed → attack fails
+  {
+    let v4a_success = 0, v4b_success = 0;
+
+    for (let i = 0; i < N; i++) {
+      const dropInResults = `drop-in-${i}`;
+      const dropOutside = `drop-outside-${i}`;
+      const pv = '1';
+      const epoch = '42';
+
+      // V4a: Core SBPP (nonce only, no rd)
+      const v4a_store = new SbppSessionStore();
+      const v4a_session = v4a_store.issue();
+      // Simulate: search returned dropInResults, but attacker proves dropOutside
+      const digest_v4a = buildSbppChallengeDigest({
+        dropId: dropOutside, policyVersion: pv, epoch,
+        sessionNonce: v4a_session.nonce,
+        // NO resultSetDigest → Core mode
+      });
+      const v4a_result = sbppVerifyBinding(
+        v4a_store, v4a_session.sessionId, v4a_session.nonce,
+        digest_v4a, dropOutside, pv, epoch,
+      );
+      if (v4a_result.valid) v4a_success++;
+
+      // V4b: Full SBPP (nonce + rd)
+      const v4b_store = new SbppSessionStore();
+      const v4b_session = v4b_store.issue();
+      // Simulate search that returned only dropInResults
+      const rd = computeResultSetDigest(v4b_session.sessionId, [dropInResults], 5);
+      v4b_store.setResultDigest(v4b_session.sessionId, rd);
+      v4b_store.setCandidateSet(v4b_session.sessionId, new Set([dropInResults]));
+      // Attacker tries to prove dropOutside with correct rd
+      const digest_v4b = buildSbppChallengeDigest({
+        dropId: dropOutside, policyVersion: pv, epoch,
+        sessionNonce: v4b_session.nonce,
+        resultSetDigest: rd,
+      });
+      const v4b_result = sbppVerifyBinding(
+        v4b_store, v4b_session.sessionId, v4b_session.nonce,
+        digest_v4b, dropOutside, pv, epoch,
+      );
+      if (v4b_result.valid) v4b_success++;
+    }
+
+    results.attacks.A4_result_set_escape = {
+      description: 'Result-set escape: proof for drop NOT in search results',
+      v4a_core_nonce_only: { success_rate: v4a_success / N, blocked: v4a_success === 0 },
+      v4b_full_nonce_plus_rd: { success_rate: v4b_success / N, blocked: v4b_success === 0 },
+    };
+  }
+
   // ═══════════════════════════════════════
   // Summary matrix
   // ═══════════════════════════════════════
   results.summary = {
     description: 'Attack success matrix (true = attack succeeds, vulnerable)',
     matrix: {
-      'A1 cross-session':    { V1: true,  V2: true,  V3: true,  V4: false },
-      'A2 decorrelation':    { V1: true,  V2: true,  V3: true,  V4: false },
-      'A3 cross-drop':       { V1: false, V2: false, V3: false, V4: false },
+      'A1 cross-session':    { V1: true,  V2: true,  V3: true,  V4a: false, V4b: false },
+      'A2 re-association':   { V1: true,  V2: true,  V3: true,  V4a: false, V4b: false },
+      'A3 cross-drop':       { V1: false, V2: false, V3: false, V4a: false, V4b: false },
+      'A4 result-set escape':{ V1: true,  V2: true,  V3: true,  V4a: true,  V4b: false },
     },
-    note: 'A3 is prevented by all variants (context binding). A1 and A2 are prevented ONLY by V4 (SBPP).',
-    key_finding: 'App-layer nonce (V3) does NOT prevent A1/A2 because the nonce is not in the proof transcript. SBPP (V4) prevents both because the nonce is committed via the Groth16 public input.',
+    note: 'A1/A2 require nonce in proof (V4a suffices). A4 requires result-set binding (V4b only). A3 is prevented by all.',
+    key_finding: 'V4a (Core SBPP, nonce only) prevents A1/A2 but NOT A4. V4b (Full SBPP, nonce + result-set digest) prevents ALL attacks.',
   };
 
   return results;
@@ -282,12 +338,12 @@ process.stdout.write(JSON.stringify(results, null, 2));
 
 // Summary to stderr
 process.stderr.write('\n=== Naive Composition Attack Comparison ===\n\n');
-process.stderr.write('Attack                V1(plain) V2(GridSE) V3(app-nonce) V4(SBPP)\n');
-process.stderr.write('─'.repeat(70) + '\n');
+process.stderr.write('Attack                V1(plain) V2(GridSE) V3(app-nonce) V4a(Core) V4b(Full)\n');
+process.stderr.write('─'.repeat(80) + '\n');
 for (const [attack, data] of Object.entries(results.summary.matrix)) {
   const row = [attack.padEnd(22)];
-  for (const v of ['V1', 'V2', 'V3', 'V4']) {
-    row.push(data[v] ? '  VULN  ' : ' BLOCKED');
+  for (const v of ['V1', 'V2', 'V3', 'V4a', 'V4b']) {
+    row.push(data[v] ? '  VULN ' : 'BLOCKED');
   }
   process.stderr.write(row.join('  ') + '\n');
 }
