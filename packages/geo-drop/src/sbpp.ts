@@ -174,12 +174,24 @@ export class SbppSessionStore {
 // =====================
 
 /**
+ * Protocol version domain separator.
+ * Prevents confusion between SBPP-bound and non-SBPP challenge digests.
+ * A non-SBPP digest uses LP(dropId, pv, epoch) without this prefix,
+ * so the two are structurally distinct even if the same nonce appears.
+ */
+export const SBPP_DOMAIN_SEPARATOR = 'SBPP-v1';
+
+/**
  * Build the SBPP challenge digest that binds search session to ZKP proof.
  *
- * This extends the TDSC paper's context binding by including the
- * search session nonce in the length-prefixed encoding:
+ * This extends the TDSC paper's context binding by including a
+ * protocol domain separator and the search session nonce:
  *
- *   challengeDigest = H(LP(dropId, policyVersion, epoch, sessionNonce))
+ *   challengeDigest = LP("SBPP-v1", dropId, policyVersion, epoch, sessionNonce)
+ *
+ * The domain separator ensures that an SBPP digest can never collide
+ * with a non-SBPP digest (which uses LP(dropId, pv, epoch) without
+ * the prefix), preventing downgrade/confusion attacks.
  *
  * The resulting digest is used as pub[7] in the Groth16 proof.
  * Because the nonce is unique per session, a proof generated for
@@ -187,6 +199,7 @@ export class SbppSessionStore {
  */
 export function buildSbppChallengeDigest(ctx: SbppProofContext): string {
   return lengthPrefixEncode(
+    SBPP_DOMAIN_SEPARATOR,
     ctx.dropId,
     ctx.policyVersion,
     ctx.epoch,
@@ -300,6 +313,80 @@ export function sbppVerifyBinding(
   sessionStore.consume(sessionId);
 
   return { valid: true };
+}
+
+// =====================
+// Inverted index for O(1) token matching
+// =====================
+
+/**
+ * Server-side inverted index: maps token → Set<dropId>.
+ *
+ * Replaces linear-scan matchTokens() with O(|searchTokens|) lookups.
+ * In production, this would be backed by a database index
+ * (CREATE INDEX ON drop_index_tokens(token)).
+ */
+export class TokenInvertedIndex {
+  private index = new Map<string, Set<string>>();
+
+  /** Add a drop's tokens to the index */
+  addDrop(dropId: string, tokens: LocationIndexTokens): void {
+    for (const { token } of tokens.tokens) {
+      let set = this.index.get(token);
+      if (!set) {
+        set = new Set();
+        this.index.set(token, set);
+      }
+      set.add(dropId);
+    }
+  }
+
+  /** Remove a drop from the index */
+  removeDrop(dropId: string, tokens: LocationIndexTokens): void {
+    for (const { token } of tokens.tokens) {
+      const set = this.index.get(token);
+      if (set) {
+        set.delete(dropId);
+        if (set.size === 0) this.index.delete(token);
+      }
+    }
+  }
+
+  /**
+   * Match search tokens against the index.
+   * Returns deduplicated drop IDs that have at least one matching token.
+   */
+  match(searchTokens: SearchTokenSet): EncryptedSearchMatch[] {
+    const matched = new Map<string, number>(); // dropId → matched precision
+    for (const token of searchTokens.tokens) {
+      const drops = this.index.get(token);
+      if (drops) {
+        for (const dropId of drops) {
+          if (!matched.has(dropId)) {
+            matched.set(dropId, searchTokens.precision);
+          }
+        }
+      }
+    }
+    return Array.from(matched.entries()).map(([dropId, matchedPrecision]) => ({
+      dropId,
+      matchedPrecision,
+    }));
+  }
+
+  /** Number of unique tokens in the index */
+  get size(): number {
+    return this.index.size;
+  }
+
+  /** Number of indexed drops (approximate, via unique dropIds) */
+  get dropCount(): number {
+    const drops = new Set<string>();
+    for (const set of this.index.values()) {
+      for (const id of set) drops.add(id);
+    }
+    return drops.size;
+  }
 }
 
 // =====================

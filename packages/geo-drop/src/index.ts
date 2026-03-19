@@ -132,6 +132,8 @@ export {
   sbppSearch,
   sbppMatch,
   sbppVerifyBinding,
+  TokenInvertedIndex,
+  SBPP_DOMAIN_SEPARATOR,
 } from './sbpp';
 export type {
   SbppSession,
