@@ -134,6 +134,7 @@ export {
   sbppVerifyBinding,
   TokenInvertedIndex,
   SBPP_DOMAIN_SEPARATOR,
+  computeResultSetDigest,
 } from './sbpp';
 export type {
   SbppSession,

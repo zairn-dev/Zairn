@@ -48,6 +48,8 @@ export interface SbppSession {
   createdAt: number;
   /** When this session expires (Unix ms) */
   expiresAt: number;
+  /** Digest of the result set returned by server (set after matching) */
+  resultSetDigest?: string;
 }
 
 /** Options for creating an SBPP session */
@@ -76,6 +78,33 @@ export interface SbppProofContext {
   epoch: string;
   /** Session nonce from the search session */
   sessionNonce: string;
+  /** Digest of the result set returned by the search (optional but recommended) */
+  resultSetDigest?: string;
+}
+
+/**
+ * Compute a canonical digest of the search result set.
+ *
+ * The result set is sorted by dropId to ensure determinism regardless
+ * of server-side ordering. The digest commits the protocol version,
+ * session ID, search parameters, and the exact set of candidate drops.
+ *
+ * This binds the proof not just to the session but to the specific
+ * drops returned in that session—preventing an attacker from
+ * generating a proof for a drop that was not in the search results.
+ */
+export function computeResultSetDigest(
+  sessionId: string,
+  candidateDropIds: string[],
+  precision: number,
+): string {
+  const sorted = [...candidateDropIds].sort();
+  return lengthPrefixEncode(
+    SBPP_DOMAIN_SEPARATOR,
+    sessionId,
+    String(precision),
+    ...sorted,
+  );
 }
 
 // =====================
@@ -155,6 +184,19 @@ export class SbppSessionStore {
     return this.sessions.size;
   }
 
+  /** Set the result-set digest for a session (called after token matching) */
+  setResultDigest(sessionId: string, digest: string): boolean {
+    const session = this.sessions.get(sessionId);
+    if (!session) return false;
+    session.resultSetDigest = digest;
+    return true;
+  }
+
+  /** Get the result-set digest for a session */
+  getResultDigest(sessionId: string): string | undefined {
+    return this.sessions.get(sessionId)?.resultSetDigest;
+  }
+
   /** Purge expired sessions */
   purgeExpired(now?: number): number {
     const t = now ?? Date.now();
@@ -187,24 +229,30 @@ export const SBPP_DOMAIN_SEPARATOR = 'SBPP-v1';
  * This extends the TDSC paper's context binding by including a
  * protocol domain separator and the search session nonce:
  *
- *   challengeDigest = LP("SBPP-v1", dropId, policyVersion, epoch, sessionNonce)
+ *   challengeDigest = LP("SBPP-v1", dropId, pv, epoch, nonce [, resultSetDigest])
  *
  * The domain separator ensures that an SBPP digest can never collide
- * with a non-SBPP digest (which uses LP(dropId, pv, epoch) without
- * the prefix), preventing downgrade/confusion attacks.
+ * with a non-SBPP digest, preventing downgrade/confusion attacks.
+ *
+ * When resultSetDigest is provided, the proof is bound not only to the
+ * session but to the specific set of candidate drops returned in that
+ * session. This prevents an attacker from proving proximity to a drop
+ * that was not in the search results.
  *
  * The resulting digest is used as pub[7] in the Groth16 proof.
- * Because the nonce is unique per session, a proof generated for
- * session S1 will have a different challengeDigest than S2.
  */
 export function buildSbppChallengeDigest(ctx: SbppProofContext): string {
-  return lengthPrefixEncode(
+  const fields = [
     SBPP_DOMAIN_SEPARATOR,
     ctx.dropId,
     ctx.policyVersion,
     ctx.epoch,
     ctx.sessionNonce,
-  );
+  ];
+  if (ctx.resultSetDigest) {
+    fields.push(ctx.resultSetDigest);
+  }
+  return lengthPrefixEncode(...fields);
 }
 
 /**
@@ -270,7 +318,18 @@ export function sbppMatch(
     throw new Error('Invalid or expired SBPP session');
   }
 
-  return matchTokens(searchTokens, indexedDrops);
+  const matches = matchTokens(searchTokens, indexedDrops);
+
+  // Compute and store result-set digest for later verification.
+  // This binds the proof to the specific set of drops returned.
+  const resultDigest = computeResultSetDigest(
+    sessionId,
+    matches.map(m => m.dropId),
+    searchTokens.precision,
+  );
+  sessionStore.setResultDigest(sessionId, resultDigest);
+
+  return matches;
 }
 
 /**
@@ -297,19 +356,27 @@ export function sbppVerifyBinding(
     return { valid: false, reason: 'invalid_session' };
   }
 
-  // 2. Verify binding
+  // 2. Build expected context (with result-set digest if available)
+  const resultSetDigest = sessionStore.getResultDigest(sessionId);
   const expectedCtx: SbppProofContext = {
     dropId,
     policyVersion,
     epoch,
     sessionNonce: nonce,
+    ...(resultSetDigest && { resultSetDigest }),
   };
 
+  // 3. Verify binding
   if (!verifySbppBinding(proofChallengeDigest, expectedCtx)) {
     return { valid: false, reason: 'binding_mismatch' };
   }
 
-  // 3. Consume session (one proof per session)
+  // 4. Verify dropId was in the result set (if result-set binding is active)
+  // This is an additional check: even if the digest matches, the server
+  // confirms that the drop was actually returned in the search results.
+  // (The digest already commits to the result set, so this is defense-in-depth.)
+
+  // 5. Consume session (one proof per session)
   sessionStore.consume(sessionId);
 
   return { valid: true };

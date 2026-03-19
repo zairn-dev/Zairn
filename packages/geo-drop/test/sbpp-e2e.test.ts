@@ -13,6 +13,8 @@ import {
   buildSbppChallengeDigest,
   verifySbppBinding,
   sbppVerifyBinding,
+  sbppMatch,
+  computeResultSetDigest,
 } from '../src/sbpp';
 import {
   generateIndexTokens,
@@ -235,5 +237,90 @@ describe('SBPP End-to-End Flow', () => {
       digestB, 'drop-B', '1', '42',
     );
     expect(resultB.valid).toBe(true);
+  });
+});
+
+describe('SBPP Result-Set Binding', () => {
+  it('binds proof to the result set via sbppMatch', async () => {
+    const store = new SbppSessionStore();
+    const session = store.issue();
+
+    // Index a drop and search
+    const tokens = await generateIndexTokens(TOKYO.lat, TOKYO.lon, searchConfig);
+    const searchTokens = await generateSearchTokens(NEARBY.lat, NEARBY.lon, 1000, searchConfig);
+
+    // sbppMatch records the result-set digest in the session
+    const matches = sbppMatch(
+      searchTokens,
+      [{ dropId: 'drop-001', tokens }],
+      store,
+      session.sessionId,
+      session.nonce,
+    );
+    expect(matches.length).toBeGreaterThanOrEqual(1);
+
+    // Get the stored result digest
+    const resultDigest = store.getResultDigest(session.sessionId);
+    expect(resultDigest).toBeDefined();
+
+    // Build challenge digest WITH result-set binding
+    const digest = buildSbppChallengeDigest({
+      dropId: 'drop-001',
+      policyVersion: '1',
+      epoch: '42',
+      sessionNonce: session.nonce,
+      resultSetDigest: resultDigest,
+    });
+
+    // Verify — should succeed
+    const result = sbppVerifyBinding(
+      store, session.sessionId, session.nonce,
+      digest, 'drop-001', '1', '42',
+    );
+    expect(result.valid).toBe(true);
+  });
+
+  it('rejects proof with wrong result-set digest', async () => {
+    const store = new SbppSessionStore();
+    const session = store.issue();
+
+    const tokens = await generateIndexTokens(TOKYO.lat, TOKYO.lon, searchConfig);
+    const searchTokens = await generateSearchTokens(NEARBY.lat, NEARBY.lon, 1000, searchConfig);
+
+    sbppMatch(
+      searchTokens,
+      [{ dropId: 'drop-001', tokens }],
+      store,
+      session.sessionId,
+      session.nonce,
+    );
+
+    // Build digest with WRONG result-set digest (attacker fabricates)
+    const digest = buildSbppChallengeDigest({
+      dropId: 'drop-001',
+      policyVersion: '1',
+      epoch: '42',
+      sessionNonce: session.nonce,
+      resultSetDigest: 'fake-result-digest',
+    });
+
+    const result = sbppVerifyBinding(
+      store, session.sessionId, session.nonce,
+      digest, 'drop-001', '1', '42',
+    );
+    expect(result.valid).toBe(false);
+    expect(result.reason).toBe('binding_mismatch');
+  });
+
+  it('computeResultSetDigest is order-independent', () => {
+    const d1 = computeResultSetDigest('session-1', ['drop-B', 'drop-A', 'drop-C'], 5);
+    const d2 = computeResultSetDigest('session-1', ['drop-A', 'drop-C', 'drop-B'], 5);
+    expect(d1).toBe(d2); // sorted internally
+  });
+
+  it('computeResultSetDigest differs for different result sets', () => {
+    const d1 = computeResultSetDigest('session-1', ['drop-A', 'drop-B'], 5);
+    const d2 = computeResultSetDigest('session-1', ['drop-A', 'drop-C'], 5);
+    expect(d1).not.toBe(d2);
   });
 });
