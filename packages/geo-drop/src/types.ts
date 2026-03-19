@@ -497,6 +497,11 @@ export interface GeoDropOptions {
    * from publicly-visible DB columns.
    */
   encryptionSecret?: string;
+  /**
+   * SBPP: encrypted search configuration for Search-Bound Proximity Proofs.
+   * When set, enables findNearbyDropsSbpp() and initSearchSession().
+   */
+  encryptedSearchConfig?: { searchKey: string; precisionLevels?: number[] };
 }
 
 export interface GeoDropSDK {
@@ -552,6 +557,12 @@ export interface GeoDropSDK {
   discoverDropsByLocation: (lat: number, lon: number, precision?: number) => Promise<RecoveredDrop[]>;
   /** Decrypt recovered drop content */
   decryptRecoveredDrop: (recovered: RecoveredDrop) => Promise<string>;
+
+  // SBPP (Search-Bound Proximity Proofs)
+  /** Initialize an SBPP search session. Returns a session with nonce for binding. */
+  initSearchSession?: (ttlMs?: number) => { sessionId: string; nonce: string; createdAt: number; expiresAt: number };
+  /** Find nearby drops using encrypted search tokens, bound to an SBPP session. */
+  findNearbyDropsSbpp?: (lat: number, lon: number, radiusMeters: number, session: { sessionId: string; nonce: string; createdAt: number; expiresAt: number }) => Promise<NearbyDrop[]>;
 
   // Utilities
   encodeGeohash: (lat: number, lon: number, precision?: number) => string;

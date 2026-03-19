@@ -1,0 +1,14 @@
+{
+  "scenario": "mock-teleport",
+  "device": {"userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Mobile Safari/537.36", "platform": "Linux armv81"},
+  "collected": "2026-03-19T03:29:57.092Z",
+  "fixCount": 58,
+  "durationMs": 129246,
+  "notes": "First 27 fixes are real GPS in Tokyo (35.689,139.776). Fix 28+ is mock location in Miami (25.762,-80.192) with accuracy 0.01m. Teleportation distance ~10000km.",
+  "teleport_fix_index": 28,
+  "real_location": {"lat": 35.6893, "lon": 139.7762, "city": "Tokyo"},
+  "mock_location": {"lat": 25.761681, "lon": -80.191788, "city": "Miami"},
+  "mock_accuracy": 0.01,
+  "fixes_before_mock": 27,
+  "fixes_after_mock": 31
+}

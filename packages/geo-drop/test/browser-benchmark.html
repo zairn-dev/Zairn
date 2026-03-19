@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zairn-ZKP Browser WASM Benchmark</title>
+  <script src="https://unpkg.com/snarkjs@0.7.5/build/snarkjs.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace; background: #0d1117; color: #c9d1d9; padding: 24px; }
+    h1 { font-size: 18px; margin-bottom: 4px; color: #58a6ff; }
+    .subtitle { font-size: 13px; color: #8b949e; margin-bottom: 20px; }
+    #status { font-size: 14px; margin-bottom: 12px; padding: 12px; background: #161b22; border-radius: 8px; border: 1px solid #30363d; }
+    #progress-bar { width: 100%; height: 4px; background: #21262d; border-radius: 2px; margin-bottom: 16px; overflow: hidden; }
+    #progress-fill { height: 100%; background: #58a6ff; width: 0%; transition: width 0.2s; }
+    pre { background: #161b22; padding: 16px; border-radius: 8px; border: 1px solid #30363d; overflow-x: auto; font-size: 13px; line-height: 1.5; white-space: pre-wrap; }
+    table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+    th, td { padding: 8px 12px; text-align: right; border-bottom: 1px solid #30363d; font-size: 13px; }
+    th { color: #8b949e; font-weight: 500; text-align: left; }
+    td:first-child, th:first-child { text-align: left; }
+    .ok { color: #3fb950; }
+    .warn { color: #d29922; }
+    .note { font-size: 12px; color: #8b949e; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Zairn-ZKP Browser WASM Benchmark</h1>
+  <div class="subtitle">Groth16 proof generation &amp; verification in WebAssembly</div>
+
+  <div id="status">Initializing...</div>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <div id="results"></div>
+  <div class="note">
+    Serve from <code>packages/geo-drop/</code>: <code>npx serve . -p 3456</code><br>
+    Then open <code>http://localhost:3456/test/browser-benchmark.html?n=10</code><br>
+    Artifacts are loaded from <code>../circuits/</code> relative to this file.
+  </div>
+
+  <script>
+  (async function () {
+    const statusEl = document.getElementById('status');
+    const progressFill = document.getElementById('progress-fill');
+    const resultsEl = document.getElementById('results');
+
+    function setStatus(msg) { statusEl.textContent = msg; }
+    function setProgress(pct) { progressFill.style.width = pct + '%'; }
+
+    // ─── Configuration ───
+
+    const params = new URLSearchParams(location.search);
+    const N = parseInt(params.get('n') || '10', 10);
+
+    const ZAIRN_WASM = '../circuits/build/zairn_zkp_js/zairn_zkp.wasm';
+    const ZAIRN_ZKEY = '../circuits/zairn_zkp_final.zkey';
+    const VKEY_URL = '../circuits/verification_key.json';
+
+    // ─── Helpers ───
+
+    // BN128 field prime — snarkjs reduces all inputs modulo this value
+    const BN128_PRIME = 21888242871839275222246405745257275088548364400416034343698204186575808495617n;
+
+    async function sha256hex(value) {
+      const bytes = new TextEncoder().encode(value);
+      // crypto.subtle requires Secure Context (HTTPS/localhost).
+      // Fallback to a simple JS SHA-256 when running over plain HTTP (e.g. Tailscale IP).
+      if (typeof crypto !== 'undefined' && crypto.subtle) {
+        try {
+          const digest = await crypto.subtle.digest('SHA-256', bytes);
+          return Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, '0')).join('');
+        } catch (_) { /* fall through */ }
+      }
+      // Minimal SHA-256 fallback (uses snarkjs' internal dependency or manual)
+      // We use a pre-computed context digest instead:
+      return fallbackSha256(bytes);
+    }
+
+    // Minimal SHA-256 in pure JS (no dependency)
+    function fallbackSha256(bytes) {
+      const K = [
+        0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+      ];
+      let h0=0x6a09e667,h1=0xbb67ae85,h2=0x3c6ef372,h3=0xa54ff53a,h4=0x510e527f,h5=0x9b05688c,h6=0x1f83d9ab,h7=0x5be0cd19;
+      const data = new Uint8Array(bytes);
+      const len = data.length;
+      const bitLen = len * 8;
+      // Padding
+      const padded = new Uint8Array(((len + 9 + 63) & ~63));
+      padded.set(data);
+      padded[len] = 0x80;
+      const dv = new DataView(padded.buffer);
+      dv.setUint32(padded.length - 4, bitLen, false);
+      // Process blocks
+      const W = new Int32Array(64);
+      for (let off = 0; off < padded.length; off += 64) {
+        for (let i = 0; i < 16; i++) W[i] = dv.getInt32(off + i * 4, false);
+        for (let i = 16; i < 64; i++) {
+          const s0 = (((W[i-15]>>>7)|(W[i-15]<<25))^((W[i-15]>>>18)|(W[i-15]<<14))^(W[i-15]>>>3))|0;
+          const s1 = (((W[i-2]>>>17)|(W[i-2]<<15))^((W[i-2]>>>19)|(W[i-2]<<13))^(W[i-2]>>>10))|0;
+          W[i] = (W[i-16]+s0+W[i-7]+s1)|0;
+        }
+        let a=h0,b=h1,c=h2,d=h3,e=h4,f=h5,g=h6,h=h7;
+        for (let i = 0; i < 64; i++) {
+          const S1 = (((e>>>6)|(e<<26))^((e>>>11)|(e<<21))^((e>>>25)|(e<<7)))|0;
+          const ch = ((e&f)^(~e&g))|0;
+          const t1 = (h+S1+ch+K[i]+W[i])|0;
+          const S0 = (((a>>>2)|(a<<30))^((a>>>13)|(a<<19))^((a>>>22)|(a<<10)))|0;
+          const maj = ((a&b)^(a&c)^(b&c))|0;
+          const t2 = (S0+maj)|0;
+          h=g; g=f; f=e; e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0;
+        }
+        h0=(h0+a)|0; h1=(h1+b)|0; h2=(h2+c)|0; h3=(h3+d)|0;
+        h4=(h4+e)|0; h5=(h5+f)|0; h6=(h6+g)|0; h7=(h7+h)|0;
+      }
+      return [h0,h1,h2,h3,h4,h5,h6,h7].map(v=>(v>>>0).toString(16).padStart(8,'0')).join('');
+    }
+
+    async function hashToField(value) {
+      const hex = await sha256hex(value);
+      return (BigInt('0x' + hex) % BN128_PRIME).toString();
+    }
+
+    async function buildStatement(ctx) {
+      const pv = ctx.policyVersion || '1';
+      const ep = String(ctx.epoch);
+      return {
+        contextDigest: await hashToField(`${ctx.dropId}:${pv}:${ep}`),
+        epoch: ep,
+        challengeDigest: await hashToField(ctx.serverNonce),
+      };
+    }
+
+    const SCALE = 1000000;
+    const toFP = deg => BigInt(Math.round(deg * SCALE));
+    const metersToR2 = m => { const r = BigInt(Math.round(m / 111320 * SCALE)); return (r * r).toString(); };
+    const cosLatS = lat => BigInt(Math.round(Math.cos(lat * Math.PI / 180) * SCALE)).toString();
+
+    function computeStats(arr) {
+      const sorted = [...arr].sort((a, b) => a - b);
+      const n = sorted.length;
+      const mean = arr.reduce((s, v) => s + v, 0) / n;
+      const variance = arr.reduce((s, v) => s + (v - mean) ** 2, 0) / n;
+      const std = Math.sqrt(variance);
+      const median = n % 2 === 0 ? (sorted[n / 2 - 1] + sorted[n / 2]) / 2 : sorted[Math.floor(n / 2)];
+      const q1 = sorted[Math.floor(n * 0.25)];
+      const q3 = sorted[Math.floor(n * 0.75)];
+      const p95 = sorted[Math.floor(n * 0.95)];
+      return { mean, std, median, iqr: [q1, q3], p95, min: sorted[0], max: sorted[n - 1] };
+    }
+
+    // ─── Load artifacts ───
+
+    setStatus('Loading verification key...');
+    let vkey;
+    try {
+      const resp = await fetch(VKEY_URL);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+      vkey = await resp.json();
+      setStatus('Verification key loaded. Building input...');
+    } catch (err) {
+      setStatus(`ERROR loading verification key: ${err.message}. Check that you are serving from packages/geo-drop/ root.`);
+      return;
+    }
+
+    // ─── Build input ───
+
+    const targetLat = 35.6586, targetLon = 139.7454, radius = 50;
+    const userLat = 35.6589, userLon = 139.7457;
+
+    const context = { dropId: 'browser-bench', policyVersion: '2', epoch: 100, serverNonce: 'browser-nonce-1' };
+    const stmt = await buildStatement(context);
+
+    const input = {
+      targetLat: toFP(targetLat).toString(),
+      targetLon: toFP(targetLon).toString(),
+      radiusSquared: metersToR2(radius),
+      cosLatScaled: cosLatS(targetLat),
+      userLat: toFP(userLat).toString(),
+      userLon: toFP(userLon).toString(),
+      contextDigest: stmt.contextDigest,
+      epoch: stmt.epoch,
+      challengeDigest: stmt.challengeDigest,
+    };
+
+    // ─── Benchmark ───
+
+    const proveTimes = [];
+    const verifyTimes = [];
+    let lastProof, lastSignals;
+
+    for (let i = 0; i < N; i++) {
+      setStatus(`Proving ${i + 1}/${N}...`);
+      setProgress(((i + 1) / N) * 100);
+      await new Promise(r => setTimeout(r, 0)); // yield to UI
+
+      const t0 = performance.now();
+      const { proof, publicSignals } = await snarkjs.groth16.fullProve(input, ZAIRN_WASM, ZAIRN_ZKEY);
+      proveTimes.push(performance.now() - t0);
+      lastProof = proof;
+      lastSignals = publicSignals;
+
+      const tv0 = performance.now();
+      const ok = await snarkjs.groth16.verify(vkey, publicSignals, proof);
+      verifyTimes.push(performance.now() - tv0);
+
+      if (!ok) {
+        setStatus(`ERROR: Verification failed at run ${i + 1}`);
+        return;
+      }
+    }
+
+    // ─── Results ───
+
+    const coldProve = proveTimes[0];
+    const coldVerify = verifyTimes[0];
+    const warmProve = proveTimes.slice(1);
+    const warmVerify = verifyTimes.slice(1);
+
+    const allProveStats = computeStats(proveTimes);
+    const warmProveStats = warmProve.length > 0 ? computeStats(warmProve) : null;
+    const allVerifyStats = computeStats(verifyTimes);
+    const warmVerifyStats = warmVerify.length > 0 ? computeStats(warmVerify) : null;
+
+    const proofBytes = JSON.stringify(lastProof).length;
+    const signalBytes = JSON.stringify(lastSignals).length;
+
+    const result = {
+      environment: {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        hardwareConcurrency: navigator.hardwareConcurrency,
+        deviceMemory: navigator.deviceMemory || 'unknown',
+      },
+      config: { iterations: N, circuit: 'zairn_zkp', publicSignals: 8 },
+      coldStart: { prove_ms: coldProve, verify_ms: coldVerify },
+      allRuns: { prove: allProveStats, verify: allVerifyStats },
+      warmRuns: warmProveStats ? { prove: warmProveStats, verify: warmVerifyStats } : null,
+      payload: { proof_bytes: proofBytes, signals_bytes: signalBytes, total_bytes: proofBytes + signalBytes },
+      raw: { proveTimes, verifyTimes },
+    };
+
+    // Machine-readable output for optional automation
+    console.log('BENCHMARK_RESULT_JSON:' + JSON.stringify(result));
+
+    // ─── Render table ───
+
+    const fmt = v => typeof v === 'number' ? v.toFixed(2) : v;
+
+    let html = '<table>';
+    html += '<tr><th>Metric</th><th>All Runs</th><th>Warm Runs</th></tr>';
+    html += `<tr><td>Prove median (ms)</td><td>${fmt(allProveStats.median)}</td><td>${warmProveStats ? fmt(warmProveStats.median) : 'N/A'}</td></tr>`;
+    html += `<tr><td>Prove mean ± std</td><td>${fmt(allProveStats.mean)} ± ${fmt(allProveStats.std)}</td><td>${warmProveStats ? fmt(warmProveStats.mean) + ' ± ' + fmt(warmProveStats.std) : 'N/A'}</td></tr>`;
+    html += `<tr><td>Prove p95 (ms)</td><td>${fmt(allProveStats.p95)}</td><td>${warmProveStats ? fmt(warmProveStats.p95) : 'N/A'}</td></tr>`;
+    html += `<tr><td>Prove cold-start (ms)</td><td colspan="2">${fmt(coldProve)}</td></tr>`;
+    html += `<tr><td>Verify median (ms)</td><td>${fmt(allVerifyStats.median)}</td><td>${warmVerifyStats ? fmt(warmVerifyStats.median) : 'N/A'}</td></tr>`;
+    html += `<tr><td>Verify mean ± std</td><td>${fmt(allVerifyStats.mean)} ± ${fmt(allVerifyStats.std)}</td><td>${warmVerifyStats ? fmt(warmVerifyStats.mean) + ' ± ' + fmt(warmVerifyStats.std) : 'N/A'}</td></tr>`;
+    html += `<tr><td>Verify cold-start (ms)</td><td colspan="2">${fmt(coldVerify)}</td></tr>`;
+    html += `<tr><td>Payload size</td><td colspan="2">${result.payload.total_bytes} B (proof ${proofBytes} B + signals ${signalBytes} B)</td></tr>`;
+    html += `<tr><td>Public signals</td><td colspan="2">8</td></tr>`;
+    html += '</table>';
+
+    html += '<table>';
+    html += '<tr><th>Environment</th><th>Value</th></tr>';
+    html += `<tr><td>User Agent</td><td style="font-size:11px;word-break:break-all">${navigator.userAgent}</td></tr>`;
+    html += `<tr><td>Platform</td><td>${navigator.platform}</td></tr>`;
+    html += `<tr><td>Cores</td><td>${navigator.hardwareConcurrency}</td></tr>`;
+    html += `<tr><td>Iterations</td><td>${N}</td></tr>`;
+    html += '</table>';
+
+    html += `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+
+    resultsEl.innerHTML = html;
+    setStatus(`Done — ${N} iterations complete`);
+    setProgress(100);
+  })();
+  </script>
+</body>
+</html>

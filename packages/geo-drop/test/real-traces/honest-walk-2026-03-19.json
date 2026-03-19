@@ -1,0 +1,50 @@
+{
+  "scenario": "honest-walk",
+  "device": {
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Mobile Safari/537.36",
+    "platform": "Linux armv81"
+  },
+  "collected": "2026-03-19T03:27:15.626Z",
+  "fixCount": 30,
+  "durationMs": 31724,
+  "fixes": [
+    {"lat":35.6893068,"lon":139.7761288,"accuracy":11.476,"altitude":55.6,"speed":null,"timestamp":"2026-03-19T03:26:43.283Z"},
+    {"lat":35.6893068,"lon":139.7761288,"accuracy":11.476,"altitude":55.6,"speed":0,"timestamp":"2026-03-19T03:26:48.535Z"},
+    {"lat":35.6893065,"lon":139.7761342,"accuracy":19.523,"altitude":55.6,"speed":0.828,"timestamp":"2026-03-19T03:26:54.878Z"},
+    {"lat":35.6893065,"lon":139.776133,"accuracy":19.517,"altitude":55.6,"speed":0.827,"timestamp":"2026-03-19T03:26:55.518Z"},
+    {"lat":35.6893065,"lon":139.7761305,"accuracy":19.514,"altitude":55.6,"speed":0.827,"timestamp":"2026-03-19T03:26:55.654Z"},
+    {"lat":35.6893105,"lon":139.7761536,"accuracy":16.842,"altitude":55.6,"speed":0.731,"timestamp":"2026-03-19T03:26:56.155Z"},
+    {"lat":35.6893125,"lon":139.7761575,"accuracy":15.221,"altitude":55.6,"speed":0.757,"timestamp":"2026-03-19T03:26:56.916Z"},
+    {"lat":35.689314,"lon":139.7761596,"accuracy":14.194,"altitude":55.6,"speed":0.769,"timestamp":"2026-03-19T03:26:57.595Z"},
+    {"lat":35.6893154,"lon":139.7761607,"accuracy":13.496,"altitude":55.6,"speed":0.744,"timestamp":"2026-03-19T03:26:58.295Z"},
+    {"lat":35.6893157,"lon":139.7761609,"accuracy":13.023,"altitude":55.6,"speed":0.78,"timestamp":"2026-03-19T03:26:58.865Z"},
+    {"lat":35.6893156,"lon":139.776163,"accuracy":11.88,"altitude":55.6,"speed":0.749,"timestamp":"2026-03-19T03:26:59.695Z"},
+    {"lat":35.6893146,"lon":139.7761632,"accuracy":10.757,"altitude":55.6,"speed":0.67,"timestamp":"2026-03-19T03:27:00.296Z"},
+    {"lat":35.6893135,"lon":139.7761626,"accuracy":9.677,"altitude":55.6,"speed":0.644,"timestamp":"2026-03-19T03:27:00.743Z"},
+    {"lat":35.6893102,"lon":139.7761527,"accuracy":9.806,"altitude":55.6,"speed":0.294,"timestamp":"2026-03-19T03:27:01.643Z"},
+    {"lat":35.6893022,"lon":139.7761296,"accuracy":9.809,"altitude":55.6,"speed":0.586,"timestamp":"2026-03-19T03:27:02.087Z"},
+    {"lat":35.6893013,"lon":139.7761241,"accuracy":9.83,"altitude":55.6,"speed":0.585,"timestamp":"2026-03-19T03:27:02.700Z"},
+    {"lat":35.6893013,"lon":139.7761193,"accuracy":9.76,"altitude":55.6,"speed":0.703,"timestamp":"2026-03-19T03:27:02.886Z"},
+    {"lat":35.6893034,"lon":139.7761138,"accuracy":9.801,"altitude":55.6,"speed":0.745,"timestamp":"2026-03-19T03:27:03.567Z"},
+    {"lat":35.6893045,"lon":139.7760444,"accuracy":9.599,"altitude":55.6,"speed":1.658,"timestamp":"2026-03-19T03:27:04.007Z"},
+    {"lat":35.6893021,"lon":139.7759716,"accuracy":9.293,"altitude":55.6,"speed":3.429,"timestamp":"2026-03-19T03:27:05.006Z"},
+    {"lat":35.6893056,"lon":139.7758898,"accuracy":8.735,"altitude":55.6,"speed":4.848,"timestamp":"2026-03-19T03:27:06.006Z"},
+    {"lat":35.6893157,"lon":139.7758094,"accuracy":8.266,"altitude":55.6,"speed":5.632,"timestamp":"2026-03-19T03:27:07.007Z"},
+    {"lat":35.6893257,"lon":139.7757451,"accuracy":7.585,"altitude":55.6,"speed":5.861,"timestamp":"2026-03-19T03:27:08.007Z"},
+    {"lat":35.6893117,"lon":139.7757178,"accuracy":7.066,"altitude":55.6,"speed":5.636,"timestamp":"2026-03-19T03:27:09.006Z"},
+    {"lat":35.6892974,"lon":139.7756846,"accuracy":6.866,"altitude":55.6,"speed":5.507,"timestamp":"2026-03-19T03:27:10.006Z"},
+    {"lat":35.6892863,"lon":139.7756693,"accuracy":6.716,"altitude":55.6,"speed":5.162,"timestamp":"2026-03-19T03:27:11.007Z"},
+    {"lat":35.6892805,"lon":139.7756625,"accuracy":6.6,"altitude":55.6,"speed":2.2,"timestamp":"2026-03-19T03:27:12.007Z"},
+    {"lat":35.6892791,"lon":139.7756567,"accuracy":6.5,"altitude":55.6,"speed":0.923,"timestamp":"2026-03-19T03:27:13.007Z"},
+    {"lat":35.6892846,"lon":139.7756519,"accuracy":6.45,"altitude":55.6,"speed":0.403,"timestamp":"2026-03-19T03:27:14.006Z"},
+    {"lat":35.6892868,"lon":139.7756391,"accuracy":6.416,"altitude":55.6,"speed":0.221,"timestamp":"2026-03-19T03:27:15.007Z"}
+  ],
+  "summary": {
+    "v1Mean": 0.997,
+    "v2Mean": 0.981,
+    "v1Min": 0.91,
+    "v2Min": 0.88,
+    "gateFinal": "proceed",
+    "allProceed": true
+  }
+}
