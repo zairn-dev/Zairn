@@ -182,11 +182,15 @@ describe('SBPP End-to-End Flow', () => {
 
     expect(digest1).not.toBe(digest2);
 
-    // Verify LP encoding includes the nonce
-    const expected1 = lengthPrefixEncode('drop-001', '1', '42', nonce1);
-    const expected2 = lengthPrefixEncode('drop-001', '1', '42', nonce2);
+    // Verify LP encoding includes domain separator + nonce
+    const expected1 = lengthPrefixEncode('SBPP-v1', 'drop-001', '1', '42', nonce1);
+    const expected2 = lengthPrefixEncode('SBPP-v1', 'drop-001', '1', '42', nonce2);
     expect(digest1).toBe(expected1);
     expect(digest2).toBe(expected2);
+
+    // Verify SBPP digest differs from non-SBPP digest (downgrade prevention)
+    const nonSbpp = lengthPrefixEncode('drop-001', '1', '42', nonce1);
+    expect(digest1).not.toBe(nonSbpp);
   });
 
   it('multiple drops at same location: session binds to specific drop', async () => {
