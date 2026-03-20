@@ -20,59 +20,28 @@ jobs:
       - name: Fetch latest version-specific DOI from Zenodo API
         id: doi
         run: |
-          # Zenodo concept record ID (from the concept DOI 10.5281/zenodo.19003580)
-          CONCEPT_ID="19003580"
-          # Query Zenodo API for the concept record — it returns the latest version
-          RESPONSE=$(curl -s "https://zenodo.org/api/records/${CONCEPT_ID}")
+          # Known version record ID (any existing version works as entry point)
+          KNOWN_RECORD="19125797"
+          # Use the /versions/latest endpoint to get the newest version
+          LATEST_URL="https://zenodo.org/api/records/${KNOWN_RECORD}/versions/latest"
+          RESPONSE=$(curl -sL "$LATEST_URL")
 
-          # Extract the version-specific DOI from the response
           NEW_DOI=$(echo "$RESPONSE" | python3 -c "
           import sys, json
           try:
               data = json.load(sys.stdin)
-              # The 'doi' field is the version-specific DOI
-              print(data.get('doi', ''))
-          except:
+              doi = data.get('doi', '')
+              version = data.get('metadata', {}).get('version', '')
+              print(f'{doi}')
+              import sys as s2
+              s2.stderr.write(f'Resolved: doi={doi} version={version}\n')
+          except Exception as e:
+              import sys as s2
+              s2.stderr.write(f'Error: {e}\n')
               print('')
           " 2>/dev/null || true)
 
           if [ -z "$NEW_DOI" ]; then
-            # Fallback: try the 'latest' link
-            LATEST_URL=$(echo "$RESPONSE" | python3 -c "
-            import sys, json
-            try:
-                data = json.load(sys.stdin)
-                for link in data.get('links', {}).values():
-                    if isinstance(link, str) and '/records/' in link and link != data.get('links', {}).get('self', ''):
-                        pass
-                latest = data.get('links', {}).get('latest', '')
-                print(latest)
-            except:
-                print('')
-            " 2>/dev/null || true)
-
-            if [ -n "$LATEST_URL" ]; then
-              LATEST_RESP=$(curl -s "$LATEST_URL")
-              NEW_DOI=$(echo "$LATEST_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('doi',''))" 2>/dev/null || true)
-            fi
-          fi
-
-          # Verify it's a version-specific DOI (not concept)
-          if [ "$NEW_DOI" = "10.5281/zenodo.${CONCEPT_ID}" ]; then
-            echo "WARNING: Got concept DOI instead of version DOI"
-            # Try to get latest version from concept metadata
-            NEW_DOI=$(echo "$RESPONSE" | python3 -c "
-            import sys, json
-            data = json.load(sys.stdin)
-            latest_id = data.get('links', {}).get('latest', '').split('/')[-1]
-            if latest_id and latest_id != '${CONCEPT_ID}':
-                print(f'10.5281/zenodo.{latest_id}')
-            else:
-                print('')
-            " 2>/dev/null || true)
-          fi
-
-          if [ -z "$NEW_DOI" ] || [ "$NEW_DOI" = "10.5281/zenodo.${CONCEPT_ID}" ]; then
             echo "Could not resolve version-specific DOI, skipping"
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
