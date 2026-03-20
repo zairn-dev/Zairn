@@ -15,36 +15,77 @@ jobs:
           ref: main
 
       - name: Wait for Zenodo to mint DOI
-        run: sleep 60
+        run: sleep 90
 
-      - name: Fetch latest Zenodo DOI
+      - name: Fetch latest version-specific DOI from Zenodo API
         id: doi
         run: |
-          # Zenodo concept DOI resolves to the latest version
-          CONCEPT_DOI="10.5281/zenodo.19003580"
-          # Follow redirect to get the version-specific DOI
-          RESOLVED=$(curl -sI "https://doi.org/${CONCEPT_DOI}" | grep -i '^location:' | tail -1 | tr -d '\r' | sed 's/^[Ll]ocation: //')
-          if [ -z "$RESOLVED" ]; then
-            echo "Could not resolve DOI redirect, skipping"
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          # Extract DOI from URL: https://zenodo.org/doi/10.5281/zenodo.NNNNN
-          NEW_DOI=$(echo "$RESOLVED" | grep -oP '10\.5281/zenodo\.\d+' || true)
+          # Zenodo concept record ID (from the concept DOI 10.5281/zenodo.19003580)
+          CONCEPT_ID="19003580"
+          # Query Zenodo API for the concept record — it returns the latest version
+          RESPONSE=$(curl -s "https://zenodo.org/api/records/${CONCEPT_ID}")
+
+          # Extract the version-specific DOI from the response
+          NEW_DOI=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          try:
+              data = json.load(sys.stdin)
+              # The 'doi' field is the version-specific DOI
+              print(data.get('doi', ''))
+          except:
+              print('')
+          " 2>/dev/null || true)
+
           if [ -z "$NEW_DOI" ]; then
-            echo "Could not extract DOI from: $RESOLVED"
+            # Fallback: try the 'latest' link
+            LATEST_URL=$(echo "$RESPONSE" | python3 -c "
+            import sys, json
+            try:
+                data = json.load(sys.stdin)
+                for link in data.get('links', {}).values():
+                    if isinstance(link, str) and '/records/' in link and link != data.get('links', {}).get('self', ''):
+                        pass
+                latest = data.get('links', {}).get('latest', '')
+                print(latest)
+            except:
+                print('')
+            " 2>/dev/null || true)
+
+            if [ -n "$LATEST_URL" ]; then
+              LATEST_RESP=$(curl -s "$LATEST_URL")
+              NEW_DOI=$(echo "$LATEST_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('doi',''))" 2>/dev/null || true)
+            fi
+          fi
+
+          # Verify it's a version-specific DOI (not concept)
+          if [ "$NEW_DOI" = "10.5281/zenodo.${CONCEPT_ID}" ]; then
+            echo "WARNING: Got concept DOI instead of version DOI"
+            # Try to get latest version from concept metadata
+            NEW_DOI=$(echo "$RESPONSE" | python3 -c "
+            import sys, json
+            data = json.load(sys.stdin)
+            latest_id = data.get('links', {}).get('latest', '').split('/')[-1]
+            if latest_id and latest_id != '${CONCEPT_ID}':
+                print(f'10.5281/zenodo.{latest_id}')
+            else:
+                print('')
+            " 2>/dev/null || true)
+          fi
+
+          if [ -z "$NEW_DOI" ] || [ "$NEW_DOI" = "10.5281/zenodo.${CONCEPT_ID}" ]; then
+            echo "Could not resolve version-specific DOI, skipping"
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
           echo "new_doi=$NEW_DOI" >> "$GITHUB_OUTPUT"
           echo "skip=false" >> "$GITHUB_OUTPUT"
-          echo "Resolved DOI: $NEW_DOI"
+          echo "Resolved version-specific DOI: $NEW_DOI"
 
       - name: Update README.md
         if: steps.doi.outputs.skip != 'true'
         run: |
           NEW_DOI="${{ steps.doi.outputs.new_doi }}"
-          # Replace any zenodo DOI in the badge line
           sed -i "s|10\.5281/zenodo\.[0-9]*|${NEW_DOI}|g" README.md
           echo "Updated README.md with DOI: $NEW_DOI"
 
@@ -52,7 +93,7 @@ jobs:
         if: steps.doi.outputs.skip != 'true'
         run: |
           TAG="${{ github.event.release.tag_name }}"
-          VERSION="${TAG#v}"  # strip leading 'v'
+          VERSION="${TAG#v}"
           DATE=$(date -u +%Y-%m-%d)
           sed -i "s/^version: .*/version: ${VERSION}/" CITATION.cff
           sed -i "s/^date-released: .*/date-released: \"${DATE}\"/" CITATION.cff
