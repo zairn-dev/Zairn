@@ -135,12 +135,16 @@ export {
   TokenInvertedIndex,
   SBPP_DOMAIN_SEPARATOR,
   computeResultSetDigest,
+  MerkleResultSet,
+  SbppAuditLog,
 } from './sbpp';
 export type {
   SbppSession,
   SbppSessionOptions,
   SbppSearchResult,
   SbppProofContext,
+  MerkleProof,
+  SbppAuditRecord,
 } from './sbpp';
 
 // IPFS client
