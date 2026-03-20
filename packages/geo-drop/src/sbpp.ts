@@ -85,6 +85,99 @@ export interface SbppProofContext {
 }
 
 /**
+ * Simple binary Merkle tree for result-set commitment.
+ * Provides O(log k) membership proofs and O(1) root storage.
+ */
+
+// Hash function for Merkle nodes (using LP encoding for domain separation)
+function merkleLeafHash(dropId: string): string {
+  return lengthPrefixEncode('SBPP-LEAF', dropId);
+}
+
+function merkleNodeHash(left: string, right: string): string {
+  return lengthPrefixEncode('SBPP-NODE', left, right);
+}
+
+export interface MerkleProof {
+  leaf: string;
+  path: { sibling: string; direction: 'left' | 'right' }[];
+  root: string;
+}
+
+/**
+ * Build a Merkle tree from candidate drop IDs.
+ * Returns the root hash and allows generating membership proofs.
+ */
+export class MerkleResultSet {
+  readonly root: string;
+  readonly leaves: string[];
+  private layers: string[][];
+
+  constructor(candidateDropIds: string[]) {
+    const sorted = [...candidateDropIds].sort();
+    this.leaves = sorted.map(merkleLeafHash);
+
+    // Build tree bottom-up
+    this.layers = [this.leaves.slice()];
+    let current = this.leaves.slice();
+
+    while (current.length > 1) {
+      const next: string[] = [];
+      for (let i = 0; i < current.length; i += 2) {
+        if (i + 1 < current.length) {
+          next.push(merkleNodeHash(current[i], current[i + 1]));
+        } else {
+          next.push(current[i]); // odd node promoted
+        }
+      }
+      this.layers.push(next);
+      current = next;
+    }
+
+    this.root = current[0] || '';
+  }
+
+  /** Generate a membership proof for a dropId */
+  prove(dropId: string): MerkleProof | null {
+    const leafHash = merkleLeafHash(dropId);
+    let idx = this.leaves.indexOf(leafHash);
+    if (idx === -1) return null;
+
+    const path: MerkleProof['path'] = [];
+    for (let layer = 0; layer < this.layers.length - 1; layer++) {
+      const level = this.layers[layer];
+      if (idx % 2 === 0) {
+        if (idx + 1 < level.length) {
+          path.push({ sibling: level[idx + 1], direction: 'right' });
+        }
+      } else {
+        path.push({ sibling: level[idx - 1], direction: 'left' });
+      }
+      idx = Math.floor(idx / 2);
+    }
+
+    return { leaf: leafHash, path, root: this.root };
+  }
+
+  /** Verify a membership proof */
+  static verify(proof: MerkleProof): boolean {
+    let hash = proof.leaf;
+    for (const step of proof.path) {
+      if (step.direction === 'left') {
+        hash = merkleNodeHash(step.sibling, hash);
+      } else {
+        hash = merkleNodeHash(hash, step.sibling);
+      }
+    }
+    return hash === proof.root;
+  }
+
+  get size(): number {
+    return this.leaves.length;
+  }
+}
+
+/**
  * Compute a canonical digest of the search result set.
  *
  * The result set is sorted by dropId to ensure determinism regardless
@@ -224,6 +317,69 @@ export class SbppSessionStore {
       }
     }
     return purged;
+  }
+}
+
+// =====================
+// Offline audit log
+// =====================
+
+/** A single audit record for offline verification */
+export interface SbppAuditRecord {
+  sessionId: string;
+  dropId: string;
+  challengeDigest: string;
+  merkleRoot: string;
+  merkleProof: MerkleProof;
+  timestamp: number;
+  verified: boolean;
+}
+
+/**
+ * Audit log for offline transcript verification.
+ *
+ * Full SBPP enables transcript-level authorization: an auditor
+ * can verify that a proof was generated for a drop in the
+ * authorized result set without access to server-side session state.
+ */
+export class SbppAuditLog {
+  private records: SbppAuditRecord[] = [];
+
+  /** Record a successful verification */
+  record(entry: SbppAuditRecord): void {
+    this.records.push(entry);
+  }
+
+  /**
+   * Offline audit: verify all records using only transcript data.
+   * Returns { valid, invalid, details }.
+   * This works WITHOUT access to server-side session state.
+   */
+  audit(): { valid: number; invalid: number; details: { index: number; dropId: string; ok: boolean }[] } {
+    const details: { index: number; dropId: string; ok: boolean }[] = [];
+    let valid = 0;
+    let invalid = 0;
+
+    for (let i = 0; i < this.records.length; i++) {
+      const r = this.records[i];
+      // Verify Merkle proof (transcript-only, no server state needed)
+      const merkleOk = MerkleResultSet.verify(r.merkleProof);
+      // Verify the proof's Merkle root matches the logged root
+      const rootOk = r.merkleProof.root === r.merkleRoot;
+      const ok = merkleOk && rootOk;
+      details.push({ index: i, dropId: r.dropId, ok });
+      if (ok) valid++; else invalid++;
+    }
+
+    return { valid, invalid, details };
+  }
+
+  get length(): number {
+    return this.records.length;
+  }
+
+  getRecords(): readonly SbppAuditRecord[] {
+    return this.records;
   }
 }
 

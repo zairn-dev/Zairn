@@ -15,6 +15,8 @@ import {
   sbppVerifyBinding,
   sbppMatch,
   computeResultSetDigest,
+  MerkleResultSet,
+  SbppAuditLog,
 } from '../src/sbpp';
 import {
   generateIndexTokens,
@@ -322,5 +324,128 @@ describe('SBPP Result-Set Binding', () => {
     const d1 = computeResultSetDigest('session-1', ['drop-A', 'drop-B'], 5);
     const d2 = computeResultSetDigest('session-1', ['drop-A', 'drop-C'], 5);
     expect(d1).not.toBe(d2);
+  });
+});
+
+describe('SBPP Merkle Result Set', () => {
+  it('builds tree and generates valid proof', () => {
+    const tree = new MerkleResultSet(['drop-A', 'drop-B', 'drop-C']);
+    const proof = tree.prove('drop-B');
+    expect(proof).not.toBeNull();
+    expect(MerkleResultSet.verify(proof!)).toBe(true);
+  });
+
+  it('rejects non-member', () => {
+    const tree = new MerkleResultSet(['drop-A', 'drop-B']);
+    const proof = tree.prove('drop-C');
+    expect(proof).toBeNull();
+  });
+
+  it('root is deterministic regardless of input order', () => {
+    const tree1 = new MerkleResultSet(['drop-B', 'drop-A', 'drop-C']);
+    const tree2 = new MerkleResultSet(['drop-A', 'drop-B', 'drop-C']);
+    expect(tree1.root).toBe(tree2.root);
+  });
+
+  it('single-element tree works', () => {
+    const tree = new MerkleResultSet(['drop-only']);
+    const proof = tree.prove('drop-only');
+    expect(proof).not.toBeNull();
+    expect(MerkleResultSet.verify(proof!)).toBe(true);
+  });
+
+  it('empty tree', () => {
+    const tree = new MerkleResultSet([]);
+    expect(tree.root).toBe('');
+  });
+
+  it('large tree', () => {
+    const ids = Array.from({ length: 100 }, (_, i) => `drop-${String(i).padStart(4, '0')}`);
+    const tree = new MerkleResultSet(ids);
+    for (const id of ids) {
+      const proof = tree.prove(id);
+      expect(proof).not.toBeNull();
+      expect(MerkleResultSet.verify(proof!)).toBe(true);
+    }
+  });
+});
+
+describe('SBPP Audit Log', () => {
+  it('records and audits successfully', () => {
+    const tree = new MerkleResultSet(['drop-A', 'drop-B', 'drop-C']);
+    const proof = tree.prove('drop-B')!;
+    expect(proof).not.toBeNull();
+
+    const log = new SbppAuditLog();
+    log.record({
+      sessionId: 'session-1',
+      dropId: 'drop-B',
+      challengeDigest: 'digest-placeholder',
+      merkleRoot: tree.root,
+      merkleProof: proof,
+      timestamp: Date.now(),
+      verified: true,
+    });
+
+    const result = log.audit();
+    expect(result.valid).toBe(1);
+    expect(result.invalid).toBe(0);
+    expect(result.details[0].ok).toBe(true);
+  });
+
+  it('detects tampered Merkle proof', () => {
+    const tree = new MerkleResultSet(['drop-A', 'drop-B', 'drop-C']);
+    const proof = tree.prove('drop-B')!;
+    expect(proof).not.toBeNull();
+
+    // Tamper with a sibling in the proof path
+    const tampered = {
+      ...proof,
+      path: proof.path.map((step, i) =>
+        i === 0 ? { ...step, sibling: 'tampered-hash' } : step,
+      ),
+    };
+
+    const log = new SbppAuditLog();
+    log.record({
+      sessionId: 'session-1',
+      dropId: 'drop-B',
+      challengeDigest: 'digest-placeholder',
+      merkleRoot: tree.root,
+      merkleProof: tampered,
+      timestamp: Date.now(),
+      verified: true,
+    });
+
+    const result = log.audit();
+    expect(result.valid).toBe(0);
+    expect(result.invalid).toBe(1);
+    expect(result.details[0].ok).toBe(false);
+  });
+
+  it('audit works without server state', () => {
+    // Build tree and proofs entirely client-side
+    const tree = new MerkleResultSet(['drop-X', 'drop-Y', 'drop-Z']);
+    const log = new SbppAuditLog();
+
+    for (const id of ['drop-X', 'drop-Y', 'drop-Z']) {
+      const proof = tree.prove(id)!;
+      log.record({
+        sessionId: 'offline-session',
+        dropId: id,
+        challengeDigest: `digest-${id}`,
+        merkleRoot: tree.root,
+        merkleProof: proof,
+        timestamp: Date.now(),
+        verified: true,
+      });
+    }
+
+    // audit() uses only transcript data — no SbppSessionStore needed
+    const result = log.audit();
+    expect(result.valid).toBe(3);
+    expect(result.invalid).toBe(0);
+    expect(result.details).toHaveLength(3);
+    expect(result.details.every(d => d.ok)).toBe(true);
   });
 });
