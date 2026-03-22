@@ -1,0 +1,106 @@
+{
+  "timestamp": "2026-03-21T13:01:14.173Z",
+  "description": "SBPP evaluation with OpenStreetMap POI data (Tokyo metropolitan area)",
+  "osm_distribution": {
+    "total_pois": 110776,
+    "top_types": {
+      "restaurant": 13725,
+      "vending_machine": 6983,
+      "information": 4672,
+      "convenience": 4581,
+      "pub": 4216,
+      "cafe": 3953,
+      "bench": 3657,
+      "fast_food": 3655,
+      "bicycle_rental": 3466,
+      "hairdresser": 2337
+    },
+    "spatial": {
+      "lat": {
+        "min": "35.6000",
+        "max": "35.8000",
+        "mean": "35.6990"
+      },
+      "lon": {
+        "min": "139.6000",
+        "max": "139.9000",
+        "mean": "139.7386"
+      }
+    }
+  },
+  "matching": {
+    "osm": {
+      "label": "osm",
+      "n_drops": 110776,
+      "radius": 1000,
+      "n_queries": 200,
+      "match_time_ms": {
+        "median": 6.7146,
+        "mean": 6.9241,
+        "p95": 7.6092
+      },
+      "avg_matches": 2566.3,
+      "match_count_median": 1929,
+      "precision": 0.5993,
+      "recall": 0.9358
+    },
+    "uniform": {
+      "label": "uniform",
+      "n_drops": 110776,
+      "radius": 1000,
+      "n_queries": 200,
+      "match_time_ms": {
+        "median": 11.7952,
+        "mean": 11.8714,
+        "p95": 12.2859
+      },
+      "avg_matches": 959.6,
+      "match_count_median": 1007,
+      "precision": 0.5442,
+      "recall": 0.9267
+    }
+  },
+  "inference": {
+    "osm": {
+      "label": "osm",
+      "n_queries_with_matches": 192,
+      "localization_error_km": {
+        "median": 0.455,
+        "mean": 0.512,
+        "iqr": [
+          0.301,
+          0.649
+        ],
+        "p95": 1.063
+      }
+    },
+    "uniform": {
+      "label": "uniform",
+      "n_queries_with_matches": 200,
+      "localization_error_km": {
+        "median": 0.349,
+        "mean": 0.349,
+        "iqr": [
+          0.247,
+          0.438
+        ],
+        "p95": 0.565
+      }
+    }
+  },
+  "parameters": {
+    "bbox": {
+      "south": 35.6,
+      "north": 35.8,
+      "west": 139.6,
+      "east": 139.9
+    },
+    "search_radius_m": 1000,
+    "n_queries": 200,
+    "precision_levels": [
+      4,
+      5,
+      6
+    ]
+  }
+}

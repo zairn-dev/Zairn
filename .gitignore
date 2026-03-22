@@ -39,3 +39,7 @@ packages/geo-drop/test/results-*.json
 # Project-specific
 CLAUDE.md
 AGENTS.md
+
+# OSM cache (large, regenerable via Overpass API)
+packages/geo-drop/test/osm-tokyo-pois.json
+packages/geo-drop/osm-eval-stderr.txt
