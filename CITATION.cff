@@ -7,8 +7,8 @@ authors:
 repository-code: "https://github.com/zairn-dev/Zairn"
 url: "https://github.com/zairn-dev/Zairn"
 license: MIT
-version: 0.6.0
-date-released: "2026-03-22"
+version: 0.7.0
+date-released: "2026-03-23"
 keywords:
   - location-sharing
   - geofencing
