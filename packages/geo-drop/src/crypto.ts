@@ -151,6 +151,16 @@ export async function verifyPassword(password: string, storedHash: string): Prom
   return constantTimeEqual(hash, fromBase64(hashB64));
 }
 
+// ============================================================
+// Key derivation versioning
+// ============================================================
+
+/** Supported key derivation versions */
+export type KeyDerivationVersion = 1 | 2;
+
+/** Current default version for new drops */
+export const CURRENT_KEY_VERSION: KeyDerivationVersion = 2;
+
 /**
  * Generate a location-based encryption key.
  * Combines geohash + drop_id + salt + server secret to create a unique encryption key.
@@ -158,14 +168,36 @@ export async function verifyPassword(password: string, storedHash: string): Prom
  * that is only available server-side, making client-side decryption impossible
  * even if all DB columns are known.
  *
- * Exported for advanced use cases (custom unlock flows, testing).
- * In production, prefer the server-side unlock Edge Function.
+ * Version history:
+ *   v1: `geodrop:{geohash}:{dropId}:{salt}[:{serverSecret}]`
+ *       Simple string concatenation. Vulnerable to delimiter confusion
+ *       if any field contains ':'. Adequate for current use but not
+ *       suitable for post-quantum migration.
+ *
+ *   v2: `geodrop-v2:{length-prefixed fields}:{serverSecret}`
+ *       Length-prefixed encoding prevents delimiter confusion.
+ *       Prepares for future algorithm changes (field order is fixed,
+ *       version tag is explicit).
+ *
+ * @param version Key derivation version (1 or 2). Stored in drop metadata
+ *                for future decryption. Default: CURRENT_KEY_VERSION.
  */
-export function deriveLocationKey(geohash: string, dropId: string, salt: string, serverSecret?: string): string {
-  const base = `geodrop:${geohash}:${dropId}:${salt}`;
-  if (serverSecret) {
-    return `${base}:${serverSecret}`;
+export function deriveLocationKey(
+  geohash: string,
+  dropId: string,
+  salt: string,
+  serverSecret?: string,
+  version: KeyDerivationVersion = 1, // default 1 for backward compat
+): string {
+  if (version === 1) {
+    // V1: original format (backward compatible)
+    const base = `geodrop:${geohash}:${dropId}:${salt}`;
+    return serverSecret ? `${base}:${serverSecret}` : base;
   }
-  // Fallback without server secret (development/self-hosted only)
-  return base;
+
+  // V2: length-prefixed, explicit version tag
+  const fields = [geohash, dropId, salt];
+  const encoded = fields.map(f => `${f.length}:${f}`).join('|');
+  const base = `geodrop-v2:${encoded}`;
+  return serverSecret ? `${base}:${serverSecret}` : base;
 }

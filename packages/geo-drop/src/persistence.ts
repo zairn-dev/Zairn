@@ -7,11 +7,12 @@ import type {
   PersistenceLevel,
   PersistenceResult,
   DropMetadataDocument,
+  DropMetadataDocumentV2,
   RecoveredDrop,
 } from './types';
 import type { IpfsClient } from './ipfs';
 import type { ChainClient } from './chain';
-import { encrypt, decrypt } from './crypto';
+import { encrypt, decrypt, CURRENT_KEY_VERSION } from './crypto';
 
 export interface PersistenceManager {
   /** Persist drop metadata */
@@ -25,18 +26,47 @@ export interface PersistenceManager {
 /**
  * Create a persistence manager
  */
+export interface PersistenceManagerConfig {
+  /** Use V2 metadata format (default: true for new drops) */
+  useV2Metadata?: boolean;
+  /** Additional IPFS clients for redundant pinning */
+  redundantPinners?: IpfsClient[];
+  /** Pinning provider names for metadata tracking */
+  pinningProviderNames?: string[];
+}
+
 export function createPersistenceManager(
   ipfs: IpfsClient,
-  chain?: ChainClient
+  chain?: ChainClient,
+  config?: PersistenceManagerConfig,
 ): PersistenceManager {
+  const useV2 = config?.useV2Metadata ?? true;
+  const redundantPinners = config?.redundantPinners ?? [];
+  const providerNames = config?.pinningProviderNames ?? [];
 
   // =====================
   // Metadata document construction
   // =====================
 
   function buildMetadataDoc(drop: GeoDrop): DropMetadataDocument {
-    return {
-      version: 1,
+    if (!useV2) {
+      // V1 backward compatibility
+      return {
+        version: 1,
+        dropId: drop.id,
+        geohash: drop.geohash,
+        contentCid: drop.ipfs_cid ?? '',
+        encryptionSalt: drop.encryption_salt ?? '',
+        unlockRadiusMeters: drop.unlock_radius_meters,
+        contentType: drop.content_type,
+        title: drop.title,
+        proofConfig: drop.proof_config,
+        createdAt: drop.created_at,
+      };
+    }
+
+    const doc: DropMetadataDocumentV2 = {
+      version: 2,
       dropId: drop.id,
       geohash: drop.geohash,
       contentCid: drop.ipfs_cid ?? '',
@@ -46,7 +76,13 @@ export function createPersistenceManager(
       title: drop.title,
       proofConfig: drop.proof_config,
       createdAt: drop.created_at,
+      keyDerivationVersion: CURRENT_KEY_VERSION,
+      encryptionAlgorithm: 'aes-256-gcm',
+      pbkdf2Iterations: 100_000,
+      pinningProviders: providerNames,
+      serverSecretVersion: (drop as unknown as Record<string, unknown>).server_secret_version as number ?? 1,
     };
+    return doc;
   }
 
   // =====================
@@ -88,21 +124,52 @@ export function createPersistenceManager(
       const doc = buildMetadataDoc(drop);
       let content: string;
       if (recoverySecret) {
+        if (recoverySecret.length < 16) {
+          throw new Error('Recovery secret too weak: minimum 16 characters required');
+        }
         content = await encryptMetadata(doc, recoverySecret);
       } else {
         content = JSON.stringify(doc);
       }
 
-      // Pin to IPFS (also required implicitly for onchain)
+      // Pin to primary IPFS provider
       const ipfsResult = await ipfs.upload(content);
       result.metadataCid = ipfsResult.cid;
 
-      // On-chain registration
+      // Redundant pinning to additional providers (best-effort with logging)
+      const pinResults: Array<{ provider: string; ok: boolean; error?: string }> = [];
+      for (let i = 0; i < redundantPinners.length; i++) {
+        const name = providerNames[i] ?? `pinner-${i}`;
+        try {
+          await redundantPinners[i].upload(content);
+          pinResults.push({ provider: name, ok: true });
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : String(err);
+          pinResults.push({ provider: name, ok: false, error: msg });
+          console.warn(`[persistence] Redundant pin failed for ${name}: ${msg}`);
+        }
+      }
+      result.pinResults = pinResults;
+
+      // On-chain registration (use V2 if contract supports it)
       if (level === 'onchain' || level === 'ipfs+onchain') {
         if (!chain) throw new Error('Chain config required for on-chain persistence');
-        const { txHash, chainId } = await chain.registerDrop(drop.geohash, ipfsResult.cid);
-        result.txHash = txHash;
-        result.chainId = chainId;
+        const metadataVer = doc.version;
+        try {
+          // Try V2 registration first (includes metadata version)
+          const { txHash, chainId: cid } = await chain.registerDropV2(
+            drop.geohash, ipfsResult.cid, metadataVer
+          );
+          result.txHash = txHash;
+          result.chainId = cid;
+        } catch {
+          // Fall back to V1 registration (for V1 contracts)
+          const { txHash, chainId: cid } = await chain.registerDrop(
+            drop.geohash, ipfsResult.cid
+          );
+          result.txHash = txHash;
+          result.chainId = cid;
+        }
       }
 
       return result;

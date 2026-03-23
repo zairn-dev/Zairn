@@ -37,10 +37,16 @@ create table if not exists geo_drops (
   -- Metadata
   preview_url text,
   metadata jsonb,
+  -- IPFS pin tracking
+  pin_status jsonb,
   -- Persistence (reference info for DB-independent recovery)
   persistence_level text not null default 'db-only',
   metadata_cid text,
   chain_tx_hash text,
+  -- Encryption versioning (for algorithm upgrades and key rotation)
+  key_derivation_version smallint not null default 1,
+  encryption_algorithm text not null default 'aes-256-gcm',
+  server_secret_version smallint not null default 1,
   -- Encrypted search (GridSE tokens)
   search_tokens jsonb, -- [{ precision: number, token: string }, ...]
   -- Timestamps
@@ -139,7 +145,9 @@ begin
 end;
 $$ language plpgsql security definer;
 
--- Compensating decrement if claim INSERT fails after increment
+-- Compensating decrement if claim INSERT fails after increment.
+-- Only callable when increment_claim_count was called in the same transaction
+-- (verified via session variable set by increment_claim_count).
 create or replace function decrement_claim_count(p_drop_id uuid)
 returns void as $$
 begin
@@ -147,7 +155,11 @@ begin
     raise exception 'Authentication required';
   end if;
 
-  perform set_config('app.claim_count_update', 'true', true);
+  -- Only allow if increment_claim_count was called in this transaction
+  if coalesce(current_setting('app.claim_count_update', true), '') != 'true' then
+    raise exception 'Forbidden: can only be called as compensation after increment_claim_count';
+  end if;
+
   update geo_drops
   set claim_count = greatest(claim_count - 1, 0), updated_at = now()
   where id = p_drop_id;
@@ -189,3 +201,13 @@ $$ language plpgsql security definer;
 
 -- Run in environments with pg_cron enabled:
 -- select cron.schedule('cleanup-expired-drops', '*/15 * * * *', 'select cleanup_expired_drops()');
+
+-- View for Realtime subscriptions (excludes sensitive columns)
+create or replace view geo_drops_public as
+select id, creator_id, lat, lon, geohash, unlock_radius_meters,
+       title, description, content_type, visibility,
+       max_claims, claim_count, proof_config, expires_at, status,
+       preview_url, metadata, persistence_level,
+       metadata_cid, chain_tx_hash, ipfs_cid, encrypted,
+       created_at, updated_at
+from geo_drops;

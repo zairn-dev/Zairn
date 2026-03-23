@@ -274,6 +274,19 @@ export class SbppSessionStore {
     return this.sessions.delete(sessionId);
   }
 
+  /** Atomic validate-and-consume: prevents TOCTOU race in concurrent environments */
+  consumeIfValid(sessionId: string, nonce: string, now?: number): boolean {
+    const session = this.sessions.get(sessionId);
+    if (!session) return false;
+    if (!isSessionValid(session, now)) {
+      this.sessions.delete(sessionId);
+      return false;
+    }
+    if (session.nonce !== nonce) return false;
+    this.sessions.delete(sessionId);
+    return true;
+  }
+
   /** Get session count (for testing) */
   get size(): number {
     return this.sessions.size;
@@ -547,7 +560,10 @@ export function sbppVerifyBinding(
     return { valid: false, reason: 'drop_not_in_result_set' };
   }
 
-  // 5. Consume session (one proof per session)
+  // 5. Consume session atomically (one proof per session)
+  // Note: In-memory store is single-threaded (Node.js), so TOCTOU is not
+  // exploitable here. For production DB-backed stores, use
+  // consumeIfValid() or a DB transaction with DELETE ... RETURNING.
   sessionStore.consume(sessionId);
 
   return { valid: true };

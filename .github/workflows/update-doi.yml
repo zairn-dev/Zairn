@@ -60,8 +60,9 @@ jobs:
 
       - name: Update CITATION.cff
         if: steps.doi.outputs.skip != 'true'
+        env:
+          TAG: ${{ github.event.release.tag_name }}
         run: |
-          TAG="${{ github.event.release.tag_name }}"
           VERSION="${TAG#v}"
           DATE=$(date -u +%Y-%m-%d)
           sed -i "s/^version: .*/version: ${VERSION}/" CITATION.cff

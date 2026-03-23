@@ -7,13 +7,19 @@ import type { ChainConfig, EvmSigner } from './types';
 
 // GeoDropRegistry function selectors (first 4 bytes of keccak256)
 const SELECTOR_REGISTER = '0xd0495692'; // registerDrop(bytes7,string)
+const SELECTOR_REGISTER_V2 = '0x8c4e4b18'; // registerDropV2(bytes7,string,uint8)
 const SELECTOR_GET_CIDS = '0x586938e6'; // getDropCids(bytes7)
+const SELECTOR_VERSION = '0x54fd4d50'; // version()
 
 export interface ChainClient {
-  /** Register a drop's metadata CID on-chain */
+  /** Register a drop's metadata CID on-chain (V1 compatible) */
   registerDrop(geohash: string, metadataCid: string): Promise<{ txHash: string; chainId?: number }>;
+  /** Register with metadata version (V2 contract) */
+  registerDropV2(geohash: string, metadataCid: string, metadataVersion: number): Promise<{ txHash: string; chainId?: number }>;
   /** Get all metadata CIDs registered for a geohash (no gas required) */
   getDropCids(geohash: string): Promise<string[]>;
+  /** Check contract version (returns 0 for V1, 2 for V2) */
+  getVersion(): Promise<number>;
 }
 
 /**
@@ -37,6 +43,7 @@ export function createChainClient(config: ChainConfig): ChainClient {
   }
 
   function encodeStringParam(str: string, offset: number): { offsetHex: string; dataContent: string } {
+    if (!/^[\x00-\x7f]*$/.test(str)) throw new Error('ABI string encoding only supports ASCII');
     // ABI encoding: dynamic string
     // offset pointer (32 bytes)
     const offsetHex = offset.toString(16).padStart(64, '0');
@@ -126,6 +133,18 @@ export function createChainClient(config: ChainConfig): ChainClient {
   // Public API
   // =====================
 
+  function encodeRegisterDropV2(geohash: string, metadataCid: string, metadataVer: number): string {
+    // ABI: registerDropV2(bytes7 geohash7, string metadataCid, uint8 metadataVer)
+    // Slot 0: bytes7 geohash (static, left-aligned)
+    // Slot 1: offset to string data (dynamic) = 0x60 (3 * 32 bytes)
+    // Slot 2: uint8 metadataVer (static)
+    // Then: string length + padded data at offset 0x60
+    const geohashSlot = encodeBytes7Param(geohash);
+    const strEnc = encodeStringParam(metadataCid, 0x60);
+    const verSlot = metadataVer.toString(16).padStart(64, '0');
+    return SELECTOR_REGISTER_V2 + geohashSlot + strEnc.offsetHex + verSlot + strEnc.dataContent;
+  }
+
   return {
     async registerDrop(geohash: string, metadataCid: string) {
       if (!signer) throw new Error('Signer required for on-chain registration');
@@ -135,7 +154,19 @@ export function createChainClient(config: ChainConfig): ChainClient {
         to: registryAddress,
         data,
       });
-      await tx.wait(1);
+      await tx.wait(config.confirmations ?? 2);
+      return { txHash: tx.hash, chainId };
+    },
+
+    async registerDropV2(geohash: string, metadataCid: string, metadataVersion: number) {
+      if (!signer) throw new Error('Signer required for on-chain registration');
+
+      const data = encodeRegisterDropV2(geohash, metadataCid, metadataVersion);
+      const tx = await signer.sendTransaction({
+        to: registryAddress,
+        data,
+      });
+      await tx.wait(config.confirmations ?? 2);
       return { txHash: tx.hash, chainId };
     },
 
@@ -143,6 +174,15 @@ export function createChainClient(config: ChainConfig): ChainClient {
       const data = encodeGetDropCids(geohash);
       const result = await ethCall(data);
       return decodeStringArray(result);
+    },
+
+    async getVersion() {
+      try {
+        const result = await ethCall(SELECTOR_VERSION + '0'.repeat(64));
+        return parseInt(result.slice(2, 66), 16);
+      } catch {
+        return 0; // V1 contract doesn't have version()
+      }
     },
   };
 }

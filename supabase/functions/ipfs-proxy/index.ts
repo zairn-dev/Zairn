@@ -44,7 +44,7 @@ serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, {
       headers: {
-        'Access-Control-Allow-Origin': Deno.env.get('CORS_ORIGIN') ?? Deno.env.get('SUPABASE_URL') ?? '*',
+        'Access-Control-Allow-Origin': Deno.env.get('CORS_ORIGIN') ?? Deno.env.get('SUPABASE_URL') ?? '',
         'Access-Control-Allow-Headers': 'authorization, content-type',
       },
     })
@@ -113,7 +113,7 @@ serve(async (req: Request) => {
       }), {
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Deno.env.get('CORS_ORIGIN') ?? Deno.env.get('SUPABASE_URL') ?? '*',
+          'Access-Control-Allow-Origin': Deno.env.get('CORS_ORIGIN') ?? Deno.env.get('SUPABASE_URL') ?? '',
         },
       })
     }
@@ -141,7 +141,7 @@ serve(async (req: Request) => {
       return new Response(JSON.stringify({ data }), {
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Deno.env.get('CORS_ORIGIN') ?? Deno.env.get('SUPABASE_URL') ?? '*',
+          'Access-Control-Allow-Origin': Deno.env.get('CORS_ORIGIN') ?? Deno.env.get('SUPABASE_URL') ?? '',
         },
       })
     }
