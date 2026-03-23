@@ -61,7 +61,7 @@ export type {
 
 // Persistence (DB-independent recovery)
 export { createPersistenceManager } from './persistence';
-export type { PersistenceManager } from './persistence';
+export type { PersistenceManager, PersistenceManagerConfig } from './persistence';
 
 // Chain client (EVM on-chain registry)
 export { createChainClient } from './chain';
@@ -106,7 +106,8 @@ export { encodeGeohash, decodeGeohash, calculateDistance, verifyProximity, geoha
 export type { VerifyOptions } from './geofence';
 
 // Crypto utilities
-export { encrypt, decrypt, hashPassword, deriveLocationKey } from './crypto';
+export { encrypt, decrypt, hashPassword, deriveLocationKey, CURRENT_KEY_VERSION } from './crypto';
+export type { KeyDerivationVersion } from './crypto';
 
 // Encrypted geographic search (GridSE)
 export {

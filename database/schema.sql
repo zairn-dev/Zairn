@@ -159,7 +159,7 @@ create table if not exists messages (
   id bigserial primary key,
   room_id uuid not null references chat_rooms(id) on delete cascade,
   sender_id uuid not null references auth.users(id) on delete cascade,
-  content text,
+  content text check (length(content) <= 10000),
   message_type text not null default 'text' check (message_type in ('text', 'image', 'location', 'reaction')),
   metadata jsonb,
   created_at timestamptz not null default now(),
@@ -167,6 +167,25 @@ create table if not exists messages (
 );
 
 create index if not exists idx_messages_room_time on messages (room_id, created_at desc);
+
+-- Rate limit message inserts (max 1 per second per user)
+create or replace function rate_limit_messages()
+returns trigger as $$
+begin
+  if exists (
+    select 1 from messages
+    where sender_id = NEW.sender_id
+      and created_at > now() - interval '1 second'
+  ) then
+    raise exception 'Message rate limit exceeded';
+  end if;
+  return NEW;
+end;
+$$ language plpgsql;
+
+create or replace trigger trg_rate_limit_messages
+before insert on messages
+for each row execute function rate_limit_messages();
 create index if not exists idx_chat_room_members_user on chat_room_members (user_id);
 create index if not exists idx_chat_rooms_group on chat_rooms (group_id);
 
@@ -177,8 +196,8 @@ create table if not exists location_reactions (
   id bigserial primary key,
   from_user_id uuid not null references auth.users(id) on delete cascade,
   to_user_id uuid not null references auth.users(id) on delete cascade,
-  emoji text not null,
-  message text,
+  emoji text not null check (length(emoji) <= 10),
+  message text check (length(message) <= 500),
   created_at timestamptz not null default now()
 );
 
@@ -614,7 +633,17 @@ create or replace function join_group_by_invite(p_invite_code text)
 returns uuid as $$
 declare
   v_group_id uuid;
+  v_recent_attempts int;
 begin
+  -- Rate limit: max 10 join attempts per user per minute
+  select count(*) into v_recent_attempts
+  from group_members
+  where user_id = auth.uid()
+    and joined_at > now() - interval '1 minute';
+  if v_recent_attempts >= 10 then
+    raise exception 'Too many join attempts. Please wait.';
+  end if;
+
   select id into v_group_id from groups where invite_code = p_invite_code;
   if v_group_id is null then
     raise exception 'Invalid invite code';
@@ -696,6 +725,29 @@ $$ language plpgsql security definer;
 create or replace trigger trg_enforce_ghost_mode
 before insert or update on locations_current
 for each row execute function enforce_ghost_mode();
+
+-- Also block location history writes during ghost mode
+create or replace trigger trg_enforce_ghost_mode_history
+before insert on locations_history
+for each row execute function enforce_ghost_mode();
+
+-- Rate limit location updates (max 1 per second per user)
+create or replace function rate_limit_location_update()
+returns trigger as $$
+begin
+  if TG_OP = 'UPDATE' then
+    if OLD.updated_at > now() - interval '1 second' then
+      -- Silently skip (don't error — client may retry)
+      return OLD;
+    end if;
+  end if;
+  return NEW;
+end;
+$$ language plpgsql;
+
+create or replace trigger trg_rate_limit_location
+before update on locations_current
+for each row execute function rate_limit_location_update();
 
 -- =====================
 -- グループ作成（アトミック: groups + group_members を同一トランザクションで処理）
@@ -814,7 +866,8 @@ create table if not exists sharing_policies (
   -- viewer_id: 特定ユーザー or NULL（全フレンドに適用）
   viewer_id uuid references auth.users(id) on delete cascade,
   -- 条件（AND論理で評価）
-  conditions jsonb not null default '[]',
+  conditions jsonb not null default '[]'
+    check (pg_column_size(conditions) <= 8192),  -- max 8KB to prevent DoS
   -- 効果
   effect_level sharing_effect_level not null default 'current',
   coarse_radius_m real,

@@ -25,7 +25,8 @@ import type {
   UnlockResult,
 } from './types';
 import { IpfsClient } from './ipfs';
-import { encrypt, decrypt, hashPassword, verifyPassword, deriveLocationKey } from './crypto';
+import { encrypt, decrypt, hashPassword, verifyPassword, deriveLocationKey, CURRENT_KEY_VERSION } from './crypto';
+import type { KeyDerivationVersion } from './crypto';
 import { calculateDistance, encodeGeohash, decodeGeohash, isMovementRealistic, geohashNeighbors } from './geofence';
 import { computeTrustScore, gateTrustScore } from './trust-scorer';
 import type { LocationPoint } from './types';
@@ -59,7 +60,34 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   const supabase: SupabaseClient = createClient(opts.supabaseUrl, opts.supabaseAnonKey);
   const hasIpfs = !!(opts.ipfs?.pinningApiKey || opts.ipfs?.pinningService);
   const ipfs = new IpfsClient(opts.ipfs);
-  const encryptionSecret = opts.encryptionSecret;
+
+  // Build versioned secret map
+  const secretMap: Map<number, string> = new Map();
+  if (opts.encryptionSecrets) {
+    for (const [v, s] of Object.entries(opts.encryptionSecrets)) {
+      secretMap.set(Number(v), s);
+    }
+  }
+  if (opts.encryptionSecret) {
+    // Single secret goes to version 1 (or fills gap)
+    if (!secretMap.has(1)) secretMap.set(1, opts.encryptionSecret);
+  }
+  const currentSecretVersion = opts.currentSecretVersion
+    ?? (secretMap.size > 0 ? Math.max(...secretMap.keys()) : 1);
+  const encryptionSecret = secretMap.get(currentSecretVersion) ?? opts.encryptionSecret;
+
+  // Enforce secret requirement in production
+  if (!encryptionSecret && !opts.serverUnlock && !opts.allowInsecureNoSecret) {
+    throw new Error(
+      '[geo-drop] encryptionSecret or encryptionSecrets is required for production. '
+      + 'Set allowInsecureNoSecret: true for development only.'
+    );
+  }
+
+  /** Resolve secret for a specific version (for decryption of old drops) */
+  const getSecretForVersion = (version: number): string | undefined => {
+    return secretMap.get(version) ?? encryptionSecret;
+  };
 
   // SBPP session management
   const sbppSessionStore = new SbppSessionStore();
@@ -113,6 +141,14 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   const defaultPersistenceLevel: PersistenceLevel = opts.persistence?.level ?? 'db-only';
   const persistenceStrict = opts.persistence?.strict ?? false;
 
+  // Warn about db-only mode (data loss risk)
+  if (defaultPersistenceLevel === 'db-only') {
+    console.warn(
+      '[geo-drop] persistence_level is "db-only". Drops will be lost if the database '
+      + 'is destroyed. Set persistence.level to "ipfs" or "onchain" for production durability.'
+    );
+  }
+
   // =====================
   // GPS spoofing detection
   // =====================
@@ -157,7 +193,8 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     const contentStr = typeof content === 'string' ? content : await new Response(content).text();
     const encSalt = crypto.getRandomValues(new Uint8Array(16));
     const encSaltStr = Array.from(encSalt).map(b => b.toString(16).padStart(2, '0')).join('');
-    const locationKey = deriveLocationKey(geohash, dropId, encSaltStr, encryptionSecret);
+    const keyVersion = CURRENT_KEY_VERSION;
+    const locationKey = deriveLocationKey(geohash, dropId, encSaltStr, encryptionSecret, keyVersion);
     const encryptedPayload = await encrypt(contentStr, locationKey);
     const encryptedJson = JSON.stringify(encryptedPayload);
 
@@ -198,6 +235,9 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         expires_at: data.expires_at?.toISOString() ?? null,
         preview_url: previewUrl,
         metadata: data.metadata ?? null,
+        key_derivation_version: keyVersion,
+        encryption_algorithm: 'aes-256-gcm',
+        server_secret_version: currentSecretVersion,
       })
       .select()
       .single();
@@ -224,6 +264,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
             persistence_level: pResult.level,
             metadata_cid: pResult.metadataCid ?? null,
             chain_tx_hash: pResult.txHash ?? null,
+            pin_status: pResult.pinResults ?? null,
           })
           .eq('id', createdDrop.id);
         createdDrop.persistence_level = pResult.level;
@@ -457,6 +498,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
 
     // Client-side unlock needs full row including encryption_salt, password_hash, encrypted_content
     // (getDrop uses GEO_DROP_PUBLIC_COLUMNS which excludes these)
+    // Note: client-side unlock is for dev only; production uses serverUnlock
     const { data: drop, error: dropError } = await supabase
       .from('geo_drops')
       .select('*')
@@ -500,7 +542,12 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     } else {
       throw new Error('Drop has no content (neither IPFS CID nor encrypted_content)');
     }
-    const locationKey = deriveLocationKey(drop.geohash, drop.id, drop.encryption_salt ?? '', encryptionSecret);
+    // Read encryption version info from DB (defaults for pre-migration drops)
+    const dropRecord = drop as Record<string, unknown>;
+    const kdVersion = (dropRecord.key_derivation_version as KeyDerivationVersion) ?? 1;
+    const secretVer = (dropRecord.server_secret_version as number) ?? 1;
+    const secret = getSecretForVersion(secretVer);
+    const locationKey = deriveLocationKey(drop.geohash, drop.id, drop.encryption_salt ?? '', secret, kdVersion);
     const content = await decrypt(JSON.parse(encryptedJson), locationKey);
 
     // Distance (from GPS result or calculated)
@@ -509,6 +556,9 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       ?? Math.round(calculateDistance(lat, lon, drop.lat, drop.lon));
 
     // Record claim (unique constraint prevents duplicates)
+    // NOTE: When RLS is enabled, drop_claims INSERT requires service_role.
+    // In production, use serverUnlock (Edge Function) which runs as service_role.
+    // Client-side unlock is for development/testing only.
     const { data: claim, error: claimError } = await supabase
       .from('drop_claims')
       .insert({
@@ -613,13 +663,17 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       .channel('geo_drops_nearby')
       .on(
         'postgres_changes',
+        // Note: Supabase Realtime requires tables, not views.
+        // Sensitive columns are stripped in the callback below.
         { event: 'INSERT', schema: 'public', table: 'geo_drops' },
         (payload) => {
           const raw = payload.new as Record<string, unknown>;
-          // Strip sensitive columns before passing to callback
+          // Strip sensitive columns from the Realtime payload
           delete raw.encryption_salt;
           delete raw.password_hash;
           delete raw.encrypted_content;
+          delete raw.server_secret_version;
+          delete raw.key_derivation_version;
           const drop = raw as unknown as GeoDrop;
           const dropPrefix = drop.geohash?.substring(0, 5);
           if (!dropPrefix || !prefixes.has(dropPrefix)) return;
@@ -732,8 +786,102 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         throw new Error('Incomplete metadata. If the drop is encrypted, provide recoverySecret to recoverDrop() first.');
       }
       const encryptedJson = await ipfs.fetch(m.contentCid);
-      const locationKey = deriveLocationKey(m.geohash, m.dropId, m.encryptionSalt, encryptionSecret);
+      // V2 metadata includes keyDerivationVersion and serverSecretVersion
+      const kdVer = ('keyDerivationVersion' in m ? m.keyDerivationVersion : 1) as KeyDerivationVersion;
+      const secretVer = ('serverSecretVersion' in m ? m.serverSecretVersion : 1) as number;
+      const secret = getSecretForVersion(secretVer);
+      if (!secret) {
+        throw new Error(`Encryption secret for version ${secretVer} not configured. Provide encryptionSecrets in SDK options.`);
+      }
+      const locationKey = deriveLocationKey(m.geohash, m.dropId, m.encryptionSalt, secret, kdVer);
       return decrypt(JSON.parse(encryptedJson), locationKey);
+    },
+
+    /**
+     * Re-encrypt a drop with a new server secret version.
+     * Used during key rotation to migrate old drops to the new secret.
+     * Only the drop creator can re-encrypt.
+     */
+    reEncryptDrop: async (dropId: string, oldSecretVer: number, newSecretVer: number) => {
+      const userId = await getUserId();
+      const { data: drop, error } = await supabase
+        .from('geo_drops')
+        .select('id, creator_id, geohash, encryption_salt, encrypted_content, ipfs_cid, key_derivation_version, server_secret_version')
+        .eq('id', dropId)
+        .single();
+      if (error || !drop) throw new Error('Drop not found');
+      if (drop.creator_id !== userId) throw new Error('Only the creator can re-encrypt');
+
+      const oldSecret = getSecretForVersion(oldSecretVer);
+      const newSecret = getSecretForVersion(newSecretVer);
+      if (!oldSecret || !newSecret) throw new Error('Secret version not found in secretMap');
+
+      const kdVer = (drop.key_derivation_version ?? 1) as KeyDerivationVersion;
+      const oldKey = deriveLocationKey(drop.geohash, drop.id, drop.encryption_salt ?? '', oldSecret, kdVer);
+
+      // Fetch encrypted content
+      let encryptedJson: string;
+      if (drop.ipfs_cid) {
+        encryptedJson = await ipfs.fetch(drop.ipfs_cid);
+      } else if (drop.encrypted_content) {
+        encryptedJson = drop.encrypted_content;
+      } else {
+        throw new Error('No encrypted content found');
+      }
+
+      // Decrypt with old key
+      const plaintext = await decrypt(JSON.parse(encryptedJson), oldKey);
+
+      // Re-encrypt with new key (use current key derivation version)
+      const newKdVer = CURRENT_KEY_VERSION;
+      const newKey = deriveLocationKey(drop.geohash, drop.id, drop.encryption_salt ?? '', newSecret, newKdVer);
+      const newPayload = await encrypt(plaintext, newKey);
+      const newEncryptedJson = JSON.stringify(newPayload);
+
+      // Update DB
+      const updateData: Record<string, unknown> = {
+        key_derivation_version: newKdVer,
+        server_secret_version: newSecretVer,
+        updated_at: new Date().toISOString(),
+      };
+
+      if (drop.ipfs_cid) {
+        if (!hasIpfs) {
+          throw new Error('Cannot re-encrypt IPFS drop without IPFS configuration');
+        }
+        const result = await ipfs.upload(newEncryptedJson);
+        updateData.ipfs_cid = result.cid;
+        updateData.encrypted_content = null; // clear stale DB copy if any
+      } else {
+        updateData.encrypted_content = newEncryptedJson;
+      }
+
+      const { error: updateError } = await supabase
+        .from('geo_drops')
+        .update(updateData)
+        .eq('id', dropId);
+      if (updateError) throw updateError;
+    },
+
+    /**
+     * Export encryption secrets as password-encrypted JSON for backup.
+     */
+    exportEncryptedSecrets: async (masterPassword: string) => {
+      const secrets: Record<number, string> = {};
+      for (const [v, s] of secretMap.entries()) secrets[v] = s;
+      const payload = JSON.stringify({ secrets, currentVersion: currentSecretVersion });
+      const encrypted = await encrypt(payload, masterPassword);
+      return JSON.stringify(encrypted);
+    },
+
+    /**
+     * Import encryption secrets from a backup blob.
+     */
+    importEncryptedSecrets: async (blob: string, masterPassword: string) => {
+      const payload = JSON.parse(blob);
+      const decrypted = await decrypt(payload, masterPassword);
+      const data = JSON.parse(decrypted) as { secrets: Record<number, string> };
+      return data.secrets;
     },
 
     // =====================

@@ -484,6 +484,10 @@ export function createVerificationEngine(opts: VerificationEngineOptions): Verif
     verify,
 
     register(methodOrId: string, verifier: ProofVerifier) {
+      const builtIn = new Set(['gps', 'secret', 'ar', 'image', 'zkp', 'zkp-region']);
+      if (builtIn.has(methodOrId)) {
+        throw new Error(`Cannot override built-in verifier: ${methodOrId}`);
+      }
       customVerifiers.set(methodOrId, verifier);
     },
 

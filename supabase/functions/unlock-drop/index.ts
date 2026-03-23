@@ -127,7 +127,10 @@ async function verifyPassword(password: string, storedHash: string): Promise<boo
 // =====================
 serve(async (req: Request) => {
   // CORS — restrict to configured origin or fallback to same-site
-  const allowedOrigin = Deno.env.get('CORS_ORIGIN') ?? Deno.env.get('SUPABASE_URL') ?? '*'
+  const allowedOrigin = Deno.env.get('CORS_ORIGIN') ?? Deno.env.get('SUPABASE_URL')
+  if (!allowedOrigin) {
+    return new Response('CORS_ORIGIN or SUPABASE_URL must be configured', { status: 500 })
+  }
 
   if (req.method === 'OPTIONS') {
     return new Response(null, {

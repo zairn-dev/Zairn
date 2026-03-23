@@ -91,9 +91,14 @@ const PRECISION_TO_METERS: Record<number, number> = {
 // =====================
 
 /**
- * Import a string key for HMAC-SHA256
+ * Import a string key for HMAC-SHA256.
+ * The searchKey MUST be a high-entropy value (e.g., 256-bit hex or random string).
+ * Low-entropy keys (passwords, short strings) weaken token unpredictability.
  */
 async function importHmacKey(keyStr: string): Promise<CryptoKey> {
+  if (keyStr.length < 32) {
+    console.warn('[encrypted-search] searchKey is short (<32 chars). Use a high-entropy key for production.');
+  }
   const encoder = new TextEncoder();
   return crypto.subtle.importKey(
     'raw',

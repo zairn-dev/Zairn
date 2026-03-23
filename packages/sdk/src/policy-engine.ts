@@ -113,8 +113,14 @@ export function evaluatePolicies(
       evaluateCondition(c, ctx),
     );
     if (allMatch) {
+      // Clamp: policy cannot escalate beyond the static share level.
+      // Level hierarchy: none < coarse < current < history
+      const hierarchy: Record<string, number> = { none: 0, coarse: 1, current: 2, history: 3 };
+      const effectRank = hierarchy[policy.effect_level] ?? 0;
+      const fallbackRank = hierarchy[fallbackLevel] ?? 0;
+      const clampedLevel = effectRank > fallbackRank ? fallbackLevel : policy.effect_level;
       return {
-        level: policy.effect_level,
+        level: clampedLevel as SharingEffectLevel,
         coarseRadiusM: policy.coarse_radius_m ?? undefined,
       };
     }
@@ -150,6 +156,7 @@ export function applyPolicies(
   friends: LocationCurrentRow[],
   policies: SharingPolicy[],
   shareLevels: Map<string, ShareLevel>,
+  viewerId: string,
   ctx: Omit<EvaluationContext, 'ownerLat' | 'ownerLon'>,
 ): FilteredLocation[] {
   const results: FilteredLocation[] = [];
@@ -166,7 +173,7 @@ export function applyPolicies(
 
     const { level, coarseRadiusM } = evaluatePolicies(
       policies,
-      ctx.viewerLat !== undefined ? '' : '', // viewer is the caller
+      viewerId,
       fullCtx,
       shareLevel,
     );

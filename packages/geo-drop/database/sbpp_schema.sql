@@ -47,7 +47,7 @@ CREATE INDEX IF NOT EXISTS idx_drop_index_tokens_token
 ALTER TABLE drop_index_tokens ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY drop_index_tokens_read ON drop_index_tokens
-  FOR SELECT USING (true);
+  FOR SELECT USING (auth.uid() IS NOT NULL);
 
 CREATE POLICY drop_index_tokens_write ON drop_index_tokens
   FOR INSERT WITH CHECK (

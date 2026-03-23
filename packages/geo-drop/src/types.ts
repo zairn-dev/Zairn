@@ -15,10 +15,14 @@ export type DropStatus = 'active' | 'expired' | 'claimed' | 'deleted';
 // =====================
 export interface IpfsConfig {
   gateway: string;
+  /** Fallback gateways for fetch (tried in order if primary fails) */
+  fallbackGateways?: string[];
   pinningService?: 'pinata' | 'web3storage' | 'custom';
   pinningApiKey?: string;
   pinningApiSecret?: string;
   customPinningUrl?: string;
+  /** Max upload size in bytes (default: 10MB) */
+  maxUploadSize?: number;
 }
 
 export interface IpfsUploadResult {
@@ -313,6 +317,8 @@ export interface ChainConfig {
   signer?: EvmSigner;
   /** Chain ID (optional, for logging) */
   chainId?: number;
+  /** Number of confirmations to wait (default: 2 for L1, 1 for L2) */
+  confirmations?: number;
 }
 
 /**
@@ -329,7 +335,7 @@ export interface PersistenceConfig {
  * Metadata document stored on IPFS
  * This document alone is sufficient to decrypt content even if DB is lost
  */
-export interface DropMetadataDocument {
+export interface DropMetadataDocumentV1 {
   version: 1;
   dropId: string;
   geohash: string;
@@ -340,9 +346,37 @@ export interface DropMetadataDocument {
   title: string;
   proofConfig: ProofConfig | null;
   createdAt: string;
-  /** True if encrypted (when recoverySecret is used) */
   encrypted?: boolean;
 }
+
+export interface DropMetadataDocumentV2 {
+  version: 2;
+  dropId: string;
+  geohash: string;
+  contentCid: string;
+  encryptionSalt: string;
+  unlockRadiusMeters: number;
+  contentType: DropContentType;
+  title: string;
+  proofConfig: ProofConfig | null;
+  createdAt: string;
+  encrypted?: boolean;
+  /** Key derivation version (1 or 2). Required for decryption. */
+  keyDerivationVersion: 1 | 2;
+  /** Encryption algorithm identifier for future migration */
+  encryptionAlgorithm: 'aes-256-gcm';
+  /** PBKDF2 iteration count (for key stretching migration) */
+  pbkdf2Iterations: number;
+  /** Pinning providers used (for monitoring/renewal) */
+  pinningProviders?: string[];
+  /** Content size in bytes (for storage accounting) */
+  contentSizeBytes?: number;
+  /** Server secret version used to encrypt (for recovery decryption) */
+  serverSecretVersion?: number;
+}
+
+/** Union type for all metadata versions */
+export type DropMetadataDocument = DropMetadataDocumentV1 | DropMetadataDocumentV2;
 
 /**
  * Result of a persistence operation
@@ -352,6 +386,7 @@ export interface PersistenceResult {
   metadataCid?: string;
   txHash?: string;
   chainId?: number;
+  pinResults?: Array<{ provider: string; ok: boolean; error?: string }>;
 }
 
 /**
@@ -491,12 +526,28 @@ export interface GeoDropOptions {
   /** Persistence configuration */
   persistence?: PersistenceConfig;
   /**
-   * Server-side encryption secret for location key derivation.
-   * MUST match GEODROP_ENCRYPTION_SECRET in the Edge Function environment.
-   * Required for production — without this, encryption keys are predictable
+   * Server-side encryption secret(s) for location key derivation.
+   *
+   * Option A: Single secret (backward compatible)
+   *   encryptionSecret: 'my-secret'
+   *
+   * Option B: Versioned secret map (enables rotation)
+   *   encryptionSecrets: { 1: 'old-secret', 2: 'new-secret' }
+   *   currentSecretVersion: 2
+   *
+   * When serverUnlock is disabled, at least one secret is REQUIRED
+   * for production — without it, encryption keys are predictable
    * from publicly-visible DB columns.
+   *
+   * Set allowInsecureNoSecret: true to suppress the error (dev only).
    */
   encryptionSecret?: string;
+  /** Versioned secret map for key rotation. Keys are version numbers. */
+  encryptionSecrets?: Record<number, string>;
+  /** Which secret version to use for NEW drops (default: 1 or max key in encryptionSecrets) */
+  currentSecretVersion?: number;
+  /** Allow SDK to run without encryption secret (dev/testing only) */
+  allowInsecureNoSecret?: boolean;
   /**
    * SBPP: encrypted search configuration for Search-Bound Proximity Proofs.
    * When set, enables findNearbyDropsSbpp() and initSearchSession().
@@ -557,6 +608,14 @@ export interface GeoDropSDK {
   discoverDropsByLocation: (lat: number, lon: number, precision?: number) => Promise<RecoveredDrop[]>;
   /** Decrypt recovered drop content */
   decryptRecoveredDrop: (recovered: RecoveredDrop) => Promise<string>;
+
+  // Key rotation
+  /** Re-encrypt a drop from old secret version to new secret version */
+  reEncryptDrop: (dropId: string, oldSecretVer: number, newSecretVer: number) => Promise<void>;
+  /** Export encryption secrets as a password-encrypted backup blob */
+  exportEncryptedSecrets: (masterPassword: string) => Promise<string>;
+  /** Import encryption secrets from a backup blob */
+  importEncryptedSecrets: (blob: string, masterPassword: string) => Promise<Record<number, string>>;
 
   // SBPP (Search-Bound Proximity Proofs)
   /** Initialize an SBPP search session. Returns a session with nonce for binding. */
