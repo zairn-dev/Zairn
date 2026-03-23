@@ -150,3 +150,16 @@ export type {
 
 // IPFS client
 export { IpfsClient } from './ipfs';
+
+// IPFS pin health monitoring
+export { checkPinHealth, auditDropPins, repinMissing } from './pin-monitor';
+export type {
+  GatewayStatus,
+  PinHealthResult,
+  DropPinEntry,
+  PinAuditReport,
+  RepinResult,
+  PinHealthOptions,
+  AuditOptions,
+  RepinOptions,
+} from './pin-monitor';
