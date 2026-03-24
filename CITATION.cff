@@ -7,7 +7,7 @@ authors:
 repository-code: "https://github.com/zairn-dev/Zairn"
 url: "https://github.com/zairn-dev/Zairn"
 license: MIT
-version: 0.7.1
+version: 0.7.2
 date-released: "2026-03-24"
 keywords:
   - location-sharing
