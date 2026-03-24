@@ -1,6 +1,6 @@
 {
   "name": "@zairn/geo-drop",
-  "version": "0.1.0",
+  "version": "0.7.0",
   "description": "Location-bound decentralized data drops with IPFS and geofence verification",
   "type": "module",
   "main": "./dist/index.js",
