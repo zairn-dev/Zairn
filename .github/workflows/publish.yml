@@ -26,8 +26,16 @@ jobs:
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           echo "Publishing version: $VERSION"
-          cd packages/sdk && npm version "$VERSION" --no-git-tag-version
-          cd ../geo-drop && npm version "$VERSION" --no-git-tag-version
+          node -e "
+            const fs = require('fs');
+            for (const dir of ['packages/sdk', 'packages/geo-drop']) {
+              const path = dir + '/package.json';
+              const pkg = JSON.parse(fs.readFileSync(path, 'utf8'));
+              pkg.version = '$VERSION';
+              fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n');
+              console.log(dir + ': ' + pkg.version);
+            }
+          "
 
       - name: Configure npm auth
         run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
