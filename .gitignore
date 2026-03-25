@@ -43,3 +43,5 @@ AGENTS.md
 # OSM cache (large, regenerable via Overpass API)
 packages/geo-drop/test/osm-tokyo-pois.json
 packages/geo-drop/osm-eval-stderr.txt
+packages/geo-drop/contracts/deploy/.env
+packages/geo-drop/contracts/deploy/deployments/

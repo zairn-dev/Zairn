@@ -1,0 +1,16 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "rpcUrl": "https://base-sepolia.g.alchemy.com/v2/9uQDXMFoHJlN5l-lsqH_U",
+  "adminAddress": "0x04F1c9DaAA24B71a3F28ce4AD0Cd6020F4A61EeB",
+  "implementation": {
+    "address": "0x0DaD2914d1665fEd06dA39f4A814022C11a69d03",
+    "txHash": "0x9b6ed3753c6389efd16b6af0af1781bc8f3b650bf9a2d9e01cea424a233f323f"
+  },
+  "proxy": {
+    "address": "0x7D746A63109359Eb28C1Dc8f8dD7B44A84DddCef",
+    "txHash": "0x7866ff823b6d955f3ed8448c38e4717296cd5ffbe8c0109689cc4ea082586e5f"
+  },
+  "version": 2,
+  "deployedAt": "2026-03-25T02:39:27.280Z"
+}
