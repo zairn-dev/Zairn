@@ -22,8 +22,10 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { execSync } from "node:child_process";
+import { createRequire } from "node:module";
 import { createHash } from "node:crypto";
+
+const require = createRequire(import.meta.url);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CONTRACTS_DIR = resolve(__dirname, "..");
@@ -70,12 +72,19 @@ if (!/^0x[0-9a-fA-F]{40}$/.test(ADMIN_ADDRESS)) abort("ADMIN_ADDRESS must be a v
 // ---------------------------------------------------------------------------
 
 function compileSol() {
-  log("Compiling contracts with solc...");
+  log("Compiling contracts with solc (Node.js API)...");
+
+  let solc;
+  try {
+    solc = require("solc");
+  } catch {
+    abort("solc not found. Install with: pnpm add -w solc");
+  }
 
   const registrySrc = readFileSync(resolve(CONTRACTS_DIR, "GeoDropRegistryV2.sol"), "utf8");
   const proxySrc = readFileSync(resolve(CONTRACTS_DIR, "GeoDropProxy.sol"), "utf8");
 
-  const input = {
+  const input = JSON.stringify({
     language: "Solidity",
     sources: {
       "GeoDropRegistryV2.sol": { content: registrySrc },
@@ -90,33 +99,9 @@ function compileSol() {
         },
       },
     },
-  };
+  });
 
-  let output;
-  try {
-    const raw = execSync(`solc --standard-json`, {
-      input: JSON.stringify(input),
-      maxBuffer: 50 * 1024 * 1024,
-      encoding: "utf8",
-    });
-    output = JSON.parse(raw);
-  } catch (e) {
-    // Try solcjs as fallback
-    try {
-      const raw = execSync(`solcjs --standard-json`, {
-        input: JSON.stringify(input),
-        maxBuffer: 50 * 1024 * 1024,
-        encoding: "utf8",
-      });
-      output = JSON.parse(raw);
-    } catch {
-      abort(
-        "solc not found. Install with: npm i -g solc\n" +
-        "Or install the native binary: https://docs.soliditylang.org/en/latest/installing-solidity.html\n" +
-        `Original error: ${e.message}`
-      );
-    }
-  }
+  const output = JSON.parse(solc.compile(input));
 
   if (output.errors) {
     const fatal = output.errors.filter((e) => e.severity === "error");
