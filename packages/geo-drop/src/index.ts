@@ -109,6 +109,24 @@ export type { VerifyOptions } from './geofence';
 export { encrypt, decrypt, hashPassword, deriveLocationKey, CURRENT_KEY_VERSION } from './crypto';
 export type { KeyDerivationVersion } from './crypto';
 
+// Zero-Knowledge Location States (ZKLS)
+export {
+  createHomeCommitment,
+  computeGridParams,
+  generateGridMembershipProof,
+  generateDepartureProof,
+  verifyGridMembershipProof,
+  verifyDepartureProof,
+  quantizeLatBand,
+} from './zkls';
+export type {
+  ZkGridMembershipProof,
+  ZkDepartureProof,
+  HomeCommitment,
+  ZklsConfig,
+  GridParams,
+} from './zkls';
+
 // Encrypted geographic search (GridSE)
 export {
   generateIndexTokens,
