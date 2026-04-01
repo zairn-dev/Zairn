@@ -12,3 +12,23 @@ export { createLocationCore, calculateDistance, estimateMotionType, encodeGeohas
 // ポリシーエンジン（高度な利用向け）
 export { evaluatePolicies, coarsenLocation } from './policy-engine';
 export type { EvaluationContext } from './policy-engine';
+
+// Privacy-preserving location sharing
+export {
+  detectSensitivePlaces,
+  obfuscateLocation,
+  addPlanarLaplaceNoise,
+  gridSnap,
+  bucketizeDistance,
+  processLocation,
+  FrequencyBudget,
+  AdaptiveReporter,
+  jitterDepartureTime,
+  DEFAULT_PRIVACY_CONFIG,
+} from './privacy-location';
+export type {
+  SensitivePlace,
+  PrivacyZoneRule,
+  LocationState,
+  PrivacyConfig,
+} from './privacy-location';
