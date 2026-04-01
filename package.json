@@ -40,6 +40,7 @@
     "@supabase/supabase-js": "^2.99.1",
     "ethers": "^6.16.0",
     "hardhat": "^3.2.0",
+    "sharp": "^0.34.5",
     "solc": "^0.8.34",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
