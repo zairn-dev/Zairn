@@ -15,6 +15,8 @@ export type { EvaluationContext } from './policy-engine';
 
 // Privacy-preserving location sharing
 export {
+  createPrivacyProcessor,
+  validatePrivacyConfig,
   detectSensitivePlaces,
   obfuscateLocation,
   addPlanarLaplaceNoise,

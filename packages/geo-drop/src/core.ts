@@ -33,6 +33,7 @@ import type { LocationPoint } from './types';
 import { createVerificationEngine } from './verification';
 import { createPersistenceManager } from './persistence';
 import { createChainClient } from './chain';
+import { GeoDropError } from './errors';
 import {
   createSession as createSbppSession,
   SbppSessionStore,
@@ -49,7 +50,7 @@ const GPS_ONLY_CONFIG: ProofConfig = { mode: 'all', requirements: [{ method: 'gp
 
 function validateCoords(lat: number, lon: number): void {
   if (!Number.isFinite(lat) || !Number.isFinite(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-    throw new Error('Invalid coordinates');
+    throw new GeoDropError('INVALID_INPUT', `Invalid coordinates: lat=${lat}, lon=${lon}. Lat must be [-90, 90], lon must be [-180, 180].`, { lat, lon });
   }
 }
 
@@ -181,6 +182,19 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
 
   const createDrop = async (data: GeoDropCreate, content: File | Blob | string): Promise<GeoDrop> => {
     validateCoords(data.lat, data.lon);
+
+    // Input validation
+    const radius = data.unlock_radius_meters ?? 50;
+    if (!Number.isFinite(radius) || radius <= 0 || radius > 100_000) {
+      throw new RangeError(`unlock_radius_meters must be between 1 and 100,000 (got ${radius})`);
+    }
+    if (data.title !== undefined && data.title.length > 500) {
+      throw new RangeError(`title must be at most 500 characters (got ${data.title.length})`);
+    }
+    if (data.max_claims !== undefined && data.max_claims !== null && data.max_claims < 1) {
+      throw new RangeError(`max_claims must be at least 1 (got ${data.max_claims})`);
+    }
+
     const userId = await getUserId();
     const geohash = encodeGeohash(data.lat, data.lon);
 
@@ -429,6 +443,23 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     validateCoords(lat, lon);
     const userId = await getUserId();
 
+    // Idempotency: if user already claimed this drop, return the existing claim
+    // Prevents wasted verification + double-counting
+    const { data: existingClaim } = await supabase
+      .from('drop_claims')
+      .select('*')
+      .eq('drop_id', dropId)
+      .eq('user_id', userId)
+      .maybeSingle();
+    if (existingClaim) {
+      return {
+        type: 'success',
+        content: '', // Content is not re-fetched for idempotent returns
+        claim: existingClaim as DropClaim,
+        verification: { verified: true, proofs: [], timestamp: new Date().toISOString() },
+      } satisfies UnlockResult;
+    }
+
     // --- Server-side unlock (recommended for production) ---
     if (serverUnlockUrl) {
       const headers = await getAuthHeaders();
@@ -504,15 +535,15 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       .select('*')
       .eq('id', dropId)
       .single();
-    if (dropError && dropError.code === 'PGRST116') throw new Error('Drop not found');
+    if (dropError && dropError.code === 'PGRST116') throw new GeoDropError('DROP_NOT_FOUND', 'Drop not found or you do not have permission to access it.', { dropId });
     if (dropError) throw dropError;
-    if (!drop) throw new Error('Drop not found');
-    if (drop.status !== 'active') throw new Error('Drop is not active');
-    if (drop.expires_at && new Date(drop.expires_at) <= new Date()) throw new Error('Drop has expired');
+    if (!drop) throw new GeoDropError('DROP_NOT_FOUND', 'Drop not found.', { dropId });
+    if (drop.status !== 'active') throw new GeoDropError('DROP_INACTIVE', `Drop is ${drop.status}. Only active drops can be unlocked.`, { dropId, status: drop.status });
+    if (drop.expires_at && new Date(drop.expires_at) <= new Date()) throw new GeoDropError('DROP_EXPIRED', `Drop expired at ${drop.expires_at}.`, { dropId, expiresAt: drop.expires_at });
     // Password check
     if (drop.password_hash) {
-      if (!password) throw new Error('Password required');
-      if (!(await verifyPassword(password, drop.password_hash))) throw new Error('Incorrect password');
+      if (!password) throw new GeoDropError('PASSWORD_REQUIRED', 'This drop requires a password to unlock.', { dropId });
+      if (!(await verifyPassword(password, drop.password_hash))) throw new GeoDropError('PASSWORD_INCORRECT', 'Incorrect password.', { dropId });
     }
 
     // Pluggable verification
@@ -524,14 +555,19 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
 
     const verification = await verificationEngine.verify(drop, proofConfig, allSubmissions);
     if (!verification.verified) {
-      const failed = verification.proofs.filter(p => !p.verified).map(p => p.method);
-      throw new Error(`Verification failed for: ${failed.join(', ')}`);
+      const failed = verification.proofs.filter(p => !p.verified);
+      const required = verification.proofs.map(p => p.method);
+      throw new GeoDropError('VERIFICATION_FAILED',
+        `Verification failed for: ${failed.map(p => p.method).join(', ')}. ` +
+        `Required methods: ${required.join(', ')}.`,
+        { dropId, failed: failed.map(p => ({ method: p.method, details: p.details })), required },
+      );
     }
 
     // Atomically check max_claims and increment at SQL level (prevents race conditions)
     const { data: incremented, error: rpcError } = await supabase.rpc('increment_claim_count', { p_drop_id: dropId });
     if (rpcError) throw rpcError;
-    if (incremented === false) throw new Error('Drop has reached maximum claims');
+    if (incremented === false) throw new GeoDropError('DROP_MAX_CLAIMS', 'Drop has reached maximum claims.', { dropId, maxClaims: drop.max_claims });
 
     // Decrypt content — from IPFS or DB depending on storage mode
     let encryptedJson: string;
@@ -540,12 +576,18 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     } else if (drop.encrypted_content) {
       encryptedJson = drop.encrypted_content;
     } else {
-      throw new Error('Drop has no content (neither IPFS CID nor encrypted_content)');
+      throw new GeoDropError('NO_CONTENT', 'Drop has no content (neither IPFS CID nor encrypted_content). The drop may have been partially created.', { dropId });
     }
     // Read encryption version info from DB (defaults for pre-migration drops)
     const dropRecord = drop as Record<string, unknown>;
     const kdVersion = (dropRecord.key_derivation_version as KeyDerivationVersion) ?? 1;
     const secretVer = (dropRecord.server_secret_version as number) ?? 1;
+    if (dropRecord.key_derivation_version == null) {
+      console.warn(
+        `[geo-drop] Drop ${drop.id}: key_derivation_version is NULL, defaulting to v1. ` +
+        `This drop may predate the key versioning migration. Consider running a backfill.`
+      );
+    }
     const secret = getSecretForVersion(secretVer);
     const locationKey = deriveLocationKey(drop.geohash, drop.id, drop.encryption_salt ?? '', secret, kdVersion);
     const content = await decrypt(JSON.parse(encryptedJson), locationKey);
@@ -611,18 +653,63 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     return (data ?? []) as DropClaim[];
   };
 
-  const getMyClaims = async (options?: { limit?: number }): Promise<DropClaim[]> => {
+  const getMyClaims = async (options?: { limit?: number; offset?: number }): Promise<DropClaim[]> => {
     const userId = await getUserId();
-    let query = supabase
+    const limit = options?.limit ?? 100;
+    const offset = options?.offset ?? 0;
+    const { data, error } = await supabase
       .from('drop_claims')
       .select('*')
       .eq('user_id', userId)
-      .order('claimed_at', { ascending: false });
-    if (options?.limit) query = query.limit(options.limit);
+      .order('claimed_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
-    const { data, error } = await query;
     if (error) throw error;
     return (data ?? []) as DropClaim[];
+  };
+
+  /**
+   * Find drops that the current user has claimed within a geographic area.
+   * Useful for "show my collected treasures on the map" UIs.
+   */
+  const getMyClaimedDropsInArea = async (
+    lat: number,
+    lon: number,
+    radiusMeters: number = 5000,
+    options?: { limit?: number },
+  ): Promise<(GeoDrop & { claim: DropClaim })[]> => {
+    validateCoords(lat, lon);
+    const userId = await getUserId();
+    const limit = options?.limit ?? 100;
+
+    // Get user's claims
+    const { data: claims, error: claimErr } = await supabase
+      .from('drop_claims')
+      .select('*')
+      .eq('user_id', userId)
+      .order('claimed_at', { ascending: false })
+      .limit(limit);
+    if (claimErr) throw claimErr;
+    if (!claims || claims.length === 0) return [];
+
+    // Get drop details for claimed drops
+    const dropIds = claims.map(c => (c as DropClaim).drop_id);
+    const { data: drops, error: dropErr } = await supabase
+      .from('geo_drops')
+      .select(GEO_DROP_PUBLIC_COLUMNS)
+      .in('id', dropIds);
+    if (dropErr) throw dropErr;
+
+    // Filter by distance and join with claims
+    const results: (GeoDrop & { claim: DropClaim })[] = [];
+    for (const drop of (drops ?? []) as GeoDrop[]) {
+      const dist = calculateDistance(lat, lon, drop.lat, drop.lon);
+      if (dist <= radiusMeters) {
+        const claim = (claims as DropClaim[]).find(c => c.drop_id === drop.id)!;
+        results.push({ ...drop, claim });
+      }
+    }
+    return results;
   };
 
   const getMyStats = async (): Promise<DropStats> => {
@@ -737,6 +824,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     // Claims & stats
     getDropClaims,
     getMyClaims,
+    getMyClaimedDropsInArea,
     getMyStats,
 
     // IPFS

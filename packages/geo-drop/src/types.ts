@@ -387,6 +387,8 @@ export interface PersistenceResult {
   txHash?: string;
   chainId?: number;
   pinResults?: Array<{ provider: string; ok: boolean; error?: string }>;
+  /** True if V2 registration failed and fell back to V1 contract */
+  v2Fallback?: boolean;
 }
 
 /**
@@ -583,7 +585,9 @@ export interface GeoDropSDK {
 
   // Claims
   getDropClaims: (dropId: string) => Promise<DropClaim[]>;
-  getMyClaims: (options?: { limit?: number }) => Promise<DropClaim[]>;
+  getMyClaims: (options?: { limit?: number; offset?: number }) => Promise<DropClaim[]>;
+  /** Find drops that the current user has claimed within a geographic area. */
+  getMyClaimedDropsInArea: (lat: number, lon: number, radiusMeters?: number, options?: { limit?: number }) => Promise<(GeoDrop & { claim: DropClaim })[]>;
 
   // Stats
   getMyStats: () => Promise<DropStats>;

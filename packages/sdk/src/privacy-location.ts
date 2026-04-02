@@ -468,6 +468,43 @@ export function bucketizeDistance(distanceM: number): string {
 }
 
 // ============================================================
+// Config Validation
+// ============================================================
+
+/**
+ * Validate a PrivacyConfig and throw on invalid values.
+ * Call this once at initialization, not on every location update.
+ */
+export function validatePrivacyConfig(config: PrivacyConfig): void {
+  if (config.baseEpsilon <= 0) {
+    throw new RangeError(
+      `baseEpsilon must be positive (got ${config.baseEpsilon}). ` +
+      `Recommended: Math.LN2 / 500 ≈ 0.001386 for 500m privacy radius.`
+    );
+  }
+  if (config.gridSizeM <= 0) {
+    throw new RangeError(`gridSizeM must be positive (got ${config.gridSizeM}).`);
+  }
+  if (!config.gridSeed) {
+    throw new RangeError(
+      `gridSeed must be a non-empty string (per-user unique). ` +
+      `Without it, all users share the same grid, enabling cross-user correlation attacks.`
+    );
+  }
+  if (config.defaultZoneRadiusM < 0) {
+    throw new RangeError(`defaultZoneRadiusM must be non-negative (got ${config.defaultZoneRadiusM}).`);
+  }
+  if (config.defaultBufferRadiusM < config.defaultZoneRadiusM) {
+    throw new RangeError(
+      `defaultBufferRadiusM (${config.defaultBufferRadiusM}) should be >= defaultZoneRadiusM (${config.defaultZoneRadiusM}).`
+    );
+  }
+  if (config.maxReportsPerHourMoving <= 0 || config.maxReportsPerHourStationary <= 0) {
+    throw new RangeError(`maxReportsPerHour values must be positive.`);
+  }
+}
+
+// ============================================================
 // Main Processor: Integrates All 6 Layers
 // ============================================================
 
@@ -479,6 +516,10 @@ export function bucketizeDistance(distanceM: number): string {
  * 3. Add Planar Laplace noise with zone-adjusted ε (Layer 1)
  * 4. Snap to per-user grid (Layer 2)
  * 5. Return cell ID, not raw coordinates (Layer 6)
+ *
+ * **Important**: This function never returns raw coordinates.
+ * All coordinate outputs are noise + grid-snapped. To get the raw
+ * location, use the original lat/lon — not the output of this function.
  */
 export function processLocation(
   rawLat: number,
@@ -527,6 +568,67 @@ export function processLocation(
     lon: snapped.lon,
     cellId: snapped.cellId,
     gridSizeM: config.gridSizeM,
+  };
+}
+
+// ============================================================
+// Safe Wrapper: Privacy Processor (recommended entry point)
+// ============================================================
+
+/**
+ * Create a privacy processor that encapsulates all state and config.
+ *
+ * This is the **recommended way** to use the privacy system.
+ * It validates config at creation time and manages the AdaptiveReporter
+ * internally, preventing common mistakes like:
+ * - Forgetting to create an AdaptiveReporter
+ * - Using an invalid config (negative epsilon, empty gridSeed)
+ * - Accidentally passing raw coordinates to the output
+ *
+ * @example
+ * ```ts
+ * const privacy = createPrivacyProcessor({
+ *   ...DEFAULT_PRIVACY_CONFIG,
+ *   gridSeed: currentUser.id,
+ * }, sensitivePlaces);
+ *
+ * // On each location update:
+ * const state = privacy.process(rawLat, rawLon);
+ * // state is always a LocationState — never raw coordinates
+ * ```
+ */
+export function createPrivacyProcessor(
+  config: PrivacyConfig,
+  sensitivePlaces: SensitivePlace[] = [],
+) {
+  validatePrivacyConfig(config);
+  const reporter = new AdaptiveReporter(
+    config.maxReportsPerHourMoving,
+    config.maxReportsPerHourStationary,
+  );
+
+  return {
+    /**
+     * Process a raw location into a privacy-safe LocationState.
+     * Never returns raw coordinates.
+     */
+    process(
+      rawLat: number,
+      rawLon: number,
+      viewerLocation?: { lat: number; lon: number },
+    ): LocationState {
+      return processLocation(rawLat, rawLon, sensitivePlaces, config, reporter, viewerLocation);
+    },
+
+    /** Update the list of sensitive places (e.g., after auto-detection). */
+    updateSensitivePlaces(places: SensitivePlace[]): void {
+      sensitivePlaces = places;
+    },
+
+    /** Get remaining reporting budget for this hour. */
+    budget(): { moving: number; stationary: number } {
+      return reporter.remaining();
+    },
   };
 }
 

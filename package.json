@@ -19,6 +19,7 @@
     "build:geo-drop": "pnpm --filter @zairn/geo-drop build",
     "dev:web": "pnpm --filter web dev",
     "build:web": "pnpm --filter web build",
+    "test": "echo 'Available: test:connection test:auth test:sdk test:realtime test:features test:chat test:unit' && pnpm test:unit",
     "test:connection": "npx tsx --env-file=.env test/connection-test.ts",
     "test:auth": "npx tsx --env-file=.env test/auth-test.ts",
     "test:sdk": "npx tsx --env-file=.env test/sdk-test.ts",

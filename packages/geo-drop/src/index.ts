@@ -6,6 +6,10 @@
 // Core
 export { createGeoDrop } from './core';
 
+// Errors
+export { GeoDropError } from './errors';
+export type { GeoDropErrorCode } from './errors';
+
 // Verification engine (for advanced use / custom integrations)
 export { createVerificationEngine } from './verification';
 export type { VerificationEngine, VerificationEngineOptions } from './verification';

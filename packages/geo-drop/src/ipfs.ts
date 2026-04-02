@@ -5,6 +5,26 @@
  */
 import type { IpfsConfig, IpfsUploadResult } from './types';
 
+// Base58btc alphabet (used by IPFS CIDv0)
+const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+function base58Decode(str: string): Uint8Array {
+  const bytes: number[] = [0];
+  for (const char of str) {
+    const idx = BASE58_ALPHABET.indexOf(char);
+    if (idx < 0) throw new Error(`Invalid base58 character: ${char}`);
+    let carry = idx;
+    for (let j = 0; j < bytes.length; j++) {
+      carry += bytes[j] * 58;
+      bytes[j] = carry & 0xff;
+      carry >>= 8;
+    }
+    while (carry > 0) { bytes.push(carry & 0xff); carry >>= 8; }
+  }
+  // Leading '1's = leading zero bytes
+  for (const char of str) { if (char !== '1') break; bytes.push(0); }
+  return new Uint8Array(bytes.reverse());
+}
+
 const DEFAULT_GATEWAY = 'https://w3s.link/ipfs';
 const MAX_FETCH_SIZE = 10 * 1024 * 1024; // 10MB
 const MAX_UPLOAD_SIZE = 10 * 1024 * 1024; // 10MB
@@ -61,9 +81,10 @@ export class IpfsClient {
   }
 
   /**
-   * Fetch content from IPFS with gateway failover and streaming size limit
+   * Fetch content from IPFS with gateway failover, streaming size limit,
+   * and content integrity verification for CIDv0 (Qm...) hashes.
    */
-  async fetch(cid: string): Promise<string> {
+  async fetch(cid: string, options?: { skipIntegrityCheck?: boolean }): Promise<string> {
     if (!CID_RE.test(cid)) throw new Error(`Invalid IPFS CID: ${cid}`);
 
     const gateways = [this.gateway, ...this.fallbackGateways];
@@ -72,11 +93,25 @@ export class IpfsClient {
     for (const gw of gateways) {
       for (let attempt = 0; attempt <= RETRY_DELAYS.length; attempt++) {
         try {
-          return await this.fetchFromGateway(gw, cid);
+          const content = await this.fetchFromGateway(gw, cid);
+
+          // Verify content integrity for CIDv0 (SHA-256 based)
+          if (!options?.skipIntegrityCheck && cid.startsWith('Qm') && typeof globalThis.crypto?.subtle !== 'undefined') {
+            const verified = await this.verifyCidV0(cid, content);
+            if (!verified) {
+              throw new Error(
+                `IPFS content integrity check failed for ${cid}. ` +
+                `The content hash does not match the CID. ` +
+                `This may indicate gateway corruption or a malicious gateway.`
+              );
+            }
+          }
+
+          return content;
         } catch (err) {
           lastError = err instanceof Error ? err : new Error(String(err));
-          // Don't retry size-limit errors
-          if (lastError.message.includes('too large')) throw lastError;
+          // Don't retry size-limit or integrity errors
+          if (lastError.message.includes('too large') || lastError.message.includes('integrity')) throw lastError;
           // Wait before retry (skip delay on last attempt)
           if (attempt < RETRY_DELAYS.length) {
             await new Promise(r => setTimeout(r, RETRY_DELAYS[attempt]));
@@ -86,6 +121,37 @@ export class IpfsClient {
     }
 
     throw lastError ?? new Error(`IPFS fetch failed for ${cid}`);
+  }
+
+  /**
+   * Verify a CIDv0 (Qm...) matches the SHA-256 hash of content.
+   * CIDv0 = Base58btc(0x12 0x20 <sha256-hash>)
+   */
+  private async verifyCidV0(cid: string, content: string): Promise<boolean> {
+    try {
+      // Decode base58btc
+      const decoded = base58Decode(cid);
+      // CIDv0 format: 0x12 (sha2-256) 0x20 (32 bytes) <hash>
+      if (decoded.length !== 34 || decoded[0] !== 0x12 || decoded[1] !== 0x20) {
+        return true; // Not a standard CIDv0 sha2-256, skip verification
+      }
+      const expectedHash = decoded.slice(2);
+
+      // Hash the content
+      const encoder = new TextEncoder();
+      const data = encoder.encode(content);
+      const hashBuffer = await globalThis.crypto.subtle.digest('SHA-256', data);
+      const actualHash = new Uint8Array(hashBuffer);
+
+      // Compare
+      if (actualHash.length !== expectedHash.length) return false;
+      for (let i = 0; i < actualHash.length; i++) {
+        if (actualHash[i] !== expectedHash[i]) return false;
+      }
+      return true;
+    } catch {
+      return true; // On error, don't block (best-effort verification)
+    }
   }
 
   /**

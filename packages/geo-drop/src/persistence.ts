@@ -162,13 +162,29 @@ export function createPersistenceManager(
           );
           result.txHash = txHash;
           result.chainId = cid;
-        } catch {
+        } catch (v2Err) {
           // Fall back to V1 registration (for V1 contracts)
-          const { txHash, chainId: cid } = await chain.registerDrop(
-            drop.geohash, ipfsResult.cid
+          const v2Msg = v2Err instanceof Error ? v2Err.message : String(v2Err);
+          console.warn(
+            `[persistence] V2 registration failed, falling back to V1. ` +
+            `This means metadata version tracking is lost on-chain. ` +
+            `Consider upgrading the contract to V2. Error: ${v2Msg}`
           );
-          result.txHash = txHash;
-          result.chainId = cid;
+          try {
+            const { txHash, chainId: cid } = await chain.registerDrop(
+              drop.geohash, ipfsResult.cid
+            );
+            result.txHash = txHash;
+            result.chainId = cid;
+            result.v2Fallback = true;
+          } catch (v1Err) {
+            const v1Msg = v1Err instanceof Error ? v1Err.message : String(v1Err);
+            throw new Error(
+              `On-chain registration failed for both V2 and V1. ` +
+              `V2: ${v2Msg}. V1: ${v1Msg}. ` +
+              `IPFS metadata was pinned (CID: ${ipfsResult.cid}) but NOT registered on-chain.`
+            );
+          }
         }
       }
 
