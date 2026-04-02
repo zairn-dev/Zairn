@@ -153,13 +153,15 @@ export function geohashNeighbors(geohash: string): string[] {
   const neighbors: string[] = [];
   for (const [dy, dx] of directions) {
     const nLat = lat + dy * step.dlat;
-    const nLon = lon + dx * step.dlon;
-    // Clamp to valid range
-    if (nLat >= -90 && nLat <= 90 && nLon >= -180 && nLon <= 180) {
-      const h = encodeGeohash(nLat, nLon, precision);
-      if (h !== geohash && !neighbors.includes(h)) {
-        neighbors.push(h);
-      }
+    let nLon = lon + dx * step.dlon;
+    // Clamp latitude (poles)
+    if (nLat < -90 || nLat > 90) continue;
+    // Wrap longitude across antimeridian (±180°)
+    if (nLon > 180) nLon -= 360;
+    else if (nLon < -180) nLon += 360;
+    const h = encodeGeohash(nLat, nLon, precision);
+    if (h !== geohash && !neighbors.includes(h)) {
+      neighbors.push(h);
     }
   }
   return neighbors;

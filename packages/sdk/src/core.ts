@@ -147,6 +147,28 @@ function sanitizeGeohashPrefix(prefix: string): string {
 export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   const supabase: SupabaseClient = createClient(opts.supabaseUrl, opts.supabaseAnonKey);
 
+  // =====================
+  // Production safety check: Realtime RLS
+  // =====================
+  // Supabase Realtime does NOT enforce RLS by default.
+  // Without enabling it in the dashboard, ALL authenticated users receive
+  // ALL row changes on subscribed tables — a critical privacy leak.
+  //
+  // How to fix:
+  //   1. Go to Supabase Dashboard → Database → Replication
+  //   2. For each table (locations_current, friend_requests, messages):
+  //      Enable "Realtime" AND enable "RLS" checkbox
+  //
+  // We emit a one-time warning at SDK init to catch this in development.
+  if (typeof console !== 'undefined' && !opts.suppressRealtimeRlsWarning) {
+    console.warn(
+      '[zairn/sdk] IMPORTANT: Ensure Realtime RLS is enabled in Supabase Dashboard ' +
+      '(Database → Replication → enable RLS for locations_current, friend_requests, messages). ' +
+      'Without this, ALL authenticated users can see ALL location updates. ' +
+      'Set { suppressRealtimeRlsWarning: true } after confirming RLS is enabled.'
+    );
+  }
+
   const getUserId = async (): Promise<string> => {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) throw new Error('Not authenticated');
@@ -177,7 +199,8 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       if (typeof latOrUpdate === 'object') {
         update = latOrUpdate;
       } else {
-        update = { lat: latOrUpdate, lon: lon!, accuracy };
+        if (lon === undefined) throw new Error('lon is required when passing lat as first argument');
+        update = { lat: latOrUpdate, lon, accuracy };
       }
 
       // 入力バリデーション（NaN/Infinityも弾く）
@@ -240,11 +263,23 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     }
   };
 
-  const getVisibleFriends = async (): Promise<LocationCurrentRow[]> => {
-    const { data, error } = await supabase.from('locations_current').select('*');
+  /**
+   * Get current locations of friends visible to the authenticated user.
+   * Results are filtered server-side by RLS (share_rules).
+   * @param options.limit Maximum number of results (default: 500)
+   */
+  const getFriendsLocations = async (
+    options?: { limit?: number },
+  ): Promise<LocationCurrentRow[]> => {
+    let query = supabase.from('locations_current').select('*');
+    // Default limit to prevent unbounded queries with large friend lists
+    query = query.limit(options?.limit ?? 500);
+    const { data, error } = await query;
     if (error) {
       // 認証エラーは再throw（セッション切れ等をクライアントに伝える）
       if (error.code === 'PGRST301' || error.message?.includes('JWT')) throw error;
+      // Log non-auth errors so developers can diagnose Supabase downtime
+      console.warn(`[zairn/sdk] getVisibleFriends failed (non-auth): ${error.message}`);
       return [];
     }
     return (data ?? []) as LocationCurrentRow[];
@@ -252,15 +287,17 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
 
   const getLocationHistory = async (
     userId: string,
-    options?: { limit?: number; since?: Date }
+    options?: { limit?: number; offset?: number; since?: Date }
   ): Promise<LocationHistoryRow[]> => {
     assertUuid(userId, 'userId');
+    const limit = Math.min(options?.limit ?? 500, 5000);
+    const offset = options?.offset ?? 0;
     let query = supabase
       .from('locations_history')
       .select('*')
       .eq('user_id', userId)
       .order('recorded_at', { ascending: false })
-      .limit(Math.min(options?.limit ?? 500, 5000));
+      .range(offset, offset + limit - 1);
 
     if (options?.since) query = query.gte('recorded_at', options.since.toISOString());
 
@@ -457,7 +494,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
 
     // Fetch friends and their policies in parallel
     const [friends, policiesResult, rulesResult] = await Promise.all([
-      getVisibleFriends(),
+      getFriendsLocations(),
       supabase
         .from('sharing_policies')
         .select('*')
@@ -793,7 +830,10 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
   // =====================
   // Realtime購読
   // =====================
-  const subscribeLocations = (onUpdate: (row: LocationCurrentRow) => void): RealtimeChannel => {
+  const subscribeLocations = (
+    onUpdate: (row: LocationCurrentRow) => void,
+    onError?: (status: string, err?: Error) => void,
+  ): RealtimeChannel => {
     // Note: Supabase Realtime RLS must be enabled in the dashboard for server-side filtering.
     // The client-side filter here reduces unnecessary processing but does NOT provide security.
     // Enable Realtime RLS: Dashboard → Database → Replication → Enable RLS for locations_current
@@ -808,10 +848,17 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
           }
         }
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+          onError?.(status, err instanceof Error ? err : undefined);
+        }
+      });
   };
 
-  const subscribeFriendRequests = (onUpdate: (request: FriendRequest) => void): RealtimeChannel => {
+  const subscribeFriendRequests = (
+    onUpdate: (request: FriendRequest) => void,
+    onError?: (status: string, err?: Error) => void,
+  ): RealtimeChannel => {
     return supabase
       .channel('friend_requests')
       .on(
@@ -823,7 +870,11 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
           }
         }
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+          onError?.(status, err instanceof Error ? err : undefined);
+        }
+      });
   };
 
   // =====================
@@ -962,7 +1013,11 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     if (error) throw error;
   };
 
-  const subscribeMessages = (roomId: string, onMessage: (message: Message) => void): RealtimeChannel => {
+  const subscribeMessages = (
+    roomId: string,
+    onMessage: (message: Message) => void,
+    onError?: (status: string, err?: Error) => void,
+  ): RealtimeChannel => {
     assertUuid(roomId, 'roomId');
     return supabase
       .channel(`messages:${roomId}`)
@@ -975,7 +1030,11 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
           }
         }
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+          onError?.(status, err instanceof Error ? err : undefined);
+        }
+      });
   };
 
   // =====================
@@ -1083,7 +1142,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       }
     }
 
-    const friends = await getVisibleFriends();
+    const friends = await getFriendsLocations();
 
     const nearby: NearbyUser[] = [];
 
@@ -1217,7 +1276,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
 
   const getVisibleFriendsWithPlaces = async (): Promise<(LocationCurrentRow & { place?: FavoritePlace })[]> => {
     try {
-      const friends = await getVisibleFriends();
+      const friends = await getFriendsLocations();
       if (friends.length === 0) return [];
 
       // Batch fetch all favorite places for all visible friends at once (avoids N+1)
@@ -1241,9 +1300,11 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
         );
         return { ...friend, place: matchedPlace };
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       // 認証エラーは再throw
-      if (err?.code === 'PGRST301' || err?.message?.includes('JWT')) throw err;
+      const e = err as { code?: string; message?: string };
+      if (e?.code === 'PGRST301' || e?.message?.includes('JWT')) throw err;
+      console.warn(`[zairn/sdk] getVisibleFriendsWithPlaces failed: ${e?.message ?? err}`);
       return [];
     }
   };
@@ -1615,7 +1676,9 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
     // 位置情報
     sendLocation,
     sendLocationWithTrail,
-    getVisibleFriends,
+    getFriendsLocations,
+    /** @deprecated Use getFriendsLocations instead */
+    getVisibleFriends: getFriendsLocations,
     getLocationHistory,
     saveLocationHistory,
     getTrailFriendIds,

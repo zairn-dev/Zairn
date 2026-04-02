@@ -19,6 +19,8 @@ export type MessageType = 'text' | 'image' | 'location' | 'reaction';
 export interface LocationCoreOptions {
   supabaseUrl: string;
   supabaseAnonKey: string;
+  /** Set to true after confirming Realtime RLS is enabled in Supabase Dashboard. Suppresses the startup warning. */
+  suppressRealtimeRlsWarning?: boolean;
 }
 
 // =====================
@@ -334,8 +336,11 @@ export interface LocationCore {
   // 位置情報
   sendLocation: (latOrUpdate: number | LocationUpdate, lon?: number, accuracy?: number | null) => Promise<void>;
   sendLocationWithTrail: (update: LocationUpdate) => Promise<void>;
-  getVisibleFriends: () => Promise<LocationCurrentRow[]>;
-  getLocationHistory: (userId: string, options?: { limit?: number; since?: Date }) => Promise<LocationHistoryRow[]>;
+  /** Get current locations of friends visible to the authenticated user. */
+  getFriendsLocations: (options?: { limit?: number }) => Promise<LocationCurrentRow[]>;
+  /** @deprecated Use getFriendsLocations instead */
+  getVisibleFriends: (options?: { limit?: number }) => Promise<LocationCurrentRow[]>;
+  getLocationHistory: (userId: string, options?: { limit?: number; offset?: number; since?: Date }) => Promise<LocationHistoryRow[]>;
   saveLocationHistory: (lat: number, lon: number, accuracy?: number | null) => Promise<void>;
   getTrailFriendIds: () => Promise<string[]>;
 

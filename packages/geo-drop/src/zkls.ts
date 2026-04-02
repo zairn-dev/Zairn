@@ -54,7 +54,19 @@ export interface HomeCommitment {
 export interface ZklsConfig {
   gridMembershipArtifacts?: CircuitArtifacts;
   departureArtifacts?: CircuitArtifacts;
+  /**
+   * Set to true for production deployments.
+   * When true, ZKLS will warn if the proving key (zkey) appears to be
+   * from a single-contributor ceremony (development only).
+   * A multi-party ceremony is required for production security —
+   * a single-contributor zkey means the ceremony toxic waste could
+   * be used to forge proofs.
+   */
+  production?: boolean;
 }
+
+/** Track whether the dev-zkey warning has been emitted (once per process) */
+let devZkeyWarningEmitted = false;
 
 // ============================================================
 // Home Commitment
@@ -182,7 +194,9 @@ export async function generateGridMembershipProof(
   gridSeed: string,
   artifacts: CircuitArtifacts,
   context?: ZkContextBinding,
+  options?: { production?: boolean },
 ): Promise<ZkGridMembershipProof> {
+  warnIfDevZkey(artifacts, options?.production);
   const snarkjs = await loadSnarkjs();
   const SCALE = 1000000;
 
@@ -235,7 +249,9 @@ export async function generateDepartureProof(
   minDistanceM: number,
   artifacts: CircuitArtifacts,
   context?: ZkContextBinding,
+  options?: { production?: boolean },
 ): Promise<ZkDepartureProof> {
+  warnIfDevZkey(artifacts, options?.production);
   const snarkjs = await loadSnarkjs();
   const SCALE = 1000000;
 
@@ -302,6 +318,36 @@ export async function verifyDepartureProof(
 ): Promise<boolean> {
   const snarkjs = await loadSnarkjs();
   return snarkjs.groth16.verify(verificationKey, publicSignals, proof);
+}
+
+// ============================================================
+// Development zkey warning
+// ============================================================
+
+/**
+ * Emit a one-time warning if the zkey appears to be from a
+ * single-contributor trusted setup (development only).
+ *
+ * Detection heuristic: zkey URL/path contains "_final.zkey" and
+ * the `production` flag is set. In production, a multi-party
+ * ceremony (e.g., Hermez/SnarkJS Phase 2 with ≥3 contributors)
+ * is required to prevent proof forgery.
+ */
+function warnIfDevZkey(artifacts: CircuitArtifacts, production?: boolean): void {
+  if (!production || devZkeyWarningEmitted) return;
+  const zkeyPath = typeof artifacts.zkeyUrl === 'string' ? artifacts.zkeyUrl : '';
+  // Heuristic: "_0000.zkey" alongside "_final.zkey" indicates single-contributor
+  // In a proper MPC ceremony, the final zkey has a different naming pattern
+  if (zkeyPath.includes('_final.zkey')) {
+    console.warn(
+      '[zkls] WARNING: The proving key appears to be from a single-contributor ceremony. ' +
+      'This is UNSAFE for production — a malicious ceremony participant could forge proofs. ' +
+      'Before deploying to production, run a multi-party ceremony (≥3 contributors): ' +
+      'see packages/geo-drop/circuits/README.md for instructions. ' +
+      'Set { production: false } to suppress this warning during development.'
+    );
+    devZkeyWarningEmitted = true;
+  }
 }
 
 // ============================================================

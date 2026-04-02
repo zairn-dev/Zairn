@@ -43,6 +43,12 @@ create index if not exists idx_share_rules_viewer on share_rules (viewer_id);
 create index if not exists idx_share_rules_owner_expiry on share_rules (owner_id, expires_at);
 create index if not exists idx_history_user_time on locations_history (user_id, recorded_at desc);
 
+-- Spatial index for proximity queries (e.g., "find friends within 1km").
+-- Uses btree on (lat, lon) for range scans. For production with large user
+-- bases, consider PostGIS with a GiST index on geography type instead.
+create index if not exists idx_locations_current_coords
+  on locations_current (lat, lon);
+
 -- プロフィール
 create table if not exists profiles (
   user_id uuid primary key references auth.users(id) on delete cascade,

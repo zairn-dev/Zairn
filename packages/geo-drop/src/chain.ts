@@ -150,24 +150,55 @@ export function createChainClient(config: ChainConfig): ChainClient {
       if (!signer) throw new Error('Signer required for on-chain registration');
 
       const data = encodeRegisterDrop(geohash, metadataCid);
+      const from = await signer.getAddress();
+
+      // Estimate gas before sending (prevents wasted tx fees on revert)
+      const gasEstimate = await rpcCall('eth_estimateGas', [{
+        from, to: registryAddress, data,
+      }]) as string;
+
       const tx = await signer.sendTransaction({
         to: registryAddress,
         data,
       });
-      await tx.wait(config.confirmations ?? 2);
-      return { txHash: tx.hash, chainId };
+      const receipt = await tx.wait(config.confirmations ?? 2);
+
+      // Verify transaction succeeded (status 0 = revert)
+      if (receipt.status === 0) {
+        throw new Error(
+          `On-chain registerDrop reverted (tx: ${tx.hash}). ` +
+          `This may indicate a duplicate geohash registration or contract error.`
+        );
+      }
+
+      return { txHash: tx.hash, chainId, gasUsed: gasEstimate };
     },
 
     async registerDropV2(geohash: string, metadataCid: string, metadataVersion: number) {
       if (!signer) throw new Error('Signer required for on-chain registration');
 
       const data = encodeRegisterDropV2(geohash, metadataCid, metadataVersion);
+      const from = await signer.getAddress();
+
+      // Estimate gas before sending
+      const gasEstimate = await rpcCall('eth_estimateGas', [{
+        from, to: registryAddress, data,
+      }]) as string;
+
       const tx = await signer.sendTransaction({
         to: registryAddress,
         data,
       });
-      await tx.wait(config.confirmations ?? 2);
-      return { txHash: tx.hash, chainId };
+      const receipt = await tx.wait(config.confirmations ?? 2);
+
+      if (receipt.status === 0) {
+        throw new Error(
+          `On-chain registerDropV2 reverted (tx: ${tx.hash}). ` +
+          `Check rate-limit cooldown (10s) or contract state.`
+        );
+      }
+
+      return { txHash: tx.hash, chainId, gasUsed: gasEstimate };
     },
 
     async getDropCids(geohash: string) {

@@ -97,7 +97,7 @@ export function evaluatePolicies(
   viewerId: string,
   ctx: EvaluationContext,
   fallbackLevel: ShareLevel,
-): { level: SharingEffectLevel; coarseRadiusM?: number } {
+): { level: SharingEffectLevel; coarseRadiusM?: number; wasClamped: boolean } {
   // Filter applicable policies: enabled, matching viewer (specific or null = all friends)
   const applicable = policies
     .filter(
@@ -118,16 +118,19 @@ export function evaluatePolicies(
       const hierarchy: Record<string, number> = { none: 0, coarse: 1, current: 2, history: 3 };
       const effectRank = hierarchy[policy.effect_level] ?? 0;
       const fallbackRank = hierarchy[fallbackLevel] ?? 0;
-      const clampedLevel = effectRank > fallbackRank ? fallbackLevel : policy.effect_level;
+      const clamped = effectRank > fallbackRank;
+      const clampedLevel = clamped ? fallbackLevel : policy.effect_level;
       return {
         level: clampedLevel as SharingEffectLevel,
         coarseRadiusM: policy.coarse_radius_m ?? undefined,
+        /** True if the policy's effect was clamped to the static share level. */
+        wasClamped: clamped,
       };
     }
   }
 
   // No policy matched — use static share_rules level
-  return { level: fallbackLevel };
+  return { level: fallbackLevel, wasClamped: false };
 }
 
 /**
