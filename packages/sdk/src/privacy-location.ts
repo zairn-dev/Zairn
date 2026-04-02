@@ -89,7 +89,7 @@ export const DEFAULT_PRIVACY_CONFIG: PrivacyConfig = {
   minVisitsForSensitive: 5,
   minDwellMinutes: 60,
   defaultZoneRadiusM: 200,
-  defaultBufferRadiusM: 500,
+  defaultBufferRadiusM: 1000,
   nightHoursStart: 22,
   nightHoursEnd: 6,
   baseEpsilon: Math.LN2 / 500, // ln(2)-indist within 500m
