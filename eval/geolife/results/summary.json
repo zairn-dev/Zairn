@@ -1,0 +1,128 @@
+{
+  "raw": {
+    "homeError": {
+      "median": 616,
+      "p25": 242,
+      "p75": 3027,
+      "mean": 30262,
+      "infiniteCount": 0,
+      "totalUsers": 78
+    },
+    "workError": {
+      "median": 1639,
+      "p25": 395,
+      "p75": 10268,
+      "infiniteCount": 0,
+      "totalUsersWithWork": 78
+    },
+    "obsReduction": {
+      "median": 0,
+      "mean": 0
+    }
+  },
+  "laplace_grid": {
+    "homeError": {
+      "median": 799,
+      "p25": 381,
+      "p75": 4383,
+      "mean": 48239,
+      "infiniteCount": 0,
+      "totalUsers": 78
+    },
+    "workError": {
+      "median": 1500,
+      "p25": 420,
+      "p75": 7911,
+      "infiniteCount": 0,
+      "totalUsersWithWork": 78
+    },
+    "obsReduction": {
+      "median": 0,
+      "mean": 0
+    }
+  },
+  "six_layer": {
+    "homeError": {
+      "median": 12163,
+      "p25": 5530,
+      "p75": 27155,
+      "mean": 86212,
+      "infiniteCount": 3,
+      "totalUsers": 78
+    },
+    "workError": {
+      "median": 11836,
+      "p25": 6503,
+      "p75": 20482,
+      "infiniteCount": 12,
+      "totalUsersWithWork": 78
+    },
+    "obsReduction": {
+      "median": 95.5,
+      "mean": 94.7
+    }
+  },
+  "zkls_grid": {
+    "homeError": {
+      "median": 600,
+      "p25": 297,
+      "p75": 2709,
+      "mean": 30105,
+      "infiniteCount": 0,
+      "totalUsers": 78
+    },
+    "workError": {
+      "median": 1654,
+      "p25": 390,
+      "p75": 10219,
+      "infiniteCount": 0,
+      "totalUsersWithWork": 78
+    },
+    "obsReduction": {
+      "median": 0,
+      "mean": 0
+    }
+  },
+  "zkls_grid_zones": {
+    "homeError": {
+      "median": 6157,
+      "p25": 2948,
+      "p75": 17251,
+      "mean": 220242,
+      "infiniteCount": 0,
+      "totalUsers": 78
+    },
+    "workError": {
+      "median": 7138,
+      "p25": 3062,
+      "p75": 17473,
+      "infiniteCount": 0,
+      "totalUsersWithWork": 78
+    },
+    "obsReduction": {
+      "median": 47.5,
+      "mean": 47.1
+    }
+  },
+  "zkls_full": {
+    "homeError": {
+      "median": 4929,
+      "p25": 1479,
+      "p75": 15165,
+      "mean": 106519,
+      "infiniteCount": 3,
+      "totalUsers": 78
+    },
+    "workError": {
+      "median": 7107,
+      "p25": 1940,
+      "p75": 15405,
+      "infiniteCount": 10,
+      "totalUsersWithWork": 78
+    },
+    "obsReduction": {
+      "median": 95.5,
+      "mean": 94.7
+    }
+  }
+}
