@@ -108,16 +108,18 @@ const zklsGridObs = allLocs.map(l => {
 
 // ============================================================
 // Method 5: ZKLS Grid + Zones (cell ID outside, state inside)
+// Core zone (radiusM): suppressed — state-only, no coordinates
+// Buffer zone (bufferRadiusM): suppressed — no coordinates
+// Outside: normal grid (500m) with info-theoretic hiding
 // ============================================================
 const zklsZoneObs = [];
 for (const l of allLocs) {
-  // Check if in any zone
   let inZone = false;
   for (const place of sensitivePlaces) {
     const dist = haversine(l.lat, l.lon, place.lat, place.lon);
-    if (dist <= place.radiusM) { inZone = true; break; }
+    if (dist <= (place.bufferRadiusM || 1000)) { inZone = true; break; }
   }
-  if (inZone) continue; // Zone suppression: no observation
+  if (inZone) continue; // Core + buffer suppression: no observation
 
   const cellCenter = gridSnap(l.lat, l.lon, GRID_SIZE_M, SEED);
   zklsZoneObs.push({ ...l, sLat: cellCenter.lat, sLon: cellCenter.lon, cellId: cellCenter.cellId, method: 'zkls-grid+zone' });
