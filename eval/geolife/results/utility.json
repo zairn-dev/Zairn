@@ -24,20 +24,20 @@
     },
     "laplace_grid": {
       "presenceF1": {
-        "median": 0.075,
-        "mean": 0.086
+        "median": 0.093,
+        "mean": 0.103
       },
       "presencePrecision": {
-        "median": 0.5,
-        "mean": 0.459
+        "median": 0.4,
+        "mean": 0.458
       },
       "presenceRecall": {
-        "median": 0.043,
-        "mean": 0.051
+        "median": 0.05,
+        "mean": 0.066
       },
       "areaAccuracy": {
-        "median": 0.345,
-        "mean": 0.351
+        "median": 0.346,
+        "mean": 0.349
       },
       "temporalAvailability": {
         "median": 1,
@@ -59,29 +59,29 @@
       },
       "areaAccuracy": {
         "median": 0.333,
-        "mean": 0.348
+        "mean": 0.319
       },
       "temporalAvailability": {
-        "median": 0.046,
-        "mean": 0.052
+        "median": 0.279,
+        "mean": 0.288
       }
     },
     "zkls_grid": {
       "presenceF1": {
-        "median": 0.843,
-        "mean": 0.689
+        "median": 0.8,
+        "mean": 0.668
       },
       "presencePrecision": {
-        "median": 0.842,
-        "mean": 0.687
+        "median": 0.833,
+        "mean": 0.672
       },
       "presenceRecall": {
-        "median": 0.922,
-        "mean": 0.743
+        "median": 0.873,
+        "mean": 0.721
       },
       "areaAccuracy": {
-        "median": 0.889,
-        "mean": 0.864
+        "median": 0.884,
+        "mean": 0.867
       },
       "temporalAvailability": {
         "median": 1,
@@ -103,21 +103,21 @@
       },
       "areaAccuracy": {
         "median": 0.886,
-        "mean": 0.878
+        "mean": 0.876
       },
       "temporalAvailability": {
-        "median": 0.539,
-        "mean": 0.529
+        "median": 0.801,
+        "mean": 0.765
       }
     },
     "zkls_full": {
       "presenceF1": {
         "median": 0.8,
-        "mean": 0.668
+        "mean": 0.669
       },
       "presencePrecision": {
         "median": 0.667,
-        "mean": 0.572
+        "mean": 0.573
       },
       "presenceRecall": {
         "median": 1,
@@ -125,11 +125,11 @@
       },
       "areaAccuracy": {
         "median": 0.833,
-        "mean": 0.807
+        "mean": 0.791
       },
       "temporalAvailability": {
-        "median": 0.048,
-        "mean": 0.053
+        "median": 0.279,
+        "mean": 0.288
       }
     }
   },
@@ -144,39 +144,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.167,
-        "presenceRecall": 0.04,
-        "presenceF1": 0.065,
-        "areaAccuracy": 0.327,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.346,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.245,
         "presenceRecall": 1,
         "presenceF1": 0.394,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.02
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.186
       },
       "zkls_grid": {
-        "presencePrecision": 0.368,
-        "presenceRecall": 0.56,
-        "presenceF1": 0.444,
-        "areaAccuracy": 0.714,
+        "presencePrecision": 0.206,
+        "presenceRecall": 0.28,
+        "presenceF1": 0.237,
+        "areaAccuracy": 0.716,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.245,
         "presenceRecall": 1,
         "presenceF1": 0.394,
-        "areaAccuracy": 0.9,
-        "temporalAvailability": 0.328
+        "areaAccuracy": 0.915,
+        "temporalAvailability": 0.495
       },
       "zkls_full": {
-        "presencePrecision": 0.245,
+        "presencePrecision": 0.243,
         "presenceRecall": 1,
-        "presenceF1": 0.394,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.02
+        "presenceF1": 0.391,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.186
       }
     },
     {
@@ -189,39 +189,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.067,
-        "presenceF1": 0.125,
-        "areaAccuracy": 0.4,
+        "presencePrecision": 0.636,
+        "presenceRecall": 0.093,
+        "presenceF1": 0.163,
+        "areaAccuracy": 0.426,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.882,
         "presenceRecall": 1,
         "presenceF1": 0.938,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.044
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.359
       },
       "zkls_grid": {
-        "presencePrecision": 0.892,
+        "presencePrecision": 0.902,
         "presenceRecall": 0.987,
-        "presenceF1": 0.937,
-        "areaAccuracy": 0.974,
+        "presenceF1": 0.943,
+        "areaAccuracy": 0.963,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.882,
         "presenceRecall": 1,
         "presenceF1": 0.938,
-        "areaAccuracy": 0.946,
-        "temporalAvailability": 0.344
+        "areaAccuracy": 0.892,
+        "temporalAvailability": 0.659
       },
       "zkls_full": {
         "presencePrecision": 0.882,
         "presenceRecall": 1,
         "presenceF1": 0.938,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.044
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.359
       }
     },
     {
@@ -234,39 +234,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.625,
-        "presenceRecall": 0.038,
-        "presenceF1": 0.071,
-        "areaAccuracy": 0.348,
+        "presencePrecision": 1,
+        "presenceRecall": 0.098,
+        "presenceF1": 0.179,
+        "areaAccuracy": 0.312,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.874,
         "presenceRecall": 1,
         "presenceF1": 0.933,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.03
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.411
       },
       "zkls_grid": {
-        "presencePrecision": 0.914,
-        "presenceRecall": 0.962,
-        "presenceF1": 0.937,
-        "areaAccuracy": 0.743,
+        "presencePrecision": 0.694,
+        "presenceRecall": 0.189,
+        "presenceF1": 0.298,
+        "areaAccuracy": 0.869,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.874,
         "presenceRecall": 1,
         "presenceF1": 0.933,
-        "areaAccuracy": 0.928,
-        "temporalAvailability": 0.28
+        "areaAccuracy": 0.937,
+        "temporalAvailability": 0.66
       },
       "zkls_full": {
         "presencePrecision": 0.874,
         "presenceRecall": 1,
         "presenceF1": 0.933,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.03
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.411
       }
     },
     {
@@ -279,24 +279,24 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.333,
-        "presenceRecall": 0.039,
-        "presenceF1": 0.07,
-        "areaAccuracy": 0.316,
+        "presencePrecision": 0.6,
+        "presenceRecall": 0.118,
+        "presenceF1": 0.197,
+        "areaAccuracy": 0.36,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.63,
         "presenceRecall": 1,
         "presenceF1": 0.773,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.018
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.142
       },
       "zkls_grid": {
-        "presencePrecision": 0.839,
-        "presenceRecall": 0.922,
-        "presenceF1": 0.879,
-        "areaAccuracy": 0.76,
+        "presencePrecision": 0.727,
+        "presenceRecall": 0.784,
+        "presenceF1": 0.755,
+        "areaAccuracy": 0.722,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
@@ -304,14 +304,14 @@
         "presenceRecall": 1,
         "presenceF1": 0.773,
         "areaAccuracy": 0.81,
-        "temporalAvailability": 0.458
+        "temporalAvailability": 0.582
       },
       "zkls_full": {
-        "presencePrecision": 0.63,
+        "presencePrecision": 0.614,
         "presenceRecall": 1,
-        "presenceF1": 0.773,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.018
+        "presenceF1": 0.761,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.142
       }
     },
     {
@@ -324,24 +324,24 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.083,
-        "presenceRecall": 0.071,
-        "presenceF1": 0.077,
-        "areaAccuracy": 0.332,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.351,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.133,
         "presenceRecall": 1,
         "presenceF1": 0.235,
-        "areaAccuracy": 0.167,
-        "temporalAvailability": 0.018
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.175
       },
       "zkls_grid": {
-        "presencePrecision": 0.12,
-        "presenceRecall": 0.429,
-        "presenceF1": 0.188,
-        "areaAccuracy": 0.744,
+        "presencePrecision": 0.069,
+        "presenceRecall": 0.143,
+        "presenceF1": 0.093,
+        "areaAccuracy": 0.746,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
@@ -349,14 +349,14 @@
         "presenceRecall": 1,
         "presenceF1": 0.235,
         "areaAccuracy": 0.886,
-        "temporalAvailability": 0.433
+        "temporalAvailability": 0.59
       },
       "zkls_full": {
         "presencePrecision": 0.133,
         "presenceRecall": 1,
         "presenceF1": 0.235,
         "areaAccuracy": 0.833,
-        "temporalAvailability": 0.018
+        "temporalAvailability": 0.175
       }
     },
     {
@@ -369,10 +369,10 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.556,
-        "presenceRecall": 0.063,
-        "presenceF1": 0.112,
-        "areaAccuracy": 0.334,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.351,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -380,28 +380,28 @@
         "presenceRecall": 1,
         "presenceF1": 0.914,
         "areaAccuracy": 0.25,
-        "temporalAvailability": 0.039
+        "temporalAvailability": 0.347
       },
       "zkls_grid": {
-        "presencePrecision": 0.963,
-        "presenceRecall": 0.988,
-        "presenceF1": 0.975,
-        "areaAccuracy": 0.795,
+        "presencePrecision": 0.901,
+        "presenceRecall": 0.913,
+        "presenceF1": 0.907,
+        "areaAccuracy": 0.802,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.842,
         "presenceRecall": 1,
         "presenceF1": 0.914,
-        "areaAccuracy": 0.734,
-        "temporalAvailability": 0.549
+        "areaAccuracy": 0.799,
+        "temporalAvailability": 0.857
       },
       "zkls_full": {
         "presencePrecision": 0.842,
         "presenceRecall": 1,
         "presenceF1": 0.914,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.039
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.347
       }
     },
     {
@@ -417,36 +417,36 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.306,
+        "areaAccuracy": 0.278,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.167,
-        "temporalAvailability": 0.111
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.213
       },
       "zkls_grid": {
-        "presencePrecision": 0.688,
-        "presenceRecall": 1,
-        "presenceF1": 0.815,
-        "areaAccuracy": 0.796,
+        "presencePrecision": 1,
+        "presenceRecall": 0.909,
+        "presenceF1": 0.952,
+        "areaAccuracy": 0.731,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.851,
-        "temporalAvailability": 0.435
+        "areaAccuracy": 0.809,
+        "temporalAvailability": 0.537
       },
       "zkls_full": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
         "areaAccuracy": 0.75,
-        "temporalAvailability": 0.111
+        "temporalAvailability": 0.213
       }
     },
     {
@@ -459,39 +459,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.342,
+        "presencePrecision": 0.25,
+        "presenceRecall": 0.091,
+        "presenceF1": 0.133,
+        "areaAccuracy": 0.306,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.667,
         "presenceRecall": 1,
         "presenceF1": 0.8,
-        "areaAccuracy": 0.167,
-        "temporalAvailability": 0.043
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.162
       },
       "zkls_grid": {
-        "presencePrecision": 0.842,
-        "presenceRecall": 0.727,
-        "presenceF1": 0.78,
-        "areaAccuracy": 0.719,
+        "presencePrecision": 0.333,
+        "presenceRecall": 0.818,
+        "presenceF1": 0.474,
+        "areaAccuracy": 0.709,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.667,
         "presenceRecall": 1,
         "presenceF1": 0.8,
-        "areaAccuracy": 0.921,
-        "temporalAvailability": 0.363
+        "areaAccuracy": 0.901,
+        "temporalAvailability": 0.482
       },
       "zkls_full": {
         "presencePrecision": 0.667,
         "presenceRecall": 1,
         "presenceF1": 0.8,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.043
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.162
       }
     },
     {
@@ -504,39 +504,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.366,
+        "presencePrecision": 1,
+        "presenceRecall": 0.063,
+        "presenceF1": 0.118,
+        "areaAccuracy": 0.31,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.97,
         "presenceRecall": 1,
         "presenceF1": 0.985,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.085
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.317
       },
       "zkls_grid": {
-        "presencePrecision": 0.686,
-        "presenceRecall": 0.75,
-        "presenceF1": 0.716,
-        "areaAccuracy": 0.866,
+        "presencePrecision": 0.875,
+        "presenceRecall": 0.875,
+        "presenceF1": 0.875,
+        "areaAccuracy": 0.782,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.97,
         "presenceRecall": 1,
         "presenceF1": 0.985,
-        "areaAccuracy": 0.865,
-        "temporalAvailability": 0.366
+        "areaAccuracy": 0.904,
+        "temporalAvailability": 0.599
       },
       "zkls_full": {
         "presencePrecision": 0.97,
         "presenceRecall": 1,
         "presenceF1": 0.985,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.085
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.317
       }
     },
     {
@@ -549,10 +549,10 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.75,
-        "presenceRecall": 0.044,
-        "presenceF1": 0.083,
-        "areaAccuracy": 0.4,
+        "presencePrecision": 0.889,
+        "presenceRecall": 0.118,
+        "presenceF1": 0.208,
+        "areaAccuracy": 0.317,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -560,13 +560,13 @@
         "presenceRecall": 1,
         "presenceF1": 0.538,
         "areaAccuracy": 0.364,
-        "temporalAvailability": 0.046
+        "temporalAvailability": 0.817
       },
       "zkls_grid": {
-        "presencePrecision": 0.825,
-        "presenceRecall": 0.485,
-        "presenceF1": 0.611,
-        "areaAccuracy": 0.967,
+        "presencePrecision": 0.985,
+        "presenceRecall": 0.985,
+        "presenceF1": 0.985,
+        "areaAccuracy": 0.946,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
@@ -574,14 +574,14 @@
         "presenceRecall": 1,
         "presenceF1": 0.538,
         "areaAccuracy": 0.545,
-        "temporalAvailability": 0.046
+        "temporalAvailability": 0.817
       },
       "zkls_full": {
         "presencePrecision": 0.368,
         "presenceRecall": 1,
         "presenceF1": 0.538,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.05
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.821
       }
     },
     {
@@ -597,36 +597,36 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.331,
+        "areaAccuracy": 0.295,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.2,
         "presenceRecall": 1,
         "presenceF1": 0.333,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.043
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.06
       },
       "zkls_grid": {
-        "presencePrecision": 0.5,
+        "presencePrecision": 0.083,
         "presenceRecall": 1,
-        "presenceF1": 0.667,
-        "areaAccuracy": 0.943,
+        "presenceF1": 0.154,
+        "areaAccuracy": 0.929,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.2,
         "presenceRecall": 1,
         "presenceF1": 0.333,
-        "areaAccuracy": 0.939,
-        "temporalAvailability": 0.929
+        "areaAccuracy": 0.923,
+        "temporalAvailability": 0.947
       },
       "zkls_full": {
         "presencePrecision": 0.2,
         "presenceRecall": 1,
         "presenceF1": 0.333,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.043
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.06
       }
     },
     {
@@ -639,39 +639,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.75,
-        "presenceRecall": 0.136,
-        "presenceF1": 0.231,
-        "areaAccuracy": 0.352,
+        "presencePrecision": 0.25,
+        "presenceRecall": 0.091,
+        "presenceF1": 0.133,
+        "areaAccuracy": 0.32,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.815,
         "presenceRecall": 1,
         "presenceF1": 0.898,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.049
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.16
       },
       "zkls_grid": {
-        "presencePrecision": 0.594,
-        "presenceRecall": 0.864,
-        "presenceF1": 0.704,
-        "areaAccuracy": 0.84,
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.182,
+        "presenceF1": 0.267,
+        "areaAccuracy": 0.852,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.815,
         "presenceRecall": 1,
         "presenceF1": 0.898,
-        "areaAccuracy": 0.92,
-        "temporalAvailability": 0.459
+        "areaAccuracy": 0.938,
+        "temporalAvailability": 0.57
       },
       "zkls_full": {
         "presencePrecision": 0.815,
         "presenceRecall": 1,
         "presenceF1": 0.898,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.049
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.16
       }
     },
     {
@@ -684,23 +684,23 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.75,
-        "presenceRecall": 0.078,
-        "presenceF1": 0.142,
-        "areaAccuracy": 0.42,
+        "presencePrecision": 0.769,
+        "presenceRecall": 0.087,
+        "presenceF1": 0.156,
+        "areaAccuracy": 0.399,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.723,
         "presenceRecall": 1,
         "presenceF1": 0.839,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.036
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.506
       },
       "zkls_grid": {
-        "presencePrecision": 0.949,
-        "presenceRecall": 0.965,
-        "presenceF1": 0.957,
+        "presencePrecision": 0.902,
+        "presenceRecall": 0.643,
+        "presenceF1": 0.751,
         "areaAccuracy": 0.926,
         "temporalAvailability": 1
       },
@@ -709,14 +709,14 @@
         "presenceRecall": 1,
         "presenceF1": 0.839,
         "areaAccuracy": 0.865,
-        "temporalAvailability": 0.393
+        "temporalAvailability": 0.864
       },
       "zkls_full": {
         "presencePrecision": 0.723,
         "presenceRecall": 1,
         "presenceF1": 0.839,
-        "areaAccuracy": 0.583,
-        "temporalAvailability": 0.036
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.506
       }
     },
     {
@@ -732,20 +732,20 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.379,
+        "areaAccuracy": 0.368,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.5,
         "presenceRecall": 1,
         "presenceF1": 0.667,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.045
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.29
       },
       "zkls_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.303,
-        "presenceF1": 0.465,
+        "presencePrecision": 0.92,
+        "presenceRecall": 0.697,
+        "presenceF1": 0.793,
         "areaAccuracy": 0.885,
         "temporalAvailability": 1
       },
@@ -753,15 +753,15 @@
         "presencePrecision": 0.5,
         "presenceRecall": 1,
         "presenceF1": 0.667,
-        "areaAccuracy": 0.938,
-        "temporalAvailability": 0.539
+        "areaAccuracy": 0.924,
+        "temporalAvailability": 0.784
       },
       "zkls_full": {
         "presencePrecision": 0.5,
         "presenceRecall": 1,
         "presenceF1": 0.667,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.045
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.29
       }
     },
     {
@@ -774,39 +774,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.125,
-        "presenceRecall": 0.043,
-        "presenceF1": 0.065,
-        "areaAccuracy": 0.341,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.359,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.793,
         "presenceRecall": 1,
         "presenceF1": 0.885,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.026
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.09
       },
       "zkls_grid": {
-        "presencePrecision": 0.104,
-        "presenceRecall": 0.435,
-        "presenceF1": 0.168,
-        "areaAccuracy": 0.852,
+        "presencePrecision": 0.333,
+        "presenceRecall": 0.826,
+        "presenceF1": 0.475,
+        "areaAccuracy": 0.786,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.793,
         "presenceRecall": 1,
         "presenceF1": 0.885,
-        "areaAccuracy": 0.895,
-        "temporalAvailability": 0.504
+        "areaAccuracy": 0.869,
+        "temporalAvailability": 0.568
       },
       "zkls_full": {
-        "presencePrecision": 0.742,
+        "presencePrecision": 0.793,
         "presenceRecall": 1,
-        "presenceF1": 0.852,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.026
+        "presenceF1": 0.885,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.09
       }
     },
     {
@@ -820,38 +820,38 @@
       },
       "laplace_grid": {
         "presencePrecision": 1,
-        "presenceRecall": 0.051,
-        "presenceF1": 0.098,
-        "areaAccuracy": 0.274,
+        "presenceRecall": 0.026,
+        "presenceF1": 0.05,
+        "areaAccuracy": 0.44,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.609,
         "presenceRecall": 1,
         "presenceF1": 0.757,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.069
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.434
       },
       "zkls_grid": {
-        "presencePrecision": 0.927,
+        "presencePrecision": 0.974,
         "presenceRecall": 0.974,
-        "presenceF1": 0.95,
-        "areaAccuracy": 0.926,
+        "presenceF1": 0.974,
+        "areaAccuracy": 0.857,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.609,
         "presenceRecall": 1,
         "presenceF1": 0.757,
-        "areaAccuracy": 0.873,
-        "temporalAvailability": 0.451
+        "areaAccuracy": 0.772,
+        "temporalAvailability": 0.817
       },
       "zkls_full": {
         "presencePrecision": 0.609,
         "presenceRecall": 1,
         "presenceF1": 0.757,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.069
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.434
       }
     },
     {
@@ -864,10 +864,10 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.6,
+        "presencePrecision": 0.5,
         "presenceRecall": 0.075,
-        "presenceF1": 0.133,
-        "areaAccuracy": 0.313,
+        "presenceF1": 0.13,
+        "areaAccuracy": 0.338,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -875,28 +875,28 @@
         "presenceRecall": 1,
         "presenceF1": 0.851,
         "areaAccuracy": 0.333,
-        "temporalAvailability": 0.061
+        "temporalAvailability": 0.333
       },
       "zkls_grid": {
-        "presencePrecision": 0.881,
+        "presencePrecision": 0.841,
         "presenceRecall": 0.925,
-        "presenceF1": 0.902,
-        "areaAccuracy": 0.793,
+        "presenceF1": 0.881,
+        "areaAccuracy": 0.874,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.741,
         "presenceRecall": 1,
         "presenceF1": 0.851,
-        "areaAccuracy": 0.788,
-        "temporalAvailability": 0.404
+        "areaAccuracy": 0.813,
+        "temporalAvailability": 0.677
       },
       "zkls_full": {
         "presencePrecision": 0.741,
         "presenceRecall": 1,
         "presenceF1": 0.851,
         "areaAccuracy": 0.75,
-        "temporalAvailability": 0.061
+        "temporalAvailability": 0.333
       }
     },
     {
@@ -909,39 +909,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.889,
-        "presenceRecall": 0.067,
-        "presenceF1": 0.124,
-        "areaAccuracy": 0.345,
+        "presencePrecision": 0.875,
+        "presenceRecall": 0.058,
+        "presenceF1": 0.109,
+        "areaAccuracy": 0.349,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.553,
         "presenceRecall": 1,
         "presenceF1": 0.712,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.017
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.328
       },
       "zkls_grid": {
-        "presencePrecision": 0.938,
-        "presenceRecall": 1,
-        "presenceF1": 0.968,
-        "areaAccuracy": 0.823,
+        "presencePrecision": 0.991,
+        "presenceRecall": 0.892,
+        "presenceF1": 0.939,
+        "areaAccuracy": 0.921,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.553,
         "presenceRecall": 1,
         "presenceF1": 0.712,
-        "areaAccuracy": 0.831,
-        "temporalAvailability": 0.585
+        "areaAccuracy": 0.897,
+        "temporalAvailability": 0.896
       },
       "zkls_full": {
         "presencePrecision": 0.553,
         "presenceRecall": 1,
         "presenceF1": 0.712,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.017
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.328
       }
     },
     {
@@ -964,29 +964,29 @@
         "presencePrecision": 0.059,
         "presenceRecall": 1,
         "presenceF1": 0.111,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.076
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.399
       },
       "zkls_grid": {
-        "presencePrecision": 0.429,
-        "presenceRecall": 1,
-        "presenceF1": 0.6,
-        "areaAccuracy": 0.905,
+        "presencePrecision": 0.2,
+        "presenceRecall": 0.333,
+        "presenceF1": 0.25,
+        "areaAccuracy": 0.899,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.059,
         "presenceRecall": 1,
         "presenceF1": 0.111,
-        "areaAccuracy": 0.904,
-        "temporalAvailability": 0.525
+        "areaAccuracy": 0.831,
+        "temporalAvailability": 0.848
       },
       "zkls_full": {
-        "presencePrecision": 0.059,
+        "presencePrecision": 0.058,
         "presenceRecall": 1,
-        "presenceF1": 0.111,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.076
+        "presenceF1": 0.109,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.399
       }
     },
     {
@@ -999,39 +999,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.395,
+        "presencePrecision": 1,
+        "presenceRecall": 0.75,
+        "presenceF1": 0.857,
+        "areaAccuracy": 0.368,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.444,
         "presenceRecall": 1,
         "presenceF1": 0.615,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.079
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.138
       },
       "zkls_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 1,
-        "presenceF1": 1,
-        "areaAccuracy": 0.901,
+        "presencePrecision": 0.75,
+        "presenceRecall": 0.75,
+        "presenceF1": 0.75,
+        "areaAccuracy": 0.941,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.444,
         "presenceRecall": 1,
         "presenceF1": 0.615,
-        "areaAccuracy": 0.923,
-        "temporalAvailability": 0.599
+        "areaAccuracy": 0.945,
+        "temporalAvailability": 0.658
       },
       "zkls_full": {
         "presencePrecision": 0.444,
         "presenceRecall": 1,
         "presenceF1": 0.615,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.079
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.138
       }
     },
     {
@@ -1044,39 +1044,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.045,
-        "presenceF1": 0.087,
-        "areaAccuracy": 0.355,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.249,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.846,
         "presenceRecall": 1,
         "presenceF1": 0.917,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.061
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.325
       },
       "zkls_grid": {
-        "presencePrecision": 0.68,
-        "presenceRecall": 0.386,
-        "presenceF1": 0.493,
-        "areaAccuracy": 0.959,
+        "presencePrecision": 0.719,
+        "presenceRecall": 0.932,
+        "presenceF1": 0.812,
+        "areaAccuracy": 0.843,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.846,
         "presenceRecall": 1,
         "presenceF1": 0.917,
-        "areaAccuracy": 0.936,
-        "temporalAvailability": 0.477
+        "areaAccuracy": 0.777,
+        "temporalAvailability": 0.741
       },
       "zkls_full": {
         "presencePrecision": 0.846,
         "presenceRecall": 1,
         "presenceF1": 0.917,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.061
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.325
       }
     },
     {
@@ -1089,39 +1089,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.056,
-        "presenceF1": 0.106,
-        "areaAccuracy": 0.371,
+        "presencePrecision": 0.846,
+        "presenceRecall": 0.041,
+        "presenceF1": 0.079,
+        "areaAccuracy": 0.335,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.692,
         "presenceRecall": 1,
         "presenceF1": 0.818,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.018
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.609
       },
       "zkls_grid": {
-        "presencePrecision": 0.98,
-        "presenceRecall": 0.925,
-        "presenceF1": 0.952,
-        "areaAccuracy": 0.879,
+        "presencePrecision": 0.985,
+        "presenceRecall": 0.966,
+        "presenceF1": 0.975,
+        "areaAccuracy": 0.96,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.692,
         "presenceRecall": 1,
         "presenceF1": 0.818,
-        "areaAccuracy": 0.883,
-        "temporalAvailability": 0.34
+        "areaAccuracy": 0.892,
+        "temporalAvailability": 0.931
       },
       "zkls_full": {
-        "presencePrecision": 0.69,
+        "presencePrecision": 0.692,
         "presenceRecall": 1,
-        "presenceF1": 0.817,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.018
+        "presenceF1": 0.818,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.609
       }
     },
     {
@@ -1134,39 +1134,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.5,
+        "presencePrecision": 1,
         "presenceRecall": 0.057,
-        "presenceF1": 0.102,
-        "areaAccuracy": 0.38,
+        "presenceF1": 0.107,
+        "areaAccuracy": 0.4,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.841,
         "presenceRecall": 1,
         "presenceF1": 0.914,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.048
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.3
       },
       "zkls_grid": {
-        "presencePrecision": 0.583,
-        "presenceRecall": 0.264,
-        "presenceF1": 0.364,
-        "areaAccuracy": 0.924,
+        "presencePrecision": 0.93,
+        "presenceRecall": 1,
+        "presenceF1": 0.964,
+        "areaAccuracy": 0.952,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.841,
         "presenceRecall": 1,
         "presenceF1": 0.914,
-        "areaAccuracy": 0.911,
-        "temporalAvailability": 0.628
+        "areaAccuracy": 0.962,
+        "temporalAvailability": 0.88
       },
       "zkls_full": {
         "presencePrecision": 0.841,
         "presenceRecall": 1,
         "presenceF1": 0.914,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.048
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.3
       }
     },
     {
@@ -1179,39 +1179,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.284,
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.036,
+        "presenceF1": 0.067,
+        "areaAccuracy": 0.313,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.438,
         "presenceRecall": 1,
         "presenceF1": 0.609,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.025
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.158
       },
       "zkls_grid": {
-        "presencePrecision": 0.933,
-        "presenceRecall": 1,
-        "presenceF1": 0.966,
-        "areaAccuracy": 0.77,
+        "presencePrecision": 0.833,
+        "presenceRecall": 0.179,
+        "presenceF1": 0.294,
+        "areaAccuracy": 0.876,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.438,
         "presenceRecall": 1,
         "presenceF1": 0.609,
-        "areaAccuracy": 0.847,
-        "temporalAvailability": 0.73
+        "areaAccuracy": 0.889,
+        "temporalAvailability": 0.863
       },
       "zkls_full": {
         "presencePrecision": 0.438,
         "presenceRecall": 1,
         "presenceF1": 0.609,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.025
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.158
       }
     },
     {
@@ -1224,39 +1224,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.571,
-        "presenceRecall": 0.037,
-        "presenceF1": 0.07,
-        "areaAccuracy": 0.315,
+        "presencePrecision": 0.538,
+        "presenceRecall": 0.065,
+        "presenceF1": 0.116,
+        "areaAccuracy": 0.355,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.964,
         "presenceRecall": 1,
         "presenceF1": 0.982,
-        "areaAccuracy": 0.167,
-        "temporalAvailability": 0.019
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.197
       },
       "zkls_grid": {
-        "presencePrecision": 0.955,
+        "presencePrecision": 0.861,
         "presenceRecall": 0.972,
-        "presenceF1": 0.963,
-        "areaAccuracy": 0.901,
+        "presenceF1": 0.913,
+        "areaAccuracy": 0.889,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.964,
         "presenceRecall": 1,
         "presenceF1": 0.982,
-        "areaAccuracy": 0.876,
-        "temporalAvailability": 0.63
+        "areaAccuracy": 0.861,
+        "temporalAvailability": 0.808
       },
       "zkls_full": {
         "presencePrecision": 0.964,
         "presenceRecall": 1,
         "presenceF1": 0.982,
         "areaAccuracy": 0.833,
-        "temporalAvailability": 0.019
+        "temporalAvailability": 0.197
       }
     },
     {
@@ -1272,36 +1272,36 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.403,
+        "areaAccuracy": 0.393,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.06
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.194
       },
       "zkls_grid": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.915,
+        "areaAccuracy": 0.925,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.91,
-        "temporalAvailability": 0.776
+        "areaAccuracy": 0.904,
+        "temporalAvailability": 0.91
       },
       "zkls_full": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.06
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.194
       }
     },
     {
@@ -1317,36 +1317,36 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.384,
+        "areaAccuracy": 0.367,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.043
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.302
       },
       "zkls_grid": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.961,
+        "areaAccuracy": 0.872,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.961,
-        "temporalAvailability": 0.633
+        "areaAccuracy": 0.927,
+        "temporalAvailability": 0.893
       },
       "zkls_full": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.043
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.302
       }
     },
     {
@@ -1360,38 +1360,38 @@
       },
       "laplace_grid": {
         "presencePrecision": 1,
-        "presenceRecall": 0.1,
-        "presenceF1": 0.182,
-        "areaAccuracy": 0.314,
+        "presenceRecall": 0.05,
+        "presenceF1": 0.095,
+        "areaAccuracy": 0.305,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.69,
         "presenceRecall": 1,
         "presenceF1": 0.816,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.114
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.39
       },
       "zkls_grid": {
-        "presencePrecision": 0.947,
+        "presencePrecision": 1,
         "presenceRecall": 0.9,
-        "presenceF1": 0.923,
-        "areaAccuracy": 0.771,
+        "presenceF1": 0.947,
+        "areaAccuracy": 0.79,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.69,
         "presenceRecall": 1,
         "presenceF1": 0.816,
-        "areaAccuracy": 0.837,
-        "temporalAvailability": 0.41
+        "areaAccuracy": 0.907,
+        "temporalAvailability": 0.686
       },
       "zkls_full": {
         "presencePrecision": 0.69,
         "presenceRecall": 1,
         "presenceF1": 0.816,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.114
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.39
       }
     },
     {
@@ -1407,36 +1407,36 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.336,
+        "areaAccuracy": 0.332,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.211,
         "presenceRecall": 1,
         "presenceF1": 0.349,
-        "areaAccuracy": 0.167,
-        "temporalAvailability": 0.02
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.137
       },
       "zkls_grid": {
-        "presencePrecision": 0.264,
+        "presencePrecision": 0.467,
         "presenceRecall": 0.933,
-        "presenceF1": 0.412,
-        "areaAccuracy": 0.788,
+        "presenceF1": 0.622,
+        "areaAccuracy": 0.824,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.211,
         "presenceRecall": 1,
         "presenceF1": 0.349,
-        "areaAccuracy": 0.853,
-        "temporalAvailability": 0.436
+        "areaAccuracy": 0.891,
+        "temporalAvailability": 0.553
       },
       "zkls_full": {
         "presencePrecision": 0.211,
         "presenceRecall": 1,
         "presenceF1": 0.349,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.02
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.137
       }
     },
     {
@@ -1449,39 +1449,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.238,
-        "presenceF1": 0.385,
-        "areaAccuracy": 0.4,
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.095,
+        "presenceF1": 0.16,
+        "areaAccuracy": 0.286,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.568,
         "presenceRecall": 1,
         "presenceF1": 0.724,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.114
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.467
       },
       "zkls_grid": {
-        "presencePrecision": 0.938,
-        "presenceRecall": 0.714,
-        "presenceF1": 0.811,
-        "areaAccuracy": 0.867,
+        "presencePrecision": 0.929,
+        "presenceRecall": 0.619,
+        "presenceF1": 0.743,
+        "areaAccuracy": 0.81,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.568,
         "presenceRecall": 1,
         "presenceF1": 0.724,
-        "areaAccuracy": 0.824,
-        "temporalAvailability": 0.486
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.838
       },
       "zkls_full": {
         "presencePrecision": 0.568,
         "presenceRecall": 1,
         "presenceF1": 0.724,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.114
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.467
       }
     },
     {
@@ -1494,39 +1494,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.25,
-        "presenceRecall": 0.043,
-        "presenceF1": 0.074,
-        "areaAccuracy": 0.353,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.4,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.719,
         "presenceRecall": 1,
         "presenceF1": 0.836,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.035
+        "areaAccuracy": 0,
+        "temporalAvailability": 0.129
       },
       "zkls_grid": {
-        "presencePrecision": 0.875,
-        "presenceRecall": 0.609,
-        "presenceF1": 0.718,
-        "areaAccuracy": 0.862,
+        "presencePrecision": 0.576,
+        "presenceRecall": 0.826,
+        "presenceF1": 0.679,
+        "areaAccuracy": 0.888,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.719,
         "presenceRecall": 1,
         "presenceF1": 0.836,
-        "areaAccuracy": 0.827,
-        "temporalAvailability": 0.697
+        "areaAccuracy": 0.857,
+        "temporalAvailability": 0.791
       },
       "zkls_full": {
-        "presencePrecision": 0.676,
+        "presencePrecision": 0.719,
         "presenceRecall": 1,
-        "presenceF1": 0.807,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.035
+        "presenceF1": 0.836,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.129
       }
     },
     {
@@ -1539,10 +1539,10 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.571,
+        "presencePrecision": 1,
         "presenceRecall": 0.048,
-        "presenceF1": 0.089,
-        "areaAccuracy": 0.333,
+        "presenceF1": 0.092,
+        "areaAccuracy": 0.331,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -1550,13 +1550,13 @@
         "presenceRecall": 1,
         "presenceF1": 0.534,
         "areaAccuracy": 0.333,
-        "temporalAvailability": 0.015
+        "temporalAvailability": 0.3
       },
       "zkls_grid": {
-        "presencePrecision": 0.943,
-        "presenceRecall": 0.988,
-        "presenceF1": 0.965,
-        "areaAccuracy": 0.838,
+        "presencePrecision": 0.954,
+        "presenceRecall": 1,
+        "presenceF1": 0.976,
+        "areaAccuracy": 0.936,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
@@ -1564,14 +1564,14 @@
         "presenceRecall": 1,
         "presenceF1": 0.534,
         "areaAccuracy": 0.921,
-        "temporalAvailability": 0.649
+        "temporalAvailability": 0.934
       },
       "zkls_full": {
         "presencePrecision": 0.364,
         "presenceRecall": 1,
         "presenceF1": 0.534,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.015
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.3
       }
     },
     {
@@ -1584,39 +1584,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.182,
-        "presenceRecall": 0.027,
-        "presenceF1": 0.047,
-        "areaAccuracy": 0.303,
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.054,
+        "presenceF1": 0.095,
+        "areaAccuracy": 0.297,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.902,
         "presenceRecall": 1,
         "presenceF1": 0.949,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.035
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.271
       },
       "zkls_grid": {
-        "presencePrecision": 0.473,
-        "presenceRecall": 0.595,
-        "presenceF1": 0.527,
-        "areaAccuracy": 0.628,
+        "presencePrecision": 0.909,
+        "presenceRecall": 0.811,
+        "presenceF1": 0.857,
+        "areaAccuracy": 0.752,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.902,
         "presenceRecall": 1,
         "presenceF1": 0.949,
-        "areaAccuracy": 0.867,
-        "temporalAvailability": 0.282
+        "areaAccuracy": 0.837,
+        "temporalAvailability": 0.519
       },
       "zkls_full": {
         "presencePrecision": 0.902,
         "presenceRecall": 1,
         "presenceF1": 0.949,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.035
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.271
       }
     },
     {
@@ -1629,9 +1629,9 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.167,
+        "presencePrecision": 0.333,
         "presenceRecall": 0.043,
-        "presenceF1": 0.069,
+        "presenceF1": 0.077,
         "areaAccuracy": 0.344,
         "temporalAvailability": 1
       },
@@ -1639,29 +1639,29 @@
         "presencePrecision": 0.377,
         "presenceRecall": 1,
         "presenceF1": 0.548,
-        "areaAccuracy": 0.167,
-        "temporalAvailability": 0.031
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.189
       },
       "zkls_grid": {
-        "presencePrecision": 0.767,
-        "presenceRecall": 1,
-        "presenceF1": 0.868,
-        "areaAccuracy": 0.886,
+        "presencePrecision": 0.444,
+        "presenceRecall": 0.522,
+        "presenceF1": 0.48,
+        "areaAccuracy": 0.884,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.377,
         "presenceRecall": 1,
         "presenceF1": 0.548,
-        "areaAccuracy": 0.904,
-        "temporalAvailability": 0.643
+        "areaAccuracy": 0.884,
+        "temporalAvailability": 0.801
       },
       "zkls_full": {
         "presencePrecision": 0.377,
         "presenceRecall": 1,
         "presenceF1": 0.548,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.031
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.189
       }
     },
     {
@@ -1674,39 +1674,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.737,
-        "presenceRecall": 0.085,
-        "presenceF1": 0.153,
-        "areaAccuracy": 0.39,
+        "presencePrecision": 0.385,
+        "presenceRecall": 0.03,
+        "presenceF1": 0.056,
+        "areaAccuracy": 0.368,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.812,
         "presenceRecall": 1,
         "presenceF1": 0.896,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.025
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.439
       },
       "zkls_grid": {
-        "presencePrecision": 0.884,
-        "presenceRecall": 0.933,
-        "presenceF1": 0.908,
-        "areaAccuracy": 0.943,
+        "presencePrecision": 0.821,
+        "presenceRecall": 0.921,
+        "presenceF1": 0.868,
+        "areaAccuracy": 0.947,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.812,
         "presenceRecall": 1,
         "presenceF1": 0.896,
-        "areaAccuracy": 0.862,
-        "temporalAvailability": 0.267
+        "areaAccuracy": 0.892,
+        "temporalAvailability": 0.682
       },
       "zkls_full": {
         "presencePrecision": 0.812,
         "presenceRecall": 1,
         "presenceF1": 0.896,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.025
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.439
       }
     },
     {
@@ -1719,39 +1719,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.8,
-        "presenceRecall": 0.108,
-        "presenceF1": 0.19,
-        "areaAccuracy": 0.333,
+        "presencePrecision": 0.778,
+        "presenceRecall": 0.063,
+        "presenceF1": 0.117,
+        "areaAccuracy": 0.323,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.661,
         "presenceRecall": 1,
         "presenceF1": 0.796,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.019
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.292
       },
       "zkls_grid": {
-        "presencePrecision": 0.894,
-        "presenceRecall": 0.991,
-        "presenceF1": 0.94,
-        "areaAccuracy": 0.89,
+        "presencePrecision": 0.945,
+        "presenceRecall": 0.928,
+        "presenceF1": 0.936,
+        "areaAccuracy": 0.877,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.661,
         "presenceRecall": 1,
         "presenceF1": 0.796,
-        "areaAccuracy": 0.812,
-        "temporalAvailability": 0.578
+        "areaAccuracy": 0.809,
+        "temporalAvailability": 0.851
       },
       "zkls_full": {
         "presencePrecision": 0.661,
         "presenceRecall": 1,
         "presenceF1": 0.796,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.019
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.292
       }
     },
     {
@@ -1764,39 +1764,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.5,
-        "presenceRecall": 0.022,
-        "presenceF1": 0.043,
-        "areaAccuracy": 0.328,
+        "presencePrecision": 1,
+        "presenceRecall": 0.111,
+        "presenceF1": 0.2,
+        "areaAccuracy": 0.359,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.882,
         "presenceRecall": 1,
         "presenceF1": 0.938,
-        "areaAccuracy": 0.167,
-        "temporalAvailability": 0.092
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.481
       },
       "zkls_grid": {
-        "presencePrecision": 0.915,
-        "presenceRecall": 0.956,
-        "presenceF1": 0.935,
-        "areaAccuracy": 0.71,
+        "presencePrecision": 0.938,
+        "presenceRecall": 1,
+        "presenceF1": 0.968,
+        "areaAccuracy": 0.939,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.882,
         "presenceRecall": 1,
         "presenceF1": 0.938,
-        "areaAccuracy": 0.927,
-        "temporalAvailability": 0.42
+        "areaAccuracy": 0.873,
+        "temporalAvailability": 0.809
       },
       "zkls_full": {
         "presencePrecision": 0.882,
         "presenceRecall": 1,
         "presenceF1": 0.938,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.092
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.481
       }
     },
     {
@@ -1809,39 +1809,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.091,
+        "presencePrecision": 0.125,
         "presenceRecall": 0.038,
-        "presenceF1": 0.054,
-        "areaAccuracy": 0.329,
+        "presenceF1": 0.059,
+        "areaAccuracy": 0.299,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.684,
         "presenceRecall": 1,
         "presenceF1": 0.813,
-        "areaAccuracy": 0.083,
-        "temporalAvailability": 0.014
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.06
       },
       "zkls_grid": {
-        "presencePrecision": 0.107,
-        "presenceRecall": 0.692,
-        "presenceF1": 0.186,
-        "areaAccuracy": 0.837,
+        "presencePrecision": 0.139,
+        "presenceRecall": 0.885,
+        "presenceF1": 0.24,
+        "areaAccuracy": 0.714,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.684,
         "presenceRecall": 1,
         "presenceF1": 0.813,
-        "areaAccuracy": 0.834,
-        "temporalAvailability": 0.741
+        "areaAccuracy": 0.855,
+        "temporalAvailability": 0.787
       },
       "zkls_full": {
         "presencePrecision": 0.684,
         "presenceRecall": 1,
         "presenceF1": 0.813,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.014
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.06
       }
     },
     {
@@ -1854,10 +1854,10 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.5,
-        "presenceRecall": 0.091,
-        "presenceF1": 0.154,
-        "areaAccuracy": 0.404,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.39,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -1865,28 +1865,28 @@
         "presenceRecall": 1,
         "presenceF1": 0.4,
         "areaAccuracy": 0.5,
-        "temporalAvailability": 0.034
+        "temporalAvailability": 0.157
       },
       "zkls_grid": {
         "presencePrecision": 0.846,
         "presenceRecall": 1,
         "presenceF1": 0.917,
-        "areaAccuracy": 0.927,
+        "areaAccuracy": 0.916,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.25,
         "presenceRecall": 1,
         "presenceF1": 0.4,
-        "areaAccuracy": 0.892,
-        "temporalAvailability": 0.677
+        "areaAccuracy": 0.88,
+        "temporalAvailability": 0.801
       },
       "zkls_full": {
         "presencePrecision": 0.25,
         "presenceRecall": 1,
         "presenceF1": 0.4,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.034
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.157
       }
     },
     {
@@ -1899,39 +1899,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.143,
-        "presenceF1": 0.25,
-        "areaAccuracy": 0.311,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.336,
         "temporalAvailability": 1
       },
       "six_layer": {
-        "presencePrecision": 0.206,
+        "presencePrecision": 0.2,
         "presenceRecall": 1,
-        "presenceF1": 0.341,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.098
+        "presenceF1": 0.333,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.377
       },
       "zkls_grid": {
-        "presencePrecision": 0.778,
-        "presenceRecall": 1,
-        "presenceF1": 0.875,
-        "areaAccuracy": 0.656,
+        "presencePrecision": 0.75,
+        "presenceRecall": 0.857,
+        "presenceF1": 0.8,
+        "areaAccuracy": 0.721,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.206,
         "presenceRecall": 1,
         "presenceF1": 0.341,
-        "areaAccuracy": 0.779,
-        "temporalAvailability": 0.705
+        "areaAccuracy": 0.919,
+        "temporalAvailability": 0.984
       },
       "zkls_full": {
-        "presencePrecision": 0.2,
+        "presencePrecision": 0.206,
         "presenceRecall": 1,
-        "presenceF1": 0.333,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.098
+        "presenceF1": 0.341,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.377
       }
     },
     {
@@ -1944,39 +1944,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.5,
-        "presenceRecall": 0.017,
-        "presenceF1": 0.032,
-        "areaAccuracy": 0.333,
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.033,
+        "presenceF1": 0.062,
+        "areaAccuracy": 0.314,
         "temporalAvailability": 1
       },
       "six_layer": {
-        "presencePrecision": 0.588,
+        "presencePrecision": 0.583,
         "presenceRecall": 1,
-        "presenceF1": 0.741,
-        "areaAccuracy": 0.167,
-        "temporalAvailability": 0.058
+        "presenceF1": 0.736,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.551
       },
       "zkls_grid": {
-        "presencePrecision": 0.824,
+        "presencePrecision": 0.812,
         "presenceRecall": 0.933,
-        "presenceF1": 0.875,
-        "areaAccuracy": 0.797,
+        "presenceF1": 0.868,
+        "areaAccuracy": 0.874,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.588,
         "presenceRecall": 1,
         "presenceF1": 0.741,
-        "areaAccuracy": 0.878,
-        "temporalAvailability": 0.237
+        "areaAccuracy": 0.837,
+        "temporalAvailability": 0.729
       },
       "zkls_full": {
         "presencePrecision": 0.588,
         "presenceRecall": 1,
         "presenceF1": 0.741,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.058
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.551
       }
     },
     {
@@ -1990,38 +1990,38 @@
       },
       "laplace_grid": {
         "presencePrecision": 1,
-        "presenceRecall": 0.039,
-        "presenceF1": 0.075,
-        "areaAccuracy": 0.36,
+        "presenceRecall": 0.059,
+        "presenceF1": 0.111,
+        "areaAccuracy": 0.347,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.75,
         "presenceRecall": 1,
         "presenceF1": 0.857,
-        "areaAccuracy": 0.083,
-        "temporalAvailability": 0.038
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.252
       },
       "zkls_grid": {
         "presencePrecision": 0.962,
         "presenceRecall": 1,
         "presenceF1": 0.981,
-        "areaAccuracy": 0.909,
+        "areaAccuracy": 0.798,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.75,
         "presenceRecall": 1,
         "presenceF1": 0.857,
-        "areaAccuracy": 0.909,
-        "temporalAvailability": 0.729
+        "areaAccuracy": 0.87,
+        "temporalAvailability": 0.943
       },
       "zkls_full": {
         "presencePrecision": 0.75,
         "presenceRecall": 1,
         "presenceF1": 0.857,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.038
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.252
       }
     },
     {
@@ -2034,39 +2034,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.667,
-        "presenceRecall": 0.143,
-        "presenceF1": 0.235,
-        "areaAccuracy": 0.315,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.34,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.933,
         "presenceRecall": 1,
         "presenceF1": 0.966,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.059
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.207
       },
       "zkls_grid": {
         "presencePrecision": 0.933,
         "presenceRecall": 1,
         "presenceF1": 0.966,
-        "areaAccuracy": 0.901,
+        "areaAccuracy": 0.714,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.933,
         "presenceRecall": 1,
         "presenceF1": 0.966,
-        "areaAccuracy": 0.876,
-        "temporalAvailability": 0.754
+        "areaAccuracy": 0.784,
+        "temporalAvailability": 0.901
       },
       "zkls_full": {
         "presencePrecision": 0.933,
         "presenceRecall": 1,
         "presenceF1": 0.966,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.059
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.207
       }
     },
     {
@@ -2082,36 +2082,36 @@
         "presencePrecision": 1,
         "presenceRecall": 0.037,
         "presenceF1": 0.071,
-        "areaAccuracy": 0.342,
+        "areaAccuracy": 0.34,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.761,
         "presenceRecall": 1,
         "presenceF1": 0.864,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.022
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.418
       },
       "zkls_grid": {
-        "presencePrecision": 0.962,
-        "presenceRecall": 0.932,
-        "presenceF1": 0.947,
-        "areaAccuracy": 0.901,
+        "presencePrecision": 0.97,
+        "presenceRecall": 1,
+        "presenceF1": 0.985,
+        "areaAccuracy": 0.833,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.761,
         "presenceRecall": 1,
         "presenceF1": 0.864,
-        "areaAccuracy": 0.911,
-        "temporalAvailability": 0.522
+        "areaAccuracy": 0.897,
+        "temporalAvailability": 0.918
       },
       "zkls_full": {
-        "presencePrecision": 0.761,
+        "presencePrecision": 0.757,
         "presenceRecall": 1,
-        "presenceF1": 0.864,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.022
+        "presenceF1": 0.862,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.418
       }
     },
     {
@@ -2124,23 +2124,23 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.5,
-        "presenceRecall": 0.014,
-        "presenceF1": 0.027,
-        "areaAccuracy": 0.36,
+        "presencePrecision": 0.625,
+        "presenceRecall": 0.07,
+        "presenceF1": 0.127,
+        "areaAccuracy": 0.349,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.866,
         "presenceRecall": 1,
         "presenceF1": 0.928,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.021
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.165
       },
       "zkls_grid": {
-        "presencePrecision": 0.704,
-        "presenceRecall": 0.972,
-        "presenceF1": 0.817,
+        "presencePrecision": 0.732,
+        "presenceRecall": 0.577,
+        "presenceF1": 0.646,
         "areaAccuracy": 0.896,
         "temporalAvailability": 1
       },
@@ -2148,15 +2148,15 @@
         "presencePrecision": 0.866,
         "presenceRecall": 1,
         "presenceF1": 0.928,
-        "areaAccuracy": 0.88,
-        "temporalAvailability": 0.63
+        "areaAccuracy": 0.886,
+        "temporalAvailability": 0.774
       },
       "zkls_full": {
         "presencePrecision": 0.866,
         "presenceRecall": 1,
         "presenceF1": 0.928,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.021
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.165
       }
     },
     {
@@ -2169,24 +2169,24 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.391,
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.2,
+        "presenceF1": 0.267,
+        "areaAccuracy": 0.288,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.588,
         "presenceRecall": 1,
         "presenceF1": 0.741,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.052
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.124
       },
       "zkls_grid": {
-        "presencePrecision": 0.462,
-        "presenceRecall": 0.6,
-        "presenceF1": 0.522,
-        "areaAccuracy": 0.906,
+        "presencePrecision": 0.8,
+        "presenceRecall": 0.4,
+        "presenceF1": 0.533,
+        "areaAccuracy": 0.725,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
@@ -2194,14 +2194,14 @@
         "presenceRecall": 1,
         "presenceF1": 0.741,
         "areaAccuracy": 0.882,
-        "temporalAvailability": 0.399
+        "temporalAvailability": 0.472
       },
       "zkls_full": {
         "presencePrecision": 0.588,
         "presenceRecall": 1,
         "presenceF1": 0.741,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.052
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.124
       }
     },
     {
@@ -2215,38 +2215,38 @@
       },
       "laplace_grid": {
         "presencePrecision": 1,
-        "presenceRecall": 0.07,
-        "presenceF1": 0.131,
-        "areaAccuracy": 0.351,
+        "presenceRecall": 0.018,
+        "presenceF1": 0.034,
+        "areaAccuracy": 0.372,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.877,
         "presenceRecall": 1,
         "presenceF1": 0.934,
-        "areaAccuracy": 0.167,
-        "temporalAvailability": 0.041
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.26
       },
       "zkls_grid": {
-        "presencePrecision": 0.873,
-        "presenceRecall": 0.965,
-        "presenceF1": 0.917,
-        "areaAccuracy": 0.885,
+        "presencePrecision": 0.79,
+        "presenceRecall": 0.86,
+        "presenceF1": 0.824,
+        "areaAccuracy": 0.706,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.877,
         "presenceRecall": 1,
         "presenceF1": 0.934,
-        "areaAccuracy": 0.802,
-        "temporalAvailability": 0.547
+        "areaAccuracy": 0.889,
+        "temporalAvailability": 0.767
       },
       "zkls_full": {
-        "presencePrecision": 0.877,
+        "presencePrecision": 0.864,
         "presenceRecall": 1,
-        "presenceF1": 0.934,
+        "presenceF1": 0.927,
         "areaAccuracy": 0.917,
-        "temporalAvailability": 0.041
+        "temporalAvailability": 0.26
       }
     },
     {
@@ -2262,7 +2262,7 @@
         "presencePrecision": 0.5,
         "presenceRecall": 0.082,
         "presenceF1": 0.14,
-        "areaAccuracy": 0.33,
+        "areaAccuracy": 0.328,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -2270,28 +2270,28 @@
         "presenceRecall": 1,
         "presenceF1": 0.566,
         "areaAccuracy": 0.417,
-        "temporalAvailability": 0.024
+        "temporalAvailability": 0.267
       },
       "zkls_grid": {
-        "presencePrecision": 0.852,
-        "presenceRecall": 0.939,
-        "presenceF1": 0.893,
-        "areaAccuracy": 0.835,
+        "presencePrecision": 0.611,
+        "presenceRecall": 0.449,
+        "presenceF1": 0.518,
+        "areaAccuracy": 0.813,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.395,
         "presenceRecall": 1,
         "presenceF1": 0.566,
-        "areaAccuracy": 0.827,
-        "temporalAvailability": 0.58
+        "areaAccuracy": 0.831,
+        "temporalAvailability": 0.823
       },
       "zkls_full": {
         "presencePrecision": 0.395,
         "presenceRecall": 1,
         "presenceF1": 0.566,
-        "areaAccuracy": 0.583,
-        "temporalAvailability": 0.024
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.267
       }
     },
     {
@@ -2304,39 +2304,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.833,
-        "presenceRecall": 0.088,
-        "presenceF1": 0.159,
-        "areaAccuracy": 0.27,
+        "presencePrecision": 0.667,
+        "presenceRecall": 0.07,
+        "presenceF1": 0.127,
+        "areaAccuracy": 0.312,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.95,
         "presenceRecall": 1,
         "presenceF1": 0.974,
-        "areaAccuracy": 0,
-        "temporalAvailability": 0.085
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.511
       },
       "zkls_grid": {
-        "presencePrecision": 0.918,
+        "presencePrecision": 0.949,
         "presenceRecall": 0.982,
-        "presenceF1": 0.949,
-        "areaAccuracy": 0.929,
+        "presenceF1": 0.966,
+        "areaAccuracy": 0.816,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.95,
         "presenceRecall": 1,
         "presenceF1": 0.974,
-        "areaAccuracy": 0.854,
-        "temporalAvailability": 0.34
+        "areaAccuracy": 0.938,
+        "temporalAvailability": 0.766
       },
       "zkls_full": {
         "presencePrecision": 0.95,
         "presenceRecall": 1,
         "presenceF1": 0.974,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.085
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.511
       }
     },
     {
@@ -2349,24 +2349,24 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.167,
-        "presenceRecall": 0.063,
-        "presenceF1": 0.091,
-        "areaAccuracy": 0.329,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.288,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.593,
         "presenceRecall": 1,
         "presenceF1": 0.744,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.082
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.267
       },
       "zkls_grid": {
-        "presencePrecision": 0.333,
-        "presenceRecall": 0.25,
-        "presenceF1": 0.286,
-        "areaAccuracy": 0.959,
+        "presencePrecision": 0.452,
+        "presenceRecall": 0.875,
+        "presenceF1": 0.596,
+        "areaAccuracy": 0.973,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
@@ -2374,14 +2374,14 @@
         "presenceRecall": 1,
         "presenceF1": 0.744,
         "areaAccuracy": 0.9,
-        "temporalAvailability": 0.137
+        "temporalAvailability": 0.322
       },
       "zkls_full": {
         "presencePrecision": 0.593,
         "presenceRecall": 1,
         "presenceF1": 0.744,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.082
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.267
       }
     },
     {
@@ -2394,10 +2394,10 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.25,
-        "presenceRecall": 0.04,
-        "presenceF1": 0.069,
-        "areaAccuracy": 0.331,
+        "presencePrecision": 1,
+        "presenceRecall": 0.08,
+        "presenceF1": 0.148,
+        "areaAccuracy": 0.43,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -2405,28 +2405,28 @@
         "presenceRecall": 1,
         "presenceF1": 0.862,
         "areaAccuracy": 0.167,
-        "temporalAvailability": 0.085
+        "temporalAvailability": 0.317
       },
       "zkls_grid": {
-        "presencePrecision": 0.833,
-        "presenceRecall": 1,
-        "presenceF1": 0.909,
-        "areaAccuracy": 0.958,
+        "presencePrecision": 0.586,
+        "presenceRecall": 0.68,
+        "presenceF1": 0.63,
+        "areaAccuracy": 0.965,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.758,
         "presenceRecall": 1,
         "presenceF1": 0.862,
-        "areaAccuracy": 0.897,
-        "temporalAvailability": 0.275
+        "areaAccuracy": 0.949,
+        "temporalAvailability": 0.507
       },
       "zkls_full": {
         "presencePrecision": 0.758,
         "presenceRecall": 1,
         "presenceF1": 0.862,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.085
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.317
       }
     },
     {
@@ -2439,10 +2439,10 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.333,
-        "presenceRecall": 0.1,
-        "presenceF1": 0.154,
-        "areaAccuracy": 0.32,
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.15,
+        "presenceF1": 0.231,
+        "areaAccuracy": 0.427,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -2450,28 +2450,28 @@
         "presenceRecall": 1,
         "presenceF1": 0.952,
         "areaAccuracy": 0.417,
-        "temporalAvailability": 0.117
+        "temporalAvailability": 0.33
       },
       "zkls_grid": {
-        "presencePrecision": 0.917,
-        "presenceRecall": 0.55,
-        "presenceF1": 0.687,
-        "areaAccuracy": 0.961,
+        "presencePrecision": 0.286,
+        "presenceRecall": 0.3,
+        "presenceF1": 0.293,
+        "areaAccuracy": 0.981,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.909,
         "presenceRecall": 1,
         "presenceF1": 0.952,
-        "areaAccuracy": 0.957,
-        "temporalAvailability": 0.223
+        "areaAccuracy": 0.913,
+        "temporalAvailability": 0.437
       },
       "zkls_full": {
         "presencePrecision": 0.909,
         "presenceRecall": 1,
         "presenceF1": 0.952,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.117
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.33
       }
     },
     {
@@ -2487,7 +2487,7 @@
         "presencePrecision": 0.333,
         "presenceRecall": 0.013,
         "presenceF1": 0.024,
-        "areaAccuracy": 0.376,
+        "areaAccuracy": 0.287,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -2495,28 +2495,28 @@
         "presenceRecall": 1,
         "presenceF1": 0.888,
         "areaAccuracy": 0.167,
-        "temporalAvailability": 0.059
+        "temporalAvailability": 0.55
       },
       "zkls_grid": {
-        "presencePrecision": 0.838,
-        "presenceRecall": 0.848,
-        "presenceF1": 0.843,
-        "areaAccuracy": 0.663,
+        "presencePrecision": 0.885,
+        "presenceRecall": 0.873,
+        "presenceF1": 0.879,
+        "areaAccuracy": 0.891,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.798,
         "presenceRecall": 1,
         "presenceF1": 0.888,
-        "areaAccuracy": 0.921,
-        "temporalAvailability": 0.312
+        "areaAccuracy": 0.81,
+        "temporalAvailability": 0.802
       },
       "zkls_full": {
-        "presencePrecision": 0.798,
+        "presencePrecision": 0.79,
         "presenceRecall": 1,
-        "presenceF1": 0.888,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.059
+        "presenceF1": 0.883,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.55
       }
     },
     {
@@ -2529,39 +2529,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.059,
-        "presenceF1": 0.111,
-        "areaAccuracy": 0.324,
+        "presencePrecision": 0.857,
+        "presenceRecall": 0.118,
+        "presenceF1": 0.207,
+        "areaAccuracy": 0.344,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.451,
         "presenceRecall": 1,
         "presenceF1": 0.622,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.031
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.319
       },
       "zkls_grid": {
-        "presencePrecision": 0.941,
-        "presenceRecall": 0.941,
-        "presenceF1": 0.941,
-        "areaAccuracy": 0.773,
+        "presencePrecision": 0.836,
+        "presenceRecall": 0.902,
+        "presenceF1": 0.868,
+        "areaAccuracy": 0.903,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.451,
         "presenceRecall": 1,
         "presenceF1": 0.622,
-        "areaAccuracy": 0.891,
-        "temporalAvailability": 0.513
+        "areaAccuracy": 0.836,
+        "temporalAvailability": 0.801
       },
       "zkls_full": {
         "presencePrecision": 0.451,
         "presenceRecall": 1,
         "presenceF1": 0.622,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.031
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.319
       }
     },
     {
@@ -2574,223 +2574,43 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.8,
-        "presenceRecall": 0.06,
-        "presenceF1": 0.112,
-        "areaAccuracy": 0.302,
+        "presencePrecision": 0.909,
+        "presenceRecall": 0.075,
+        "presenceF1": 0.139,
+        "areaAccuracy": 0.328,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.029
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.353
       },
       "zkls_grid": {
-        "presencePrecision": 0.961,
-        "presenceRecall": 0.932,
-        "presenceF1": 0.947,
-        "areaAccuracy": 0.655,
+        "presencePrecision": 0.971,
+        "presenceRecall": 0.992,
+        "presenceF1": 0.981,
+        "areaAccuracy": 0.825,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.923,
-        "temporalAvailability": 0.599
+        "areaAccuracy": 0.72,
+        "temporalAvailability": 0.922
       },
       "zkls_full": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.029
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.353
       }
     },
     {
       "userId": "089",
-      "raw": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 1,
-        "temporalAvailability": 1
-      },
-      "laplace_grid": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.4,
-        "temporalAvailability": 1
-      },
-      "six_layer": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.086
-      },
-      "zkls_grid": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.914,
-        "temporalAvailability": 1
-      },
-      "zkls_grid_zones": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.902,
-        "temporalAvailability": 0.729
-      },
-      "zkls_full": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.086
-      }
-    },
-    {
-      "userId": "091",
-      "raw": {
-        "presencePrecision": 0.942,
-        "presenceRecall": 1,
-        "presenceF1": 0.97,
-        "areaAccuracy": 1,
-        "temporalAvailability": 1
-      },
-      "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.061,
-        "presenceF1": 0.115,
-        "areaAccuracy": 0.39,
-        "temporalAvailability": 1
-      },
-      "six_layer": {
-        "presencePrecision": 0.598,
-        "presenceRecall": 1,
-        "presenceF1": 0.748,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.07
-      },
-      "zkls_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.857,
-        "presenceF1": 0.923,
-        "areaAccuracy": 0.971,
-        "temporalAvailability": 1
-      },
-      "zkls_grid_zones": {
-        "presencePrecision": 0.598,
-        "presenceRecall": 1,
-        "presenceF1": 0.748,
-        "areaAccuracy": 0.949,
-        "temporalAvailability": 0.453
-      },
-      "zkls_full": {
-        "presencePrecision": 0.57,
-        "presenceRecall": 1,
-        "presenceF1": 0.726,
-        "areaAccuracy": 1,
-        "temporalAvailability": 0.07
-      }
-    },
-    {
-      "userId": "092",
-      "raw": {
-        "presencePrecision": 0.894,
-        "presenceRecall": 1,
-        "presenceF1": 0.944,
-        "areaAccuracy": 1,
-        "temporalAvailability": 1
-      },
-      "laplace_grid": {
-        "presencePrecision": 0.8,
-        "presenceRecall": 0.053,
-        "presenceF1": 0.099,
-        "areaAccuracy": 0.408,
-        "temporalAvailability": 1
-      },
-      "six_layer": {
-        "presencePrecision": 0.71,
-        "presenceRecall": 1,
-        "presenceF1": 0.831,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.058
-      },
-      "zkls_grid": {
-        "presencePrecision": 0.868,
-        "presenceRecall": 0.868,
-        "presenceF1": 0.868,
-        "areaAccuracy": 0.947,
-        "temporalAvailability": 1
-      },
-      "zkls_grid_zones": {
-        "presencePrecision": 0.71,
-        "presenceRecall": 1,
-        "presenceF1": 0.831,
-        "areaAccuracy": 0.875,
-        "temporalAvailability": 0.233
-      },
-      "zkls_full": {
-        "presencePrecision": 0.71,
-        "presenceRecall": 1,
-        "presenceF1": 0.831,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.058
-      }
-    },
-    {
-      "userId": "096",
-      "raw": {
-        "presencePrecision": 0.89,
-        "presenceRecall": 1,
-        "presenceF1": 0.942,
-        "areaAccuracy": 1,
-        "temporalAvailability": 1
-      },
-      "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.046,
-        "presenceF1": 0.088,
-        "areaAccuracy": 0.31,
-        "temporalAvailability": 1
-      },
-      "six_layer": {
-        "presencePrecision": 0.802,
-        "presenceRecall": 1,
-        "presenceF1": 0.89,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.057
-      },
-      "zkls_grid": {
-        "presencePrecision": 0.914,
-        "presenceRecall": 0.492,
-        "presenceF1": 0.64,
-        "areaAccuracy": 0.657,
-        "temporalAvailability": 1
-      },
-      "zkls_grid_zones": {
-        "presencePrecision": 0.802,
-        "presenceRecall": 1,
-        "presenceF1": 0.89,
-        "areaAccuracy": 0.962,
-        "temporalAvailability": 0.505
-      },
-      "zkls_full": {
-        "presencePrecision": 0.802,
-        "presenceRecall": 1,
-        "presenceF1": 0.89,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.057
-      }
-    },
-    {
-      "userId": "101",
       "raw": {
         "presencePrecision": 0,
         "presenceRecall": 0,
@@ -2809,29 +2629,209 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.117
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.279
       },
       "zkls_grid": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.913,
+        "areaAccuracy": 0.921,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.886,
-        "temporalAvailability": 0.68
+        "areaAccuracy": 0.912,
+        "temporalAvailability": 0.921
+      },
+      "zkls_full": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.279
+      }
+    },
+    {
+      "userId": "091",
+      "raw": {
+        "presencePrecision": 0.942,
+        "presenceRecall": 1,
+        "presenceF1": 0.97,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.6,
+        "presenceRecall": 0.061,
+        "presenceF1": 0.111,
+        "areaAccuracy": 0.448,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.598,
+        "presenceRecall": 1,
+        "presenceF1": 0.748,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.547
+      },
+      "zkls_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.816,
+        "presenceF1": 0.899,
+        "areaAccuracy": 0.959,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.598,
+        "presenceRecall": 1,
+        "presenceF1": 0.748,
+        "areaAccuracy": 0.923,
+        "temporalAvailability": 0.93
+      },
+      "zkls_full": {
+        "presencePrecision": 0.598,
+        "presenceRecall": 1,
+        "presenceF1": 0.748,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.547
+      }
+    },
+    {
+      "userId": "092",
+      "raw": {
+        "presencePrecision": 0.894,
+        "presenceRecall": 1,
+        "presenceF1": 0.944,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.053,
+        "presenceF1": 0.1,
+        "areaAccuracy": 0.398,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.71,
+        "presenceRecall": 1,
+        "presenceF1": 0.831,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.578
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.913,
+        "presenceRecall": 0.829,
+        "presenceF1": 0.869,
+        "areaAccuracy": 0.942,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.71,
+        "presenceRecall": 1,
+        "presenceF1": 0.831,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.752
+      },
+      "zkls_full": {
+        "presencePrecision": 0.71,
+        "presenceRecall": 1,
+        "presenceF1": 0.831,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.578
+      }
+    },
+    {
+      "userId": "096",
+      "raw": {
+        "presencePrecision": 0.89,
+        "presenceRecall": 1,
+        "presenceF1": 0.942,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.062,
+        "presenceF1": 0.11,
+        "areaAccuracy": 0.319,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.802,
+        "presenceRecall": 1,
+        "presenceF1": 0.89,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.443
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.928,
+        "presenceRecall": 0.985,
+        "presenceF1": 0.955,
+        "areaAccuracy": 0.695,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.802,
+        "presenceRecall": 1,
+        "presenceF1": 0.89,
+        "areaAccuracy": 0.953,
+        "temporalAvailability": 0.89
+      },
+      "zkls_full": {
+        "presencePrecision": 0.802,
+        "presenceRecall": 1,
+        "presenceF1": 0.89,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.443
+      }
+    },
+    {
+      "userId": "101",
+      "raw": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.398,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.194
+      },
+      "zkls_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.961,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.943,
+        "temporalAvailability": 0.757
       },
       "zkls_full": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
         "areaAccuracy": 0.917,
-        "temporalAvailability": 0.117
+        "temporalAvailability": 0.194
       }
     },
     {
@@ -2844,39 +2844,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.026,
-        "presenceF1": 0.051,
-        "areaAccuracy": 0.411,
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.053,
+        "presenceF1": 0.093,
+        "areaAccuracy": 0.339,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.884,
         "presenceRecall": 1,
         "presenceF1": 0.938,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.048
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.222
       },
       "zkls_grid": {
-        "presencePrecision": 0.875,
+        "presencePrecision": 0.833,
         "presenceRecall": 0.921,
-        "presenceF1": 0.897,
-        "areaAccuracy": 0.831,
+        "presenceF1": 0.875,
+        "areaAccuracy": 0.823,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.884,
         "presenceRecall": 1,
         "presenceF1": 0.938,
-        "areaAccuracy": 0.877,
-        "temporalAvailability": 0.621
+        "areaAccuracy": 0.864,
+        "temporalAvailability": 0.794
       },
       "zkls_full": {
         "presencePrecision": 0.884,
         "presenceRecall": 1,
         "presenceF1": 0.938,
         "areaAccuracy": 1,
-        "temporalAvailability": 0.048
+        "temporalAvailability": 0.222
       }
     },
     {
@@ -2892,36 +2892,36 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.362,
+        "areaAccuracy": 0.417,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.25,
-        "temporalAvailability": 0.094
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.102
       },
       "zkls_grid": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.882,
+        "areaAccuracy": 0.898,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.881,
-        "temporalAvailability": 0.992
+        "areaAccuracy": 0.897,
+        "temporalAvailability": 1
       },
       "zkls_full": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.094
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.102
       }
     },
     {
@@ -2934,39 +2934,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.091,
+        "presencePrecision": 0.083,
         "presenceRecall": 0.03,
-        "presenceF1": 0.045,
-        "areaAccuracy": 0.356,
+        "presenceF1": 0.044,
+        "areaAccuracy": 0.384,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.917,
         "presenceRecall": 1,
         "presenceF1": 0.957,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.043
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.171
       },
       "zkls_grid": {
-        "presencePrecision": 0.183,
-        "presenceRecall": 0.667,
-        "presenceF1": 0.288,
-        "areaAccuracy": 0.957,
+        "presencePrecision": 0.184,
+        "presenceRecall": 0.788,
+        "presenceF1": 0.299,
+        "areaAccuracy": 0.964,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.917,
         "presenceRecall": 1,
         "presenceF1": 0.957,
-        "areaAccuracy": 0.846,
-        "temporalAvailability": 0.231
+        "areaAccuracy": 0.862,
+        "temporalAvailability": 0.359
       },
       "zkls_full": {
         "presencePrecision": 0.917,
         "presenceRecall": 1,
         "presenceF1": 0.957,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.043
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.171
       }
     },
     {
@@ -2979,39 +2979,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.167,
-        "presenceRecall": 0.083,
-        "presenceF1": 0.111,
-        "areaAccuracy": 0.399,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.366,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.571,
         "presenceRecall": 1,
         "presenceF1": 0.727,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.049
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.136
       },
       "zkls_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.917,
-        "presenceF1": 0.957,
-        "areaAccuracy": 0.951,
+        "presencePrecision": 0.727,
+        "presenceRecall": 0.667,
+        "presenceF1": 0.696,
+        "areaAccuracy": 0.971,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.571,
         "presenceRecall": 1,
         "presenceF1": 0.727,
-        "areaAccuracy": 0.936,
-        "temporalAvailability": 0.58
+        "areaAccuracy": 0.957,
+        "temporalAvailability": 0.667
       },
       "zkls_full": {
-        "presencePrecision": 0.545,
+        "presencePrecision": 0.571,
         "presenceRecall": 1,
-        "presenceF1": 0.706,
+        "presenceF1": 0.727,
         "areaAccuracy": 0.833,
-        "temporalAvailability": 0.049
+        "temporalAvailability": 0.136
       }
     },
     {
@@ -3024,39 +3024,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.131,
-        "presenceF1": 0.232,
-        "areaAccuracy": 0.306,
+        "presencePrecision": 0.875,
+        "presenceRecall": 0.071,
+        "presenceF1": 0.131,
+        "areaAccuracy": 0.405,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.767,
         "presenceRecall": 1,
         "presenceF1": 0.868,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.042
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.496
       },
       "zkls_grid": {
-        "presencePrecision": 0.99,
-        "presenceRecall": 1,
-        "presenceF1": 0.995,
-        "areaAccuracy": 0.972,
+        "presencePrecision": 1,
+        "presenceRecall": 0.949,
+        "presenceF1": 0.974,
+        "areaAccuracy": 0.912,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.767,
         "presenceRecall": 1,
         "presenceF1": 0.868,
-        "areaAccuracy": 0.941,
-        "temporalAvailability": 0.475
+        "areaAccuracy": 0.83,
+        "temporalAvailability": 0.93
       },
       "zkls_full": {
         "presencePrecision": 0.767,
         "presenceRecall": 1,
         "presenceF1": 0.868,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.042
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.496
       }
     },
     {
@@ -3072,36 +3072,36 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.4,
+        "areaAccuracy": 0.304,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.133,
         "presenceRecall": 1,
         "presenceF1": 0.235,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.089
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.2
       },
       "zkls_grid": {
         "presencePrecision": 0.2,
         "presenceRecall": 0.5,
         "presenceF1": 0.286,
-        "areaAccuracy": 0.889,
+        "areaAccuracy": 0.881,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.133,
         "presenceRecall": 1,
         "presenceF1": 0.235,
-        "areaAccuracy": 0.906,
-        "temporalAvailability": 0.711
+        "areaAccuracy": 0.875,
+        "temporalAvailability": 0.822
       },
       "zkls_full": {
         "presencePrecision": 0.133,
         "presenceRecall": 1,
         "presenceF1": 0.235,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.089
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.2
       }
     },
     {
@@ -3117,7 +3117,7 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.344,
+        "areaAccuracy": 0.312,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -3125,28 +3125,28 @@
         "presenceRecall": 1,
         "presenceF1": 0.211,
         "areaAccuracy": 0.333,
-        "temporalAvailability": 0.049
+        "temporalAvailability": 0.117
       },
       "zkls_grid": {
-        "presencePrecision": 0.5,
+        "presencePrecision": 0.4,
         "presenceRecall": 1,
-        "presenceF1": 0.667,
-        "areaAccuracy": 0.939,
+        "presenceF1": 0.571,
+        "areaAccuracy": 0.87,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.118,
         "presenceRecall": 1,
         "presenceF1": 0.211,
-        "areaAccuracy": 0.931,
-        "temporalAvailability": 0.709
+        "areaAccuracy": 0.88,
+        "temporalAvailability": 0.777
       },
       "zkls_full": {
         "presencePrecision": 0.118,
         "presenceRecall": 1,
         "presenceF1": 0.211,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.049
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.117
       }
     },
     {
@@ -3159,10 +3159,10 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.4,
-        "presenceRecall": 0.167,
-        "presenceF1": 0.235,
-        "areaAccuracy": 0.395,
+        "presencePrecision": 0.333,
+        "presenceRecall": 0.083,
+        "presenceF1": 0.133,
+        "areaAccuracy": 0.328,
         "temporalAvailability": 1
       },
       "six_layer": {
@@ -3170,28 +3170,28 @@
         "presenceRecall": 1,
         "presenceF1": 0.286,
         "areaAccuracy": 0.333,
-        "temporalAvailability": 0.025
+        "temporalAvailability": 0.172
       },
       "zkls_grid": {
-        "presencePrecision": 0.846,
-        "presenceRecall": 0.917,
-        "presenceF1": 0.88,
-        "areaAccuracy": 0.922,
+        "presencePrecision": 0.923,
+        "presenceRecall": 1,
+        "presenceF1": 0.96,
+        "areaAccuracy": 0.928,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.167,
         "presenceRecall": 1,
         "presenceF1": 0.286,
-        "areaAccuracy": 0.907,
-        "temporalAvailability": 0.775
+        "areaAccuracy": 0.913,
+        "temporalAvailability": 0.922
       },
       "zkls_full": {
         "presencePrecision": 0.167,
         "presenceRecall": 1,
         "presenceF1": 0.286,
         "areaAccuracy": 1,
-        "temporalAvailability": 0.025
+        "temporalAvailability": 0.172
       }
     },
     {
@@ -3204,39 +3204,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.317,
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.143,
+        "presenceF1": 0.211,
+        "areaAccuracy": 0.365,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.378,
         "presenceRecall": 1,
         "presenceF1": 0.549,
-        "areaAccuracy": 0.583,
-        "temporalAvailability": 0.041
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.167
       },
       "zkls_grid": {
-        "presencePrecision": 0.7,
-        "presenceRecall": 1,
-        "presenceF1": 0.824,
-        "areaAccuracy": 0.887,
+        "presencePrecision": 0.75,
+        "presenceRecall": 0.857,
+        "presenceF1": 0.8,
+        "areaAccuracy": 0.911,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.378,
         "presenceRecall": 1,
         "presenceF1": 0.549,
-        "areaAccuracy": 0.874,
-        "temporalAvailability": 0.706
+        "areaAccuracy": 0.884,
+        "temporalAvailability": 0.833
       },
       "zkls_full": {
         "presencePrecision": 0.378,
         "presenceRecall": 1,
         "presenceF1": 0.549,
         "areaAccuracy": 0.833,
-        "temporalAvailability": 0.041
+        "temporalAvailability": 0.167
       }
     },
     {
@@ -3252,36 +3252,36 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.369,
+        "areaAccuracy": 0.336,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.098
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.352
       },
       "zkls_grid": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.967,
+        "areaAccuracy": 0.992,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.952,
-        "temporalAvailability": 0.68
+        "areaAccuracy": 0.988,
+        "temporalAvailability": 0.934
       },
       "zkls_full": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.833,
-        "temporalAvailability": 0.098
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.352
       }
     },
     {
@@ -3294,39 +3294,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.667,
-        "presenceRecall": 0.03,
-        "presenceF1": 0.057,
-        "areaAccuracy": 0.359,
+        "presencePrecision": 1,
+        "presenceRecall": 0.045,
+        "presenceF1": 0.086,
+        "areaAccuracy": 0.337,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.753,
         "presenceRecall": 1,
         "presenceF1": 0.859,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.03
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.256
       },
       "zkls_grid": {
-        "presencePrecision": 0.985,
-        "presenceRecall": 0.97,
-        "presenceF1": 0.977,
-        "areaAccuracy": 0.873,
+        "presencePrecision": 1,
+        "presenceRecall": 0.94,
+        "presenceF1": 0.969,
+        "areaAccuracy": 0.916,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.753,
         "presenceRecall": 1,
         "presenceF1": 0.859,
-        "areaAccuracy": 0.827,
-        "temporalAvailability": 0.716
+        "areaAccuracy": 0.883,
+        "temporalAvailability": 0.942
       },
       "zkls_full": {
         "presencePrecision": 0.753,
         "presenceRecall": 1,
         "presenceF1": 0.859,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.03
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.256
       }
     },
     {
@@ -3339,24 +3339,24 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 1,
-        "presenceRecall": 0.071,
-        "presenceF1": 0.133,
-        "areaAccuracy": 0.41,
+        "presencePrecision": 0.778,
+        "presenceRecall": 0.167,
+        "presenceF1": 0.275,
+        "areaAccuracy": 0.388,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.875,
         "presenceRecall": 1,
         "presenceF1": 0.933,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.09
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.448
       },
       "zkls_grid": {
-        "presencePrecision": 0.5,
-        "presenceRecall": 0.333,
-        "presenceF1": 0.4,
-        "areaAccuracy": 0.963,
+        "presencePrecision": 0.875,
+        "presenceRecall": 1,
+        "presenceF1": 0.933,
+        "areaAccuracy": 0.94,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
@@ -3364,14 +3364,14 @@
         "presenceRecall": 1,
         "presenceF1": 0.933,
         "areaAccuracy": 0.885,
-        "temporalAvailability": 0.194
+        "temporalAvailability": 0.552
       },
       "zkls_full": {
         "presencePrecision": 0.875,
         "presenceRecall": 1,
         "presenceF1": 0.933,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.09
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.448
       }
     },
     {
@@ -3384,39 +3384,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.167,
-        "presenceRecall": 0.167,
-        "presenceF1": 0.167,
-        "areaAccuracy": 0.348,
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.333,
+        "presenceF1": 0.364,
+        "areaAccuracy": 0.38,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.032
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.049
       },
       "zkls_grid": {
-        "presencePrecision": 0.333,
-        "presenceRecall": 0.667,
-        "presenceF1": 0.444,
-        "areaAccuracy": 0.892,
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.5,
+        "presenceF1": 0.5,
+        "areaAccuracy": 0.881,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.872,
-        "temporalAvailability": 0.844
+        "areaAccuracy": 0.859,
+        "temporalAvailability": 0.86
       },
       "zkls_full": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.917,
-        "temporalAvailability": 0.032
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.049
       }
     },
     {
@@ -3429,39 +3429,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0,
-        "presenceRecall": 0,
-        "presenceF1": 0,
-        "areaAccuracy": 0.374,
+        "presencePrecision": 1,
+        "presenceRecall": 0.5,
+        "presenceF1": 0.667,
+        "areaAccuracy": 0.357,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.143,
         "presenceRecall": 1,
         "presenceF1": 0.25,
-        "areaAccuracy": 0.5,
-        "temporalAvailability": 0.104
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.226
       },
       "zkls_grid": {
         "presencePrecision": 1,
-        "presenceRecall": 1,
-        "presenceF1": 1,
-        "areaAccuracy": 0.896,
+        "presenceRecall": 0.5,
+        "presenceF1": 0.667,
+        "areaAccuracy": 0.948,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.143,
         "presenceRecall": 1,
         "presenceF1": 0.25,
-        "areaAccuracy": 0.949,
-        "temporalAvailability": 0.852
+        "areaAccuracy": 0.969,
+        "temporalAvailability": 0.974
       },
       "zkls_full": {
         "presencePrecision": 0.143,
         "presenceRecall": 1,
         "presenceF1": 0.25,
         "areaAccuracy": 0.917,
-        "temporalAvailability": 0.104
+        "temporalAvailability": 0.226
       }
     },
     {
@@ -3474,39 +3474,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.8,
+        "presencePrecision": 1,
         "presenceRecall": 0.075,
-        "presenceF1": 0.138,
-        "areaAccuracy": 0.405,
+        "presenceF1": 0.14,
+        "areaAccuracy": 0.436,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.055
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.295
       },
       "zkls_grid": {
-        "presencePrecision": 0.786,
-        "presenceRecall": 0.208,
-        "presenceF1": 0.328,
-        "areaAccuracy": 0.932,
+        "presencePrecision": 0.895,
+        "presenceRecall": 0.962,
+        "presenceF1": 0.927,
+        "areaAccuracy": 0.895,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.898,
-        "temporalAvailability": 0.668
+        "areaAccuracy": 0.844,
+        "temporalAvailability": 0.909
       },
       "zkls_full": {
         "presencePrecision": 1,
         "presenceRecall": 1,
         "presenceF1": 1,
-        "areaAccuracy": 0.75,
-        "temporalAvailability": 0.055
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.295
       }
     },
     {
@@ -3519,39 +3519,39 @@
         "temporalAvailability": 1
       },
       "laplace_grid": {
-        "presencePrecision": 0.333,
-        "presenceRecall": 0.167,
-        "presenceF1": 0.222,
-        "areaAccuracy": 0.32,
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.35,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.286,
         "presenceRecall": 1,
         "presenceF1": 0.444,
-        "areaAccuracy": 0.333,
-        "temporalAvailability": 0.03
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.083
       },
       "zkls_grid": {
-        "presencePrecision": 0.5,
+        "presencePrecision": 0.556,
         "presenceRecall": 0.833,
-        "presenceF1": 0.625,
-        "areaAccuracy": 0.793,
+        "presenceF1": 0.667,
+        "areaAccuracy": 0.859,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.286,
         "presenceRecall": 1,
         "presenceF1": 0.444,
-        "areaAccuracy": 0.706,
-        "temporalAvailability": 0.617
+        "areaAccuracy": 0.808,
+        "temporalAvailability": 0.67
       },
       "zkls_full": {
         "presencePrecision": 0.286,
         "presenceRecall": 1,
         "presenceF1": 0.444,
-        "areaAccuracy": 0.583,
-        "temporalAvailability": 0.03
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.083
       }
     },
     {
@@ -3567,36 +3567,36 @@
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.322,
+        "areaAccuracy": 0.3,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.417,
-        "temporalAvailability": 0.053
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.062
       },
       "zkls_grid": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.863,
+        "areaAccuracy": 0.841,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
-        "areaAccuracy": 0.882,
-        "temporalAvailability": 0.824
+        "areaAccuracy": 0.898,
+        "temporalAvailability": 0.833
       },
       "zkls_full": {
         "presencePrecision": 0,
         "presenceRecall": 0,
         "presenceF1": 0,
         "areaAccuracy": 0.917,
-        "temporalAvailability": 0.053
+        "temporalAvailability": 0.062
       }
     },
     {
@@ -3612,36 +3612,36 @@
         "presencePrecision": 1,
         "presenceRecall": 0.053,
         "presenceF1": 0.1,
-        "areaAccuracy": 0.327,
+        "areaAccuracy": 0.363,
         "temporalAvailability": 1
       },
       "six_layer": {
         "presencePrecision": 0.297,
         "presenceRecall": 1,
         "presenceF1": 0.458,
-        "areaAccuracy": 0.667,
-        "temporalAvailability": 0.053
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.336
       },
       "zkls_grid": {
-        "presencePrecision": 0.842,
-        "presenceRecall": 0.842,
-        "presenceF1": 0.842,
-        "areaAccuracy": 0.885,
+        "presencePrecision": 0.905,
+        "presenceRecall": 1,
+        "presenceF1": 0.95,
+        "areaAccuracy": 0.863,
         "temporalAvailability": 1
       },
       "zkls_grid_zones": {
         "presencePrecision": 0.297,
         "presenceRecall": 1,
         "presenceF1": 0.458,
-        "areaAccuracy": 0.836,
-        "temporalAvailability": 0.513
+        "areaAccuracy": 0.81,
+        "temporalAvailability": 0.796
       },
       "zkls_full": {
         "presencePrecision": 0.297,
         "presenceRecall": 1,
         "presenceF1": 0.458,
         "areaAccuracy": 1,
-        "temporalAvailability": 0.053
+        "temporalAvailability": 0.336
       }
     }
   ]

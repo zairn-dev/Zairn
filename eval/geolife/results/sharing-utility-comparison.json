@@ -1,0 +1,56 @@
+{
+  "raw": {
+    "task1_atHome": 96,
+    "task2_atWork": 96.5,
+    "task3_neighborhood": 100,
+    "availability": 100,
+    "depLatencyMedian": 0,
+    "depWithin1h": 100,
+    "depEvents": 1742
+  },
+  "laplace_grid": {
+    "task1_atHome": 84.4,
+    "task2_atWork": 86.5,
+    "task3_neighborhood": 34.8,
+    "availability": 100,
+    "depLatencyMedian": 0,
+    "depWithin1h": 100,
+    "depEvents": 1742
+  },
+  "zkls_grid": {
+    "task1_atHome": 93.6,
+    "task2_atWork": 94.9,
+    "task3_neighborhood": 85.9,
+    "availability": 100,
+    "depLatencyMedian": 0,
+    "depWithin1h": 100,
+    "depEvents": 1742
+  },
+  "zkls_grid_zones": {
+    "task1_atHome": 94.4,
+    "task2_atWork": 86,
+    "task3_neighborhood": 87.5,
+    "availability": 76.9,
+    "depLatencyMedian": 0,
+    "depWithin1h": 83,
+    "depEvents": 1087
+  },
+  "six_layer": {
+    "task1_atHome": 94.4,
+    "task2_atWork": 86,
+    "task3_neighborhood": 36.7,
+    "availability": 26.8,
+    "depLatencyMedian": 0,
+    "depWithin1h": 77,
+    "depEvents": 98
+  },
+  "zkls_full": {
+    "task1_atHome": 94.4,
+    "task2_atWork": 86,
+    "task3_neighborhood": 86.5,
+    "availability": 26.8,
+    "depLatencyMedian": 0,
+    "depWithin1h": 76,
+    "depEvents": 101
+  }
+}

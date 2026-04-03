@@ -108,8 +108,8 @@ function convergence(obs, targetLat, targetLon, dayCheckpoints = [1, 7, 14, 30, 
 // ============================================================
 // Apply 6 methods to a user's trace
 // ============================================================
-function evaluateUser(locs, home, work) {
-  const userSeed = SEED + '-' + Math.random().toString(36).slice(2);
+function evaluateUser(locs, home, work, userId) {
+  const userSeed = SEED + '-' + userId;
 
   // Build sensitive places from ground-truth home/work.
   // This models the realistic scenario where the user registers
@@ -239,7 +239,7 @@ async function main() {
   for (const user of usersMeta) {
     const locs = JSON.parse(await readFile(join(PROCESSED_DIR, `${user.userId}.json`), 'utf-8'));
 
-    const result = evaluateUser(locs, user.home, user.work);
+    const result = evaluateUser(locs, user.home, user.work, user.userId);
     allResults.push({
       userId: user.userId,
       coverage: user.coverage,

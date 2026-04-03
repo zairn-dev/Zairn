@@ -1,0 +1,41 @@
+{
+  "proximity": {
+    "pairsChecked": 200,
+    "observations": 16907,
+    "tp": 38,
+    "fp": 21,
+    "fn": 1551,
+    "tn": 15297,
+    "precision": 0.644,
+    "recall": 0.024,
+    "f1": 0.046
+  },
+  "departure": {
+    "events": 97,
+    "medianHours": 0,
+    "p25Hours": 0,
+    "p75Hours": 1,
+    "p95Hours": 20,
+    "within1h": 76,
+    "within2h": 79,
+    "within4h": 80
+  },
+  "tasks": {
+    "task1_atHome": {
+      "correct": 8247,
+      "total": 8740,
+      "accuracy": 94.4
+    },
+    "task2_atWork": {
+      "correct": 6299,
+      "total": 7326,
+      "accuracy": 86
+    },
+    "task3_neighborhood": {
+      "correct": 317,
+      "total": 935,
+      "answerable": 935,
+      "accuracy": 33.9
+    }
+  }
+}

@@ -60,8 +60,8 @@ function buildSensitivePlaces(home, work) {
  * - output coordinates (or null if suppressed)
  * - whether the user is classified as "at home" (state)
  */
-function applyMethods(locs, home, work) {
-  const userSeed = SEED + '-u' + Math.random().toString(36).slice(2, 8);
+function applyMethods(locs, home, work, userId) {
+  const userSeed = SEED + '-' + userId;
   const sensitivePlaces = buildSensitivePlaces(home, work);
 
   const reporters = {
@@ -154,8 +154,9 @@ function computeUtility(observations, home) {
     for (const obs of observations) {
       const def = obs[m];
 
-      // Temporal availability
-      if (!def.suppressed) available++;
+      // Temporal availability: state-only (at_place/core) counts as available
+      // buffer zone suppression and budget exhaustion do NOT count
+      if (!def.suppressed || def.state === 'at_place' || def.state === 'core') available++;
 
       // Presence: "at home" detection
       // For suppressed with state 'at_place' or 'core', infer at-home if it's a home zone
@@ -215,7 +216,7 @@ async function main() {
   let done = 0;
   for (const user of usersMeta) {
     const locs = JSON.parse(await readFile(join(PROCESSED_DIR, `${user.userId}.json`), 'utf-8'));
-    const observations = applyMethods(locs, user.home, user.work);
+    const observations = applyMethods(locs, user.home, user.work, user.userId);
     const utility = computeUtility(observations, user.home);
     allUtility.push({ userId: user.userId, ...utility });
     done++;

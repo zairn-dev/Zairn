@@ -1,43 +1,43 @@
 {
   "summary": {
     "full": {
-      "medianError": 6413,
-      "p25Error": 4017,
-      "p75Error": 19819,
+      "medianError": 10669,
+      "p25Error": 5009,
+      "p75Error": 26363,
       "exposedCount": 0,
       "riskyCount": 0,
       "medianObsReduction": 95.5
     },
     "no_laplace": {
-      "medianError": 6189,
-      "p25Error": 3056,
-      "p75Error": 22146,
+      "medianError": 6739,
+      "p25Error": 3288,
+      "p75Error": 22017,
       "exposedCount": 0,
       "riskyCount": 0,
       "medianObsReduction": 95.6
     },
     "no_grid": {
-      "medianError": 4479,
-      "p25Error": 2980,
-      "p75Error": 11173,
+      "medianError": 4592,
+      "p25Error": 1893,
+      "p75Error": 9781,
       "exposedCount": 0,
       "riskyCount": 0,
       "medianObsReduction": 99.6
     },
     "no_zones": {
-      "medianError": 4140,
-      "p25Error": 881,
-      "p75Error": 14103,
+      "medianError": 3083,
+      "p25Error": 927,
+      "p75Error": 12549,
       "exposedCount": 2,
-      "riskyCount": 9,
+      "riskyCount": 5,
       "medianObsReduction": 95.5
     },
     "no_adaptive": {
-      "medianError": 6870,
-      "p25Error": 2995,
-      "p75Error": 17629,
+      "medianError": 5448,
+      "p25Error": 2789,
+      "p75Error": 13554,
       "exposedCount": 0,
-      "riskyCount": 0,
+      "riskyCount": 1,
       "medianObsReduction": 47.5
     },
     "none": {
@@ -53,154 +53,154 @@
     "full": [
       {
         "userId": "000",
-        "homeError": null,
-        "nightObs": 0,
+        "homeError": 7478,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "98.0"
       },
       {
         "userId": "001",
-        "homeError": 1775,
+        "homeError": 4931,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.6"
       },
       {
         "userId": "002",
-        "homeError": 10564,
-        "nightObs": 2,
+        "homeError": 17253,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.0"
       },
       {
         "userId": "003",
-        "homeError": 8614,
-        "nightObs": 3,
+        "homeError": 26485,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "98.2"
       },
       {
         "userId": "004",
-        "homeError": 464859,
-        "nightObs": 3,
+        "homeError": 464170,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "98.2"
       },
       {
         "userId": "005",
-        "homeError": 5340,
+        "homeError": 16529,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "96.1"
       },
       {
         "userId": "006",
-        "homeError": 15460,
+        "homeError": 4740,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "88.9"
       },
       {
         "userId": "007",
-        "homeError": 31400,
+        "homeError": 30661,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "008",
-        "homeError": 1394,
+        "homeError": 3436,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.5"
       },
       {
         "userId": "009",
-        "homeError": 12904,
-        "nightObs": 2,
-        "totalObs": 11,
-        "obsReduction": "95.4"
+        "homeError": 23611,
+        "nightObs": 1,
+        "totalObs": 12,
+        "obsReduction": "95.0"
       },
       {
         "userId": "010",
-        "homeError": 107997,
-        "nightObs": 1,
+        "homeError": 108067,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "011",
-        "homeError": 9547,
+        "homeError": 7118,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.1"
       },
       {
         "userId": "012",
-        "homeError": 6393,
+        "homeError": 10715,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "96.4"
       },
       {
         "userId": "013",
-        "homeError": 161432,
+        "homeError": 159969,
         "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "95.5"
       },
       {
         "userId": "014",
-        "homeError": 25124,
-        "nightObs": 1,
+        "homeError": 23083,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "97.4"
       },
       {
         "userId": "015",
-        "homeError": 1815,
-        "nightObs": 4,
+        "homeError": 1667,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "93.1"
       },
       {
         "userId": "016",
-        "homeError": 1769,
+        "homeError": 3792,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "93.9"
       },
       {
         "userId": "017",
-        "homeError": 6424,
+        "homeError": 7551,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "98.3"
       },
       {
         "userId": "018",
-        "homeError": 14574,
+        "homeError": 15809,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "92.4"
       },
       {
         "userId": "019",
-        "homeError": 5726,
+        "homeError": 5087,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "92.1"
       },
       {
         "userId": "020",
-        "homeError": 2847,
-        "nightObs": 4,
+        "homeError": 1995,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "93.9"
       },
       {
         "userId": "022",
-        "homeError": 3057,
+        "homeError": 2786,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "98.2"
@@ -214,260 +214,260 @@
       },
       {
         "userId": "024",
-        "homeError": 18615,
-        "nightObs": 1,
+        "homeError": 26363,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "97.5"
       },
       {
         "userId": "025",
-        "homeError": 3045,
-        "nightObs": 2,
+        "homeError": 5617,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "98.1"
       },
       {
         "userId": "026",
-        "homeError": 7884,
+        "homeError": 16049,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.0"
       },
       {
         "userId": "028",
-        "homeError": 244135,
+        "homeError": 243656,
         "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "029",
-        "homeError": 2061,
-        "nightObs": 1,
+        "homeError": 7278,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "88.6"
       },
       {
         "userId": "030",
-        "homeError": 4183,
+        "homeError": 14819,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "98.0"
       },
       {
         "userId": "033",
-        "homeError": 4237,
-        "nightObs": 3,
+        "homeError": 3332,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "88.6"
       },
       {
         "userId": "034",
-        "homeError": 5881,
-        "nightObs": 4,
+        "homeError": 7419,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "96.5"
       },
       {
         "userId": "035",
-        "homeError": 2013,
+        "homeError": 5009,
         "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "98.5"
       },
       {
         "userId": "036",
-        "homeError": 1837425,
+        "homeError": 1838660,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "96.5"
       },
       {
         "userId": "037",
-        "homeError": 6413,
+        "homeError": 3842,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "96.9"
       },
       {
         "userId": "038",
-        "homeError": 11603,
+        "homeError": 10043,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.5"
       },
       {
         "userId": "039",
-        "homeError": 11198,
-        "nightObs": 3,
+        "homeError": 10669,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "98.1"
       },
       {
         "userId": "040",
-        "homeError": 4210,
-        "nightObs": 2,
+        "homeError": 5852,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "90.8"
       },
       {
         "userId": "041",
-        "homeError": 22516,
-        "nightObs": 2,
+        "homeError": 31520,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "98.6"
       },
       {
         "userId": "042",
-        "homeError": 23720,
-        "nightObs": 2,
+        "homeError": 23086,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "96.6"
       },
       {
         "userId": "043",
-        "homeError": 4399,
-        "nightObs": 1,
+        "homeError": 1778,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "90.2"
       },
       {
         "userId": "044",
-        "homeError": 4848,
-        "nightObs": 4,
+        "homeError": 5510,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "94.2"
       },
       {
         "userId": "050",
-        "homeError": 15595,
-        "nightObs": 2,
+        "homeError": 14982,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "96.2"
       },
       {
         "userId": "051",
-        "homeError": 1017150,
+        "homeError": 1017656,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "94.1"
       },
       {
         "userId": "052",
-        "homeError": 5502,
+        "homeError": 3487,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.8"
       },
       {
         "userId": "062",
-        "homeError": 327259,
+        "homeError": 329588,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.9"
       },
       {
         "userId": "065",
-        "homeError": null,
-        "nightObs": 0,
+        "homeError": 3964,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.8"
       },
       {
         "userId": "067",
-        "homeError": 9561,
-        "nightObs": 4,
+        "homeError": 7256,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "95.9"
       },
       {
         "userId": "068",
-        "homeError": 4983,
-        "nightObs": 1,
+        "homeError": 5379,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "97.6"
       },
       {
         "userId": "071",
-        "homeError": 1365,
-        "nightObs": 9,
+        "homeError": 2968,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "91.5"
       },
       {
         "userId": "073",
-        "homeError": 5139,
-        "nightObs": 6,
+        "homeError": 6393,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "91.8"
       },
       {
         "userId": "074",
-        "homeError": 9067,
+        "homeError": 9001,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.5"
       },
       {
         "userId": "078",
-        "homeError": 273588,
+        "homeError": 27259,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "88.3"
       },
       {
         "userId": "082",
-        "homeError": 4082,
+        "homeError": 2927,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.1"
       },
       {
         "userId": "084",
-        "homeError": 2733,
-        "nightObs": 3,
+        "homeError": 1646,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "96.9"
       },
       {
         "userId": "085",
-        "homeError": 6296,
+        "homeError": 11893,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "97.1"
       },
       {
         "userId": "089",
-        "homeError": 46724,
+        "homeError": 46608,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.4"
       },
       {
         "userId": "091",
-        "homeError": 2488,
-        "nightObs": 2,
+        "homeError": 1339,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "93.0"
       },
       {
         "userId": "092",
-        "homeError": 8697,
+        "homeError": 9313,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.2"
       },
       {
         "userId": "096",
-        "homeError": 3683,
-        "nightObs": 4,
+        "homeError": 3207,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "94.3"
       },
       {
         "userId": "101",
-        "homeError": 895597,
-        "nightObs": 2,
+        "homeError": 896431,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "88.3"
       },
@@ -480,120 +480,120 @@
       },
       {
         "userId": "111",
-        "homeError": 38833,
-        "nightObs": 2,
+        "homeError": 36921,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "90.6"
       },
       {
         "userId": "112",
-        "homeError": 4584,
+        "homeError": 29507,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "115",
-        "homeError": 24218,
+        "homeError": 24856,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.1"
       },
       {
         "userId": "119",
-        "homeError": 1978,
-        "nightObs": 5,
+        "homeError": 13936,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "95.8"
       },
       {
         "userId": "125",
-        "homeError": 1528,
+        "homeError": 17907,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.1"
       },
       {
         "userId": "126",
-        "homeError": 5360,
+        "homeError": 28326,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.1"
       },
       {
         "userId": "128",
-        "homeError": 78240,
+        "homeError": 76757,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.5"
       },
       {
         "userId": "140",
-        "homeError": 2389,
-        "nightObs": 2,
+        "homeError": 15281,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.9"
       },
       {
         "userId": "142",
-        "homeError": 1114,
-        "nightObs": 2,
+        "homeError": 2567,
+        "nightObs": 7,
         "totalObs": 12,
         "obsReduction": "90.2"
       },
       {
         "userId": "144",
-        "homeError": 436550,
+        "homeError": 435850,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.0"
       },
       {
         "userId": "147",
-        "homeError": 4017,
-        "nightObs": 1,
+        "homeError": null,
+        "nightObs": 0,
         "totalObs": 12,
         "obsReduction": "91.0"
       },
       {
         "userId": "153",
-        "homeError": 5531,
+        "homeError": 5727,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "96.8"
       },
       {
         "userId": "155",
-        "homeError": 14331,
+        "homeError": 10930,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "89.6"
       },
       {
         "userId": "163",
-        "homeError": 1867,
-        "nightObs": 2,
+        "homeError": 17210,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.5"
       },
       {
         "userId": "167",
-        "homeError": null,
-        "nightObs": 0,
+        "homeError": 5862,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.0"
       },
       {
         "userId": "168",
-        "homeError": 19819,
+        "homeError": 19578,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.7"
       },
       {
         "userId": "179",
-        "homeError": 8141,
-        "nightObs": 1,
+        "homeError": 6568,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.7"
       }
@@ -608,308 +608,308 @@
       },
       {
         "userId": "001",
-        "homeError": 2988,
+        "homeError": 3003,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "95.6"
       },
       {
         "userId": "002",
-        "homeError": 11381,
-        "nightObs": 3,
+        "homeError": 11400,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "97.0"
       },
       {
         "userId": "003",
-        "homeError": 6189,
+        "homeError": 8020,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "98.2"
       },
       {
         "userId": "004",
-        "homeError": 463347,
-        "nightObs": 3,
+        "homeError": 463886,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "98.2"
       },
       {
         "userId": "005",
-        "homeError": 1462,
+        "homeError": 1333,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "96.1"
       },
       {
         "userId": "006",
-        "homeError": 15202,
+        "homeError": 15227,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "88.9"
       },
       {
         "userId": "007",
-        "homeError": 30706,
-        "nightObs": 3,
+        "homeError": 30505,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "008",
-        "homeError": 2691,
+        "homeError": 2672,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.5"
       },
       {
         "userId": "009",
-        "homeError": 12104,
+        "homeError": 12132,
         "nightObs": 2,
         "totalObs": 8,
         "obsReduction": "96.7"
       },
       {
         "userId": "010",
-        "homeError": 107970,
+        "homeError": 108292,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "011",
-        "homeError": 5545,
+        "homeError": 5500,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "95.1"
       },
       {
         "userId": "012",
-        "homeError": 6183,
+        "homeError": 5982,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "96.4"
       },
       {
         "userId": "013",
-        "homeError": 160699,
-        "nightObs": 4,
+        "homeError": 160781,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "95.5"
       },
       {
         "userId": "014",
-        "homeError": 25071,
+        "homeError": 24880,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "97.4"
       },
       {
         "userId": "015",
-        "homeError": 1731,
-        "nightObs": 4,
+        "homeError": 1951,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "93.1"
       },
       {
         "userId": "016",
-        "homeError": 2765,
+        "homeError": 2826,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "93.9"
       },
       {
         "userId": "017",
-        "homeError": 6728,
+        "homeError": 6739,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "98.3"
       },
       {
         "userId": "018",
-        "homeError": 14587,
+        "homeError": 14482,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "92.4"
       },
       {
         "userId": "019",
-        "homeError": 5404,
+        "homeError": 5622,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "92.1"
       },
       {
         "userId": "020",
-        "homeError": 2290,
-        "nightObs": 6,
+        "homeError": 2120,
+        "nightObs": 5,
         "totalObs": 12,
         "obsReduction": "93.9"
       },
       {
         "userId": "022",
-        "homeError": 2692,
+        "homeError": 2766,
         "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "98.2"
       },
       {
         "userId": "023",
-        "homeError": 2049239,
+        "homeError": 2049176,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.2"
       },
       {
         "userId": "024",
-        "homeError": 25896,
+        "homeError": 25674,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "97.5"
       },
       {
         "userId": "025",
-        "homeError": 2260,
+        "homeError": 3652,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "98.1"
       },
       {
         "userId": "026",
-        "homeError": 7719,
+        "homeError": 7404,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.0"
       },
       {
         "userId": "028",
-        "homeError": 2825,
+        "homeError": 2705,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "029",
-        "homeError": 3642,
+        "homeError": 3630,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "88.6"
       },
       {
         "userId": "030",
-        "homeError": 4534,
+        "homeError": 4458,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "98.0"
       },
       {
         "userId": "033",
-        "homeError": 641,
+        "homeError": 781,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "88.6"
       },
       {
         "userId": "034",
-        "homeError": 6780,
+        "homeError": 6903,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "96.5"
       },
       {
         "userId": "035",
-        "homeError": 3650,
+        "homeError": 3614,
         "nightObs": 6,
         "totalObs": 12,
         "obsReduction": "98.5"
       },
       {
         "userId": "036",
-        "homeError": 1839161,
+        "homeError": 1839155,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "96.5"
       },
       {
         "userId": "037",
-        "homeError": 4737,
+        "homeError": 4836,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "96.9"
       },
       {
         "userId": "038",
-        "homeError": 2067,
+        "homeError": 2274,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.5"
       },
       {
         "userId": "039",
-        "homeError": 9956,
+        "homeError": 10014,
         "nightObs": 5,
         "totalObs": 12,
         "obsReduction": "98.1"
       },
       {
         "userId": "040",
-        "homeError": 4002,
-        "nightObs": 2,
+        "homeError": 4079,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "90.8"
       },
       {
         "userId": "041",
-        "homeError": 21347,
+        "homeError": 21183,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "98.6"
       },
       {
         "userId": "042",
-        "homeError": 24261,
+        "homeError": 24362,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "96.6"
       },
       {
         "userId": "043",
-        "homeError": 2718,
+        "homeError": 2776,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "90.2"
       },
       {
         "userId": "044",
-        "homeError": 5255,
+        "homeError": 5265,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.2"
       },
       {
         "userId": "050",
-        "homeError": 22146,
+        "homeError": 22017,
         "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "96.2"
       },
       {
         "userId": "051",
-        "homeError": 1017846,
+        "homeError": 1017893,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.1"
       },
       {
         "userId": "052",
-        "homeError": 4201,
+        "homeError": 4197,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.8"
       },
       {
         "userId": "062",
-        "homeError": 330228,
+        "homeError": 330210,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.9"
@@ -923,29 +923,29 @@
       },
       {
         "userId": "067",
-        "homeError": 8189,
-        "nightObs": 3,
+        "homeError": 8166,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "95.9"
       },
       {
         "userId": "068",
-        "homeError": 3645,
+        "homeError": 3778,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.6"
       },
       {
         "userId": "071",
-        "homeError": 2081,
-        "nightObs": 5,
+        "homeError": 2020,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "91.5"
       },
       {
         "userId": "073",
-        "homeError": 5485,
-        "nightObs": 3,
+        "homeError": 4919,
+        "nightObs": 5,
         "totalObs": 12,
         "obsReduction": "91.8"
       },
@@ -958,64 +958,64 @@
       },
       {
         "userId": "078",
-        "homeError": 268120,
+        "homeError": 268342,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "88.3"
       },
       {
         "userId": "082",
-        "homeError": 8686,
+        "homeError": 8531,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.1"
       },
       {
         "userId": "084",
-        "homeError": 21130,
+        "homeError": 21096,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "96.9"
       },
       {
         "userId": "085",
-        "homeError": 13022,
-        "nightObs": 3,
+        "homeError": 13058,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "97.1"
       },
       {
         "userId": "089",
-        "homeError": 47082,
+        "homeError": 46992,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.4"
       },
       {
         "userId": "091",
-        "homeError": 1780,
+        "homeError": 1665,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "93.0"
       },
       {
         "userId": "092",
-        "homeError": 10046,
-        "nightObs": 1,
+        "homeError": 10237,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.2"
       },
       {
         "userId": "096",
-        "homeError": 3201,
+        "homeError": 3288,
         "nightObs": 5,
         "totalObs": 12,
         "obsReduction": "94.3"
       },
       {
         "userId": "101",
-        "homeError": 895900,
-        "nightObs": 2,
+        "homeError": 895858,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "88.3"
       },
@@ -1028,98 +1028,98 @@
       },
       {
         "userId": "111",
-        "homeError": 38061,
+        "homeError": 38002,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "90.6"
       },
       {
         "userId": "112",
-        "homeError": 4561,
+        "homeError": 4634,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "115",
-        "homeError": 25450,
+        "homeError": 25327,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.1"
       },
       {
         "userId": "119",
-        "homeError": 2354,
+        "homeError": 2272,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "95.8"
       },
       {
         "userId": "125",
-        "homeError": 1324,
+        "homeError": 1209,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.1"
       },
       {
         "userId": "126",
-        "homeError": 6113,
+        "homeError": 6081,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.1"
       },
       {
         "userId": "128",
-        "homeError": 77947,
+        "homeError": 77716,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.5"
       },
       {
         "userId": "140",
-        "homeError": 1789,
+        "homeError": 1667,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "95.9"
       },
       {
         "userId": "142",
-        "homeError": 3056,
-        "nightObs": 5,
+        "homeError": 2780,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "90.2"
       },
       {
         "userId": "144",
-        "homeError": 436778,
+        "homeError": 436774,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.0"
       },
       {
         "userId": "147",
-        "homeError": 3928,
+        "homeError": 4449,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.0"
       },
       {
         "userId": "153",
-        "homeError": 4164,
+        "homeError": 4867,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "96.8"
       },
       {
         "userId": "155",
-        "homeError": 11882,
+        "homeError": 11774,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "89.6"
       },
       {
         "userId": "163",
-        "homeError": 2089,
+        "homeError": 1838,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.5"
@@ -1133,14 +1133,14 @@
       },
       {
         "userId": "168",
-        "homeError": 18827,
+        "homeError": 18621,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.7"
       },
       {
         "userId": "179",
-        "homeError": 5894,
+        "homeError": 5673,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.7"
@@ -1156,7 +1156,7 @@
       },
       {
         "userId": "001",
-        "homeError": 3407,
+        "homeError": 3740,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.6"
@@ -1170,14 +1170,14 @@
       },
       {
         "userId": "003",
-        "homeError": 6874,
+        "homeError": 6463,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.8"
       },
       {
         "userId": "004",
-        "homeError": 463171,
+        "homeError": 461341,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.9"
@@ -1198,7 +1198,7 @@
       },
       {
         "userId": "007",
-        "homeError": 29570,
+        "homeError": 30324,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.6"
@@ -1233,14 +1233,14 @@
       },
       {
         "userId": "012",
-        "homeError": 5769,
+        "homeError": 6042,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.7"
       },
       {
         "userId": "013",
-        "homeError": 3074,
+        "homeError": 1321,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.6"
@@ -1261,7 +1261,7 @@
       },
       {
         "userId": "016",
-        "homeError": 827,
+        "homeError": 6602,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.5"
@@ -1282,21 +1282,21 @@
       },
       {
         "userId": "019",
-        "homeError": 4479,
+        "homeError": 4592,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.3"
       },
       {
         "userId": "020",
-        "homeError": 2528,
+        "homeError": 1494,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.5"
       },
       {
         "userId": "022",
-        "homeError": 1430,
+        "homeError": 2185,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.8"
@@ -1317,7 +1317,7 @@
       },
       {
         "userId": "025",
-        "homeError": 4758,
+        "homeError": 6148,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.8"
@@ -1331,7 +1331,7 @@
       },
       {
         "userId": "028",
-        "homeError": 4456,
+        "homeError": 1806,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.6"
@@ -1352,14 +1352,14 @@
       },
       {
         "userId": "033",
-        "homeError": 1518,
+        "homeError": 1893,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.0"
       },
       {
         "userId": "034",
-        "homeError": 8461,
+        "homeError": 6379,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.7"
@@ -1373,7 +1373,7 @@
       },
       {
         "userId": "036",
-        "homeError": 1841446,
+        "homeError": 1836280,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.7"
@@ -1394,7 +1394,7 @@
       },
       {
         "userId": "039",
-        "homeError": 11173,
+        "homeError": 9781,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.8"
@@ -1415,14 +1415,14 @@
       },
       {
         "userId": "042",
-        "homeError": 25087,
+        "homeError": 22398,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.7"
       },
       {
         "userId": "043",
-        "homeError": 2047,
+        "homeError": 3227,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.2"
@@ -1471,7 +1471,7 @@
       },
       {
         "userId": "067",
-        "homeError": 5319,
+        "homeError": 2796,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.7"
@@ -1485,7 +1485,7 @@
       },
       {
         "userId": "071",
-        "homeError": 4044,
+        "homeError": 1492,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.3"
@@ -1520,14 +1520,14 @@
       },
       {
         "userId": "084",
-        "homeError": 3448,
+        "homeError": 1579,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.7"
       },
       {
         "userId": "085",
-        "homeError": 2980,
+        "homeError": 4351,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.8"
@@ -1576,7 +1576,7 @@
       },
       {
         "userId": "111",
-        "homeError": 39195,
+        "homeError": 37802,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.2"
@@ -1597,14 +1597,14 @@
       },
       {
         "userId": "119",
-        "homeError": 3487,
+        "homeError": 3697,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.6"
       },
       {
         "userId": "125",
-        "homeError": 1779,
+        "homeError": 1331,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.3"
@@ -1618,7 +1618,7 @@
       },
       {
         "userId": "128",
-        "homeError": 78084,
+        "homeError": 77575,
         "nightObs": 1,
         "totalObs": 1,
         "obsReduction": "99.8"
@@ -1697,154 +1697,154 @@
     "no_zones": [
       {
         "userId": "000",
-        "homeError": 265,
+        "homeError": 742,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "98.0"
       },
       {
         "userId": "001",
-        "homeError": 692,
-        "nightObs": 3,
+        "homeError": 3083,
+        "nightObs": 6,
         "totalObs": 12,
         "obsReduction": "95.6"
       },
       {
         "userId": "002",
-        "homeError": 2155,
+        "homeError": 4696,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "97.0"
       },
       {
         "userId": "003",
-        "homeError": 457,
-        "nightObs": 6,
+        "homeError": 385,
+        "nightObs": 7,
         "totalObs": 12,
         "obsReduction": "98.2"
       },
       {
         "userId": "004",
-        "homeError": 462365,
-        "nightObs": 1,
+        "homeError": 464050,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "98.2"
       },
       {
         "userId": "005",
-        "homeError": 536,
-        "nightObs": 3,
+        "homeError": 927,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "96.1"
       },
       {
         "userId": "006",
-        "homeError": 2710,
+        "homeError": 1914,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "88.9"
       },
       {
         "userId": "007",
-        "homeError": 31634,
-        "nightObs": 2,
+        "homeError": 31050,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "008",
-        "homeError": 736,
+        "homeError": 685,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.5"
       },
       {
         "userId": "009",
-        "homeError": 1268,
-        "nightObs": 3,
+        "homeError": 1934,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "95.0"
       },
       {
         "userId": "010",
-        "homeError": 108325,
+        "homeError": 104908,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "011",
-        "homeError": 253,
+        "homeError": 1853,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.1"
       },
       {
         "userId": "012",
-        "homeError": 881,
+        "homeError": 2380,
         "nightObs": 5,
         "totalObs": 12,
         "obsReduction": "96.4"
       },
       {
         "userId": "013",
-        "homeError": 161700,
-        "nightObs": 3,
+        "homeError": 5353,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.5"
       },
       {
         "userId": "014",
-        "homeError": 27156,
-        "nightObs": 1,
+        "homeError": 25152,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "97.4"
       },
       {
         "userId": "015",
-        "homeError": 4061,
+        "homeError": 687,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "93.1"
       },
       {
         "userId": "016",
-        "homeError": 6628,
+        "homeError": 2312,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "93.9"
       },
       {
         "userId": "017",
-        "homeError": 8850,
-        "nightObs": 2,
+        "homeError": 7832,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "98.3"
       },
       {
         "userId": "018",
-        "homeError": 14103,
-        "nightObs": 2,
+        "homeError": 433,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "92.4"
       },
       {
         "userId": "019",
-        "homeError": 5717,
+        "homeError": 3652,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "92.1"
       },
       {
         "userId": "020",
-        "homeError": 1546,
-        "nightObs": 3,
+        "homeError": 902,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "93.9"
       },
       {
         "userId": "022",
-        "homeError": 3068,
+        "homeError": 3521,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "98.2"
@@ -1858,245 +1858,245 @@
       },
       {
         "userId": "024",
-        "homeError": 18988,
-        "nightObs": 1,
+        "homeError": 25132,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "97.5"
       },
       {
         "userId": "025",
-        "homeError": 6130,
-        "nightObs": 1,
+        "homeError": 4310,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "98.1"
       },
       {
         "userId": "026",
-        "homeError": 6455,
-        "nightObs": 2,
+        "homeError": 5004,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.0"
       },
       {
         "userId": "028",
-        "homeError": 244312,
-        "nightObs": 4,
+        "homeError": 244070,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "029",
-        "homeError": 15175,
+        "homeError": 13985,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "88.6"
       },
       {
         "userId": "030",
-        "homeError": 227,
-        "nightObs": 3,
+        "homeError": 1012,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "98.0"
       },
       {
         "userId": "033",
-        "homeError": 62,
+        "homeError": 1323,
         "nightObs": 5,
         "totalObs": 12,
         "obsReduction": "88.6"
       },
       {
         "userId": "034",
-        "homeError": 1022,
+        "homeError": 587,
         "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "96.5"
       },
       {
         "userId": "035",
-        "homeError": 4140,
-        "nightObs": 2,
+        "homeError": 4618,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "98.5"
       },
       {
         "userId": "036",
-        "homeError": 1838705,
-        "nightObs": 2,
+        "homeError": 1838659,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "96.5"
       },
       {
         "userId": "037",
-        "homeError": 5126,
-        "nightObs": 2,
+        "homeError": 4364,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "96.9"
       },
       {
         "userId": "038",
-        "homeError": 13790,
+        "homeError": 11121,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.5"
       },
       {
         "userId": "039",
-        "homeError": 9721,
-        "nightObs": 3,
+        "homeError": 9139,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "98.1"
       },
       {
         "userId": "040",
-        "homeError": 5682,
+        "homeError": 4943,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "90.8"
       },
       {
         "userId": "041",
-        "homeError": 1147,
+        "homeError": 422,
         "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "98.6"
       },
       {
         "userId": "042",
-        "homeError": 25803,
+        "homeError": 23286,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "96.6"
       },
       {
         "userId": "043",
-        "homeError": 1151,
-        "nightObs": 6,
+        "homeError": 606,
+        "nightObs": 7,
         "totalObs": 12,
         "obsReduction": "90.2"
       },
       {
         "userId": "044",
-        "homeError": 10373,
+        "homeError": 12549,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.2"
       },
       {
         "userId": "050",
-        "homeError": 13939,
-        "nightObs": 3,
+        "homeError": 14518,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "96.2"
       },
       {
         "userId": "051",
-        "homeError": 1018692,
+        "homeError": 1018222,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "94.1"
       },
       {
         "userId": "052",
-        "homeError": 706,
+        "homeError": 1265,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.8"
       },
       {
         "userId": "062",
-        "homeError": 329776,
+        "homeError": 329314,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.9"
       },
       {
         "userId": "065",
-        "homeError": 557,
+        "homeError": 1282,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.8"
       },
       {
         "userId": "067",
-        "homeError": 9110,
-        "nightObs": 4,
+        "homeError": 5991,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.9"
       },
       {
         "userId": "068",
-        "homeError": 528,
+        "homeError": 1029,
         "nightObs": 5,
         "totalObs": 12,
         "obsReduction": "97.6"
       },
       {
         "userId": "071",
-        "homeError": 2623,
+        "homeError": 2992,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "91.5"
       },
       {
         "userId": "073",
-        "homeError": 6999,
+        "homeError": 6723,
         "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "91.8"
       },
       {
         "userId": "074",
-        "homeError": 1503,
-        "nightObs": 4,
+        "homeError": 2427,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "91.5"
       },
       {
         "userId": "078",
-        "homeError": 561,
+        "homeError": 833,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "88.3"
       },
       {
         "userId": "082",
-        "homeError": 382,
-        "nightObs": 4,
+        "homeError": 571,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "94.1"
       },
       {
         "userId": "084",
-        "homeError": 4793,
-        "nightObs": 1,
+        "homeError": 2573,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "96.9"
       },
       {
         "userId": "085",
-        "homeError": 57,
-        "nightObs": 2,
+        "homeError": 561,
+        "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.1"
       },
       {
         "userId": "089",
-        "homeError": 47369,
+        "homeError": 46861,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "91.4"
       },
       {
         "userId": "091",
-        "homeError": 2495,
-        "nightObs": 1,
+        "homeError": 639,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "93.0"
       },
       {
         "userId": "092",
-        "homeError": 11724,
+        "homeError": 11200,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "94.2"
@@ -2110,7 +2110,7 @@
       },
       {
         "userId": "101",
-        "homeError": 895865,
+        "homeError": 895569,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "88.3"
@@ -2124,119 +2124,119 @@
       },
       {
         "userId": "111",
-        "homeError": 38660,
-        "nightObs": 4,
+        "homeError": 38771,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "90.6"
       },
       {
         "userId": "112",
-        "homeError": 474,
-        "nightObs": 4,
+        "homeError": 669,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "95.7"
       },
       {
         "userId": "115",
-        "homeError": 2118,
+        "homeError": 153,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.1"
       },
       {
         "userId": "119",
-        "homeError": 1450,
+        "homeError": 1077,
         "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "95.8"
       },
       {
         "userId": "125",
-        "homeError": 284,
-        "nightObs": 5,
+        "homeError": 806,
+        "nightObs": 4,
         "totalObs": 12,
         "obsReduction": "91.1"
       },
       {
         "userId": "126",
-        "homeError": 771,
+        "homeError": 190,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.1"
       },
       {
         "userId": "128",
-        "homeError": 78123,
+        "homeError": 77157,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.5"
       },
       {
         "userId": "140",
-        "homeError": 7990,
+        "homeError": 5610,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "95.9"
       },
       {
         "userId": "142",
-        "homeError": 2836,
-        "nightObs": 4,
+        "homeError": 2824,
+        "nightObs": 3,
         "totalObs": 12,
         "obsReduction": "90.2"
       },
       {
         "userId": "144",
-        "homeError": 437059,
+        "homeError": 433901,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "97.0"
       },
       {
         "userId": "147",
-        "homeError": 859,
+        "homeError": 1442,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "91.0"
       },
       {
         "userId": "153",
-        "homeError": 4753,
+        "homeError": 7388,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "96.8"
       },
       {
         "userId": "155",
-        "homeError": 2573,
+        "homeError": 1558,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "89.6"
       },
       {
         "userId": "163",
-        "homeError": 1507,
+        "homeError": 740,
         "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "94.5"
       },
       {
         "userId": "167",
-        "homeError": 1593,
-        "nightObs": 3,
+        "homeError": 2591,
+        "nightObs": 2,
         "totalObs": 12,
         "obsReduction": "97.0"
       },
       {
         "userId": "168",
-        "homeError": 18679,
+        "homeError": 20507,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.7"
       },
       {
         "userId": "179",
-        "homeError": 6010,
+        "homeError": 7175,
         "nightObs": 1,
         "totalObs": 12,
         "obsReduction": "94.7"
@@ -2245,547 +2245,547 @@
     "no_adaptive": [
       {
         "userId": "000",
-        "homeError": 13684,
-        "nightObs": 4,
+        "homeError": 3101,
+        "nightObs": 7,
         "totalObs": 201,
         "obsReduction": "67.2"
       },
       {
         "userId": "001",
-        "homeError": 3055,
+        "homeError": 3107,
         "nightObs": 15,
         "totalObs": 93,
         "obsReduction": "65.6"
       },
       {
         "userId": "002",
-        "homeError": 11518,
-        "nightObs": 6,
+        "homeError": 10412,
+        "nightObs": 7,
         "totalObs": 111,
         "obsReduction": "72.0"
       },
       {
         "userId": "003",
-        "homeError": 7428,
-        "nightObs": 15,
+        "homeError": 2878,
+        "nightObs": 18,
         "totalObs": 300,
         "obsReduction": "54.2"
       },
       {
         "userId": "004",
-        "homeError": 462886,
-        "nightObs": 18,
+        "homeError": 463931,
+        "nightObs": 19,
         "totalObs": 290,
         "obsReduction": "56.7"
       },
       {
         "userId": "005",
-        "homeError": 1280,
-        "nightObs": 29,
+        "homeError": 1464,
+        "nightObs": 34,
         "totalObs": 169,
         "obsReduction": "45.1"
       },
       {
         "userId": "006",
-        "homeError": 1220,
-        "nightObs": 3,
+        "homeError": 27182,
+        "nightObs": 2,
         "totalObs": 47,
         "obsReduction": "56.5"
       },
       {
         "userId": "007",
-        "homeError": 17629,
-        "nightObs": 5,
+        "homeError": 71497,
+        "nightObs": 4,
         "totalObs": 101,
         "obsReduction": "63.7"
       },
       {
         "userId": "008",
-        "homeError": 7669,
-        "nightObs": 3,
+        "homeError": 2271,
+        "nightObs": 6,
         "totalObs": 52,
         "obsReduction": "63.4"
       },
       {
         "userId": "009",
-        "homeError": 5151,
-        "nightObs": 2,
+        "homeError": 3788,
+        "nightObs": 1,
         "totalObs": 11,
         "obsReduction": "95.4"
       },
       {
         "userId": "010",
-        "homeError": 13872,
-        "nightObs": 17,
+        "homeError": 13554,
+        "nightObs": 16,
         "totalObs": 261,
         "obsReduction": "7.1"
       },
       {
         "userId": "011",
-        "homeError": 5264,
-        "nightObs": 26,
+        "homeError": 4983,
+        "nightObs": 28,
         "totalObs": 112,
         "obsReduction": "54.1"
       },
       {
         "userId": "012",
-        "homeError": 832496,
-        "nightObs": 3,
+        "homeError": 5573,
+        "nightObs": 2,
         "totalObs": 133,
         "obsReduction": "60.7"
       },
       {
         "userId": "013",
-        "homeError": 27298,
-        "nightObs": 27,
+        "homeError": 27619,
+        "nightObs": 28,
         "totalObs": 145,
         "obsReduction": "46.1"
       },
       {
         "userId": "014",
-        "homeError": 3990,
-        "nightObs": 30,
+        "homeError": 3865,
+        "nightObs": 28,
         "totalObs": 229,
         "obsReduction": "49.6"
       },
       {
         "userId": "015",
-        "homeError": 1339,
+        "homeError": 1377,
         "nightObs": 26,
         "totalObs": 79,
         "obsReduction": "54.9"
       },
       {
         "userId": "016",
-        "homeError": 1999,
-        "nightObs": 13,
+        "homeError": 914,
+        "nightObs": 12,
         "totalObs": 80,
         "obsReduction": "59.6"
       },
       {
         "userId": "017",
-        "homeError": 6870,
-        "nightObs": 35,
+        "homeError": 5861,
+        "nightObs": 33,
         "totalObs": 409,
         "obsReduction": "41.5"
       },
       {
         "userId": "018",
-        "homeError": 2478,
-        "nightObs": 9,
+        "homeError": 11846,
+        "nightObs": 6,
         "totalObs": 83,
         "obsReduction": "47.5"
       },
       {
         "userId": "019",
-        "homeError": 4774,
-        "nightObs": 5,
+        "homeError": 2741,
+        "nightObs": 13,
         "totalObs": 91,
         "obsReduction": "40.1"
       },
       {
         "userId": "020",
-        "homeError": 1960,
-        "nightObs": 44,
+        "homeError": 2252,
+        "nightObs": 46,
         "totalObs": 94,
         "obsReduction": "52.3"
       },
       {
         "userId": "022",
-        "homeError": 2257,
-        "nightObs": 31,
+        "homeError": 2344,
+        "nightObs": 30,
         "totalObs": 222,
         "obsReduction": "66.0"
       },
       {
         "userId": "023",
-        "homeError": 2047718,
-        "nightObs": 12,
+        "homeError": 2048442,
+        "nightObs": 13,
         "totalObs": 157,
         "obsReduction": "37.2"
       },
       {
         "userId": "024",
-        "homeError": 23460,
-        "nightObs": 18,
+        "homeError": 23476,
+        "nightObs": 21,
         "totalObs": 352,
         "obsReduction": "27.0"
       },
       {
         "userId": "025",
-        "homeError": 9784,
+        "homeError": 10043,
         "nightObs": 39,
         "totalObs": 396,
         "obsReduction": "37.0"
       },
       {
         "userId": "026",
-        "homeError": 5086,
-        "nightObs": 7,
+        "homeError": 408090,
+        "nightObs": 2,
         "totalObs": 156,
         "obsReduction": "22.4"
       },
       {
         "userId": "028",
-        "homeError": 4822,
-        "nightObs": 38,
+        "homeError": 4380,
+        "nightObs": 36,
         "totalObs": 178,
         "obsReduction": "36.7"
       },
       {
         "userId": "029",
-        "homeError": 7171,
-        "nightObs": 6,
+        "homeError": 3487,
+        "nightObs": 8,
         "totalObs": 43,
         "obsReduction": "59.0"
       },
       {
         "userId": "030",
-        "homeError": 40582,
+        "homeError": 40553,
         "nightObs": 44,
         "totalObs": 265,
         "obsReduction": "56.4"
       },
       {
         "userId": "033",
-        "homeError": 2995,
+        "homeError": 3378,
         "nightObs": 7,
         "totalObs": 51,
         "obsReduction": "51.4"
       },
       {
         "userId": "034",
-        "homeError": 6433,
-        "nightObs": 43,
+        "homeError": 4329,
+        "nightObs": 28,
         "totalObs": 237,
         "obsReduction": "30.3"
       },
       {
         "userId": "035",
-        "homeError": 2168,
-        "nightObs": 151,
+        "homeError": 2369,
+        "nightObs": 155,
         "totalObs": 519,
         "obsReduction": "35.1"
       },
       {
         "userId": "036",
-        "homeError": 1837320,
-        "nightObs": 2,
+        "homeError": 982,
+        "nightObs": 4,
         "totalObs": 98,
         "obsReduction": "71.8"
       },
       {
         "userId": "037",
-        "homeError": 3826,
-        "nightObs": 17,
+        "homeError": 13545,
+        "nightObs": 15,
         "totalObs": 249,
         "obsReduction": "35.7"
       },
       {
         "userId": "038",
-        "homeError": 3906,
-        "nightObs": 15,
+        "homeError": 1422,
+        "nightObs": 10,
         "totalObs": 130,
         "obsReduction": "73.3"
       },
       {
         "userId": "039",
-        "homeError": 11398,
+        "homeError": 11718,
         "nightObs": 25,
         "totalObs": 356,
         "obsReduction": "42.2"
       },
       {
         "userId": "040",
-        "homeError": 2570,
+        "homeError": 3336,
         "nightObs": 13,
         "totalObs": 55,
         "obsReduction": "58.0"
       },
       {
         "userId": "041",
-        "homeError": 3289,
-        "nightObs": 55,
+        "homeError": 5051,
+        "nightObs": 59,
         "totalObs": 622,
         "obsReduction": "25.9"
       },
       {
         "userId": "042",
-        "homeError": 23438,
-        "nightObs": 22,
+        "homeError": 23323,
+        "nightObs": 16,
         "totalObs": 241,
         "obsReduction": "32.3"
       },
       {
         "userId": "043",
-        "homeError": 25847,
-        "nightObs": 22,
+        "homeError": 25475,
+        "nightObs": 18,
         "totalObs": 86,
         "obsReduction": "29.5"
       },
       {
         "userId": "044",
-        "homeError": 5055,
+        "homeError": 3868,
         "nightObs": 4,
         "totalObs": 49,
         "obsReduction": "76.3"
       },
       {
         "userId": "050",
-        "homeError": 9356,
+        "homeError": 10254,
         "nightObs": 11,
         "totalObs": 231,
         "obsReduction": "27.1"
       },
       {
         "userId": "051",
-        "homeError": 1018058,
+        "homeError": 1017044,
         "nightObs": 8,
         "totalObs": 153,
         "obsReduction": "24.6"
       },
       {
         "userId": "052",
-        "homeError": 3398,
-        "nightObs": 15,
+        "homeError": 3403,
+        "nightObs": 19,
         "totalObs": 281,
         "obsReduction": "47.8"
       },
       {
         "userId": "062",
-        "homeError": 7021,
-        "nightObs": 17,
+        "homeError": 4490,
+        "nightObs": 15,
         "totalObs": 359,
         "obsReduction": "37.0"
       },
       {
         "userId": "065",
-        "homeError": 569,
+        "homeError": 869,
         "nightObs": 17,
         "totalObs": 93,
         "obsReduction": "60.1"
       },
       {
         "userId": "067",
-        "homeError": 7841,
+        "homeError": 8296,
         "nightObs": 6,
         "totalObs": 162,
         "obsReduction": "45.3"
       },
       {
         "userId": "068",
-        "homeError": 1764,
-        "nightObs": 14,
+        "homeError": 3493,
+        "nightObs": 17,
         "totalObs": 295,
         "obsReduction": "42.0"
       },
       {
         "userId": "071",
-        "homeError": 1932,
-        "nightObs": 14,
+        "homeError": 2789,
+        "nightObs": 9,
         "totalObs": 48,
         "obsReduction": "66.0"
       },
       {
         "userId": "073",
-        "homeError": 5363,
+        "homeError": 5448,
         "nightObs": 5,
         "totalObs": 20,
         "obsReduction": "86.3"
       },
       {
         "userId": "074",
-        "homeError": 9078,
-        "nightObs": 3,
+        "homeError": 8807,
+        "nightObs": 2,
         "totalObs": 39,
         "obsReduction": "72.5"
       },
       {
         "userId": "078",
-        "homeError": 270137,
+        "homeError": 272342,
         "nightObs": 2,
         "totalObs": 23,
         "obsReduction": "77.7"
       },
       {
         "userId": "082",
-        "homeError": 9288,
+        "homeError": 9033,
         "nightObs": 3,
         "totalObs": 63,
         "obsReduction": "68.8"
       },
       {
         "userId": "084",
-        "homeError": 5684,
-        "nightObs": 24,
+        "homeError": 5852,
+        "nightObs": 18,
         "totalObs": 201,
         "obsReduction": "48.7"
       },
       {
         "userId": "085",
-        "homeError": 8472,
-        "nightObs": 58,
+        "homeError": 11726,
+        "nightObs": 57,
         "totalObs": 246,
         "obsReduction": "40.1"
       },
       {
         "userId": "089",
-        "homeError": 38439,
-        "nightObs": 10,
+        "homeError": 40595,
+        "nightObs": 5,
         "totalObs": 102,
         "obsReduction": "27.1"
       },
       {
         "userId": "091",
-        "homeError": 3564,
-        "nightObs": 14,
+        "homeError": 2334,
+        "nightObs": 17,
         "totalObs": 78,
         "obsReduction": "54.7"
       },
       {
         "userId": "092",
-        "homeError": 10255,
-        "nightObs": 1,
+        "homeError": 9909,
+        "nightObs": 2,
         "totalObs": 48,
         "obsReduction": "76.7"
       },
       {
         "userId": "096",
-        "homeError": 3526,
-        "nightObs": 32,
+        "homeError": 3182,
+        "nightObs": 31,
         "totalObs": 106,
         "obsReduction": "49.5"
       },
       {
         "userId": "101",
-        "homeError": 896097,
+        "homeError": 895911,
         "nightObs": 10,
         "totalObs": 70,
         "obsReduction": "32.0"
       },
       {
         "userId": "104",
-        "homeError": 2963,
-        "nightObs": 5,
+        "homeError": 7757,
+        "nightObs": 3,
         "totalObs": 154,
         "obsReduction": "37.9"
       },
       {
         "userId": "111",
-        "homeError": 40172,
-        "nightObs": 3,
+        "homeError": 38392,
+        "nightObs": 4,
         "totalObs": 126,
         "obsReduction": "0.8"
       },
       {
         "userId": "112",
-        "homeError": 7195,
-        "nightObs": 8,
+        "homeError": 7067,
+        "nightObs": 6,
         "totalObs": 65,
         "obsReduction": "76.9"
       },
       {
         "userId": "115",
-        "homeError": 24094,
-        "nightObs": 14,
+        "homeError": 24716,
+        "nightObs": 22,
         "totalObs": 141,
         "obsReduction": "42.0"
       },
       {
         "userId": "119",
-        "homeError": 1818,
-        "nightObs": 28,
+        "homeError": 2196,
+        "nightObs": 24,
         "totalObs": 135,
         "obsReduction": "52.5"
       },
       {
         "userId": "125",
-        "homeError": 2482,
-        "nightObs": 4,
+        "homeError": 1943,
+        "nightObs": 1,
         "totalObs": 96,
         "obsReduction": "28.9"
       },
       {
         "userId": "126",
-        "homeError": 270412,
+        "homeError": 270301,
         "nightObs": 15,
         "totalObs": 175,
         "obsReduction": "29.1"
       },
       {
         "userId": "128",
-        "homeError": 10973,
-        "nightObs": 45,
+        "homeError": 10736,
+        "nightObs": 43,
         "totalObs": 378,
         "obsReduction": "22.5"
       },
       {
         "userId": "140",
-        "homeError": 10830373,
-        "nightObs": 10,
+        "homeError": 5301,
+        "nightObs": 8,
         "totalObs": 207,
         "obsReduction": "29.4"
       },
       {
         "userId": "142",
-        "homeError": 3142,
-        "nightObs": 19,
+        "homeError": 2676,
+        "nightObs": 18,
         "totalObs": 83,
         "obsReduction": "32.0"
       },
       {
         "userId": "144",
-        "homeError": 1764,
-        "nightObs": 12,
+        "homeError": 469,
+        "nightObs": 16,
         "totalObs": 283,
         "obsReduction": "28.4"
       },
       {
         "userId": "147",
-        "homeError": 4027,
-        "nightObs": 5,
+        "homeError": 3497,
+        "nightObs": 3,
         "totalObs": 26,
         "obsReduction": "80.6"
       },
       {
         "userId": "153",
-        "homeError": 1130167,
+        "homeError": 1130342,
         "nightObs": 6,
         "totalObs": 313,
         "obsReduction": "15.6"
       },
       {
         "userId": "155",
-        "homeError": 23070,
-        "nightObs": 14,
+        "homeError": 23558,
+        "nightObs": 13,
         "totalObs": 98,
         "obsReduction": "14.8"
       },
       {
         "userId": "163",
-        "homeError": 1212,
-        "nightObs": 6,
+        "homeError": 1669,
+        "nightObs": 7,
         "totalObs": 147,
         "obsReduction": "33.2"
       },
       {
         "userId": "167",
-        "homeError": 1350,
-        "nightObs": 34,
+        "homeError": 1651,
+        "nightObs": 32,
         "totalObs": 245,
         "obsReduction": "38.3"
       },
       {
         "userId": "168",
-        "homeError": 11854,
-        "nightObs": 18,
+        "homeError": 12657,
+        "nightObs": 17,
         "totalObs": 187,
         "obsReduction": "17.6"
       },
       {
         "userId": "179",
-        "homeError": 1827,
-        "nightObs": 20,
+        "homeError": 2045,
+        "nightObs": 23,
         "totalObs": 116,
         "obsReduction": "48.7"
       }
