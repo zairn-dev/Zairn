@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZKLS Mobile Benchmark</title>
+<style>
+  body { font-family: system-ui; max-width: 600px; margin: 20px auto; padding: 0 16px; }
+  h1 { font-size: 1.3em; }
+  button { font-size: 1.1em; padding: 12px 24px; margin: 8px 0; width: 100%; }
+  pre { background: #f0f0f0; padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 0.85em; white-space: pre-wrap; }
+  .result { font-weight: bold; color: #1a7f37; }
+  .warn { color: #d1242f; }
+</style>
+</head>
+<body>
+<h1>ZKLS Mobile Benchmark</h1>
+<p>Measures Groth16 proof generation time for Grid Membership (175 constraints) and Departure (418 constraints) circuits.</p>
+<p><strong>Instructions:</strong> Serve this directory with a local HTTP server, then open on your phone. Or use the button below.</p>
+
+<button id="btnRun" onclick="runBenchmark()">Run Benchmark</button>
+<pre id="output">Ready. Tap "Run Benchmark" to start.
+Warmup: 3 iterations, Timed: 10 iterations per circuit.</pre>
+
+<script type="module">
+// Load snarkjs from CDN
+const snarkjs = await import('https://cdn.jsdelivr.net/npm/snarkjs@0.7.5/+esm');
+window._snarkjs = snarkjs;
+
+document.getElementById('output').textContent += '\nsnarkjs loaded ✓';
+
+// Base URL for artifacts (adjust if serving from different location)
+const BASE = location.href.replace(/\/[^/]*$/, '');
+const CIRCUITS_BASE = BASE + '/../../packages/geo-drop/circuits';
+
+window.runBenchmark = async function() {
+  const out = document.getElementById('output');
+  const btn = document.getElementById('btnRun');
+  btn.disabled = true;
+  out.textContent = 'Starting benchmark...\n';
+
+  const log = (msg) => { out.textContent += msg + '\n'; };
+  const snarkjs = window._snarkjs;
+
+  const WARMUP = 3;
+  const RUNS = 10;
+
+  // Grid Membership inputs
+  const gridSizeFp = 4491;
+  const offsetLat = 1234, offsetLon = 2345;
+  const userLat = 35681200, userLon = 139767100;
+  const LAT_SHIFT = 90000000, LON_SHIFT = 180000000;
+  const cellRow = Math.floor((userLat + LAT_SHIFT + offsetLat) / gridSizeFp);
+  const cellCol = Math.floor((userLon + LON_SHIFT + offsetLon) / gridSizeFp);
+
+  const gridInput = {
+    cellRow: String(cellRow), cellCol: String(cellCol),
+    gridSizeFp: String(gridSizeFp),
+    gridOffsetLatFp: String(offsetLat), gridOffsetLonFp: String(offsetLon),
+    contextDigest: '12345', epoch: '1000',
+    userLat: String(userLat), userLon: String(userLon),
+  };
+
+  // Departure inputs
+  const homeLat = 35681200n, homeLon = 139767100n, homeSalt = 42n;
+  const P1 = 1000000007n, P2 = 998244353n, P3 = 1000000009n, P4 = 999999937n;
+  const commitment = homeLat*P1 + homeLon*P2 + homeSalt*P3 + homeLat*homeLon + homeLon*homeSalt + P4;
+  const dUserLat = 35658000, dUserLon = 139701600;
+  const dLat = dUserLat - 35681200, dLon = dUserLon - 139767100;
+  const cosLat = 809017;
+  const dLonAdj = Math.floor(dLon * cosLat / 1000000);
+  const distSq = dLat * dLat + dLonAdj * dLonAdj;
+
+  const depInput = {
+    homeCommitment: commitment.toString(),
+    minDistanceSquared: String(Math.floor(distSq * 0.5)),
+    cosLatScaled: String(cosLat),
+    contextDigest: '12345', epoch: '1000',
+    userLat: String(dUserLat), userLon: String(dUserLon),
+    homeLat: '35681200', homeLon: '139767100', homeSalt: '42',
+  };
+
+  const circuits = [
+    {
+      name: 'Grid Membership (175c)',
+      wasm: CIRCUITS_BASE + '/build/grid_membership_zkp_js/grid_membership_zkp.wasm',
+      zkey: CIRCUITS_BASE + '/grid_membership_zkp_final.zkey',
+      vkey: CIRCUITS_BASE + '/grid_membership_zkp_vkey.json',
+      input: gridInput,
+    },
+    {
+      name: 'Departure (418c)',
+      wasm: CIRCUITS_BASE + '/build/departure_zkp_js/departure_zkp.wasm',
+      zkey: CIRCUITS_BASE + '/departure_zkp_final.zkey',
+      vkey: CIRCUITS_BASE + '/departure_zkp_vkey.json',
+      input: depInput,
+    },
+  ];
+
+  const results = {};
+  const ua = navigator.userAgent;
+  log('Device: ' + ua);
+  log('');
+
+  for (const c of circuits) {
+    log('=== ' + c.name + ' ===');
+
+    try {
+      // Warmup
+      for (let i = 0; i < WARMUP; i++) {
+        const t0 = performance.now();
+        await snarkjs.groth16.fullProve(c.input, c.wasm, c.zkey);
+        const dt = performance.now() - t0;
+        log('  Warmup ' + (i+1) + ': ' + dt.toFixed(1) + 'ms');
+      }
+
+      // Timed runs
+      const times = [];
+      for (let i = 0; i < RUNS; i++) {
+        const t0 = performance.now();
+        const { proof, publicSignals } = await snarkjs.groth16.fullProve(c.input, c.wasm, c.zkey);
+        const dt = performance.now() - t0;
+        times.push(dt);
+        log('  Run ' + (i+1) + ': ' + dt.toFixed(1) + 'ms');
+      }
+
+      times.sort((a, b) => a - b);
+      const p50 = times[Math.floor(times.length * 0.5)];
+      const p95 = times[Math.floor(times.length * 0.95)];
+      const mean = times.reduce((s, t) => s + t, 0) / times.length;
+
+      log('');
+      log('  P50: ' + p50.toFixed(1) + 'ms');
+      log('  P95: ' + p95.toFixed(1) + 'ms');
+      log('  Mean: ' + mean.toFixed(1) + 'ms');
+
+      results[c.name] = { p50: +p50.toFixed(1), p95: +p95.toFixed(1), mean: +mean.toFixed(1), runs: times.length };
+
+      // Verify
+      const vkey = await fetch(c.vkey).then(r => r.json());
+      const { proof, publicSignals } = await snarkjs.groth16.fullProve(c.input, c.wasm, c.zkey);
+      const t0 = performance.now();
+      const valid = await snarkjs.groth16.verify(vkey, publicSignals, proof);
+      const vdt = performance.now() - t0;
+      log('  Verify: ' + vdt.toFixed(1) + 'ms (valid=' + valid + ')');
+      log('');
+    } catch (e) {
+      log('  ERROR: ' + e.message);
+      log('  Make sure artifacts are served via HTTP (not file://)');
+      log('');
+    }
+  }
+
+  // Summary
+  log('=== SUMMARY ===');
+  log(JSON.stringify({ device: ua.slice(0, 80), ...results }, null, 2));
+  log('');
+  log('Copy the JSON above and paste it back.');
+
+  btn.disabled = false;
+};
+</script>
+</body>
+</html>

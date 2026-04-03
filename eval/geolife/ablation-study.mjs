@@ -19,6 +19,7 @@ import { join } from 'path';
 import {
   addPlanarLaplaceNoise,
   gridSnap,
+  processLocation,
   AdaptiveReporter,
   DEFAULT_PRIVACY_CONFIG,
 } from '../../packages/sdk/dist/privacy-location.js';
@@ -88,7 +89,30 @@ function buildSensitivePlaces(home, work) {
   return places;
 }
 
+/**
+ * For the "full" variant, use processLocation() to match main evaluation exactly.
+ * For ablated variants, apply layers manually so we can toggle each one.
+ */
+function applyDefenseFull(locs, home, work, userId) {
+  const userSeed = SEED + '-' + userId;
+  const sensitivePlaces = buildSensitivePlaces(home, work);
+  const config6 = { ...DEFAULT_PRIVACY_CONFIG, gridSeed: userSeed, baseEpsilon: BASE_EPSILON };
+  const reporter = new AdaptiveReporter(12, 2);
+  const obs = [];
+  for (const l of locs) {
+    const result = processLocation(l.lat, l.lon, sensitivePlaces, config6, reporter);
+    if (result.type === 'coarse') {
+      obs.push({ ...l, sLat: result.lat, sLon: result.lon, cellId: result.cellId });
+    }
+  }
+  return obs;
+}
+
 function applyDefense(locs, home, work, config) {
+  // "full" and "none" are special-cased
+  if (config.name === 'full') return applyDefenseFull(locs, home, work, config.userId);
+  if (config.name === 'none') return locs.map(l => ({ ...l, sLat: l.lat, sLon: l.lon, cellId: 'none' }));
+
   const {
     useLaplace = true,
     useGrid = true,
@@ -96,13 +120,13 @@ function applyDefense(locs, home, work, config) {
     useAdaptive = true,
   } = config;
 
-  const userSeed = SEED + '-' + Math.random().toString(36).slice(2);
+  const userSeed = SEED + '-' + (config.userId ?? 'default');
   const sensitivePlaces = useZones ? buildSensitivePlaces(home, work) : [];
   const reporter = new AdaptiveReporter(12, 2);
   const obs = [];
 
   for (const l of locs) {
-    // Zone check
+    // Zone check (buffer = full suppression, matching ZKLS Grid+Zones behavior)
     if (useZones) {
       let inZone = false;
       for (const place of sensitivePlaces) {
@@ -114,14 +138,12 @@ function applyDefense(locs, home, work, config) {
 
     let sLat = l.lat, sLon = l.lon;
 
-    // Laplace noise
     if (useLaplace) {
       const n = addPlanarLaplaceNoise(l.lat, l.lon, BASE_EPSILON);
       sLat = n.lat;
       sLon = n.lon;
     }
 
-    // Grid snap
     let cellId = 'none';
     if (useGrid) {
       const s = gridSnap(sLat, sLon, GRID_SIZE_M, userSeed);
@@ -130,7 +152,6 @@ function applyDefense(locs, home, work, config) {
       cellId = s.cellId;
     }
 
-    // Adaptive reporting
     if (useAdaptive) {
       if (!reporter.shouldReport(cellId)) continue;
       reporter.record(cellId);
@@ -165,7 +186,7 @@ async function main() {
   for (const user of usersMeta) {
     const locs = JSON.parse(await readFile(join(PROCESSED_DIR, `${user.userId}.json`), 'utf-8'));
     for (const v of variants) {
-      const obs = applyDefense(locs, user.home, user.work, v);
+      const obs = applyDefense(locs, user.home, user.work, { ...v, userId: user.userId });
       const nightObs = obs.filter(nightFilter);
       const attack = centroidAttack(nightObs, user.home.lat, user.home.lon);
       allResults[v.name].push({

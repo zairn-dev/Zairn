@@ -1,0 +1,9 @@
+{
+  "usersWithTransitions": 64,
+  "totalUsers": 78,
+  "medianError": 4352,
+  "p25Error": 2562,
+  "p75Error": 6897,
+  "exposed200": 0,
+  "exposed500": 0
+}
