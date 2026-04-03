@@ -1,0 +1,15 @@
+{
+  "totalObservations": 24377,
+  "outsideHome": 20878,
+  "fakeOpportunities": 20878,
+  "fakeRate": 85.6,
+  "zkGridDetectionRate": 96.7,
+  "zkDepartureDetectionRate": 80.7,
+  "nighttimeFakeOpportunities": 7353,
+  "nighttimeZkDetectionRate": 96.1,
+  "summary": {
+    "withoutZk": "User can fake any state label at any time. 20878 opportunities across 78 users.",
+    "withZkGrid": "Grid membership proof catches 20185/20878 (96.7%) of fake attempts.",
+    "withZkDeparture": "Departure proof catches 16850/20878 (80.7%) of fake attempts (>1km from home)."
+  }
+}

@@ -25,6 +25,7 @@ export {
   processLocation,
   FrequencyBudget,
   AdaptiveReporter,
+  FixedRateReporter,
   jitterDepartureTime,
   DEFAULT_PRIVACY_CONFIG,
 } from './privacy-location';
