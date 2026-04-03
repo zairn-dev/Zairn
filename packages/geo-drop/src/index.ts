@@ -128,6 +128,7 @@ export type {
   ZkDepartureProof,
   HomeCommitment,
   ZklsConfig,
+  ZklsProtocol,
   GridParams,
 } from './zkls';
 

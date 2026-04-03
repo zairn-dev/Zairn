@@ -436,6 +436,52 @@ export class AdaptiveReporter {
 }
 
 /**
+ * Fixed-rate reporter for cell transition hiding.
+ *
+ * Unlike AdaptiveReporter (which reduces reports when stationary),
+ * FixedRateReporter sends reports at a constant interval regardless
+ * of movement state. This hides cell transitions from timing analysis:
+ * an observer cannot distinguish "user moved to a new cell" from
+ * "user sent a regular heartbeat from the same cell."
+ *
+ * Tradeoff: more observations are shared (higher bandwidth, more data
+ * for centroid attacks on visible cells), but transition timing is hidden.
+ * Combine with zone suppression for best results: zone observations are
+ * still suppressed, and outside-zone observations reveal no transition info.
+ *
+ * @param intervalMs Fixed reporting interval (default: 5 minutes)
+ * @param jitterMs Random jitter range added to each interval (default: ±30 seconds)
+ */
+export class FixedRateReporter {
+  private lastReportTime: number = 0;
+  private intervalMs: number;
+  private jitterMs: number;
+
+  constructor(intervalMs: number = 5 * 60 * 1000, jitterMs: number = 30 * 1000) {
+    this.intervalMs = intervalMs;
+    this.jitterMs = jitterMs;
+  }
+
+  shouldReport(_currentCellId: string): boolean {
+    const now = Date.now();
+    const jitter = (Math.random() - 0.5) * 2 * this.jitterMs;
+    const nextReportTime = this.lastReportTime + this.intervalMs + jitter;
+    return now >= nextReportTime;
+  }
+
+  record(_cellId: string): void {
+    this.lastReportTime = Date.now();
+  }
+
+  remaining(): { moving: number; stationary: number } {
+    // Fixed rate: always 1 remaining (or 0 if too soon)
+    const now = Date.now();
+    const ready = now - this.lastReportTime >= this.intervalMs - this.jitterMs;
+    return { moving: ready ? 1 : 0, stationary: ready ? 1 : 0 };
+  }
+}
+
+/**
  * Add jitter to departure time.
  */
 export function jitterDepartureTime(

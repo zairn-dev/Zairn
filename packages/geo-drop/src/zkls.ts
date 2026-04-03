@@ -51,16 +51,27 @@ export interface HomeCommitment {
   salt: bigint;
 }
 
+export type ZklsProtocol = 'groth16' | 'plonk';
+
 export interface ZklsConfig {
   gridMembershipArtifacts?: CircuitArtifacts;
   departureArtifacts?: CircuitArtifacts;
   /**
+   * Proving protocol. Default: 'groth16'.
+   *
+   * - 'groth16': Fast (54-215ms mobile), small proofs (128 bytes),
+   *   but requires a trusted setup ceremony.
+   * - 'plonk': No trusted setup (universal SRS), but ~7-8x slower
+   *   (380-1200ms mobile) and larger proofs (~900 bytes).
+   *
+   * Use 'plonk' when you cannot run a multi-party ceremony.
+   * Use 'groth16' for production with a proper ceremony.
+   */
+  protocol?: ZklsProtocol;
+  /**
    * Set to true for production deployments.
    * When true, ZKLS will warn if the proving key (zkey) appears to be
    * from a single-contributor ceremony (development only).
-   * A multi-party ceremony is required for production security —
-   * a single-contributor zkey means the ceremony toxic waste could
-   * be used to forge proofs.
    */
   production?: boolean;
 }
@@ -194,10 +205,11 @@ export async function generateGridMembershipProof(
   gridSeed: string,
   artifacts: CircuitArtifacts,
   context?: ZkContextBinding,
-  options?: { production?: boolean },
+  options?: { production?: boolean; protocol?: ZklsProtocol },
 ): Promise<ZkGridMembershipProof> {
   warnIfDevZkey(artifacts, options?.production);
   const snarkjs = await loadSnarkjs();
+  const protocol = options?.protocol ?? 'groth16';
   const SCALE = 1000000;
 
   const params = computeGridParams(userLat, userLon, gridSizeM, gridSeed);
@@ -219,7 +231,8 @@ export async function generateGridMembershipProof(
     userLon: Math.round(userLon * SCALE).toString(),
   };
 
-  const { proof, publicSignals } = await snarkjs.groth16.fullProve(
+  const prover = protocol === 'plonk' ? snarkjs.plonk : snarkjs.groth16;
+  const { proof, publicSignals } = await prover.fullProve(
     input,
     artifacts.wasmUrl,
     artifacts.zkeyUrl,
@@ -249,10 +262,11 @@ export async function generateDepartureProof(
   minDistanceM: number,
   artifacts: CircuitArtifacts,
   context?: ZkContextBinding,
-  options?: { production?: boolean },
+  options?: { production?: boolean; protocol?: ZklsProtocol },
 ): Promise<ZkDepartureProof> {
   warnIfDevZkey(artifacts, options?.production);
   const snarkjs = await loadSnarkjs();
+  const protocol = options?.protocol ?? 'groth16';
   const SCALE = 1000000;
 
   // Quantize cosLat to 5-degree bands to limit home latitude leakage
@@ -279,7 +293,8 @@ export async function generateDepartureProof(
     homeSalt: homeCommitment.salt.toString(),
   };
 
-  const { proof, publicSignals } = await snarkjs.groth16.fullProve(
+  const prover = protocol === 'plonk' ? snarkjs.plonk : snarkjs.groth16;
+  const { proof, publicSignals } = await prover.fullProve(
     input,
     artifacts.wasmUrl,
     artifacts.zkeyUrl,
@@ -303,9 +318,11 @@ export async function verifyGridMembershipProof(
   proof: Groth16Proof,
   publicSignals: string[],
   verificationKey: VerificationKey,
+  protocol: ZklsProtocol = 'groth16',
 ): Promise<boolean> {
   const snarkjs = await loadSnarkjs();
-  return snarkjs.groth16.verify(verificationKey, publicSignals, proof);
+  const verifier = protocol === 'plonk' ? snarkjs.plonk : snarkjs.groth16;
+  return verifier.verify(verificationKey, publicSignals, proof);
 }
 
 /**
@@ -315,9 +332,11 @@ export async function verifyDepartureProof(
   proof: Groth16Proof,
   publicSignals: string[],
   verificationKey: VerificationKey,
+  protocol: ZklsProtocol = 'groth16',
 ): Promise<boolean> {
   const snarkjs = await loadSnarkjs();
-  return snarkjs.groth16.verify(verificationKey, publicSignals, proof);
+  const verifier = protocol === 'plonk' ? snarkjs.plonk : snarkjs.groth16;
+  return verifier.verify(verificationKey, publicSignals, proof);
 }
 
 // ============================================================
