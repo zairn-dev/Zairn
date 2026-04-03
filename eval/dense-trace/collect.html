@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dense Location Trace Collector</title>
+<style>
+  body { font-family: system-ui; max-width: 600px; margin: 20px auto; padding: 0 16px; }
+  h1 { font-size: 1.2em; }
+  button { font-size: 1em; padding: 10px 20px; margin: 4px; }
+  pre { background: #f0f0f0; padding: 12px; border-radius: 8px; font-size: 0.8em; max-height: 300px; overflow-y: auto; white-space: pre-wrap; }
+  .status { font-weight: bold; padding: 8px; border-radius: 4px; margin: 8px 0; }
+  .active { background: #d4edda; color: #155724; }
+  .stopped { background: #f8d7da; color: #721c24; }
+  #stats { font-size: 0.9em; margin: 8px 0; }
+</style>
+</head>
+<body>
+<h1>Dense Location Trace Collector</h1>
+<p>Records GPS position every 1 minute for privacy evaluation.<br>
+Run for 1-2 weeks for best results. Data stays on-device until you export.</p>
+
+<div id="statusBar" class="status stopped">Stopped</div>
+<div id="stats">Points: 0 | Duration: 0h</div>
+
+<button onclick="startCollecting()">Start Collecting</button>
+<button onclick="stopCollecting()">Stop</button>
+<button onclick="exportData()">Export JSON</button>
+<button onclick="clearData()">Clear All Data</button>
+
+<pre id="log">Ready.</pre>
+
+<script>
+const STORAGE_KEY = 'dense_trace_data';
+const INTERVAL_MS = 60 * 1000; // 1 minute
+
+let watchId = null;
+let intervalId = null;
+let lastPosition = null;
+
+function getTrace() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  } catch { return []; }
+}
+
+function savePoint(lat, lon, accuracy, timestamp) {
+  const trace = getTrace();
+  const d = new Date(timestamp);
+  trace.push({
+    lat: Math.round(lat * 1e7) / 1e7,
+    lon: Math.round(lon * 1e7) / 1e7,
+    accuracy: Math.round(accuracy),
+    timestamp: d.toISOString(),
+    hour: d.getHours(),
+    day: Math.floor((timestamp - trace[0]?.ts || timestamp) / 86400000),
+    ts: timestamp,
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(trace));
+  updateStats();
+}
+
+function updateStats() {
+  const trace = getTrace();
+  const n = trace.length;
+  const hours = n > 1
+    ? ((trace[n-1].ts - trace[0].ts) / 3600000).toFixed(1)
+    : 0;
+  document.getElementById('stats').textContent =
+    `Points: ${n} | Duration: ${hours}h | Size: ${(JSON.stringify(trace).length / 1024).toFixed(1)}KB`;
+}
+
+function log(msg) {
+  const el = document.getElementById('log');
+  const time = new Date().toLocaleTimeString();
+  el.textContent = `[${time}] ${msg}\n` + el.textContent.slice(0, 5000);
+}
+
+function recordPosition() {
+  if (!lastPosition) return;
+  const { latitude, longitude, accuracy } = lastPosition.coords;
+  savePoint(latitude, longitude, accuracy, Date.now());
+  log(`Recorded: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} (±${Math.round(accuracy)}m)`);
+}
+
+function startCollecting() {
+  if (watchId !== null) { log('Already collecting.'); return; }
+
+  if (!navigator.geolocation) {
+    log('ERROR: Geolocation not supported.');
+    return;
+  }
+
+  // Continuous watch for best accuracy
+  watchId = navigator.geolocation.watchPosition(
+    (pos) => { lastPosition = pos; },
+    (err) => { log(`GPS error: ${err.message}`); },
+    { enableHighAccuracy: true, maximumAge: 30000, timeout: 10000 }
+  );
+
+  // Record at fixed interval
+  recordPosition(); // first point immediately
+  intervalId = setInterval(recordPosition, INTERVAL_MS);
+
+  document.getElementById('statusBar').textContent = 'Collecting...';
+  document.getElementById('statusBar').className = 'status active';
+  log('Started collecting (every 1 min).');
+
+  // Keep-alive: prevent sleep on mobile (best effort)
+  if ('wakeLock' in navigator) {
+    navigator.wakeLock.request('screen').catch(() => {});
+  }
+}
+
+function stopCollecting() {
+  if (watchId !== null) {
+    navigator.geolocation.clearWatch(watchId);
+    watchId = null;
+  }
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+  document.getElementById('statusBar').textContent = 'Stopped';
+  document.getElementById('statusBar').className = 'status stopped';
+  log('Stopped.');
+}
+
+function exportData() {
+  const trace = getTrace();
+  if (trace.length === 0) { log('No data to export.'); return; }
+
+  const meta = {
+    device: navigator.userAgent.slice(0, 100),
+    points: trace.length,
+    startTime: trace[0].timestamp,
+    endTime: trace[trace.length - 1].timestamp,
+    durationHours: ((trace[trace.length - 1].ts - trace[0].ts) / 3600000).toFixed(1),
+  };
+
+  const blob = new Blob(
+    [JSON.stringify({ meta, trace }, null, 2)],
+    { type: 'application/json' }
+  );
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `dense-trace-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  log(`Exported ${trace.length} points.`);
+}
+
+function clearData() {
+  if (!confirm('Delete all collected data?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  updateStats();
+  log('Data cleared.');
+}
+
+// Init
+updateStats();
+</script>
+</body>
+</html>
