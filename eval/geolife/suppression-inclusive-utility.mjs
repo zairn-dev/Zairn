@@ -67,13 +67,20 @@ function processLoc(l, places, userSeed, reporter, config) {
       if (!reporter.shouldReport(s2.cellId)) return { type: 'suppressed' };
       reporter.record(s2.cellId);
       return { type: 'visible', lat: s2.lat, lon: s2.lon, state: null };
+    case 'zkls_full':
+      if (inCore) return { type: 'state', state: 'at_place' };
+      if (inBuffer) return { type: 'suppressed' };
+      const s3 = gridSnap(l.lat, l.lon, GRID_SIZE_M, userSeed);
+      if (!reporter.shouldReport(s3.cellId)) return { type: 'suppressed' };
+      reporter.record(s3.cellId);
+      return { type: 'visible', lat: s3.lat, lon: s3.lon, state: null };
   }
 }
 
 async function main() {
   await mkdir(RESULTS_DIR, { recursive: true });
   const usersMeta = JSON.parse(await readFile(join(PROCESSED_DIR, 'users.json'), 'utf-8'));
-  const configs = ['raw', 'zkls_grid_zones', 'six_layer'];
+  const configs = ['raw', 'zkls_grid_zones', 'six_layer', 'zkls_full'];
 
   const results = {};
 

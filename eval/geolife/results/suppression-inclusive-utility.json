@@ -19,5 +19,12 @@
     "taskWrong": 8.7,
     "medianStalenessHours": 11,
     "p95StalenessHours": 123
+  },
+  "zkls_full": {
+    "taskAccuracy": 18.2,
+    "taskUnanswerable": 73.2,
+    "taskWrong": 8.7,
+    "medianStalenessHours": 9,
+    "p95StalenessHours": 121
   }
 }
