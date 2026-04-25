@@ -1,0 +1,31 @@
+{
+  "grid_membership": {
+    "runs": 20,
+    "p50": 65.6,
+    "p95": 77,
+    "mean": 65.1,
+    "min": 55.6,
+    "max": 77
+  },
+  "grid_membership_verify": {
+    "p50": 9.8,
+    "mean": 9.9
+  },
+  "departure": {
+    "runs": 20,
+    "p50": 81.3,
+    "p95": 91.4,
+    "mean": 79.4,
+    "min": 69.2,
+    "max": 91.4
+  },
+  "departure_verify": {
+    "p50": 9.4,
+    "mean": 10.1
+  },
+  "platform": {
+    "runtime": "Node.js v24.11.1",
+    "arch": "x64",
+    "platform": "win32"
+  }
+}

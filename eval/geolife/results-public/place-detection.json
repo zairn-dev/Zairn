@@ -1,0 +1,50 @@
+[
+  {
+    "windowDays": 14,
+    "totalUsers": 68,
+    "homeDetectionRate": 0.18,
+    "homeCorrectLabel": 4,
+    "homeMedianError": 39,
+    "workDetectionRate": 0.06,
+    "workCorrectLabel": 1,
+    "workMedianError": 80,
+    "falsePositives": 4,
+    "falsePositiveRate": 0.06
+  },
+  {
+    "windowDays": 30,
+    "totalUsers": 75,
+    "homeDetectionRate": 0.37,
+    "homeCorrectLabel": 7,
+    "homeMedianError": 44,
+    "workDetectionRate": 0.19,
+    "workCorrectLabel": 4,
+    "workMedianError": 69,
+    "falsePositives": 14,
+    "falsePositiveRate": 0.19
+  },
+  {
+    "windowDays": 60,
+    "totalUsers": 77,
+    "homeDetectionRate": 0.57,
+    "homeCorrectLabel": 14,
+    "homeMedianError": 73,
+    "workDetectionRate": 0.26,
+    "workCorrectLabel": 3,
+    "workMedianError": 64,
+    "falsePositives": 25,
+    "falsePositiveRate": 0.32
+  },
+  {
+    "windowDays": 90,
+    "totalUsers": 78,
+    "homeDetectionRate": 0.73,
+    "homeCorrectLabel": 17,
+    "homeMedianError": 75,
+    "workDetectionRate": 0.33,
+    "workCorrectLabel": 2,
+    "workMedianError": 42,
+    "falsePositives": 37,
+    "falsePositiveRate": 0.47
+  }
+]

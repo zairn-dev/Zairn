@@ -1,0 +1,56 @@
+Trace: segAB
+Loaded 9128 points, 6.9 days
+
+=== Home/Work Detection ===
+Home: REDACTED (2863 night points)
+Work: REDACTED (942 day points, 23538m from home)
+
+=== Privacy Attack Simulation ===
+
+Method              | Home Err | Night Obs | Obs Red  | Work Err
+------------------------------------------------------------------------
+Raw                 |       0m |      2880 |     0.0% |      94m
+Laplace+Grid        |     156m |      2636 |     0.0% |     127m
+ZKLS Grid+Zones     | Infinitym |         0 |    81.2% |    6654m
+6-Layer             | Infinitym |         0 |    99.9% | Infinitym
+
+=== Utility Metrics ===
+Raw                  At home: 100.0%  Avail: 100.0%
+Laplace+Grid         At home: 6.6%  Avail: 100.0%
+ZKLS Grid+Zones      At home: 100.0%  Avail: 93.8%
+6-Layer              At home: 100.0%  Avail: 75.2%
+
+=== 1-Day Timeline (Day 1, full 24h) ===
+Hour | Raw  | State | Coarse | Suppressed | Disclosure
+   0  |   60 |    59 |      0 |          1 | STATE
+   1  |   60 |    59 |      0 |          1 | STATE
+   2  |   60 |    60 |      0 |          0 | STATE
+   3  |   60 |    60 |      0 |          0 | STATE
+   4  |   60 |    60 |      0 |          0 | STATE
+   5  |   60 |    60 |      0 |          0 | STATE
+   6  |   60 |    60 |      0 |          0 | STATE
+   7  |   60 |    24 |     25 |         11 | coarse
+   8  |   60 |     0 |     60 |          0 | coarse
+   9  |   60 |     0 |     60 |          0 | coarse
+  10  |   60 |     0 |     60 |          0 | coarse
+  11  |   60 |    13 |     47 |          0 | coarse
+  12  |   60 |    60 |      0 |          0 | STATE
+  13  |   60 |    60 |      0 |          0 | STATE
+  14  |   60 |    60 |      0 |          0 | STATE
+  15  |   60 |    29 |      0 |         31 | buffer
+  16  |   60 |    38 |      0 |         22 | STATE
+  17  |   60 |    60 |      0 |          0 | STATE
+  18  |   60 |    60 |      0 |          0 | STATE
+  19  |   60 |    60 |      0 |          0 | STATE
+  20  |   60 |    60 |      0 |          0 | STATE
+  21  |   60 |    60 |      0 |          0 | STATE
+  22  |   60 |    60 |      0 |          0 | STATE
+  23  |   60 |    60 |      0 |          0 | STATE
+
+=== Dense Trace vs GeoLife ===
+                    | Dense (this) | GeoLife (median 78 users)
+Coverage            | 100% (1min)  | 16% (hourly)
+Duration            | 6.9 days     | 90 days
+Points/day          | 1440         | ~5-10
+
+Saved to results/deployment-vignette.json

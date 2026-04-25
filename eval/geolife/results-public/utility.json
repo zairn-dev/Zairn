@@ -1,0 +1,3648 @@
+{
+  "summary": {
+    "raw": {
+      "presenceF1": {
+        "median": 0.909,
+        "mean": 0.77
+      },
+      "presencePrecision": {
+        "median": 0.833,
+        "mean": 0.696
+      },
+      "presenceRecall": {
+        "median": 1,
+        "mean": 0.91
+      },
+      "areaAccuracy": {
+        "median": 1,
+        "mean": 1
+      },
+      "temporalAvailability": {
+        "median": 1,
+        "mean": 1
+      }
+    },
+    "laplace_grid": {
+      "presenceF1": {
+        "median": 0.093,
+        "mean": 0.103
+      },
+      "presencePrecision": {
+        "median": 0.4,
+        "mean": 0.458
+      },
+      "presenceRecall": {
+        "median": 0.05,
+        "mean": 0.066
+      },
+      "areaAccuracy": {
+        "median": 0.346,
+        "mean": 0.349
+      },
+      "temporalAvailability": {
+        "median": 1,
+        "mean": 1
+      }
+    },
+    "six_layer": {
+      "presenceF1": {
+        "median": 0.8,
+        "mean": 0.669
+      },
+      "presencePrecision": {
+        "median": 0.667,
+        "mean": 0.574
+      },
+      "presenceRecall": {
+        "median": 1,
+        "mean": 0.91
+      },
+      "areaAccuracy": {
+        "median": 0.333,
+        "mean": 0.319
+      },
+      "temporalAvailability": {
+        "median": 0.279,
+        "mean": 0.288
+      }
+    },
+    "zkls_grid": {
+      "presenceF1": {
+        "median": 0.8,
+        "mean": 0.668
+      },
+      "presencePrecision": {
+        "median": 0.833,
+        "mean": 0.672
+      },
+      "presenceRecall": {
+        "median": 0.873,
+        "mean": 0.721
+      },
+      "areaAccuracy": {
+        "median": 0.884,
+        "mean": 0.867
+      },
+      "temporalAvailability": {
+        "median": 1,
+        "mean": 1
+      }
+    },
+    "zkls_grid_zones": {
+      "presenceF1": {
+        "median": 0.8,
+        "mean": 0.669
+      },
+      "presencePrecision": {
+        "median": 0.667,
+        "mean": 0.574
+      },
+      "presenceRecall": {
+        "median": 1,
+        "mean": 0.91
+      },
+      "areaAccuracy": {
+        "median": 0.886,
+        "mean": 0.876
+      },
+      "temporalAvailability": {
+        "median": 0.801,
+        "mean": 0.765
+      }
+    },
+    "zkls_full": {
+      "presenceF1": {
+        "median": 0.8,
+        "mean": 0.669
+      },
+      "presencePrecision": {
+        "median": 0.667,
+        "mean": 0.573
+      },
+      "presenceRecall": {
+        "median": 1,
+        "mean": 0.91
+      },
+      "areaAccuracy": {
+        "median": 0.833,
+        "mean": 0.791
+      },
+      "temporalAvailability": {
+        "median": 0.279,
+        "mean": 0.288
+      }
+    }
+  },
+  "detail": [
+    {
+      "userId": "000",
+      "raw": {
+        "presencePrecision": 0.221,
+        "presenceRecall": 1,
+        "presenceF1": 0.362,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.346,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.245,
+        "presenceRecall": 1,
+        "presenceF1": 0.394,
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.186
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.206,
+        "presenceRecall": 0.28,
+        "presenceF1": 0.237,
+        "areaAccuracy": 0.716,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.245,
+        "presenceRecall": 1,
+        "presenceF1": 0.394,
+        "areaAccuracy": 0.915,
+        "temporalAvailability": 0.495
+      },
+      "zkls_full": {
+        "presencePrecision": 0.243,
+        "presenceRecall": 1,
+        "presenceF1": 0.391,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.186
+      }
+    },
+    {
+      "userId": "001",
+      "raw": {
+        "presencePrecision": 0.938,
+        "presenceRecall": 1,
+        "presenceF1": 0.968,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.636,
+        "presenceRecall": 0.093,
+        "presenceF1": 0.163,
+        "areaAccuracy": 0.426,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.882,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.359
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.902,
+        "presenceRecall": 0.987,
+        "presenceF1": 0.943,
+        "areaAccuracy": 0.963,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.882,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 0.892,
+        "temporalAvailability": 0.659
+      },
+      "zkls_full": {
+        "presencePrecision": 0.882,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.359
+      }
+    },
+    {
+      "userId": "002",
+      "raw": {
+        "presencePrecision": 0.957,
+        "presenceRecall": 1,
+        "presenceF1": 0.978,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.098,
+        "presenceF1": 0.179,
+        "areaAccuracy": 0.312,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.874,
+        "presenceRecall": 1,
+        "presenceF1": 0.933,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.411
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.694,
+        "presenceRecall": 0.189,
+        "presenceF1": 0.298,
+        "areaAccuracy": 0.869,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.874,
+        "presenceRecall": 1,
+        "presenceF1": 0.933,
+        "areaAccuracy": 0.937,
+        "temporalAvailability": 0.66
+      },
+      "zkls_full": {
+        "presencePrecision": 0.874,
+        "presenceRecall": 1,
+        "presenceF1": 0.933,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.411
+      }
+    },
+    {
+      "userId": "003",
+      "raw": {
+        "presencePrecision": 0.927,
+        "presenceRecall": 1,
+        "presenceF1": 0.962,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.6,
+        "presenceRecall": 0.118,
+        "presenceF1": 0.197,
+        "areaAccuracy": 0.36,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.63,
+        "presenceRecall": 1,
+        "presenceF1": 0.773,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.142
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.727,
+        "presenceRecall": 0.784,
+        "presenceF1": 0.755,
+        "areaAccuracy": 0.722,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.63,
+        "presenceRecall": 1,
+        "presenceF1": 0.773,
+        "areaAccuracy": 0.81,
+        "temporalAvailability": 0.582
+      },
+      "zkls_full": {
+        "presencePrecision": 0.614,
+        "presenceRecall": 1,
+        "presenceF1": 0.761,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.142
+      }
+    },
+    {
+      "userId": "004",
+      "raw": {
+        "presencePrecision": 0.304,
+        "presenceRecall": 1,
+        "presenceF1": 0.467,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.351,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.133,
+        "presenceRecall": 1,
+        "presenceF1": 0.235,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.175
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.069,
+        "presenceRecall": 0.143,
+        "presenceF1": 0.093,
+        "areaAccuracy": 0.746,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.133,
+        "presenceRecall": 1,
+        "presenceF1": 0.235,
+        "areaAccuracy": 0.886,
+        "temporalAvailability": 0.59
+      },
+      "zkls_full": {
+        "presencePrecision": 0.133,
+        "presenceRecall": 1,
+        "presenceF1": 0.235,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.175
+      }
+    },
+    {
+      "userId": "005",
+      "raw": {
+        "presencePrecision": 0.86,
+        "presenceRecall": 1,
+        "presenceF1": 0.925,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.351,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.842,
+        "presenceRecall": 1,
+        "presenceF1": 0.914,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.347
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.901,
+        "presenceRecall": 0.913,
+        "presenceF1": 0.907,
+        "areaAccuracy": 0.802,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.842,
+        "presenceRecall": 1,
+        "presenceF1": 0.914,
+        "areaAccuracy": 0.799,
+        "temporalAvailability": 0.857
+      },
+      "zkls_full": {
+        "presencePrecision": 0.842,
+        "presenceRecall": 1,
+        "presenceF1": 0.914,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.347
+      }
+    },
+    {
+      "userId": "006",
+      "raw": {
+        "presencePrecision": 0.846,
+        "presenceRecall": 1,
+        "presenceF1": 0.917,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.278,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.213
+      },
+      "zkls_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.909,
+        "presenceF1": 0.952,
+        "areaAccuracy": 0.731,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.809,
+        "temporalAvailability": 0.537
+      },
+      "zkls_full": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.213
+      }
+    },
+    {
+      "userId": "007",
+      "raw": {
+        "presencePrecision": 0.611,
+        "presenceRecall": 1,
+        "presenceF1": 0.759,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.25,
+        "presenceRecall": 0.091,
+        "presenceF1": 0.133,
+        "areaAccuracy": 0.306,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.667,
+        "presenceRecall": 1,
+        "presenceF1": 0.8,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.162
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.333,
+        "presenceRecall": 0.818,
+        "presenceF1": 0.474,
+        "areaAccuracy": 0.709,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.667,
+        "presenceRecall": 1,
+        "presenceF1": 0.8,
+        "areaAccuracy": 0.901,
+        "temporalAvailability": 0.482
+      },
+      "zkls_full": {
+        "presencePrecision": 0.667,
+        "presenceRecall": 1,
+        "presenceF1": 0.8,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.162
+      }
+    },
+    {
+      "userId": "008",
+      "raw": {
+        "presencePrecision": 0.615,
+        "presenceRecall": 1,
+        "presenceF1": 0.762,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.063,
+        "presenceF1": 0.118,
+        "areaAccuracy": 0.31,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.97,
+        "presenceRecall": 1,
+        "presenceF1": 0.985,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.317
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.875,
+        "presenceRecall": 0.875,
+        "presenceF1": 0.875,
+        "areaAccuracy": 0.782,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.97,
+        "presenceRecall": 1,
+        "presenceF1": 0.985,
+        "areaAccuracy": 0.904,
+        "temporalAvailability": 0.599
+      },
+      "zkls_full": {
+        "presencePrecision": 0.97,
+        "presenceRecall": 1,
+        "presenceF1": 0.985,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.317
+      }
+    },
+    {
+      "userId": "009",
+      "raw": {
+        "presencePrecision": 0.919,
+        "presenceRecall": 1,
+        "presenceF1": 0.958,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.889,
+        "presenceRecall": 0.118,
+        "presenceF1": 0.208,
+        "areaAccuracy": 0.317,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.368,
+        "presenceRecall": 1,
+        "presenceF1": 0.538,
+        "areaAccuracy": 0.364,
+        "temporalAvailability": 0.817
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.985,
+        "presenceRecall": 0.985,
+        "presenceF1": 0.985,
+        "areaAccuracy": 0.946,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.368,
+        "presenceRecall": 1,
+        "presenceF1": 0.538,
+        "areaAccuracy": 0.545,
+        "temporalAvailability": 0.817
+      },
+      "zkls_full": {
+        "presencePrecision": 0.368,
+        "presenceRecall": 1,
+        "presenceF1": 0.538,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.821
+      }
+    },
+    {
+      "userId": "010",
+      "raw": {
+        "presencePrecision": 0.333,
+        "presenceRecall": 1,
+        "presenceF1": 0.5,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.295,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.2,
+        "presenceRecall": 1,
+        "presenceF1": 0.333,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.06
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.083,
+        "presenceRecall": 1,
+        "presenceF1": 0.154,
+        "areaAccuracy": 0.929,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.2,
+        "presenceRecall": 1,
+        "presenceF1": 0.333,
+        "areaAccuracy": 0.923,
+        "temporalAvailability": 0.947
+      },
+      "zkls_full": {
+        "presencePrecision": 0.2,
+        "presenceRecall": 1,
+        "presenceF1": 0.333,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.06
+      }
+    },
+    {
+      "userId": "011",
+      "raw": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 1,
+        "presenceF1": 0.667,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.25,
+        "presenceRecall": 0.091,
+        "presenceF1": 0.133,
+        "areaAccuracy": 0.32,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.815,
+        "presenceRecall": 1,
+        "presenceF1": 0.898,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.16
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.182,
+        "presenceF1": 0.267,
+        "areaAccuracy": 0.852,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.815,
+        "presenceRecall": 1,
+        "presenceF1": 0.898,
+        "areaAccuracy": 0.938,
+        "temporalAvailability": 0.57
+      },
+      "zkls_full": {
+        "presencePrecision": 0.815,
+        "presenceRecall": 1,
+        "presenceF1": 0.898,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.16
+      }
+    },
+    {
+      "userId": "012",
+      "raw": {
+        "presencePrecision": 0.943,
+        "presenceRecall": 1,
+        "presenceF1": 0.97,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.769,
+        "presenceRecall": 0.087,
+        "presenceF1": 0.156,
+        "areaAccuracy": 0.399,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.723,
+        "presenceRecall": 1,
+        "presenceF1": 0.839,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.506
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.902,
+        "presenceRecall": 0.643,
+        "presenceF1": 0.751,
+        "areaAccuracy": 0.926,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.723,
+        "presenceRecall": 1,
+        "presenceF1": 0.839,
+        "areaAccuracy": 0.865,
+        "temporalAvailability": 0.864
+      },
+      "zkls_full": {
+        "presencePrecision": 0.723,
+        "presenceRecall": 1,
+        "presenceF1": 0.839,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.506
+      }
+    },
+    {
+      "userId": "013",
+      "raw": {
+        "presencePrecision": 0.805,
+        "presenceRecall": 1,
+        "presenceF1": 0.892,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.368,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 1,
+        "presenceF1": 0.667,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.29
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.92,
+        "presenceRecall": 0.697,
+        "presenceF1": 0.793,
+        "areaAccuracy": 0.885,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 1,
+        "presenceF1": 0.667,
+        "areaAccuracy": 0.924,
+        "temporalAvailability": 0.784
+      },
+      "zkls_full": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 1,
+        "presenceF1": 0.667,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.29
+      }
+    },
+    {
+      "userId": "014",
+      "raw": {
+        "presencePrecision": 0.195,
+        "presenceRecall": 1,
+        "presenceF1": 0.326,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.359,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.793,
+        "presenceRecall": 1,
+        "presenceF1": 0.885,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.09
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.333,
+        "presenceRecall": 0.826,
+        "presenceF1": 0.475,
+        "areaAccuracy": 0.786,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.793,
+        "presenceRecall": 1,
+        "presenceF1": 0.885,
+        "areaAccuracy": 0.869,
+        "temporalAvailability": 0.568
+      },
+      "zkls_full": {
+        "presencePrecision": 0.793,
+        "presenceRecall": 1,
+        "presenceF1": 0.885,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.09
+      }
+    },
+    {
+      "userId": "015",
+      "raw": {
+        "presencePrecision": 0.951,
+        "presenceRecall": 1,
+        "presenceF1": 0.975,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.026,
+        "presenceF1": 0.05,
+        "areaAccuracy": 0.44,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.609,
+        "presenceRecall": 1,
+        "presenceF1": 0.757,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.434
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.974,
+        "presenceRecall": 0.974,
+        "presenceF1": 0.974,
+        "areaAccuracy": 0.857,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.609,
+        "presenceRecall": 1,
+        "presenceF1": 0.757,
+        "areaAccuracy": 0.772,
+        "temporalAvailability": 0.817
+      },
+      "zkls_full": {
+        "presencePrecision": 0.609,
+        "presenceRecall": 1,
+        "presenceF1": 0.757,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.434
+      }
+    },
+    {
+      "userId": "016",
+      "raw": {
+        "presencePrecision": 0.833,
+        "presenceRecall": 1,
+        "presenceF1": 0.909,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.075,
+        "presenceF1": 0.13,
+        "areaAccuracy": 0.338,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.741,
+        "presenceRecall": 1,
+        "presenceF1": 0.851,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.333
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.841,
+        "presenceRecall": 0.925,
+        "presenceF1": 0.881,
+        "areaAccuracy": 0.874,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.741,
+        "presenceRecall": 1,
+        "presenceF1": 0.851,
+        "areaAccuracy": 0.813,
+        "temporalAvailability": 0.677
+      },
+      "zkls_full": {
+        "presencePrecision": 0.741,
+        "presenceRecall": 1,
+        "presenceF1": 0.851,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.333
+      }
+    },
+    {
+      "userId": "017",
+      "raw": {
+        "presencePrecision": 0.923,
+        "presenceRecall": 1,
+        "presenceF1": 0.96,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.875,
+        "presenceRecall": 0.058,
+        "presenceF1": 0.109,
+        "areaAccuracy": 0.349,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.553,
+        "presenceRecall": 1,
+        "presenceF1": 0.712,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.328
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.991,
+        "presenceRecall": 0.892,
+        "presenceF1": 0.939,
+        "areaAccuracy": 0.921,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.553,
+        "presenceRecall": 1,
+        "presenceF1": 0.712,
+        "areaAccuracy": 0.897,
+        "temporalAvailability": 0.896
+      },
+      "zkls_full": {
+        "presencePrecision": 0.553,
+        "presenceRecall": 1,
+        "presenceF1": 0.712,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.328
+      }
+    },
+    {
+      "userId": "018",
+      "raw": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 1,
+        "presenceF1": 0.667,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.335,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.059,
+        "presenceRecall": 1,
+        "presenceF1": 0.111,
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.399
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.2,
+        "presenceRecall": 0.333,
+        "presenceF1": 0.25,
+        "areaAccuracy": 0.899,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.059,
+        "presenceRecall": 1,
+        "presenceF1": 0.111,
+        "areaAccuracy": 0.831,
+        "temporalAvailability": 0.848
+      },
+      "zkls_full": {
+        "presencePrecision": 0.058,
+        "presenceRecall": 1,
+        "presenceF1": 0.109,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.399
+      }
+    },
+    {
+      "userId": "019",
+      "raw": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.75,
+        "presenceF1": 0.857,
+        "areaAccuracy": 0.368,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.444,
+        "presenceRecall": 1,
+        "presenceF1": 0.615,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.138
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.75,
+        "presenceRecall": 0.75,
+        "presenceF1": 0.75,
+        "areaAccuracy": 0.941,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.444,
+        "presenceRecall": 1,
+        "presenceF1": 0.615,
+        "areaAccuracy": 0.945,
+        "temporalAvailability": 0.658
+      },
+      "zkls_full": {
+        "presencePrecision": 0.444,
+        "presenceRecall": 1,
+        "presenceF1": 0.615,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.138
+      }
+    },
+    {
+      "userId": "020",
+      "raw": {
+        "presencePrecision": 0.759,
+        "presenceRecall": 1,
+        "presenceF1": 0.863,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.249,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.846,
+        "presenceRecall": 1,
+        "presenceF1": 0.917,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.325
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.719,
+        "presenceRecall": 0.932,
+        "presenceF1": 0.812,
+        "areaAccuracy": 0.843,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.846,
+        "presenceRecall": 1,
+        "presenceF1": 0.917,
+        "areaAccuracy": 0.777,
+        "temporalAvailability": 0.741
+      },
+      "zkls_full": {
+        "presencePrecision": 0.846,
+        "presenceRecall": 1,
+        "presenceF1": 0.917,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.325
+      }
+    },
+    {
+      "userId": "022",
+      "raw": {
+        "presencePrecision": 0.971,
+        "presenceRecall": 1,
+        "presenceF1": 0.985,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.846,
+        "presenceRecall": 0.041,
+        "presenceF1": 0.079,
+        "areaAccuracy": 0.335,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.692,
+        "presenceRecall": 1,
+        "presenceF1": 0.818,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.609
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.985,
+        "presenceRecall": 0.966,
+        "presenceF1": 0.975,
+        "areaAccuracy": 0.96,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.692,
+        "presenceRecall": 1,
+        "presenceF1": 0.818,
+        "areaAccuracy": 0.892,
+        "temporalAvailability": 0.931
+      },
+      "zkls_full": {
+        "presencePrecision": 0.692,
+        "presenceRecall": 1,
+        "presenceF1": 0.818,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.609
+      }
+    },
+    {
+      "userId": "023",
+      "raw": {
+        "presencePrecision": 0.898,
+        "presenceRecall": 1,
+        "presenceF1": 0.946,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.057,
+        "presenceF1": 0.107,
+        "areaAccuracy": 0.4,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.841,
+        "presenceRecall": 1,
+        "presenceF1": 0.914,
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.3
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.93,
+        "presenceRecall": 1,
+        "presenceF1": 0.964,
+        "areaAccuracy": 0.952,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.841,
+        "presenceRecall": 1,
+        "presenceF1": 0.914,
+        "areaAccuracy": 0.962,
+        "temporalAvailability": 0.88
+      },
+      "zkls_full": {
+        "presencePrecision": 0.841,
+        "presenceRecall": 1,
+        "presenceF1": 0.914,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.3
+      }
+    },
+    {
+      "userId": "024",
+      "raw": {
+        "presencePrecision": 0.966,
+        "presenceRecall": 1,
+        "presenceF1": 0.982,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.036,
+        "presenceF1": 0.067,
+        "areaAccuracy": 0.313,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.438,
+        "presenceRecall": 1,
+        "presenceF1": 0.609,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.158
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.833,
+        "presenceRecall": 0.179,
+        "presenceF1": 0.294,
+        "areaAccuracy": 0.876,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.438,
+        "presenceRecall": 1,
+        "presenceF1": 0.609,
+        "areaAccuracy": 0.889,
+        "temporalAvailability": 0.863
+      },
+      "zkls_full": {
+        "presencePrecision": 0.438,
+        "presenceRecall": 1,
+        "presenceF1": 0.609,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.158
+      }
+    },
+    {
+      "userId": "025",
+      "raw": {
+        "presencePrecision": 0.9,
+        "presenceRecall": 1,
+        "presenceF1": 0.947,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.538,
+        "presenceRecall": 0.065,
+        "presenceF1": 0.116,
+        "areaAccuracy": 0.355,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.964,
+        "presenceRecall": 1,
+        "presenceF1": 0.982,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.197
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.861,
+        "presenceRecall": 0.972,
+        "presenceF1": 0.913,
+        "areaAccuracy": 0.889,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.964,
+        "presenceRecall": 1,
+        "presenceF1": 0.982,
+        "areaAccuracy": 0.861,
+        "temporalAvailability": 0.808
+      },
+      "zkls_full": {
+        "presencePrecision": 0.964,
+        "presenceRecall": 1,
+        "presenceF1": 0.982,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.197
+      }
+    },
+    {
+      "userId": "026",
+      "raw": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.393,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.194
+      },
+      "zkls_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.925,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.904,
+        "temporalAvailability": 0.91
+      },
+      "zkls_full": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.194
+      }
+    },
+    {
+      "userId": "028",
+      "raw": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.367,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.302
+      },
+      "zkls_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.872,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.927,
+        "temporalAvailability": 0.893
+      },
+      "zkls_full": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.302
+      }
+    },
+    {
+      "userId": "029",
+      "raw": {
+        "presencePrecision": 0.952,
+        "presenceRecall": 1,
+        "presenceF1": 0.976,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.05,
+        "presenceF1": 0.095,
+        "areaAccuracy": 0.305,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.69,
+        "presenceRecall": 1,
+        "presenceF1": 0.816,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.39
+      },
+      "zkls_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.9,
+        "presenceF1": 0.947,
+        "areaAccuracy": 0.79,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.69,
+        "presenceRecall": 1,
+        "presenceF1": 0.816,
+        "areaAccuracy": 0.907,
+        "temporalAvailability": 0.686
+      },
+      "zkls_full": {
+        "presencePrecision": 0.69,
+        "presenceRecall": 1,
+        "presenceF1": 0.816,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.39
+      }
+    },
+    {
+      "userId": "030",
+      "raw": {
+        "presencePrecision": 0.357,
+        "presenceRecall": 1,
+        "presenceF1": 0.526,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.332,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.211,
+        "presenceRecall": 1,
+        "presenceF1": 0.349,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.137
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.467,
+        "presenceRecall": 0.933,
+        "presenceF1": 0.622,
+        "areaAccuracy": 0.824,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.211,
+        "presenceRecall": 1,
+        "presenceF1": 0.349,
+        "areaAccuracy": 0.891,
+        "temporalAvailability": 0.553
+      },
+      "zkls_full": {
+        "presencePrecision": 0.211,
+        "presenceRecall": 1,
+        "presenceF1": 0.349,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.137
+      }
+    },
+    {
+      "userId": "033",
+      "raw": {
+        "presencePrecision": 0.955,
+        "presenceRecall": 1,
+        "presenceF1": 0.977,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.095,
+        "presenceF1": 0.16,
+        "areaAccuracy": 0.286,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.568,
+        "presenceRecall": 1,
+        "presenceF1": 0.724,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.467
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.929,
+        "presenceRecall": 0.619,
+        "presenceF1": 0.743,
+        "areaAccuracy": 0.81,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.568,
+        "presenceRecall": 1,
+        "presenceF1": 0.724,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.838
+      },
+      "zkls_full": {
+        "presencePrecision": 0.568,
+        "presenceRecall": 1,
+        "presenceF1": 0.724,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.467
+      }
+    },
+    {
+      "userId": "034",
+      "raw": {
+        "presencePrecision": 0.639,
+        "presenceRecall": 1,
+        "presenceF1": 0.78,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.4,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.719,
+        "presenceRecall": 1,
+        "presenceF1": 0.836,
+        "areaAccuracy": 0,
+        "temporalAvailability": 0.129
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.576,
+        "presenceRecall": 0.826,
+        "presenceF1": 0.679,
+        "areaAccuracy": 0.888,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.719,
+        "presenceRecall": 1,
+        "presenceF1": 0.836,
+        "areaAccuracy": 0.857,
+        "temporalAvailability": 0.791
+      },
+      "zkls_full": {
+        "presencePrecision": 0.719,
+        "presenceRecall": 1,
+        "presenceF1": 0.836,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.129
+      }
+    },
+    {
+      "userId": "035",
+      "raw": {
+        "presencePrecision": 0.976,
+        "presenceRecall": 1,
+        "presenceF1": 0.988,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.048,
+        "presenceF1": 0.092,
+        "areaAccuracy": 0.331,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.364,
+        "presenceRecall": 1,
+        "presenceF1": 0.534,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.3
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.954,
+        "presenceRecall": 1,
+        "presenceF1": 0.976,
+        "areaAccuracy": 0.936,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.364,
+        "presenceRecall": 1,
+        "presenceF1": 0.534,
+        "areaAccuracy": 0.921,
+        "temporalAvailability": 0.934
+      },
+      "zkls_full": {
+        "presencePrecision": 0.364,
+        "presenceRecall": 1,
+        "presenceF1": 0.534,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.3
+      }
+    },
+    {
+      "userId": "036",
+      "raw": {
+        "presencePrecision": 0.712,
+        "presenceRecall": 1,
+        "presenceF1": 0.831,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.054,
+        "presenceF1": 0.095,
+        "areaAccuracy": 0.297,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.902,
+        "presenceRecall": 1,
+        "presenceF1": 0.949,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.271
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.909,
+        "presenceRecall": 0.811,
+        "presenceF1": 0.857,
+        "areaAccuracy": 0.752,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.902,
+        "presenceRecall": 1,
+        "presenceF1": 0.949,
+        "areaAccuracy": 0.837,
+        "temporalAvailability": 0.519
+      },
+      "zkls_full": {
+        "presencePrecision": 0.902,
+        "presenceRecall": 1,
+        "presenceF1": 0.949,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.271
+      }
+    },
+    {
+      "userId": "037",
+      "raw": {
+        "presencePrecision": 0.676,
+        "presenceRecall": 1,
+        "presenceF1": 0.807,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.333,
+        "presenceRecall": 0.043,
+        "presenceF1": 0.077,
+        "areaAccuracy": 0.344,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.377,
+        "presenceRecall": 1,
+        "presenceF1": 0.548,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.189
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.444,
+        "presenceRecall": 0.522,
+        "presenceF1": 0.48,
+        "areaAccuracy": 0.884,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.377,
+        "presenceRecall": 1,
+        "presenceF1": 0.548,
+        "areaAccuracy": 0.884,
+        "temporalAvailability": 0.801
+      },
+      "zkls_full": {
+        "presencePrecision": 0.377,
+        "presenceRecall": 1,
+        "presenceF1": 0.548,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.189
+      }
+    },
+    {
+      "userId": "038",
+      "raw": {
+        "presencePrecision": 0.8,
+        "presenceRecall": 1,
+        "presenceF1": 0.889,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.385,
+        "presenceRecall": 0.03,
+        "presenceF1": 0.056,
+        "areaAccuracy": 0.368,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.812,
+        "presenceRecall": 1,
+        "presenceF1": 0.896,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.439
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.821,
+        "presenceRecall": 0.921,
+        "presenceF1": 0.868,
+        "areaAccuracy": 0.947,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.812,
+        "presenceRecall": 1,
+        "presenceF1": 0.896,
+        "areaAccuracy": 0.892,
+        "temporalAvailability": 0.682
+      },
+      "zkls_full": {
+        "presencePrecision": 0.812,
+        "presenceRecall": 1,
+        "presenceF1": 0.896,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.439
+      }
+    },
+    {
+      "userId": "039",
+      "raw": {
+        "presencePrecision": 0.917,
+        "presenceRecall": 1,
+        "presenceF1": 0.957,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.778,
+        "presenceRecall": 0.063,
+        "presenceF1": 0.117,
+        "areaAccuracy": 0.323,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.661,
+        "presenceRecall": 1,
+        "presenceF1": 0.796,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.292
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.945,
+        "presenceRecall": 0.928,
+        "presenceF1": 0.936,
+        "areaAccuracy": 0.877,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.661,
+        "presenceRecall": 1,
+        "presenceF1": 0.796,
+        "areaAccuracy": 0.809,
+        "temporalAvailability": 0.851
+      },
+      "zkls_full": {
+        "presencePrecision": 0.661,
+        "presenceRecall": 1,
+        "presenceF1": 0.796,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.292
+      }
+    },
+    {
+      "userId": "040",
+      "raw": {
+        "presencePrecision": 0.918,
+        "presenceRecall": 1,
+        "presenceF1": 0.957,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.111,
+        "presenceF1": 0.2,
+        "areaAccuracy": 0.359,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.882,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.481
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.938,
+        "presenceRecall": 1,
+        "presenceF1": 0.968,
+        "areaAccuracy": 0.939,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.882,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 0.873,
+        "temporalAvailability": 0.809
+      },
+      "zkls_full": {
+        "presencePrecision": 0.882,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.481
+      }
+    },
+    {
+      "userId": "041",
+      "raw": {
+        "presencePrecision": 0.406,
+        "presenceRecall": 1,
+        "presenceF1": 0.578,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.125,
+        "presenceRecall": 0.038,
+        "presenceF1": 0.059,
+        "areaAccuracy": 0.299,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.684,
+        "presenceRecall": 1,
+        "presenceF1": 0.813,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.06
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.139,
+        "presenceRecall": 0.885,
+        "presenceF1": 0.24,
+        "areaAccuracy": 0.714,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.684,
+        "presenceRecall": 1,
+        "presenceF1": 0.813,
+        "areaAccuracy": 0.855,
+        "temporalAvailability": 0.787
+      },
+      "zkls_full": {
+        "presencePrecision": 0.684,
+        "presenceRecall": 1,
+        "presenceF1": 0.813,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.06
+      }
+    },
+    {
+      "userId": "042",
+      "raw": {
+        "presencePrecision": 0.846,
+        "presenceRecall": 1,
+        "presenceF1": 0.917,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.39,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.25,
+        "presenceRecall": 1,
+        "presenceF1": 0.4,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.157
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.846,
+        "presenceRecall": 1,
+        "presenceF1": 0.917,
+        "areaAccuracy": 0.916,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.25,
+        "presenceRecall": 1,
+        "presenceF1": 0.4,
+        "areaAccuracy": 0.88,
+        "temporalAvailability": 0.801
+      },
+      "zkls_full": {
+        "presencePrecision": 0.25,
+        "presenceRecall": 1,
+        "presenceF1": 0.4,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.157
+      }
+    },
+    {
+      "userId": "043",
+      "raw": {
+        "presencePrecision": 0.778,
+        "presenceRecall": 1,
+        "presenceF1": 0.875,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.336,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.2,
+        "presenceRecall": 1,
+        "presenceF1": 0.333,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.377
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.75,
+        "presenceRecall": 0.857,
+        "presenceF1": 0.8,
+        "areaAccuracy": 0.721,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.206,
+        "presenceRecall": 1,
+        "presenceF1": 0.341,
+        "areaAccuracy": 0.919,
+        "temporalAvailability": 0.984
+      },
+      "zkls_full": {
+        "presencePrecision": 0.206,
+        "presenceRecall": 1,
+        "presenceF1": 0.341,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.377
+      }
+    },
+    {
+      "userId": "044",
+      "raw": {
+        "presencePrecision": 0.769,
+        "presenceRecall": 1,
+        "presenceF1": 0.87,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.033,
+        "presenceF1": 0.062,
+        "areaAccuracy": 0.314,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.583,
+        "presenceRecall": 1,
+        "presenceF1": 0.736,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.551
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.812,
+        "presenceRecall": 0.933,
+        "presenceF1": 0.868,
+        "areaAccuracy": 0.874,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.588,
+        "presenceRecall": 1,
+        "presenceF1": 0.741,
+        "areaAccuracy": 0.837,
+        "temporalAvailability": 0.729
+      },
+      "zkls_full": {
+        "presencePrecision": 0.588,
+        "presenceRecall": 1,
+        "presenceF1": 0.741,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.551
+      }
+    },
+    {
+      "userId": "050",
+      "raw": {
+        "presencePrecision": 0.944,
+        "presenceRecall": 1,
+        "presenceF1": 0.971,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.059,
+        "presenceF1": 0.111,
+        "areaAccuracy": 0.347,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.75,
+        "presenceRecall": 1,
+        "presenceF1": 0.857,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.252
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.962,
+        "presenceRecall": 1,
+        "presenceF1": 0.981,
+        "areaAccuracy": 0.798,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.75,
+        "presenceRecall": 1,
+        "presenceF1": 0.857,
+        "areaAccuracy": 0.87,
+        "temporalAvailability": 0.943
+      },
+      "zkls_full": {
+        "presencePrecision": 0.75,
+        "presenceRecall": 1,
+        "presenceF1": 0.857,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.252
+      }
+    },
+    {
+      "userId": "051",
+      "raw": {
+        "presencePrecision": 0.966,
+        "presenceRecall": 1,
+        "presenceF1": 0.982,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.34,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.933,
+        "presenceRecall": 1,
+        "presenceF1": 0.966,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.207
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.933,
+        "presenceRecall": 1,
+        "presenceF1": 0.966,
+        "areaAccuracy": 0.714,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.933,
+        "presenceRecall": 1,
+        "presenceF1": 0.966,
+        "areaAccuracy": 0.784,
+        "temporalAvailability": 0.901
+      },
+      "zkls_full": {
+        "presencePrecision": 0.933,
+        "presenceRecall": 1,
+        "presenceF1": 0.966,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.207
+      }
+    },
+    {
+      "userId": "052",
+      "raw": {
+        "presencePrecision": 0.964,
+        "presenceRecall": 1,
+        "presenceF1": 0.982,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.037,
+        "presenceF1": 0.071,
+        "areaAccuracy": 0.34,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.761,
+        "presenceRecall": 1,
+        "presenceF1": 0.864,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.418
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.97,
+        "presenceRecall": 1,
+        "presenceF1": 0.985,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.761,
+        "presenceRecall": 1,
+        "presenceF1": 0.864,
+        "areaAccuracy": 0.897,
+        "temporalAvailability": 0.918
+      },
+      "zkls_full": {
+        "presencePrecision": 0.757,
+        "presenceRecall": 1,
+        "presenceF1": 0.862,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.418
+      }
+    },
+    {
+      "userId": "062",
+      "raw": {
+        "presencePrecision": 0.755,
+        "presenceRecall": 1,
+        "presenceF1": 0.861,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.625,
+        "presenceRecall": 0.07,
+        "presenceF1": 0.127,
+        "areaAccuracy": 0.349,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.866,
+        "presenceRecall": 1,
+        "presenceF1": 0.928,
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.165
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.732,
+        "presenceRecall": 0.577,
+        "presenceF1": 0.646,
+        "areaAccuracy": 0.896,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.866,
+        "presenceRecall": 1,
+        "presenceF1": 0.928,
+        "areaAccuracy": 0.886,
+        "temporalAvailability": 0.774
+      },
+      "zkls_full": {
+        "presencePrecision": 0.866,
+        "presenceRecall": 1,
+        "presenceF1": 0.928,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.165
+      }
+    },
+    {
+      "userId": "065",
+      "raw": {
+        "presencePrecision": 0.588,
+        "presenceRecall": 1,
+        "presenceF1": 0.741,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.2,
+        "presenceF1": 0.267,
+        "areaAccuracy": 0.288,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.588,
+        "presenceRecall": 1,
+        "presenceF1": 0.741,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.124
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.8,
+        "presenceRecall": 0.4,
+        "presenceF1": 0.533,
+        "areaAccuracy": 0.725,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.588,
+        "presenceRecall": 1,
+        "presenceF1": 0.741,
+        "areaAccuracy": 0.882,
+        "temporalAvailability": 0.472
+      },
+      "zkls_full": {
+        "presencePrecision": 0.588,
+        "presenceRecall": 1,
+        "presenceF1": 0.741,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.124
+      }
+    },
+    {
+      "userId": "067",
+      "raw": {
+        "presencePrecision": 0.95,
+        "presenceRecall": 1,
+        "presenceF1": 0.974,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.018,
+        "presenceF1": 0.034,
+        "areaAccuracy": 0.372,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.877,
+        "presenceRecall": 1,
+        "presenceF1": 0.934,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.26
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.79,
+        "presenceRecall": 0.86,
+        "presenceF1": 0.824,
+        "areaAccuracy": 0.706,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.877,
+        "presenceRecall": 1,
+        "presenceF1": 0.934,
+        "areaAccuracy": 0.889,
+        "temporalAvailability": 0.767
+      },
+      "zkls_full": {
+        "presencePrecision": 0.864,
+        "presenceRecall": 1,
+        "presenceF1": 0.927,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.26
+      }
+    },
+    {
+      "userId": "068",
+      "raw": {
+        "presencePrecision": 0.778,
+        "presenceRecall": 1,
+        "presenceF1": 0.875,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.082,
+        "presenceF1": 0.14,
+        "areaAccuracy": 0.328,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.395,
+        "presenceRecall": 1,
+        "presenceF1": 0.566,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.267
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.611,
+        "presenceRecall": 0.449,
+        "presenceF1": 0.518,
+        "areaAccuracy": 0.813,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.395,
+        "presenceRecall": 1,
+        "presenceF1": 0.566,
+        "areaAccuracy": 0.831,
+        "temporalAvailability": 0.823
+      },
+      "zkls_full": {
+        "presencePrecision": 0.395,
+        "presenceRecall": 1,
+        "presenceF1": 0.566,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.267
+      }
+    },
+    {
+      "userId": "071",
+      "raw": {
+        "presencePrecision": 0.838,
+        "presenceRecall": 1,
+        "presenceF1": 0.912,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.667,
+        "presenceRecall": 0.07,
+        "presenceF1": 0.127,
+        "areaAccuracy": 0.312,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.95,
+        "presenceRecall": 1,
+        "presenceF1": 0.974,
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.511
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.949,
+        "presenceRecall": 0.982,
+        "presenceF1": 0.966,
+        "areaAccuracy": 0.816,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.95,
+        "presenceRecall": 1,
+        "presenceF1": 0.974,
+        "areaAccuracy": 0.938,
+        "temporalAvailability": 0.766
+      },
+      "zkls_full": {
+        "presencePrecision": 0.95,
+        "presenceRecall": 1,
+        "presenceF1": 0.974,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.511
+      }
+    },
+    {
+      "userId": "073",
+      "raw": {
+        "presencePrecision": 0.4,
+        "presenceRecall": 1,
+        "presenceF1": 0.571,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.288,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.593,
+        "presenceRecall": 1,
+        "presenceF1": 0.744,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.267
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.452,
+        "presenceRecall": 0.875,
+        "presenceF1": 0.596,
+        "areaAccuracy": 0.973,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.593,
+        "presenceRecall": 1,
+        "presenceF1": 0.744,
+        "areaAccuracy": 0.9,
+        "temporalAvailability": 0.322
+      },
+      "zkls_full": {
+        "presencePrecision": 0.593,
+        "presenceRecall": 1,
+        "presenceF1": 0.744,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.267
+      }
+    },
+    {
+      "userId": "074",
+      "raw": {
+        "presencePrecision": 0.61,
+        "presenceRecall": 1,
+        "presenceF1": 0.758,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.08,
+        "presenceF1": 0.148,
+        "areaAccuracy": 0.43,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.758,
+        "presenceRecall": 1,
+        "presenceF1": 0.862,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.317
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.586,
+        "presenceRecall": 0.68,
+        "presenceF1": 0.63,
+        "areaAccuracy": 0.965,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.758,
+        "presenceRecall": 1,
+        "presenceF1": 0.862,
+        "areaAccuracy": 0.949,
+        "temporalAvailability": 0.507
+      },
+      "zkls_full": {
+        "presencePrecision": 0.758,
+        "presenceRecall": 1,
+        "presenceF1": 0.862,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.317
+      }
+    },
+    {
+      "userId": "078",
+      "raw": {
+        "presencePrecision": 0.513,
+        "presenceRecall": 1,
+        "presenceF1": 0.678,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.15,
+        "presenceF1": 0.231,
+        "areaAccuracy": 0.427,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.909,
+        "presenceRecall": 1,
+        "presenceF1": 0.952,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.33
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.286,
+        "presenceRecall": 0.3,
+        "presenceF1": 0.293,
+        "areaAccuracy": 0.981,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.909,
+        "presenceRecall": 1,
+        "presenceF1": 0.952,
+        "areaAccuracy": 0.913,
+        "temporalAvailability": 0.437
+      },
+      "zkls_full": {
+        "presencePrecision": 0.909,
+        "presenceRecall": 1,
+        "presenceF1": 0.952,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.33
+      }
+    },
+    {
+      "userId": "082",
+      "raw": {
+        "presencePrecision": 0.868,
+        "presenceRecall": 1,
+        "presenceF1": 0.929,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.333,
+        "presenceRecall": 0.013,
+        "presenceF1": 0.024,
+        "areaAccuracy": 0.287,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.798,
+        "presenceRecall": 1,
+        "presenceF1": 0.888,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.55
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.885,
+        "presenceRecall": 0.873,
+        "presenceF1": 0.879,
+        "areaAccuracy": 0.891,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.798,
+        "presenceRecall": 1,
+        "presenceF1": 0.888,
+        "areaAccuracy": 0.81,
+        "temporalAvailability": 0.802
+      },
+      "zkls_full": {
+        "presencePrecision": 0.79,
+        "presenceRecall": 1,
+        "presenceF1": 0.883,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.55
+      }
+    },
+    {
+      "userId": "084",
+      "raw": {
+        "presencePrecision": 0.85,
+        "presenceRecall": 1,
+        "presenceF1": 0.919,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.857,
+        "presenceRecall": 0.118,
+        "presenceF1": 0.207,
+        "areaAccuracy": 0.344,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.451,
+        "presenceRecall": 1,
+        "presenceF1": 0.622,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.319
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.836,
+        "presenceRecall": 0.902,
+        "presenceF1": 0.868,
+        "areaAccuracy": 0.903,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.451,
+        "presenceRecall": 1,
+        "presenceF1": 0.622,
+        "areaAccuracy": 0.836,
+        "temporalAvailability": 0.801
+      },
+      "zkls_full": {
+        "presencePrecision": 0.451,
+        "presenceRecall": 1,
+        "presenceF1": 0.622,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.319
+      }
+    },
+    {
+      "userId": "085",
+      "raw": {
+        "presencePrecision": 0.957,
+        "presenceRecall": 1,
+        "presenceF1": 0.978,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.909,
+        "presenceRecall": 0.075,
+        "presenceF1": 0.139,
+        "areaAccuracy": 0.328,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.353
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.971,
+        "presenceRecall": 0.992,
+        "presenceF1": 0.981,
+        "areaAccuracy": 0.825,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.72,
+        "temporalAvailability": 0.922
+      },
+      "zkls_full": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.353
+      }
+    },
+    {
+      "userId": "089",
+      "raw": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.379,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.279
+      },
+      "zkls_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.921,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.912,
+        "temporalAvailability": 0.921
+      },
+      "zkls_full": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.279
+      }
+    },
+    {
+      "userId": "091",
+      "raw": {
+        "presencePrecision": 0.942,
+        "presenceRecall": 1,
+        "presenceF1": 0.97,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.6,
+        "presenceRecall": 0.061,
+        "presenceF1": 0.111,
+        "areaAccuracy": 0.448,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.598,
+        "presenceRecall": 1,
+        "presenceF1": 0.748,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.547
+      },
+      "zkls_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.816,
+        "presenceF1": 0.899,
+        "areaAccuracy": 0.959,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.598,
+        "presenceRecall": 1,
+        "presenceF1": 0.748,
+        "areaAccuracy": 0.923,
+        "temporalAvailability": 0.93
+      },
+      "zkls_full": {
+        "presencePrecision": 0.598,
+        "presenceRecall": 1,
+        "presenceF1": 0.748,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.547
+      }
+    },
+    {
+      "userId": "092",
+      "raw": {
+        "presencePrecision": 0.894,
+        "presenceRecall": 1,
+        "presenceF1": 0.944,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.053,
+        "presenceF1": 0.1,
+        "areaAccuracy": 0.398,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.71,
+        "presenceRecall": 1,
+        "presenceF1": 0.831,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.578
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.913,
+        "presenceRecall": 0.829,
+        "presenceF1": 0.869,
+        "areaAccuracy": 0.942,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.71,
+        "presenceRecall": 1,
+        "presenceF1": 0.831,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.752
+      },
+      "zkls_full": {
+        "presencePrecision": 0.71,
+        "presenceRecall": 1,
+        "presenceF1": 0.831,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.578
+      }
+    },
+    {
+      "userId": "096",
+      "raw": {
+        "presencePrecision": 0.89,
+        "presenceRecall": 1,
+        "presenceF1": 0.942,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.062,
+        "presenceF1": 0.11,
+        "areaAccuracy": 0.319,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.802,
+        "presenceRecall": 1,
+        "presenceF1": 0.89,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 0.443
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.928,
+        "presenceRecall": 0.985,
+        "presenceF1": 0.955,
+        "areaAccuracy": 0.695,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.802,
+        "presenceRecall": 1,
+        "presenceF1": 0.89,
+        "areaAccuracy": 0.953,
+        "temporalAvailability": 0.89
+      },
+      "zkls_full": {
+        "presencePrecision": 0.802,
+        "presenceRecall": 1,
+        "presenceF1": 0.89,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.443
+      }
+    },
+    {
+      "userId": "101",
+      "raw": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.398,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.194
+      },
+      "zkls_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.961,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.943,
+        "temporalAvailability": 0.757
+      },
+      "zkls_full": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.194
+      }
+    },
+    {
+      "userId": "104",
+      "raw": {
+        "presencePrecision": 0.884,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.053,
+        "presenceF1": 0.093,
+        "areaAccuracy": 0.339,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.884,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.222
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.833,
+        "presenceRecall": 0.921,
+        "presenceF1": 0.875,
+        "areaAccuracy": 0.823,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.884,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 0.864,
+        "temporalAvailability": 0.794
+      },
+      "zkls_full": {
+        "presencePrecision": 0.884,
+        "presenceRecall": 1,
+        "presenceF1": 0.938,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.222
+      }
+    },
+    {
+      "userId": "111",
+      "raw": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.417,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.102
+      },
+      "zkls_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.898,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.897,
+        "temporalAvailability": 1
+      },
+      "zkls_full": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.102
+      }
+    },
+    {
+      "userId": "112",
+      "raw": {
+        "presencePrecision": 0.306,
+        "presenceRecall": 1,
+        "presenceF1": 0.468,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.083,
+        "presenceRecall": 0.03,
+        "presenceF1": 0.044,
+        "areaAccuracy": 0.384,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.917,
+        "presenceRecall": 1,
+        "presenceF1": 0.957,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.171
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.184,
+        "presenceRecall": 0.788,
+        "presenceF1": 0.299,
+        "areaAccuracy": 0.964,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.917,
+        "presenceRecall": 1,
+        "presenceF1": 0.957,
+        "areaAccuracy": 0.862,
+        "temporalAvailability": 0.359
+      },
+      "zkls_full": {
+        "presencePrecision": 0.917,
+        "presenceRecall": 1,
+        "presenceF1": 0.957,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.171
+      }
+    },
+    {
+      "userId": "115",
+      "raw": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 1,
+        "presenceF1": 0.667,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.366,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.571,
+        "presenceRecall": 1,
+        "presenceF1": 0.727,
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.136
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.727,
+        "presenceRecall": 0.667,
+        "presenceF1": 0.696,
+        "areaAccuracy": 0.971,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.571,
+        "presenceRecall": 1,
+        "presenceF1": 0.727,
+        "areaAccuracy": 0.957,
+        "temporalAvailability": 0.667
+      },
+      "zkls_full": {
+        "presencePrecision": 0.571,
+        "presenceRecall": 1,
+        "presenceF1": 0.727,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.136
+      }
+    },
+    {
+      "userId": "119",
+      "raw": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.875,
+        "presenceRecall": 0.071,
+        "presenceF1": 0.131,
+        "areaAccuracy": 0.405,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.767,
+        "presenceRecall": 1,
+        "presenceF1": 0.868,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.496
+      },
+      "zkls_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.949,
+        "presenceF1": 0.974,
+        "areaAccuracy": 0.912,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.767,
+        "presenceRecall": 1,
+        "presenceF1": 0.868,
+        "areaAccuracy": 0.83,
+        "temporalAvailability": 0.93
+      },
+      "zkls_full": {
+        "presencePrecision": 0.767,
+        "presenceRecall": 1,
+        "presenceF1": 0.868,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.496
+      }
+    },
+    {
+      "userId": "125",
+      "raw": {
+        "presencePrecision": 0.4,
+        "presenceRecall": 1,
+        "presenceF1": 0.571,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.304,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.133,
+        "presenceRecall": 1,
+        "presenceF1": 0.235,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.2
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.2,
+        "presenceRecall": 0.5,
+        "presenceF1": 0.286,
+        "areaAccuracy": 0.881,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.133,
+        "presenceRecall": 1,
+        "presenceF1": 0.235,
+        "areaAccuracy": 0.875,
+        "temporalAvailability": 0.822
+      },
+      "zkls_full": {
+        "presencePrecision": 0.133,
+        "presenceRecall": 1,
+        "presenceF1": 0.235,
+        "areaAccuracy": 0.75,
+        "temporalAvailability": 0.2
+      }
+    },
+    {
+      "userId": "126",
+      "raw": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 1,
+        "presenceF1": 0.667,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.312,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.118,
+        "presenceRecall": 1,
+        "presenceF1": 0.211,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.117
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.4,
+        "presenceRecall": 1,
+        "presenceF1": 0.571,
+        "areaAccuracy": 0.87,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.118,
+        "presenceRecall": 1,
+        "presenceF1": 0.211,
+        "areaAccuracy": 0.88,
+        "temporalAvailability": 0.777
+      },
+      "zkls_full": {
+        "presencePrecision": 0.118,
+        "presenceRecall": 1,
+        "presenceF1": 0.211,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.117
+      }
+    },
+    {
+      "userId": "128",
+      "raw": {
+        "presencePrecision": 0.923,
+        "presenceRecall": 1,
+        "presenceF1": 0.96,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.333,
+        "presenceRecall": 0.083,
+        "presenceF1": 0.133,
+        "areaAccuracy": 0.328,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.167,
+        "presenceRecall": 1,
+        "presenceF1": 0.286,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.172
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.923,
+        "presenceRecall": 1,
+        "presenceF1": 0.96,
+        "areaAccuracy": 0.928,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.167,
+        "presenceRecall": 1,
+        "presenceF1": 0.286,
+        "areaAccuracy": 0.913,
+        "temporalAvailability": 0.922
+      },
+      "zkls_full": {
+        "presencePrecision": 0.167,
+        "presenceRecall": 1,
+        "presenceF1": 0.286,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.172
+      }
+    },
+    {
+      "userId": "140",
+      "raw": {
+        "presencePrecision": 0.778,
+        "presenceRecall": 1,
+        "presenceF1": 0.875,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.143,
+        "presenceF1": 0.211,
+        "areaAccuracy": 0.365,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.378,
+        "presenceRecall": 1,
+        "presenceF1": 0.549,
+        "areaAccuracy": 0.167,
+        "temporalAvailability": 0.167
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.75,
+        "presenceRecall": 0.857,
+        "presenceF1": 0.8,
+        "areaAccuracy": 0.911,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.378,
+        "presenceRecall": 1,
+        "presenceF1": 0.549,
+        "areaAccuracy": 0.884,
+        "temporalAvailability": 0.833
+      },
+      "zkls_full": {
+        "presencePrecision": 0.378,
+        "presenceRecall": 1,
+        "presenceF1": 0.549,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.167
+      }
+    },
+    {
+      "userId": "142",
+      "raw": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.336,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.352
+      },
+      "zkls_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.992,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.988,
+        "temporalAvailability": 0.934
+      },
+      "zkls_full": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.352
+      }
+    },
+    {
+      "userId": "144",
+      "raw": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.045,
+        "presenceF1": 0.086,
+        "areaAccuracy": 0.337,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.753,
+        "presenceRecall": 1,
+        "presenceF1": 0.859,
+        "areaAccuracy": 0.333,
+        "temporalAvailability": 0.256
+      },
+      "zkls_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.94,
+        "presenceF1": 0.969,
+        "areaAccuracy": 0.916,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.753,
+        "presenceRecall": 1,
+        "presenceF1": 0.859,
+        "areaAccuracy": 0.883,
+        "temporalAvailability": 0.942
+      },
+      "zkls_full": {
+        "presencePrecision": 0.753,
+        "presenceRecall": 1,
+        "presenceF1": 0.859,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.256
+      }
+    },
+    {
+      "userId": "147",
+      "raw": {
+        "presencePrecision": 0.84,
+        "presenceRecall": 1,
+        "presenceF1": 0.913,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.778,
+        "presenceRecall": 0.167,
+        "presenceF1": 0.275,
+        "areaAccuracy": 0.388,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.875,
+        "presenceRecall": 1,
+        "presenceF1": 0.933,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.448
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.875,
+        "presenceRecall": 1,
+        "presenceF1": 0.933,
+        "areaAccuracy": 0.94,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.875,
+        "presenceRecall": 1,
+        "presenceF1": 0.933,
+        "areaAccuracy": 0.885,
+        "temporalAvailability": 0.552
+      },
+      "zkls_full": {
+        "presencePrecision": 0.875,
+        "presenceRecall": 1,
+        "presenceF1": 0.933,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.448
+      }
+    },
+    {
+      "userId": "153",
+      "raw": {
+        "presencePrecision": 0.75,
+        "presenceRecall": 1,
+        "presenceF1": 0.857,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0.4,
+        "presenceRecall": 0.333,
+        "presenceF1": 0.364,
+        "areaAccuracy": 0.38,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.049
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.5,
+        "presenceRecall": 0.5,
+        "presenceF1": 0.5,
+        "areaAccuracy": 0.881,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.859,
+        "temporalAvailability": 0.86
+      },
+      "zkls_full": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.833,
+        "temporalAvailability": 0.049
+      }
+    },
+    {
+      "userId": "155",
+      "raw": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.5,
+        "presenceF1": 0.667,
+        "areaAccuracy": 0.357,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.143,
+        "presenceRecall": 1,
+        "presenceF1": 0.25,
+        "areaAccuracy": 0.583,
+        "temporalAvailability": 0.226
+      },
+      "zkls_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.5,
+        "presenceF1": 0.667,
+        "areaAccuracy": 0.948,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.143,
+        "presenceRecall": 1,
+        "presenceF1": 0.25,
+        "areaAccuracy": 0.969,
+        "temporalAvailability": 0.974
+      },
+      "zkls_full": {
+        "presencePrecision": 0.143,
+        "presenceRecall": 1,
+        "presenceF1": 0.25,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.226
+      }
+    },
+    {
+      "userId": "163",
+      "raw": {
+        "presencePrecision": 0.964,
+        "presenceRecall": 1,
+        "presenceF1": 0.981,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.075,
+        "presenceF1": 0.14,
+        "areaAccuracy": 0.436,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.295
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.895,
+        "presenceRecall": 0.962,
+        "presenceF1": 0.927,
+        "areaAccuracy": 0.895,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.844,
+        "temporalAvailability": 0.909
+      },
+      "zkls_full": {
+        "presencePrecision": 1,
+        "presenceRecall": 1,
+        "presenceF1": 1,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.295
+      }
+    },
+    {
+      "userId": "167",
+      "raw": {
+        "presencePrecision": 0.545,
+        "presenceRecall": 1,
+        "presenceF1": 0.706,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.35,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.286,
+        "presenceRecall": 1,
+        "presenceF1": 0.444,
+        "areaAccuracy": 0.25,
+        "temporalAvailability": 0.083
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.556,
+        "presenceRecall": 0.833,
+        "presenceF1": 0.667,
+        "areaAccuracy": 0.859,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.286,
+        "presenceRecall": 1,
+        "presenceF1": 0.444,
+        "areaAccuracy": 0.808,
+        "temporalAvailability": 0.67
+      },
+      "zkls_full": {
+        "presencePrecision": 0.286,
+        "presenceRecall": 1,
+        "presenceF1": 0.444,
+        "areaAccuracy": 0.667,
+        "temporalAvailability": 0.083
+      }
+    },
+    {
+      "userId": "168",
+      "raw": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.3,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.5,
+        "temporalAvailability": 0.062
+      },
+      "zkls_grid": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.841,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.898,
+        "temporalAvailability": 0.833
+      },
+      "zkls_full": {
+        "presencePrecision": 0,
+        "presenceRecall": 0,
+        "presenceF1": 0,
+        "areaAccuracy": 0.917,
+        "temporalAvailability": 0.062
+      }
+    },
+    {
+      "userId": "179",
+      "raw": {
+        "presencePrecision": 0.792,
+        "presenceRecall": 1,
+        "presenceF1": 0.884,
+        "areaAccuracy": 1,
+        "temporalAvailability": 1
+      },
+      "laplace_grid": {
+        "presencePrecision": 1,
+        "presenceRecall": 0.053,
+        "presenceF1": 0.1,
+        "areaAccuracy": 0.363,
+        "temporalAvailability": 1
+      },
+      "six_layer": {
+        "presencePrecision": 0.297,
+        "presenceRecall": 1,
+        "presenceF1": 0.458,
+        "areaAccuracy": 0.083,
+        "temporalAvailability": 0.336
+      },
+      "zkls_grid": {
+        "presencePrecision": 0.905,
+        "presenceRecall": 1,
+        "presenceF1": 0.95,
+        "areaAccuracy": 0.863,
+        "temporalAvailability": 1
+      },
+      "zkls_grid_zones": {
+        "presencePrecision": 0.297,
+        "presenceRecall": 1,
+        "presenceF1": 0.458,
+        "areaAccuracy": 0.81,
+        "temporalAvailability": 0.796
+      },
+      "zkls_full": {
+        "presencePrecision": 0.297,
+        "presenceRecall": 1,
+        "presenceF1": 0.458,
+        "areaAccuracy": 1,
+        "temporalAvailability": 0.336
+      }
+    }
+  ]
+}

@@ -1,0 +1,2881 @@
+{
+  "processed": 451,
+  "withDepot": 439,
+  "withCorridor": 433,
+  "taxiResults": [
+    {
+      "taxiId": "1",
+      "nPoints": 588,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 270
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 1,
+          "nightObs": 270
+        },
+        "laplace_grid": {
+          "error": 140,
+          "nightObs": 270
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 2,
+          "truthSize": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 19,
+          "truthSize": 2
+        },
+        "zkls_grid_zones": {
+          "precision": 0.25,
+          "recall": 0.5,
+          "f1": 0.3333333333333333,
+          "predSize": 4,
+          "truthSize": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 2
+        }
+      }
+    },
+    {
+      "taxiId": "100",
+      "nPoints": 1323,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 340
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 24773,
+          "nightObs": 340
+        },
+        "laplace_grid": {
+          "error": 24952,
+          "nightObs": 340
+        },
+        "zkls_grid_zones": {
+          "error": 24726,
+          "nightObs": 321
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 34,
+          "truthSize": 34
+        },
+        "laplace_grid": {
+          "precision": 0.06666666666666667,
+          "recall": 0.029411764705882353,
+          "f1": 0.04081632653061225,
+          "predSize": 15,
+          "truthSize": 34
+        },
+        "zkls_grid_zones": {
+          "precision": 0.53125,
+          "recall": 0.5,
+          "f1": 0.5151515151515151,
+          "predSize": 32,
+          "truthSize": 34
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 34
+        }
+      }
+    },
+    {
+      "taxiId": "1000",
+      "nPoints": 1779,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 376
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 165,
+          "nightObs": 376
+        },
+        "laplace_grid": {
+          "error": 419,
+          "nightObs": 376
+        },
+        "zkls_grid_zones": {
+          "error": 2952,
+          "nightObs": 304
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 41,
+          "truthSize": 41
+        },
+        "laplace_grid": {
+          "precision": 0.37777777777777777,
+          "recall": 0.4146341463414634,
+          "f1": 0.39534883720930236,
+          "predSize": 45,
+          "truthSize": 41
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5588235294117647,
+          "recall": 0.4634146341463415,
+          "f1": 0.5066666666666667,
+          "predSize": 34,
+          "truthSize": 41
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 41
+        }
+      }
+    },
+    {
+      "taxiId": "10000",
+      "nPoints": 1623,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 504
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 20,
+          "nightObs": 504
+        },
+        "laplace_grid": {
+          "error": 209,
+          "nightObs": 504
+        },
+        "zkls_grid_zones": {
+          "error": 4166,
+          "nightObs": 18
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 12,
+          "truthSize": 12
+        },
+        "laplace_grid": {
+          "precision": 0.02631578947368421,
+          "recall": 0.08333333333333333,
+          "f1": 0.04,
+          "predSize": 38,
+          "truthSize": 12
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "predSize": 12,
+          "truthSize": 12
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 12
+        }
+      }
+    },
+    {
+      "taxiId": "10001",
+      "nPoints": 807,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 217
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 3690,
+          "nightObs": 217
+        },
+        "laplace_grid": {
+          "error": 1118,
+          "nightObs": 217
+        },
+        "zkls_grid_zones": {
+          "error": 2824,
+          "nightObs": 178
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 6,
+          "truthSize": 6
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 6
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.6666666666666666,
+          "f1": 0.5714285714285715,
+          "predSize": 8,
+          "truthSize": 6
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 6
+        }
+      }
+    },
+    {
+      "taxiId": "10002",
+      "nPoints": 1692,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 536
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 37,
+          "nightObs": 536
+        },
+        "laplace_grid": {
+          "error": 82,
+          "nightObs": 536
+        },
+        "zkls_grid_zones": {
+          "error": 11684,
+          "nightObs": 168
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 10,
+          "truthSize": 10
+        },
+        "laplace_grid": {
+          "precision": 0.022222222222222223,
+          "recall": 0.1,
+          "f1": 0.03636363636363636,
+          "predSize": 45,
+          "truthSize": 10
+        },
+        "zkls_grid_zones": {
+          "precision": 0.75,
+          "recall": 0.6,
+          "f1": 0.6666666666666665,
+          "predSize": 8,
+          "truthSize": 10
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 10
+        }
+      }
+    },
+    {
+      "taxiId": "10003",
+      "nPoints": 1697,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 538
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 0,
+          "nightObs": 538
+        },
+        "laplace_grid": {
+          "error": 208,
+          "nightObs": 538
+        },
+        "zkls_grid_zones": {
+          "error": 74834,
+          "nightObs": 260
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 12,
+          "truthSize": 12
+        },
+        "laplace_grid": {
+          "precision": 0.02127659574468085,
+          "recall": 0.08333333333333333,
+          "f1": 0.03389830508474576,
+          "predSize": 47,
+          "truthSize": 12
+        },
+        "zkls_grid_zones": {
+          "precision": 0.42857142857142855,
+          "recall": 0.5,
+          "f1": 0.4615384615384615,
+          "predSize": 14,
+          "truthSize": 12
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 12
+        }
+      }
+    },
+    {
+      "taxiId": "10005",
+      "nPoints": 625,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 21
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 388,
+          "nightObs": 21
+        },
+        "laplace_grid": {
+          "error": 620,
+          "nightObs": 21
+        },
+        "zkls_grid_zones": {
+          "error": 7193,
+          "nightObs": 17
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 27,
+          "truthSize": 27
+        },
+        "laplace_grid": {
+          "precision": 0.3,
+          "recall": 0.1111111111111111,
+          "f1": 0.16216216216216217,
+          "predSize": 10,
+          "truthSize": 27
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5909090909090909,
+          "recall": 0.48148148148148145,
+          "f1": 0.5306122448979591,
+          "predSize": 22,
+          "truthSize": 27
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 27
+        }
+      }
+    },
+    {
+      "taxiId": "10006",
+      "nPoints": 1715,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 537
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 39,
+          "nightObs": 537
+        },
+        "laplace_grid": {
+          "error": 134,
+          "nightObs": 537
+        },
+        "zkls_grid_zones": {
+          "error": 6480,
+          "nightObs": 323
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 11,
+          "truthSize": 11
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 42,
+          "truthSize": 11
+        },
+        "zkls_grid_zones": {
+          "precision": 0.7692307692307693,
+          "recall": 0.9090909090909091,
+          "f1": 0.8333333333333333,
+          "predSize": 13,
+          "truthSize": 11
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 11
+        }
+      }
+    },
+    {
+      "taxiId": "10007",
+      "nPoints": 1690,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 550
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 9,
+          "nightObs": 550
+        },
+        "laplace_grid": {
+          "error": 171,
+          "nightObs": 550
+        },
+        "zkls_grid_zones": {
+          "error": 3883,
+          "nightObs": 29
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 19,
+          "truthSize": 19
+        },
+        "laplace_grid": {
+          "precision": 0.029411764705882353,
+          "recall": 0.05263157894736842,
+          "f1": 0.03773584905660377,
+          "predSize": 34,
+          "truthSize": 19
+        },
+        "zkls_grid_zones": {
+          "precision": 0.42105263157894735,
+          "recall": 0.42105263157894735,
+          "f1": 0.42105263157894735,
+          "predSize": 19,
+          "truthSize": 19
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 19
+        }
+      }
+    },
+    {
+      "taxiId": "10008",
+      "nPoints": 1010,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 73
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 341,
+          "nightObs": 73
+        },
+        "laplace_grid": {
+          "error": 454,
+          "nightObs": 73
+        },
+        "zkls_grid_zones": {
+          "error": 2111,
+          "nightObs": 11
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 38,
+          "truthSize": 38
+        },
+        "laplace_grid": {
+          "precision": 0.06666666666666667,
+          "recall": 0.02631578947368421,
+          "f1": 0.03773584905660377,
+          "predSize": 15,
+          "truthSize": 38
+        },
+        "zkls_grid_zones": {
+          "precision": 0.4722222222222222,
+          "recall": 0.4473684210526316,
+          "f1": 0.4594594594594595,
+          "predSize": 36,
+          "truthSize": 38
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 38
+        }
+      }
+    },
+    {
+      "taxiId": "1001",
+      "nPoints": 1156,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 313
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 655,
+          "nightObs": 313
+        },
+        "laplace_grid": {
+          "error": 397,
+          "nightObs": 313
+        },
+        "zkls_grid_zones": {
+          "error": 24048,
+          "nightObs": 283
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 49,
+          "truthSize": 49
+        },
+        "laplace_grid": {
+          "precision": 0.19047619047619047,
+          "recall": 0.08163265306122448,
+          "f1": 0.11428571428571428,
+          "predSize": 21,
+          "truthSize": 49
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5833333333333334,
+          "recall": 0.5714285714285714,
+          "f1": 0.577319587628866,
+          "predSize": 48,
+          "truthSize": 49
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 49
+        }
+      }
+    },
+    {
+      "taxiId": "10010",
+      "nPoints": 1659,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 541
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 194,
+          "nightObs": 541
+        },
+        "laplace_grid": {
+          "error": 197,
+          "nightObs": 541
+        },
+        "zkls_grid_zones": {
+          "error": 8520,
+          "nightObs": 30
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 24,
+          "truthSize": 24
+        },
+        "laplace_grid": {
+          "precision": 0.11904761904761904,
+          "recall": 0.20833333333333334,
+          "f1": 0.15151515151515152,
+          "predSize": 42,
+          "truthSize": 24
+        },
+        "zkls_grid_zones": {
+          "precision": 0.52,
+          "recall": 0.5416666666666666,
+          "f1": 0.5306122448979592,
+          "predSize": 25,
+          "truthSize": 24
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 24
+        }
+      }
+    },
+    {
+      "taxiId": "10013",
+      "nPoints": 606,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 34
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 276,
+          "nightObs": 34
+        },
+        "laplace_grid": {
+          "error": 574,
+          "nightObs": 34
+        },
+        "zkls_grid_zones": {
+          "error": 3229,
+          "nightObs": 8
+        },
+        "six_layer": {
+          "error": 12884,
+          "nightObs": 3
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 4,
+          "truthSize": 4
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 16,
+          "truthSize": 4
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6,
+          "recall": 0.75,
+          "f1": 0.6666666666666665,
+          "predSize": 5,
+          "truthSize": 4
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 4
+        }
+      }
+    },
+    {
+      "taxiId": "10014",
+      "nPoints": 1731,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 548
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 407,
+          "nightObs": 548
+        },
+        "laplace_grid": {
+          "error": 153,
+          "nightObs": 548
+        },
+        "zkls_grid_zones": {
+          "error": 2955,
+          "nightObs": 213
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 6,
+          "truthSize": 6
+        },
+        "laplace_grid": {
+          "precision": 0.04081632653061224,
+          "recall": 0.3333333333333333,
+          "f1": 0.07272727272727272,
+          "predSize": 49,
+          "truthSize": 6
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5714285714285714,
+          "recall": 0.6666666666666666,
+          "f1": 0.6153846153846153,
+          "predSize": 7,
+          "truthSize": 6
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 1,
+          "truthSize": 6
+        }
+      }
+    },
+    {
+      "taxiId": "10015",
+      "nPoints": 728,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 118
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 131,
+          "nightObs": 118
+        },
+        "laplace_grid": {
+          "error": 47,
+          "nightObs": 118
+        },
+        "zkls_grid_zones": {
+          "error": 9610,
+          "nightObs": 57
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 9,
+          "truthSize": 9
+        },
+        "laplace_grid": {
+          "precision": 0.1111111111111111,
+          "recall": 0.1111111111111111,
+          "f1": 0.1111111111111111,
+          "predSize": 9,
+          "truthSize": 9
+        },
+        "zkls_grid_zones": {
+          "precision": 0.36363636363636365,
+          "recall": 0.4444444444444444,
+          "f1": 0.39999999999999997,
+          "predSize": 11,
+          "truthSize": 9
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 9
+        }
+      }
+    },
+    {
+      "taxiId": "10016",
+      "nPoints": 1559,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 458
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 12,
+          "nightObs": 458
+        },
+        "laplace_grid": {
+          "error": 131,
+          "nightObs": 458
+        },
+        "zkls_grid_zones": {
+          "error": 31628,
+          "nightObs": 83
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 32,
+          "truthSize": 32
+        },
+        "laplace_grid": {
+          "precision": 0.07692307692307693,
+          "recall": 0.09375,
+          "f1": 0.08450704225352113,
+          "predSize": 39,
+          "truthSize": 32
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5882352941176471,
+          "recall": 0.625,
+          "f1": 0.6060606060606061,
+          "predSize": 34,
+          "truthSize": 32
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 32
+        }
+      }
+    },
+    {
+      "taxiId": "10017",
+      "nPoints": 627,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 23
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 130,
+          "nightObs": 23
+        },
+        "laplace_grid": {
+          "error": 474,
+          "nightObs": 23
+        },
+        "zkls_grid_zones": {
+          "error": 8747,
+          "nightObs": 13
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 16,
+          "truthSize": 16
+        },
+        "laplace_grid": {
+          "precision": 0.2,
+          "recall": 0.125,
+          "f1": 0.15384615384615385,
+          "predSize": 10,
+          "truthSize": 16
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5833333333333334,
+          "recall": 0.4375,
+          "f1": 0.5,
+          "predSize": 12,
+          "truthSize": 16
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 16
+        }
+      }
+    },
+    {
+      "taxiId": "10018",
+      "nPoints": 1705,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 545
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 17,
+          "nightObs": 545
+        },
+        "laplace_grid": {
+          "error": 134,
+          "nightObs": 545
+        },
+        "zkls_grid_zones": {
+          "error": 6243,
+          "nightObs": 82
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 16,
+          "truthSize": 16
+        },
+        "laplace_grid": {
+          "precision": 0.04,
+          "recall": 0.125,
+          "f1": 0.06060606060606061,
+          "predSize": 50,
+          "truthSize": 16
+        },
+        "zkls_grid_zones": {
+          "precision": 0.4444444444444444,
+          "recall": 0.5,
+          "f1": 0.47058823529411764,
+          "predSize": 18,
+          "truthSize": 16
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 16
+        }
+      }
+    },
+    {
+      "taxiId": "10019",
+      "nPoints": 530,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 285
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 154,
+          "nightObs": 285
+        },
+        "laplace_grid": {
+          "error": 210,
+          "nightObs": 285
+        },
+        "zkls_grid_zones": {
+          "error": 7105,
+          "nightObs": 175
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 9,
+          "truthSize": 9
+        },
+        "laplace_grid": {
+          "precision": 0.5,
+          "recall": 0.2222222222222222,
+          "f1": 0.30769230769230765,
+          "predSize": 4,
+          "truthSize": 9
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.4444444444444444,
+          "f1": 0.6153846153846153,
+          "predSize": 4,
+          "truthSize": 9
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 9
+        }
+      }
+    },
+    {
+      "taxiId": "10020",
+      "nPoints": 1638,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 536
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 417,
+          "nightObs": 536
+        },
+        "laplace_grid": {
+          "error": 392,
+          "nightObs": 536
+        },
+        "zkls_grid_zones": {
+          "error": 1443,
+          "nightObs": 218
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 5,
+          "truthSize": 5
+        },
+        "laplace_grid": {
+          "precision": 0.05263157894736842,
+          "recall": 0.6,
+          "f1": 0.09677419354838708,
+          "predSize": 57,
+          "truthSize": 5
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.6,
+          "f1": 0.5454545454545454,
+          "predSize": 6,
+          "truthSize": 5
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 5
+        }
+      }
+    },
+    {
+      "taxiId": "10021",
+      "nPoints": 789,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 14
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 17627,
+          "nightObs": 14
+        },
+        "laplace_grid": {
+          "error": 17474,
+          "nightObs": 14
+        },
+        "zkls_grid_zones": {
+          "error": 17640,
+          "nightObs": 12
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 20,
+          "truthSize": 20
+        },
+        "laplace_grid": {
+          "precision": 0.25,
+          "recall": 0.2,
+          "f1": 0.22222222222222224,
+          "predSize": 16,
+          "truthSize": 20
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6,
+          "recall": 0.45,
+          "f1": 0.5142857142857143,
+          "predSize": 15,
+          "truthSize": 20
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 20
+        }
+      }
+    },
+    {
+      "taxiId": "10022",
+      "nPoints": 1707,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 540
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 47,
+          "nightObs": 540
+        },
+        "laplace_grid": {
+          "error": 179,
+          "nightObs": 540
+        },
+        "zkls_grid_zones": {
+          "error": 6194,
+          "nightObs": 215
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 22,
+          "truthSize": 22
+        },
+        "laplace_grid": {
+          "precision": 0.023809523809523808,
+          "recall": 0.045454545454545456,
+          "f1": 0.03125,
+          "predSize": 42,
+          "truthSize": 22
+        },
+        "zkls_grid_zones": {
+          "precision": 0.46153846153846156,
+          "recall": 0.5454545454545454,
+          "f1": 0.4999999999999999,
+          "predSize": 26,
+          "truthSize": 22
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 22
+        }
+      }
+    },
+    {
+      "taxiId": "10023",
+      "nPoints": 1279,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 94
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 192,
+          "nightObs": 94
+        },
+        "laplace_grid": {
+          "error": 290,
+          "nightObs": 94
+        },
+        "zkls_grid_zones": {
+          "error": 23684,
+          "nightObs": 38
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 16,
+          "truthSize": 16
+        },
+        "laplace_grid": {
+          "precision": 0.125,
+          "recall": 0.25,
+          "f1": 0.16666666666666666,
+          "predSize": 32,
+          "truthSize": 16
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6470588235294118,
+          "recall": 0.6875,
+          "f1": 0.6666666666666667,
+          "predSize": 17,
+          "truthSize": 16
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 16
+        }
+      }
+    },
+    {
+      "taxiId": "10024",
+      "nPoints": 1662,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 500
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 43,
+          "nightObs": 500
+        },
+        "laplace_grid": {
+          "error": 249,
+          "nightObs": 500
+        },
+        "zkls_grid_zones": {
+          "error": 36719,
+          "nightObs": 113
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 18,
+          "truthSize": 18
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 43,
+          "truthSize": 18
+        },
+        "zkls_grid_zones": {
+          "precision": 0.47058823529411764,
+          "recall": 0.4444444444444444,
+          "f1": 0.45714285714285713,
+          "predSize": 17,
+          "truthSize": 18
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 18
+        }
+      }
+    },
+    {
+      "taxiId": "10025",
+      "nPoints": 1002,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 99
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 121,
+          "nightObs": 99
+        },
+        "laplace_grid": {
+          "error": 326,
+          "nightObs": 99
+        },
+        "zkls_grid_zones": {
+          "error": 8110,
+          "nightObs": 26
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 15,
+          "truthSize": 15
+        },
+        "laplace_grid": {
+          "precision": 0.18181818181818182,
+          "recall": 0.13333333333333333,
+          "f1": 0.15384615384615383,
+          "predSize": 11,
+          "truthSize": 15
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.4,
+          "f1": 0.4444444444444445,
+          "predSize": 12,
+          "truthSize": 15
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 15
+        }
+      }
+    },
+    {
+      "taxiId": "10026",
+      "nPoints": 1709,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 540
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 10,
+          "nightObs": 540
+        },
+        "laplace_grid": {
+          "error": 179,
+          "nightObs": 540
+        },
+        "zkls_grid_zones": {
+          "error": 14334,
+          "nightObs": 28
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 25,
+          "truthSize": 25
+        },
+        "laplace_grid": {
+          "precision": 0.023809523809523808,
+          "recall": 0.04,
+          "f1": 0.029850746268656712,
+          "predSize": 42,
+          "truthSize": 25
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6111111111111112,
+          "recall": 0.44,
+          "f1": 0.5116279069767442,
+          "predSize": 18,
+          "truthSize": 25
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 25
+        }
+      }
+    },
+    {
+      "taxiId": "10027",
+      "nPoints": 751,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 26
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 1244,
+          "nightObs": 26
+        },
+        "laplace_grid": {
+          "error": 1160,
+          "nightObs": 26
+        },
+        "zkls_grid_zones": {
+          "error": 2002,
+          "nightObs": 20
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 20,
+          "truthSize": 20
+        },
+        "laplace_grid": {
+          "precision": 0.1,
+          "recall": 0.1,
+          "f1": 0.10000000000000002,
+          "predSize": 20,
+          "truthSize": 20
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6086956521739131,
+          "recall": 0.7,
+          "f1": 0.6511627906976744,
+          "predSize": 23,
+          "truthSize": 20
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 20
+        }
+      }
+    },
+    {
+      "taxiId": "10028",
+      "nPoints": 1639,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 539
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 40,
+          "nightObs": 539
+        },
+        "laplace_grid": {
+          "error": 118,
+          "nightObs": 539
+        },
+        "zkls_grid_zones": {
+          "error": 9487,
+          "nightObs": 256
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 17,
+          "truthSize": 17
+        },
+        "laplace_grid": {
+          "precision": 0.15,
+          "recall": 0.35294117647058826,
+          "f1": 0.21052631578947367,
+          "predSize": 40,
+          "truthSize": 17
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6428571428571429,
+          "recall": 0.5294117647058824,
+          "f1": 0.5806451612903226,
+          "predSize": 14,
+          "truthSize": 17
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 17
+        }
+      }
+    },
+    {
+      "taxiId": "10029",
+      "nPoints": 1719,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 543
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 13,
+          "nightObs": 543
+        },
+        "laplace_grid": {
+          "error": 180,
+          "nightObs": 543
+        },
+        "zkls_grid_zones": {
+          "error": 25739,
+          "nightObs": 197
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 18,
+          "truthSize": 18
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 45,
+          "truthSize": 18
+        },
+        "zkls_grid_zones": {
+          "precision": 0.375,
+          "recall": 0.3333333333333333,
+          "f1": 0.35294117647058826,
+          "predSize": 16,
+          "truthSize": 18
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 18
+        }
+      }
+    },
+    {
+      "taxiId": "1003",
+      "nPoints": 1157,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 113
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 299,
+          "nightObs": 113
+        },
+        "laplace_grid": {
+          "error": 999,
+          "nightObs": 113
+        },
+        "zkls_grid_zones": {
+          "error": 6675,
+          "nightObs": 97
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 33,
+          "truthSize": 33
+        },
+        "laplace_grid": {
+          "precision": 0.13636363636363635,
+          "recall": 0.09090909090909091,
+          "f1": 0.10909090909090909,
+          "predSize": 22,
+          "truthSize": 33
+        },
+        "zkls_grid_zones": {
+          "precision": 0.4838709677419355,
+          "recall": 0.45454545454545453,
+          "f1": 0.46874999999999994,
+          "predSize": 31,
+          "truthSize": 33
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 33
+        }
+      }
+    },
+    {
+      "taxiId": "10031",
+      "nPoints": 1689,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 533
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 19,
+          "nightObs": 533
+        },
+        "laplace_grid": {
+          "error": 60,
+          "nightObs": 533
+        },
+        "zkls_grid_zones": {
+          "error": 11512,
+          "nightObs": 220
+        },
+        "six_layer": {
+          "error": 14107,
+          "nightObs": 1
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 16,
+          "truthSize": 16
+        },
+        "laplace_grid": {
+          "precision": 0.02,
+          "recall": 0.0625,
+          "f1": 0.030303030303030304,
+          "predSize": 50,
+          "truthSize": 16
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5714285714285714,
+          "recall": 0.5,
+          "f1": 0.5333333333333333,
+          "predSize": 14,
+          "truthSize": 16
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 16
+        }
+      }
+    },
+    {
+      "taxiId": "10032",
+      "nPoints": 709,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 136
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 387,
+          "nightObs": 136
+        },
+        "laplace_grid": {
+          "error": 494,
+          "nightObs": 136
+        },
+        "zkls_grid_zones": {
+          "error": 1040,
+          "nightObs": 61
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 30,
+          "truthSize": 30
+        },
+        "laplace_grid": {
+          "precision": 0.1111111111111111,
+          "recall": 0.06666666666666667,
+          "f1": 0.08333333333333334,
+          "predSize": 18,
+          "truthSize": 30
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5862068965517241,
+          "recall": 0.5666666666666667,
+          "f1": 0.576271186440678,
+          "predSize": 29,
+          "truthSize": 30
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 30
+        }
+      }
+    },
+    {
+      "taxiId": "10033",
+      "nPoints": 1704,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 536
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 4,
+          "nightObs": 536
+        },
+        "laplace_grid": {
+          "error": 176,
+          "nightObs": 536
+        },
+        "zkls_grid_zones": {
+          "error": 41472,
+          "nightObs": 62
+        },
+        "six_layer": {
+          "error": 20684,
+          "nightObs": 2
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 13,
+          "truthSize": 13
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 44,
+          "truthSize": 13
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.5384615384615384,
+          "f1": 0.5185185185185186,
+          "predSize": 14,
+          "truthSize": 13
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 13
+        }
+      }
+    },
+    {
+      "taxiId": "10034",
+      "nPoints": 1686,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 544
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 21,
+          "nightObs": 544
+        },
+        "laplace_grid": {
+          "error": 147,
+          "nightObs": 544
+        },
+        "zkls_grid_zones": {
+          "error": 2851,
+          "nightObs": 13
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 24,
+          "truthSize": 24
+        },
+        "laplace_grid": {
+          "precision": 0.13333333333333333,
+          "recall": 0.25,
+          "f1": 0.1739130434782609,
+          "predSize": 45,
+          "truthSize": 24
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6818181818181818,
+          "recall": 0.625,
+          "f1": 0.6521739130434783,
+          "predSize": 22,
+          "truthSize": 24
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 24
+        }
+      }
+    },
+    {
+      "taxiId": "10035",
+      "nPoints": 1667,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 540
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 18,
+          "nightObs": 540
+        },
+        "laplace_grid": {
+          "error": 80,
+          "nightObs": 540
+        },
+        "zkls_grid_zones": {
+          "error": 2724,
+          "nightObs": 59
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 15,
+          "truthSize": 15
+        },
+        "laplace_grid": {
+          "precision": 0.05714285714285714,
+          "recall": 0.13333333333333333,
+          "f1": 0.08,
+          "predSize": 35,
+          "truthSize": 15
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "f1": 0.6666666666666666,
+          "predSize": 15,
+          "truthSize": 15
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 15
+        }
+      }
+    },
+    {
+      "taxiId": "10036",
+      "nPoints": 1518,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 486
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 53760,
+          "nightObs": 486
+        },
+        "laplace_grid": {
+          "error": 53718,
+          "nightObs": 486
+        },
+        "zkls_grid_zones": {
+          "error": 53796,
+          "nightObs": 380
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 11,
+          "truthSize": 11
+        },
+        "laplace_grid": {
+          "precision": 0.06818181818181818,
+          "recall": 0.2727272727272727,
+          "f1": 0.10909090909090909,
+          "predSize": 44,
+          "truthSize": 11
+        },
+        "zkls_grid_zones": {
+          "precision": 0.3076923076923077,
+          "recall": 0.36363636363636365,
+          "f1": 0.33333333333333337,
+          "predSize": 13,
+          "truthSize": 11
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 11
+        }
+      }
+    },
+    {
+      "taxiId": "10037",
+      "nPoints": 1695,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 542
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 19,
+          "nightObs": 542
+        },
+        "laplace_grid": {
+          "error": 51,
+          "nightObs": 542
+        },
+        "zkls_grid_zones": {
+          "error": 38036,
+          "nightObs": 186
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 14,
+          "truthSize": 14
+        },
+        "laplace_grid": {
+          "precision": 0.057692307692307696,
+          "recall": 0.21428571428571427,
+          "f1": 0.09090909090909091,
+          "predSize": 52,
+          "truthSize": 14
+        },
+        "zkls_grid_zones": {
+          "precision": 0.4666666666666667,
+          "recall": 0.5,
+          "f1": 0.4827586206896552,
+          "predSize": 15,
+          "truthSize": 14
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 14
+        }
+      }
+    },
+    {
+      "taxiId": "10038",
+      "nPoints": 677,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 112
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 9877,
+          "nightObs": 112
+        },
+        "laplace_grid": {
+          "error": 8045,
+          "nightObs": 112
+        },
+        "zkls_grid_zones": {
+          "error": 8771,
+          "nightObs": 107
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 12,
+          "truthSize": 12
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 4,
+          "truthSize": 12
+        },
+        "zkls_grid_zones": {
+          "precision": 0.9,
+          "recall": 0.75,
+          "f1": 0.8181818181818182,
+          "predSize": 10,
+          "truthSize": 12
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 12
+        }
+      }
+    },
+    {
+      "taxiId": "10040",
+      "nPoints": 1645,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 530
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 12,
+          "nightObs": 530
+        },
+        "laplace_grid": {
+          "error": 68,
+          "nightObs": 530
+        },
+        "zkls_grid_zones": {
+          "error": 32115,
+          "nightObs": 207
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 21,
+          "truthSize": 21
+        },
+        "laplace_grid": {
+          "precision": 0.05128205128205128,
+          "recall": 0.09523809523809523,
+          "f1": 0.06666666666666667,
+          "predSize": 39,
+          "truthSize": 21
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6153846153846154,
+          "recall": 0.7619047619047619,
+          "f1": 0.6808510638297872,
+          "predSize": 26,
+          "truthSize": 21
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 21
+        }
+      }
+    },
+    {
+      "taxiId": "10041",
+      "nPoints": 1488,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 368
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 11438,
+          "nightObs": 368
+        },
+        "laplace_grid": {
+          "error": 11367,
+          "nightObs": 368
+        },
+        "zkls_grid_zones": {
+          "error": 11396,
+          "nightObs": 337
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 43,
+          "truthSize": 43
+        },
+        "laplace_grid": {
+          "precision": 0.21428571428571427,
+          "recall": 0.13953488372093023,
+          "f1": 0.16901408450704225,
+          "predSize": 28,
+          "truthSize": 43
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5952380952380952,
+          "recall": 0.5813953488372093,
+          "f1": 0.5882352941176471,
+          "predSize": 42,
+          "truthSize": 43
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 43
+        }
+      }
+    },
+    {
+      "taxiId": "10042",
+      "nPoints": 1677,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 535
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 30,
+          "nightObs": 535
+        },
+        "laplace_grid": {
+          "error": 130,
+          "nightObs": 535
+        },
+        "zkls_grid_zones": {
+          "error": 10214,
+          "nightObs": 203
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 18,
+          "truthSize": 18
+        },
+        "laplace_grid": {
+          "precision": 0.0392156862745098,
+          "recall": 0.1111111111111111,
+          "f1": 0.05797101449275362,
+          "predSize": 51,
+          "truthSize": 18
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6428571428571429,
+          "recall": 0.5,
+          "f1": 0.5625000000000001,
+          "predSize": 14,
+          "truthSize": 18
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 18
+        }
+      }
+    },
+    {
+      "taxiId": "10044",
+      "nPoints": 1719,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 545
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 22,
+          "nightObs": 545
+        },
+        "laplace_grid": {
+          "error": 478,
+          "nightObs": 545
+        },
+        "zkls_grid_zones": {
+          "error": 3331,
+          "nightObs": 71
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 7,
+          "truthSize": 7
+        },
+        "laplace_grid": {
+          "precision": 0.045454545454545456,
+          "recall": 0.2857142857142857,
+          "f1": 0.0784313725490196,
+          "predSize": 44,
+          "truthSize": 7
+        },
+        "zkls_grid_zones": {
+          "precision": 0.375,
+          "recall": 0.42857142857142855,
+          "f1": 0.39999999999999997,
+          "predSize": 8,
+          "truthSize": 7
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 7
+        }
+      }
+    },
+    {
+      "taxiId": "10045",
+      "nPoints": 944,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 26
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 946,
+          "nightObs": 26
+        },
+        "laplace_grid": {
+          "error": 1441,
+          "nightObs": 26
+        },
+        "zkls_grid_zones": {
+          "error": 6605,
+          "nightObs": 20
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 40,
+          "truthSize": 40
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 16,
+          "truthSize": 40
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6176470588235294,
+          "recall": 0.525,
+          "f1": 0.5675675675675677,
+          "predSize": 34,
+          "truthSize": 40
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 40
+        }
+      }
+    },
+    {
+      "taxiId": "10046",
+      "nPoints": 1677,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 528
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 73,
+          "nightObs": 528
+        },
+        "laplace_grid": {
+          "error": 81,
+          "nightObs": 528
+        },
+        "zkls_grid_zones": {
+          "error": 2103,
+          "nightObs": 6
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 7,
+          "truthSize": 7
+        },
+        "laplace_grid": {
+          "precision": 0.09803921568627451,
+          "recall": 0.7142857142857143,
+          "f1": 0.1724137931034483,
+          "predSize": 51,
+          "truthSize": 7
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6,
+          "recall": 0.42857142857142855,
+          "f1": 0.5,
+          "predSize": 5,
+          "truthSize": 7
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 7
+        }
+      }
+    },
+    {
+      "taxiId": "10047",
+      "nPoints": 1519,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 506
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 85,
+          "nightObs": 506
+        },
+        "laplace_grid": {
+          "error": 142,
+          "nightObs": 506
+        },
+        "zkls_grid_zones": {
+          "error": 3736,
+          "nightObs": 240
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 16,
+          "truthSize": 16
+        },
+        "laplace_grid": {
+          "precision": 0.08333333333333333,
+          "recall": 0.1875,
+          "f1": 0.11538461538461539,
+          "predSize": 36,
+          "truthSize": 16
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5333333333333333,
+          "recall": 0.5,
+          "f1": 0.5161290322580646,
+          "predSize": 15,
+          "truthSize": 16
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 16
+        }
+      }
+    },
+    {
+      "taxiId": "10048",
+      "nPoints": 1318,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 168
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 282,
+          "nightObs": 168
+        },
+        "laplace_grid": {
+          "error": 343,
+          "nightObs": 168
+        },
+        "zkls_grid_zones": {
+          "error": 46334,
+          "nightObs": 139
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 45,
+          "truthSize": 45
+        },
+        "laplace_grid": {
+          "precision": 0.2,
+          "recall": 0.08888888888888889,
+          "f1": 0.12307692307692307,
+          "predSize": 20,
+          "truthSize": 45
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5526315789473685,
+          "recall": 0.4666666666666667,
+          "f1": 0.5060240963855421,
+          "predSize": 38,
+          "truthSize": 45
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 45
+        }
+      }
+    },
+    {
+      "taxiId": "10049",
+      "nPoints": 1221,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 367
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 0,
+          "nightObs": 367
+        },
+        "laplace_grid": {
+          "error": 109,
+          "nightObs": 367
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      }
+    },
+    {
+      "taxiId": "1005",
+      "nPoints": 726,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 334
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 121,
+          "nightObs": 334
+        },
+        "laplace_grid": {
+          "error": 18494,
+          "nightObs": 334
+        },
+        "zkls_grid_zones": {
+          "error": 19233,
+          "nightObs": 304
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 12,
+          "truthSize": 12
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 1,
+          "truthSize": 12
+        },
+        "zkls_grid_zones": {
+          "precision": 0.375,
+          "recall": 0.25,
+          "f1": 0.3,
+          "predSize": 8,
+          "truthSize": 12
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 12
+        }
+      }
+    },
+    {
+      "taxiId": "10050",
+      "nPoints": 904,
+      "depot": {
+        "lat": "REDACTED-private-device-data",
+        "lon": "REDACTED-private-device-data",
+        "nightObs": 16
+      },
+      "homeAttack": {
+        "raw": {
+          "error": 422,
+          "nightObs": 16
+        },
+        "laplace_grid": {
+          "error": 541,
+          "nightObs": 16
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "corridor": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predSize": 29,
+          "truthSize": 29
+        },
+        "laplace_grid": {
+          "precision": 0.17647058823529413,
+          "recall": 0.10344827586206896,
+          "f1": 0.13043478260869565,
+          "predSize": 17,
+          "truthSize": 29
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5862068965517241,
+          "recall": 0.5862068965517241,
+          "f1": 0.5862068965517241,
+          "predSize": 29,
+          "truthSize": 29
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predSize": 0,
+          "truthSize": 29
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "homeAttack": {
+      "raw": {
+        "median": 178,
+        "lt200": 233,
+        "lt500": 324,
+        "n": 439
+      },
+      "laplace_grid": {
+        "median": 299,
+        "lt200": 156,
+        "lt500": 293,
+        "n": 439
+      },
+      "zkls_grid_zones": {
+        "median": 9246,
+        "lt200": 0,
+        "lt500": 0,
+        "n": 425
+      },
+      "six_layer": {
+        "median": 14107,
+        "lt200": 0,
+        "lt500": 0,
+        "n": 6
+      }
+    },
+    "corridor": {
+      "raw": {
+        "precision_med": 1,
+        "recall_med": 1,
+        "f1_med": 1,
+        "n": 433
+      },
+      "laplace_grid": {
+        "precision_med": 0.07692307692307693,
+        "recall_med": 0.09090909090909091,
+        "f1_med": 0.0810810810810811,
+        "n": 433
+      },
+      "zkls_grid_zones": {
+        "precision_med": 0.5555555555555556,
+        "recall_med": 0.5,
+        "f1_med": 0.5294117647058824,
+        "n": 433
+      },
+      "six_layer": {
+        "precision_med": 0,
+        "recall_med": 0,
+        "f1_med": 0,
+        "n": 433
+      }
+    }
+  }
+}

@@ -1,0 +1,384 @@
+{
+  "summary": {
+    "full": {
+      "medianError": {
+        "mean": 10520,
+        "std": 1527,
+        "min": 7698,
+        "max": 12034
+      },
+      "exposed200": {
+        "mean": 0,
+        "std": 0,
+        "min": 0,
+        "max": 0
+      },
+      "exposed500": {
+        "mean": 0,
+        "std": 0,
+        "min": 0,
+        "max": 1
+      },
+      "medRed": {
+        "mean": 96,
+        "std": 0,
+        "min": 96,
+        "max": 96
+      },
+      "runs": [
+        {
+          "seed": 0,
+          "median": 7698,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 95.5
+        },
+        {
+          "seed": 1,
+          "median": 10835,
+          "exposed200": 0,
+          "exposed500": 1,
+          "medRed": 95.5
+        },
+        {
+          "seed": 2,
+          "median": 10382,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 95.5
+        },
+        {
+          "seed": 3,
+          "median": 12034,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 95.5
+        },
+        {
+          "seed": 4,
+          "median": 11653,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 95.5
+        }
+      ]
+    },
+    "no_laplace": {
+      "medianError": {
+        "mean": 5808,
+        "std": 6,
+        "min": 5797,
+        "max": 5815
+      },
+      "exposed200": {
+        "mean": 0,
+        "std": 0,
+        "min": 0,
+        "max": 0
+      },
+      "exposed500": {
+        "mean": 0,
+        "std": 0,
+        "min": 0,
+        "max": 0
+      },
+      "medRed": {
+        "mean": 96,
+        "std": 0,
+        "min": 96,
+        "max": 96
+      },
+      "runs": [
+        {
+          "seed": 0,
+          "median": 5809,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 95.6
+        },
+        {
+          "seed": 1,
+          "median": 5806,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 95.6
+        },
+        {
+          "seed": 2,
+          "median": 5815,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 95.6
+        },
+        {
+          "seed": 3,
+          "median": 5812,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 95.6
+        },
+        {
+          "seed": 4,
+          "median": 5797,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 95.6
+        }
+      ]
+    },
+    "no_grid": {
+      "medianError": {
+        "mean": 4326,
+        "std": 245,
+        "min": 3871,
+        "max": 4606
+      },
+      "exposed200": {
+        "mean": 0,
+        "std": 0,
+        "min": 0,
+        "max": 0
+      },
+      "exposed500": {
+        "mean": 0,
+        "std": 0,
+        "min": 0,
+        "max": 1
+      },
+      "medRed": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100
+      },
+      "runs": [
+        {
+          "seed": 0,
+          "median": 4606,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 99.6
+        },
+        {
+          "seed": 1,
+          "median": 4342,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 99.6
+        },
+        {
+          "seed": 2,
+          "median": 4376,
+          "exposed200": 0,
+          "exposed500": 1,
+          "medRed": 99.6
+        },
+        {
+          "seed": 3,
+          "median": 3871,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 99.6
+        },
+        {
+          "seed": 4,
+          "median": 4437,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 99.6
+        }
+      ]
+    },
+    "no_zones": {
+      "medianError": {
+        "mean": 3465,
+        "std": 436,
+        "min": 2966,
+        "max": 4279
+      },
+      "exposed200": {
+        "mean": 1,
+        "std": 1,
+        "min": 0,
+        "max": 3
+      },
+      "exposed500": {
+        "mean": 4,
+        "std": 1,
+        "min": 3,
+        "max": 5
+      },
+      "medRed": {
+        "mean": 96,
+        "std": 0,
+        "min": 96,
+        "max": 96
+      },
+      "runs": [
+        {
+          "seed": 0,
+          "median": 4279,
+          "exposed200": 0,
+          "exposed500": 4,
+          "medRed": 95.5
+        },
+        {
+          "seed": 1,
+          "median": 3306,
+          "exposed200": 0,
+          "exposed500": 3,
+          "medRed": 95.5
+        },
+        {
+          "seed": 2,
+          "median": 2966,
+          "exposed200": 3,
+          "exposed500": 5,
+          "medRed": 95.5
+        },
+        {
+          "seed": 3,
+          "median": 3373,
+          "exposed200": 0,
+          "exposed500": 5,
+          "medRed": 95.5
+        },
+        {
+          "seed": 4,
+          "median": 3403,
+          "exposed200": 2,
+          "exposed500": 5,
+          "medRed": 95.5
+        }
+      ]
+    },
+    "no_adaptive": {
+      "medianError": {
+        "mean": 6077,
+        "std": 52,
+        "min": 6007,
+        "max": 6136
+      },
+      "exposed200": {
+        "mean": 0,
+        "std": 0,
+        "min": 0,
+        "max": 1
+      },
+      "exposed500": {
+        "mean": 1,
+        "std": 1,
+        "min": 0,
+        "max": 2
+      },
+      "medRed": {
+        "mean": 48,
+        "std": 0,
+        "min": 48,
+        "max": 48
+      },
+      "runs": [
+        {
+          "seed": 0,
+          "median": 6088,
+          "exposed200": 1,
+          "exposed500": 1,
+          "medRed": 47.5
+        },
+        {
+          "seed": 1,
+          "median": 6007,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 47.5
+        },
+        {
+          "seed": 2,
+          "median": 6126,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 47.5
+        },
+        {
+          "seed": 3,
+          "median": 6027,
+          "exposed200": 0,
+          "exposed500": 0,
+          "medRed": 47.5
+        },
+        {
+          "seed": 4,
+          "median": 6136,
+          "exposed200": 0,
+          "exposed500": 2,
+          "medRed": 47.5
+        }
+      ]
+    },
+    "none": {
+      "medianError": {
+        "mean": 616,
+        "std": 0,
+        "min": 616,
+        "max": 616
+      },
+      "exposed200": {
+        "mean": 15,
+        "std": 0,
+        "min": 15,
+        "max": 15
+      },
+      "exposed500": {
+        "mean": 34,
+        "std": 0,
+        "min": 34,
+        "max": 34
+      },
+      "medRed": {
+        "mean": 0,
+        "std": 0,
+        "min": 0,
+        "max": 0
+      },
+      "runs": [
+        {
+          "seed": 0,
+          "median": 616,
+          "exposed200": 15,
+          "exposed500": 34,
+          "medRed": 0
+        },
+        {
+          "seed": 1,
+          "median": 616,
+          "exposed200": 15,
+          "exposed500": 34,
+          "medRed": 0
+        },
+        {
+          "seed": 2,
+          "median": 616,
+          "exposed200": 15,
+          "exposed500": 34,
+          "medRed": 0
+        },
+        {
+          "seed": 3,
+          "median": 616,
+          "exposed200": 15,
+          "exposed500": 34,
+          "medRed": 0
+        },
+        {
+          "seed": 4,
+          "median": 616,
+          "exposed200": 15,
+          "exposed500": 34,
+          "medRed": 0
+        }
+      ]
+    }
+  },
+  "numSeeds": 5,
+  "numUsers": 78
+}

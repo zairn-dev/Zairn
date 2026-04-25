@@ -50,3 +50,41 @@ packages/geo-drop/contracts/deploy/deployments/
 eval/geolife/geolife.zip
 eval/geolife/Geolife Trajectories 1.3/
 eval/geolife/processed/
+
+# Dense-trace personal device logs (raw GPS, auto-detected home/work coords);
+# pipeline scripts are public, but device-side traces and per-fix outputs
+# contain private location data.
+eval/dense-trace/raw-*.json
+eval/dense-trace/clean-seg*.json
+eval/dense-trace/hybrid-trace.json
+
+# Per-eval results/ contain auto-detected home/work coordinates (in
+# dense-trace and cross-dataset cases, real users' homes). The
+# sanitised copies under results-public/ replace coordinates with
+# REDACTED markers and are public.
+eval/dense-trace/results/
+eval/cenceme/results/
+eval/studentlife/results/
+eval/tdrive/results/
+eval/geolife/results/
+
+# T-Drive raw zips, extracted data, and upstream user guide
+# (download from Microsoft Research)
+eval/tdrive/*.zip
+eval/tdrive/data/
+eval/tdrive/processed/
+eval/tdrive/User_guide_T-drive.pdf
+
+# CenceMe raw traces and upstream documentation (CRAWDAD;
+# license restricts redistribution of personal data)
+eval/cenceme/processed/
+eval/cenceme/DataExplanationCenceMe.pdf
+
+# StudentLife raw GPS (Dartmouth dataset; download separately)
+eval/studentlife/processed/
+
+# Public-review fetch dumps (paraphrased text bodies of real reviews
+# are not redistributed; re-fetchable via the public APIs).
+eval/public-reviews/apple-rss-reviews.json
+eval/public-reviews/play-reviews.json
+eval/public-reviews/reviews.OBSOLETE-synth.json.bak

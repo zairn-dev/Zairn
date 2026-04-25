@@ -1,0 +1,30 @@
+{
+  "raw": {
+    "taskAccuracy": 96.3,
+    "taskUnanswerable": 0,
+    "taskWrong": 3.7,
+    "medianStalenessHours": 0,
+    "p95StalenessHours": 0
+  },
+  "zkls_grid_zones": {
+    "taskAccuracy": 68.3,
+    "taskUnanswerable": 23.1,
+    "taskWrong": 8.7,
+    "medianStalenessHours": 0,
+    "p95StalenessHours": 0
+  },
+  "six_layer": {
+    "taskAccuracy": 18.2,
+    "taskUnanswerable": 73.2,
+    "taskWrong": 8.7,
+    "medianStalenessHours": 11,
+    "p95StalenessHours": 123
+  },
+  "zkls_full": {
+    "taskAccuracy": 18.2,
+    "taskUnanswerable": 73.2,
+    "taskWrong": 8.7,
+    "medianStalenessHours": 9,
+    "p95StalenessHours": 121
+  }
+}

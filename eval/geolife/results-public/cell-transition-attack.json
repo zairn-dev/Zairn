@@ -1,0 +1,20 @@
+{
+  "raw": {
+    "median": 337,
+    "exposed200": 21,
+    "exposed500": 44,
+    "usersWithData": 78
+  },
+  "zkls_grid_zones": {
+    "median": 7582,
+    "exposed200": 0,
+    "exposed500": 0,
+    "usersWithData": 78
+  },
+  "full": {
+    "median": 6692,
+    "exposed200": 0,
+    "exposed500": 0,
+    "usersWithData": 78
+  }
+}
