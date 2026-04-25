@@ -11,10 +11,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/zairn-dev/Zairn/actions/workflows/ci.yml"><img src="https://github.com/zairn-dev/Zairn/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://doi.org/10.5281/zenodo.19199291"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19199291.svg" alt="DOI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
 </p>
+
+<p align="center"><em>This is the anonymized snapshot accompanying an
+IMWUT 2027 submission. Identifying badges (CI, DOI, GitHub) have been
+removed; the deanonymised public release is restored after acceptance.</em></p>
 
 ---
 
@@ -62,7 +64,7 @@ pnpm test:connection && pnpm test:sdk && pnpm test:features
 ### Option A: Local (no cloud account needed)
 
 ```bash
-git clone https://github.com/zairn-dev/Zairn.git && cd Zairn
+git clone https://github.example/REDACTED-FOR-REVIEW && cd Zairn
 pnpm install
 
 # Requires Docker Desktop running
@@ -78,7 +80,7 @@ pnpm dev:web           # Open http://localhost:5173
 ### Option B: Cloud Supabase
 
 ```bash
-git clone https://github.com/zairn-dev/Zairn.git && cd Zairn
+git clone https://github.example/REDACTED-FOR-REVIEW && cd Zairn
 pnpm install
 
 supabase link --project-ref <your-project-ref>
@@ -237,9 +239,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, commit conventions
 We welcome contributions of all kinds — code, documentation, example apps, bug reports, and research.
 
 **Good places to start:**
-- Issues labeled [`good first issue`](https://github.com/zairn-dev/Zairn/labels/good%20first%20issue)
-- Issues labeled [`help wanted`](https://github.com/zairn-dev/Zairn/labels/help%20wanted)
-- [GitHub Discussions](https://github.com/zairn-dev/Zairn/discussions) for questions, ideas, and showcases
+- Issues labeled [`good first issue`](https://github.example/REDACTED-FOR-REVIEW/labels/good%20first%20issue)
+- Issues labeled [`help wanted`](https://github.example/REDACTED-FOR-REVIEW/labels/help%20wanted)
+- [GitHub Discussions](https://github.example/REDACTED-FOR-REVIEW/discussions) for questions, ideas, and showcases
 
 ## License
 
