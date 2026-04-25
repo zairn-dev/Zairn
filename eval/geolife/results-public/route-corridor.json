@@ -1,0 +1,1704 @@
+{
+  "usersWithCorridor": 44,
+  "medianTruthSize": 4,
+  "aggregate": {
+    "raw": {
+      "precision_med": 1,
+      "recall_med": 1,
+      "f1_med": 1,
+      "predicted_size_med": 4
+    },
+    "laplace_grid": {
+      "precision_med": 0,
+      "recall_med": 0,
+      "f1_med": 0,
+      "predicted_size_med": 1
+    },
+    "zkls_grid_zones": {
+      "precision_med": 0.6666666666666666,
+      "recall_med": 0.3333333333333333,
+      "f1_med": 0.4,
+      "predicted_size_med": 2
+    },
+    "six_layer": {
+      "precision_med": 0,
+      "recall_med": 0,
+      "f1_med": 0,
+      "predicted_size_med": 0
+    }
+  },
+  "perUser": [
+    {
+      "userId": "000",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0.1111111111111111,
+          "recall": 0.3333333333333333,
+          "f1": 0.16666666666666666,
+          "predictedSize": 9,
+          "truthSize": 3,
+          "intersection": 1
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "001",
+      "truthSize": 4,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 4,
+          "truthSize": 4,
+          "intersection": 4
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 4,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.25,
+          "f1": 0.4,
+          "predictedSize": 1,
+          "truthSize": 4,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 4,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "003",
+      "truthSize": 9,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 9,
+          "truthSize": 9,
+          "intersection": 9
+        },
+        "laplace_grid": {
+          "precision": 0.2,
+          "recall": 0.1111111111111111,
+          "f1": 0.14285714285714285,
+          "predictedSize": 5,
+          "truthSize": 9,
+          "intersection": 1
+        },
+        "zkls_grid_zones": {
+          "precision": 0.42857142857142855,
+          "recall": 0.3333333333333333,
+          "f1": 0.375,
+          "predictedSize": 7,
+          "truthSize": 9,
+          "intersection": 3
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 9,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "004",
+      "truthSize": 6,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 6,
+          "truthSize": 6,
+          "intersection": 6
+        },
+        "laplace_grid": {
+          "precision": 0.2857142857142857,
+          "recall": 0.3333333333333333,
+          "f1": 0.30769230769230765,
+          "predictedSize": 7,
+          "truthSize": 6,
+          "intersection": 2
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 2,
+          "truthSize": 6,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 6,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "005",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 1
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "006",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "007",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 2,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "008",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "011",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "013",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "f1": 0.6666666666666666,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "014",
+      "truthSize": 5,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 5,
+          "truthSize": 5,
+          "intersection": 5
+        },
+        "laplace_grid": {
+          "precision": 0.2857142857142857,
+          "recall": 0.4,
+          "f1": 0.3333333333333333,
+          "predictedSize": 7,
+          "truthSize": 5,
+          "intersection": 2
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6666666666666666,
+          "recall": 0.4,
+          "f1": 0.5,
+          "predictedSize": 3,
+          "truthSize": 5,
+          "intersection": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 5,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "016",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "predictedSize": 1,
+          "truthSize": 2,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "017",
+      "truthSize": 10,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 10,
+          "truthSize": 10,
+          "intersection": 10
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 2,
+          "truthSize": 10,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.2222222222222222,
+          "recall": 0.2,
+          "f1": 0.2105263157894737,
+          "predictedSize": 9,
+          "truthSize": 10,
+          "intersection": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 10,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "022",
+      "truthSize": 5,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 5,
+          "truthSize": 5,
+          "intersection": 5
+        },
+        "laplace_grid": {
+          "precision": 0.1,
+          "recall": 0.2,
+          "f1": 0.13333333333333333,
+          "predictedSize": 10,
+          "truthSize": 5,
+          "intersection": 1
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.2,
+          "f1": 0.33333333333333337,
+          "predictedSize": 1,
+          "truthSize": 5,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 5,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "023",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "024",
+      "truthSize": 4,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 4,
+          "truthSize": 4,
+          "intersection": 4
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 4,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "predictedSize": 3,
+          "truthSize": 4,
+          "intersection": 3
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 4,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "025",
+      "truthSize": 5,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 5,
+          "truthSize": 5,
+          "intersection": 5
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 3,
+          "truthSize": 5,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.4,
+          "f1": 0.4444444444444445,
+          "predictedSize": 4,
+          "truthSize": 5,
+          "intersection": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 5,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "026",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.3333333333333333,
+          "f1": 0.4,
+          "predictedSize": 2,
+          "truthSize": 3,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "028",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.3333333333333333,
+          "f1": 0.5,
+          "predictedSize": 1,
+          "truthSize": 3,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "030",
+      "truthSize": 13,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 13,
+          "truthSize": 13,
+          "intersection": 13
+        },
+        "laplace_grid": {
+          "precision": 0.16666666666666666,
+          "recall": 0.07692307692307693,
+          "f1": 0.10526315789473684,
+          "predictedSize": 6,
+          "truthSize": 13,
+          "intersection": 1
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.23076923076923078,
+          "f1": 0.375,
+          "predictedSize": 3,
+          "truthSize": 13,
+          "intersection": 3
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 13,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "034",
+      "truthSize": 7,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 7,
+          "truthSize": 7,
+          "intersection": 7
+        },
+        "laplace_grid": {
+          "precision": 0.6666666666666666,
+          "recall": 0.2857142857142857,
+          "f1": 0.4,
+          "predictedSize": 3,
+          "truthSize": 7,
+          "intersection": 2
+        },
+        "zkls_grid_zones": {
+          "precision": 0.75,
+          "recall": 0.42857142857142855,
+          "f1": 0.5454545454545454,
+          "predictedSize": 4,
+          "truthSize": 7,
+          "intersection": 3
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 7,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "035",
+      "truthSize": 4,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 4,
+          "truthSize": 4,
+          "intersection": 4
+        },
+        "laplace_grid": {
+          "precision": 0.125,
+          "recall": 0.5,
+          "f1": 0.2,
+          "predictedSize": 16,
+          "truthSize": 4,
+          "intersection": 2
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "predictedSize": 4,
+          "truthSize": 4,
+          "intersection": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 4,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "036",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 5,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "037",
+      "truthSize": 6,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 6,
+          "truthSize": 6,
+          "intersection": 6
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 6,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "predictedSize": 3,
+          "truthSize": 6,
+          "intersection": 3
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 6,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "038",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "predictedSize": 1,
+          "truthSize": 2,
+          "intersection": 1
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "predictedSize": 1,
+          "truthSize": 2,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "039",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.3333333333333333,
+          "recall": 0.3333333333333333,
+          "f1": 0.3333333333333333,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "041",
+      "truthSize": 6,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 6,
+          "truthSize": 6,
+          "intersection": 6
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 6,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6666666666666666,
+          "recall": 0.3333333333333333,
+          "f1": 0.4444444444444444,
+          "predictedSize": 3,
+          "truthSize": 6,
+          "intersection": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 6,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "042",
+      "truthSize": 6,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 6,
+          "truthSize": 6,
+          "intersection": 6
+        },
+        "laplace_grid": {
+          "precision": 0.25,
+          "recall": 0.16666666666666666,
+          "f1": 0.2,
+          "predictedSize": 4,
+          "truthSize": 6,
+          "intersection": 1
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "f1": 0.6666666666666666,
+          "predictedSize": 6,
+          "truthSize": 6,
+          "intersection": 4
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 6,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "043",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "f1": 0.6666666666666666,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "050",
+      "truthSize": 7,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 7,
+          "truthSize": 7,
+          "intersection": 7
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 7,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.5,
+          "recall": 0.2857142857142857,
+          "f1": 0.36363636363636365,
+          "predictedSize": 4,
+          "truthSize": 7,
+          "intersection": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 7,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "051",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "052",
+      "truthSize": 6,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 6,
+          "truthSize": 6,
+          "intersection": 6
+        },
+        "laplace_grid": {
+          "precision": 0.2,
+          "recall": 0.3333333333333333,
+          "f1": 0.25,
+          "predictedSize": 10,
+          "truthSize": 6,
+          "intersection": 2
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6666666666666666,
+          "recall": 0.3333333333333333,
+          "f1": 0.4444444444444444,
+          "predictedSize": 3,
+          "truthSize": 6,
+          "intersection": 2
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 6,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "062",
+      "truthSize": 7,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 7,
+          "truthSize": 7,
+          "intersection": 7
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 3,
+          "truthSize": 7,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.6,
+          "recall": 0.42857142857142855,
+          "f1": 0.5,
+          "predictedSize": 5,
+          "truthSize": 7,
+          "intersection": 3
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 7,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "068",
+      "truthSize": 8,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 8,
+          "truthSize": 8,
+          "intersection": 8
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 8,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.3333333333333333,
+          "recall": 0.125,
+          "f1": 0.18181818181818182,
+          "predictedSize": 3,
+          "truthSize": 8,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 8,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "085",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0.3333333333333333,
+          "recall": 0.3333333333333333,
+          "f1": 0.3333333333333333,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "092",
+      "truthSize": 5,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 5,
+          "truthSize": 5,
+          "intersection": 5
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 5,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.2,
+          "f1": 0.33333333333333337,
+          "predictedSize": 1,
+          "truthSize": 5,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 5,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "101",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "predictedSize": 1,
+          "truthSize": 2,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "104",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "predictedSize": 1,
+          "truthSize": 2,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "112",
+      "truthSize": 5,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 5,
+          "truthSize": 5,
+          "intersection": 5
+        },
+        "laplace_grid": {
+          "precision": 0.25,
+          "recall": 0.2,
+          "f1": 0.22222222222222224,
+          "predictedSize": 4,
+          "truthSize": 5,
+          "intersection": 1
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.2,
+          "f1": 0.33333333333333337,
+          "predictedSize": 1,
+          "truthSize": 5,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 5,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "115",
+      "truthSize": 4,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 4,
+          "truthSize": 4,
+          "intersection": 4
+        },
+        "laplace_grid": {
+          "precision": 1,
+          "recall": 0.25,
+          "f1": 0.4,
+          "predictedSize": 1,
+          "truthSize": 4,
+          "intersection": 1
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 4,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 4,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "125",
+      "truthSize": 2,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 2,
+          "truthSize": 2,
+          "intersection": 2
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 2,
+          "intersection": 0
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 2,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "140",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.3333333333333333,
+          "f1": 0.5,
+          "predictedSize": 1,
+          "truthSize": 3,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "153",
+      "truthSize": 14,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 14,
+          "truthSize": 14,
+          "intersection": 14
+        },
+        "laplace_grid": {
+          "precision": 0.3,
+          "recall": 0.21428571428571427,
+          "f1": 0.25,
+          "predictedSize": 10,
+          "truthSize": 14,
+          "intersection": 3
+        },
+        "zkls_grid_zones": {
+          "precision": 0.8181818181818182,
+          "recall": 0.6428571428571429,
+          "f1": 0.7200000000000001,
+          "predictedSize": 11,
+          "truthSize": 14,
+          "intersection": 9
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 14,
+          "intersection": 0
+        }
+      }
+    },
+    {
+      "userId": "167",
+      "truthSize": 3,
+      "methods": {
+        "raw": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "predictedSize": 3,
+          "truthSize": 3,
+          "intersection": 3
+        },
+        "laplace_grid": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 1,
+          "truthSize": 3,
+          "intersection": 0
+        },
+        "zkls_grid_zones": {
+          "precision": 1,
+          "recall": 0.3333333333333333,
+          "f1": 0.5,
+          "predictedSize": 1,
+          "truthSize": 3,
+          "intersection": 1
+        },
+        "six_layer": {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "predictedSize": 0,
+          "truthSize": 3,
+          "intersection": 0
+        }
+      }
+    }
+  ]
+}

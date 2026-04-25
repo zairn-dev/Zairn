@@ -1,0 +1,2113 @@
+{
+  "usersEvaluated": 49,
+  "medianSpanDays": 63.71396990740741,
+  "userResults": [
+    {
+      "userId": "00",
+      "nPoints": 4161,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 162,
+          "nightObs": 1430
+        },
+        "laplace_grid": {
+          "error": 109,
+          "nightObs": 1430
+        },
+        "zkls_grid_zones": {
+          "error": 1359,
+          "nightObs": 250
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9716414323479933,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8469118000480653,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8502763758711848,
+          "unans": 0.14972362412881518
+        },
+        "six_layer": {
+          "acc": 0.688055755827926,
+          "unans": 0.31170391732756547
+        }
+      },
+      "spanDays": 65.87592592592593
+    },
+    {
+      "userId": "01",
+      "nPoints": 5541,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 155,
+          "nightObs": 1813
+        },
+        "laplace_grid": {
+          "error": 65,
+          "nightObs": 1813
+        },
+        "zkls_grid_zones": {
+          "error": 5802,
+          "nightObs": 2
+        },
+        "six_layer": {
+          "error": 14513,
+          "nightObs": 10
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9931420321241653,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.2333513806172171,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9429705829272694,
+          "unans": 0.05702941707273056
+        },
+        "six_layer": {
+          "acc": 0.8106839920591951,
+          "unans": 0.18931600794080491
+        }
+      },
+      "spanDays": 63.40946759259259
+    },
+    {
+      "userId": "02",
+      "nPoints": 6607,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 357,
+          "nightObs": 2221
+        },
+        "laplace_grid": {
+          "error": 324,
+          "nightObs": 2221
+        },
+        "zkls_grid_zones": {
+          "error": 2513,
+          "nightObs": 34
+        },
+        "six_layer": {
+          "error": 9412,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9960647797790223,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3792946874527017,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.82367186317542,
+          "unans": 0.17632813682457998
+        },
+        "six_layer": {
+          "acc": 0.6530952020584229,
+          "unans": 0.34690479794157714
+        }
+      },
+      "spanDays": 65.96408564814814
+    },
+    {
+      "userId": "03",
+      "nPoints": 3502,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 54,
+          "nightObs": 1160
+        },
+        "laplace_grid": {
+          "error": 140,
+          "nightObs": 1160
+        },
+        "zkls_grid_zones": {
+          "error": 7447,
+          "nightObs": 7
+        },
+        "six_layer": {
+          "error": 8609,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9997144488863506,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.11450599657338664,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9428897772701313,
+          "unans": 0.05711022272986865
+        },
+        "six_layer": {
+          "acc": 0.944317532838378,
+          "unans": 0.05568246716162193
+        }
+      },
+      "spanDays": 56.74016203703704
+    },
+    {
+      "userId": "04",
+      "nPoints": 3620,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 229,
+          "nightObs": 1155
+        },
+        "laplace_grid": {
+          "error": 255,
+          "nightObs": 1155
+        },
+        "zkls_grid_zones": {
+          "error": 255034,
+          "nightObs": 8
+        },
+        "six_layer": {
+          "error": 6580,
+          "nightObs": 7
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.8643646408839779,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.4331491712707182,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.712707182320442,
+          "unans": 0.287292817679558
+        },
+        "six_layer": {
+          "acc": 0.5895027624309392,
+          "unans": 0.41049723756906076
+        }
+      },
+      "spanDays": 57.32712962962963
+    },
+    {
+      "userId": "05",
+      "nPoints": 5388,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 203,
+          "nightObs": 1798
+        },
+        "laplace_grid": {
+          "error": 216,
+          "nightObs": 1798
+        },
+        "zkls_grid_zones": {
+          "error": 100302,
+          "nightObs": 16
+        },
+        "six_layer": {
+          "error": 16774,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9513734224201931,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.35838901262063844,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.892724573125464,
+          "unans": 0.107275426874536
+        },
+        "six_layer": {
+          "acc": 0.6701930215293245,
+          "unans": 0.3298069784706756
+        }
+      },
+      "spanDays": 63.009282407407404
+    },
+    {
+      "userId": "07",
+      "nPoints": 3105,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 101,
+          "nightObs": 1008
+        },
+        "laplace_grid": {
+          "error": 193,
+          "nightObs": 1008
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 10106,
+          "nightObs": 10
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9855072463768116,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.24476650563607086,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8673107890499195,
+          "unans": 0.13268921095008052
+        },
+        "six_layer": {
+          "acc": 0.8074074074074075,
+          "unans": 0.1925925925925926
+        }
+      },
+      "spanDays": 48.89376157407408
+    },
+    {
+      "userId": "08",
+      "nPoints": 6192,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 204,
+          "nightObs": 2015
+        },
+        "laplace_grid": {
+          "error": 171,
+          "nightObs": 2015
+        },
+        "zkls_grid_zones": {
+          "error": 86014,
+          "nightObs": 5
+        },
+        "six_layer": {
+          "error": 7492,
+          "nightObs": 11
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9520348837209303,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5700904392764858,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7625968992248062,
+          "unans": 0.2374031007751938
+        },
+        "six_layer": {
+          "acc": 0.43556201550387597,
+          "unans": 0.564437984496124
+        }
+      },
+      "spanDays": 63.30009259259259
+    },
+    {
+      "userId": "09",
+      "nPoints": 5062,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 283,
+          "nightObs": 1692
+        },
+        "laplace_grid": {
+          "error": 140,
+          "nightObs": 1692
+        },
+        "zkls_grid_zones": {
+          "error": 2560,
+          "nightObs": 146
+        },
+        "six_layer": {
+          "error": 4942,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9640458316870802,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.2538522323192414,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8391939944685894,
+          "unans": 0.1608060055314105
+        },
+        "six_layer": {
+          "acc": 0.7913868036349269,
+          "unans": 0.20861319636507308
+        }
+      },
+      "spanDays": 65.49730324074073
+    },
+    {
+      "userId": "10",
+      "nPoints": 4457,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 117,
+          "nightObs": 1484
+        },
+        "laplace_grid": {
+          "error": 111,
+          "nightObs": 1484
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 21316,
+          "nightObs": 3
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.8700919901278887,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6989006057886471,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9145164909131703,
+          "unans": 0.08548350908682971
+        },
+        "six_layer": {
+          "acc": 0.27754094682521874,
+          "unans": 0.7224590531747812
+        }
+      },
+      "spanDays": 65.63059027777778
+    },
+    {
+      "userId": "12",
+      "nPoints": 6547,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 8259,
+          "nightObs": 2193
+        },
+        "laplace_grid": {
+          "error": 8314,
+          "nightObs": 2193
+        },
+        "zkls_grid_zones": {
+          "error": 8212,
+          "nightObs": 1275
+        },
+        "six_layer": {
+          "error": 8524,
+          "nightObs": 7
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.32656178402321673,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9873224377577516,
+          "unans": 0.012677562242248358
+        },
+        "six_layer": {
+          "acc": 0.7285779746448755,
+          "unans": 0.2714220253551245
+        }
+      },
+      "spanDays": 65.9861574074074
+    },
+    {
+      "userId": "13",
+      "nPoints": 6604,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 59,
+          "nightObs": 2165
+        },
+        "laplace_grid": {
+          "error": 78,
+          "nightObs": 2165
+        },
+        "zkls_grid_zones": {
+          "error": 1476,
+          "nightObs": 129
+        },
+        "six_layer": {
+          "error": 2934,
+          "nightObs": 3
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9924288310115081,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5072683222289521,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9548758328285888,
+          "unans": 0.04512416717141127
+        },
+        "six_layer": {
+          "acc": 0.9117201695941853,
+          "unans": 0.08827983040581466
+        }
+      },
+      "spanDays": 62.140462962962964
+    },
+    {
+      "userId": "14",
+      "nPoints": 3805,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 84,
+          "nightObs": 1299
+        },
+        "laplace_grid": {
+          "error": 92,
+          "nightObs": 1299
+        },
+        "zkls_grid_zones": {
+          "error": 177787,
+          "nightObs": 22
+        },
+        "six_layer": {
+          "error": 12871,
+          "nightObs": 7
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9329829172141918,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.20630749014454666,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.895400788436268,
+          "unans": 0.10459921156373193
+        },
+        "six_layer": {
+          "acc": 0.8417871222076215,
+          "unans": 0.15821287779237844
+        }
+      },
+      "spanDays": 64.60655092592593
+    },
+    {
+      "userId": "15",
+      "nPoints": 1788,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 190,
+          "nightObs": 604
+        },
+        "laplace_grid": {
+          "error": 226,
+          "nightObs": 604
+        },
+        "zkls_grid_zones": {
+          "error": 197489,
+          "nightObs": 30
+        },
+        "six_layer": {
+          "error": 2886,
+          "nightObs": 9
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9519015659955258,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3529082774049217,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.831096196868009,
+          "unans": 0.16890380313199105
+        },
+        "six_layer": {
+          "acc": 0.6868008948545862,
+          "unans": 0.3131991051454139
+        }
+      },
+      "spanDays": 65.43605324074075
+    },
+    {
+      "userId": "16",
+      "nPoints": 5890,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 174,
+          "nightObs": 1952
+        },
+        "laplace_grid": {
+          "error": 193,
+          "nightObs": 1952
+        },
+        "zkls_grid_zones": {
+          "error": 5706,
+          "nightObs": 8
+        },
+        "six_layer": {
+          "error": 10239,
+          "nightObs": 10
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9940577249575552,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.2505942275042445,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9426146010186757,
+          "unans": 0.057385398981324276
+        },
+        "six_layer": {
+          "acc": 0.7843803056027164,
+          "unans": 0.21561969439728354
+        }
+      },
+      "spanDays": 63.29806712962963
+    },
+    {
+      "userId": "17",
+      "nPoints": 6400,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 117,
+          "nightObs": 2121
+        },
+        "laplace_grid": {
+          "error": 133,
+          "nightObs": 2121
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 17255,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.98171875,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.185,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.94390625,
+          "unans": 0.05609375
+        },
+        "six_layer": {
+          "acc": 0.86546875,
+          "unans": 0.13453125
+        }
+      },
+      "spanDays": 65.98868055555556
+    },
+    {
+      "userId": "18",
+      "nPoints": 3699,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 81,
+          "nightObs": 1239
+        },
+        "laplace_grid": {
+          "error": 22,
+          "nightObs": 1239
+        },
+        "zkls_grid_zones": {
+          "error": 178735,
+          "nightObs": 25
+        },
+        "six_layer": {
+          "error": 9130,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9743173830765072,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.16950527169505272,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9337658826709921,
+          "unans": 0.06623411732900784
+        },
+        "six_layer": {
+          "acc": 0.884022708840227,
+          "unans": 0.11597729115977291
+        }
+      },
+      "spanDays": 63.63828703703704
+    },
+    {
+      "userId": "19",
+      "nPoints": 4598,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 183,
+          "nightObs": 1553
+        },
+        "laplace_grid": {
+          "error": 148,
+          "nightObs": 1553
+        },
+        "zkls_grid_zones": {
+          "error": 2570,
+          "nightObs": 16
+        },
+        "six_layer": {
+          "error": 19362,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9671596346237494,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.2855589386689865,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8410178338408003,
+          "unans": 0.15898216615919966
+        },
+        "six_layer": {
+          "acc": 0.7442366246193998,
+          "unans": 0.2557633753806003
+        }
+      },
+      "spanDays": 65.98237268518518
+    },
+    {
+      "userId": "20",
+      "nPoints": 2833,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 38,
+          "nightObs": 928
+        },
+        "laplace_grid": {
+          "error": 121,
+          "nightObs": 928
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 9052,
+          "nightObs": 1
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9943522767384398,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.1754324038122132,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.953053300388281,
+          "unans": 0.046946699611719024
+        },
+        "six_layer": {
+          "acc": 0.8750441228379809,
+          "unans": 0.12495587716201906
+        }
+      },
+      "spanDays": 51.00946759259259
+    },
+    {
+      "userId": "22",
+      "nPoints": 3729,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 44,
+          "nightObs": 1178
+        },
+        "laplace_grid": {
+          "error": 56,
+          "nightObs": 1178
+        },
+        "zkls_grid_zones": {
+          "error": 4200182,
+          "nightObs": 26
+        },
+        "six_layer": {
+          "error": 1752,
+          "nightObs": 11
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9348350764279968,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.19254491820863504,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9474389916867793,
+          "unans": 0.052561008313220706
+        },
+        "six_layer": {
+          "acc": 0.8629659426119604,
+          "unans": 0.1370340573880397
+        }
+      },
+      "spanDays": 65.98435185185186
+    },
+    {
+      "userId": "23",
+      "nPoints": 2888,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 33,
+          "nightObs": 836
+        },
+        "laplace_grid": {
+          "error": 192,
+          "nightObs": 836
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 19489,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9927285318559557,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.11045706371191136,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9722991689750693,
+          "unans": 0.027700831024930747
+        },
+        "six_layer": {
+          "acc": 0.9490997229916898,
+          "unans": 0.05090027700831025
+        }
+      },
+      "spanDays": 57.11584490740741
+    },
+    {
+      "userId": "24",
+      "nPoints": 2151,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 88,
+          "nightObs": 721
+        },
+        "laplace_grid": {
+          "error": 86,
+          "nightObs": 721
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 2368,
+          "nightObs": 10
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9962807996280799,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.23245002324500233,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9339841933984193,
+          "unans": 0.06601580660158066
+        },
+        "six_layer": {
+          "acc": 0.810320781032078,
+          "unans": 0.1896792189679219
+        }
+      },
+      "spanDays": 31.263368055555556
+    },
+    {
+      "userId": "25",
+      "nPoints": 1801,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 288,
+          "nightObs": 635
+        },
+        "laplace_grid": {
+          "error": 318,
+          "nightObs": 635
+        },
+        "zkls_grid_zones": {
+          "error": 219358,
+          "nightObs": 10
+        },
+        "six_layer": {
+          "error": 21467,
+          "nightObs": 3
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.7956690727373681,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5941143808995003,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5796779566907274,
+          "unans": 0.42032204330927264
+        },
+        "six_layer": {
+          "acc": 0.4175458078845086,
+          "unans": 0.5824541921154914
+        }
+      },
+      "spanDays": 62.72202546296296
+    },
+    {
+      "userId": "27",
+      "nPoints": 4442,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 59,
+          "nightObs": 1472
+        },
+        "laplace_grid": {
+          "error": 174,
+          "nightObs": 1472
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 4026,
+          "nightObs": 10
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9520486267447096,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.17424583520936515,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9383160738406123,
+          "unans": 0.06168392615938766
+        },
+        "six_layer": {
+          "acc": 0.8759567762269248,
+          "unans": 0.1240432237730752
+        }
+      },
+      "spanDays": 65.4458449074074
+    },
+    {
+      "userId": "30",
+      "nPoints": 3847,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 163,
+          "nightObs": 1276
+        },
+        "laplace_grid": {
+          "error": 90,
+          "nightObs": 1276
+        },
+        "zkls_grid_zones": {
+          "error": 353799,
+          "nightObs": 169
+        },
+        "six_layer": {
+          "error": 20394,
+          "nightObs": 1
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9560696646737717,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7988042630621264,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8315570574473615,
+          "unans": 0.16844294255263842
+        },
+        "six_layer": {
+          "acc": 0.18066025474395633,
+          "unans": 0.8193397452560437
+        }
+      },
+      "spanDays": 65.4255324074074
+    },
+    {
+      "userId": "31",
+      "nPoints": 4203,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 1164,
+          "nightObs": 1396
+        },
+        "laplace_grid": {
+          "error": 1141,
+          "nightObs": 1396
+        },
+        "zkls_grid_zones": {
+          "error": 178283,
+          "nightObs": 123
+        },
+        "six_layer": {
+          "error": 36779,
+          "nightObs": 6
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9997620747085415,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.44063763978110876,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9505115393766357,
+          "unans": 0.04948846062336426
+        },
+        "six_layer": {
+          "acc": 0.887461337140138,
+          "unans": 0.112538662859862
+        }
+      },
+      "spanDays": 63.71396990740741
+    },
+    {
+      "userId": "32",
+      "nPoints": 3820,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 191,
+          "nightObs": 1237
+        },
+        "laplace_grid": {
+          "error": 250,
+          "nightObs": 1237
+        },
+        "zkls_grid_zones": {
+          "error": 179469,
+          "nightObs": 14
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.8848167539267016,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.35732984293193715,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9102094240837696,
+          "unans": 0.08979057591623037
+        },
+        "six_layer": {
+          "acc": 0.6743455497382199,
+          "unans": 0.3256544502617801
+        }
+      },
+      "spanDays": 50.81017361111111
+    },
+    {
+      "userId": "33",
+      "nPoints": 2809,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 170,
+          "nightObs": 933
+        },
+        "laplace_grid": {
+          "error": 219,
+          "nightObs": 933
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 7154,
+          "nightObs": 11
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9989320042719829,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.238875044499822,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9547881808472766,
+          "unans": 0.04521181915272339
+        },
+        "six_layer": {
+          "acc": 0.8106087575649698,
+          "unans": 0.18939124243503025
+        }
+      },
+      "spanDays": 56.377800925925925
+    },
+    {
+      "userId": "34",
+      "nPoints": 2099,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 1451,
+          "nightObs": 677
+        },
+        "laplace_grid": {
+          "error": 1610,
+          "nightObs": 677
+        },
+        "zkls_grid_zones": {
+          "error": 2158,
+          "nightObs": 436
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9995235826584088,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5602667937112911,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9971414959504526,
+          "unans": 0.0028585040495474035
+        },
+        "six_layer": {
+          "acc": 0.5459742734635541,
+          "unans": 0.4540257265364459
+        }
+      },
+      "spanDays": 54.78471064814815
+    },
+    {
+      "userId": "35",
+      "nPoints": 4340,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 114,
+          "nightObs": 1437
+        },
+        "laplace_grid": {
+          "error": 221,
+          "nightObs": 1437
+        },
+        "zkls_grid_zones": {
+          "error": 5900,
+          "nightObs": 82
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9990783410138249,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.2976958525345622,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9099078341013825,
+          "unans": 0.09009216589861752
+        },
+        "six_layer": {
+          "acc": 0.7481566820276497,
+          "unans": 0.2518433179723502
+        }
+      },
+      "spanDays": 65.74810185185186
+    },
+    {
+      "userId": "36",
+      "nPoints": 5422,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 33,
+          "nightObs": 1791
+        },
+        "laplace_grid": {
+          "error": 32,
+          "nightObs": 1791
+        },
+        "zkls_grid_zones": {
+          "error": 7305,
+          "nightObs": 147
+        },
+        "six_layer": {
+          "error": 27136,
+          "nightObs": 2
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9695684249354481,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5992253780892659,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9308373293987459,
+          "unans": 0.06916267060125415
+        },
+        "six_layer": {
+          "acc": 0.8448911840649207,
+          "unans": 0.1551088159350793
+        }
+      },
+      "spanDays": 65.98877314814816
+    },
+    {
+      "userId": "39",
+      "nPoints": 1349,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 9,
+          "nightObs": 438
+        },
+        "laplace_grid": {
+          "error": 122,
+          "nightObs": 438
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 368,
+          "nightObs": 3
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3202372127501853,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9948109710896961,
+          "unans": 0.005189028910303929
+        },
+        "six_layer": {
+          "acc": 1,
+          "unans": 0
+        }
+      },
+      "spanDays": 29.058854166666666
+    },
+    {
+      "userId": "41",
+      "nPoints": 3038,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 81,
+          "nightObs": 1040
+        },
+        "laplace_grid": {
+          "error": 169,
+          "nightObs": 1040
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.8245556287030942,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.31928900592495063,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9150757077024358,
+          "unans": 0.08492429229756418
+        },
+        "six_layer": {
+          "acc": 0.7162606978275181,
+          "unans": 0.2837393021724819
+        }
+      },
+      "spanDays": 64.55898148148148
+    },
+    {
+      "userId": "42",
+      "nPoints": 2958,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 6083,
+          "nightObs": 986
+        },
+        "laplace_grid": {
+          "error": 6167,
+          "nightObs": 986
+        },
+        "zkls_grid_zones": {
+          "error": 5722,
+          "nightObs": 22
+        },
+        "six_layer": {
+          "error": 1739,
+          "nightObs": 5
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9996619337390128,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.38269100743745776,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8289384719405003,
+          "unans": 0.17106152805949967
+        },
+        "six_layer": {
+          "acc": 0.8062880324543611,
+          "unans": 0.19371196754563894
+        }
+      },
+      "spanDays": 55.53333333333333
+    },
+    {
+      "userId": "43",
+      "nPoints": 4302,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 39,
+          "nightObs": 1414
+        },
+        "laplace_grid": {
+          "error": 37,
+          "nightObs": 1414
+        },
+        "zkls_grid_zones": {
+          "error": 175736,
+          "nightObs": 98
+        },
+        "six_layer": {
+          "error": 5211,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9211994421199442,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.4123663412366341,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7733612273361228,
+          "unans": 0.22663877266387727
+        },
+        "six_layer": {
+          "acc": 0.6180846118084612,
+          "unans": 0.3819153881915388
+        }
+      },
+      "spanDays": 62.96936342592593
+    },
+    {
+      "userId": "44",
+      "nPoints": 4146,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 820,
+          "nightObs": 1395
+        },
+        "laplace_grid": {
+          "error": 458,
+          "nightObs": 1395
+        },
+        "zkls_grid_zones": {
+          "error": 1689,
+          "nightObs": 5
+        },
+        "six_layer": {
+          "error": 3279,
+          "nightObs": 10
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9980704293294742,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7088760250844187,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9618909792571153,
+          "unans": 0.038109020742884706
+        },
+        "six_layer": {
+          "acc": 0.9611673902556681,
+          "unans": 0.038832609744331885
+        }
+      },
+      "spanDays": 65.01133101851852
+    },
+    {
+      "userId": "45",
+      "nPoints": 2303,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 1307,
+          "nightObs": 727
+        },
+        "laplace_grid": {
+          "error": 1493,
+          "nightObs": 727
+        },
+        "zkls_grid_zones": {
+          "error": 8528,
+          "nightObs": 37
+        },
+        "six_layer": {
+          "error": 8978,
+          "nightObs": 6
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.998697351280938,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5219279201042119,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7724706904038211,
+          "unans": 0.2275293095961789
+        },
+        "six_layer": {
+          "acc": 0.72818063395571,
+          "unans": 0.2718193660442901
+        }
+      },
+      "spanDays": 62.40351851851852
+    },
+    {
+      "userId": "46",
+      "nPoints": 3808,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 480,
+          "nightObs": 1266
+        },
+        "laplace_grid": {
+          "error": 528,
+          "nightObs": 1266
+        },
+        "zkls_grid_zones": {
+          "error": 223998,
+          "nightObs": 44
+        },
+        "six_layer": {
+          "error": 9491,
+          "nightObs": 5
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9981617647058824,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5779936974789915,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8429621848739496,
+          "unans": 0.15703781512605042
+        },
+        "six_layer": {
+          "acc": 0.4340861344537815,
+          "unans": 0.5659138655462185
+        }
+      },
+      "spanDays": 57.082430555555554
+    },
+    {
+      "userId": "47",
+      "nPoints": 3418,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 84,
+          "nightObs": 1142
+        },
+        "laplace_grid": {
+          "error": 472,
+          "nightObs": 1142
+        },
+        "zkls_grid_zones": {
+          "error": 7398,
+          "nightObs": 14
+        },
+        "six_layer": {
+          "error": 6991,
+          "nightObs": 6
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9821533060269163,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7036278525453482,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8513750731421884,
+          "unans": 0.1486249268578116
+        },
+        "six_layer": {
+          "acc": 0.8379169104739613,
+          "unans": 0.16208308952603862
+        }
+      },
+      "spanDays": 62.31186342592593
+    },
+    {
+      "userId": "49",
+      "nPoints": 3917,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 189,
+          "nightObs": 1255
+        },
+        "laplace_grid": {
+          "error": 123,
+          "nightObs": 1255
+        },
+        "zkls_grid_zones": {
+          "error": 176588,
+          "nightObs": 71
+        },
+        "six_layer": {
+          "error": 7428,
+          "nightObs": 11
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.6813888179729385,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5047230022976767,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5639520040847588,
+          "unans": 0.43604799591524124
+        },
+        "six_layer": {
+          "acc": 0.5008935409752362,
+          "unans": 0.49910645902476386
+        }
+      },
+      "spanDays": 65.42636574074074
+    },
+    {
+      "userId": "50",
+      "nPoints": 2927,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 101,
+          "nightObs": 925
+        },
+        "laplace_grid": {
+          "error": 99,
+          "nightObs": 925
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 8280,
+          "nightObs": 5
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9952169456781688,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.36317048172189953,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9654936795353605,
+          "unans": 0.03450632046463956
+        },
+        "six_layer": {
+          "acc": 0.6665527844209088,
+          "unans": 0.33344721557909124
+        }
+      },
+      "spanDays": 61.48943287037037
+    },
+    {
+      "userId": "51",
+      "nPoints": 6380,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 467,
+          "nightObs": 2090
+        },
+        "laplace_grid": {
+          "error": 357,
+          "nightObs": 2090
+        },
+        "zkls_grid_zones": {
+          "error": 2493,
+          "nightObs": 74
+        },
+        "six_layer": {
+          "error": 10754,
+          "nightObs": 9
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9905956112852664,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6200626959247649,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9396551724137931,
+          "unans": 0.0603448275862069
+        },
+        "six_layer": {
+          "acc": 0.9059561128526645,
+          "unans": 0.09404388714733543
+        }
+      },
+      "spanDays": 65.99462962962963
+    },
+    {
+      "userId": "52",
+      "nPoints": 5023,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 93,
+          "nightObs": 1683
+        },
+        "laplace_grid": {
+          "error": 33,
+          "nightObs": 1683
+        },
+        "zkls_grid_zones": {
+          "error": null,
+          "nightObs": 0
+        },
+        "six_layer": {
+          "error": 26045,
+          "nightObs": 9
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.6631495122436791,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.45729643639259404,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5675890901851484,
+          "unans": 0.4324109098148517
+        },
+        "six_layer": {
+          "acc": 0.5570376269161855,
+          "unans": 0.4429623730838145
+        }
+      },
+      "spanDays": 65.33321759259259
+    },
+    {
+      "userId": "53",
+      "nPoints": 3925,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 111,
+          "nightObs": 1314
+        },
+        "laplace_grid": {
+          "error": 220,
+          "nightObs": 1314
+        },
+        "zkls_grid_zones": {
+          "error": 102982,
+          "nightObs": 16
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9979617834394905,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.1954140127388535,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9765605095541401,
+          "unans": 0.023439490445859874
+        },
+        "six_layer": {
+          "acc": 0.849936305732484,
+          "unans": 0.15006369426751592
+        }
+      },
+      "spanDays": 65.70862268518519
+    },
+    {
+      "userId": "54",
+      "nPoints": 2546,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 259,
+          "nightObs": 859
+        },
+        "laplace_grid": {
+          "error": 237,
+          "nightObs": 859
+        },
+        "zkls_grid_zones": {
+          "error": 1342,
+          "nightObs": 148
+        },
+        "six_layer": {
+          "error": 5240,
+          "nightObs": 10
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.8695993715632364,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.622152395915161,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7038491751767478,
+          "unans": 0.29615082482325217
+        },
+        "six_layer": {
+          "acc": 0.39120188531029065,
+          "unans": 0.6087981146897093
+        }
+      },
+      "spanDays": 64.1427662037037
+    },
+    {
+      "userId": "56",
+      "nPoints": 3611,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 600,
+          "nightObs": 1203
+        },
+        "laplace_grid": {
+          "error": 434,
+          "nightObs": 1203
+        },
+        "zkls_grid_zones": {
+          "error": 77391,
+          "nightObs": 124
+        },
+        "six_layer": {
+          "error": 12062,
+          "nightObs": 4
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9963998892273609,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7283301024646912,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9346441428967045,
+          "unans": 0.06535585710329549
+        },
+        "six_layer": {
+          "acc": 0.8080864026585434,
+          "unans": 0.19191359734145666
+        }
+      },
+      "spanDays": 65.97797453703704
+    },
+    {
+      "userId": "57",
+      "nPoints": 5856,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 89,
+          "nightObs": 1966
+        },
+        "laplace_grid": {
+          "error": 35,
+          "nightObs": 1966
+        },
+        "zkls_grid_zones": {
+          "error": 1008946,
+          "nightObs": 114
+        },
+        "six_layer": {
+          "error": 3950,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9851434426229508,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.26229508196721313,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8541666666666666,
+          "unans": 0.14583333333333334
+        },
+        "six_layer": {
+          "acc": 0.7836407103825137,
+          "unans": 0.21618852459016394
+        }
+      },
+      "spanDays": 65.98671296296297
+    },
+    {
+      "userId": "58",
+      "nPoints": 6023,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 27,
+          "nightObs": 1944
+        },
+        "laplace_grid": {
+          "error": 142,
+          "nightObs": 1944
+        },
+        "zkls_grid_zones": {
+          "error": 7639,
+          "nightObs": 71
+        },
+        "six_layer": {
+          "error": 4255,
+          "nightObs": 6
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9898721567325253,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.14959322596712601,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9468703304001328,
+          "unans": 0.053129669599867174
+        },
+        "six_layer": {
+          "acc": 0.9040345342852399,
+          "unans": 0.09596546571476008
+        }
+      },
+      "spanDays": 63.39697916666667
+    },
+    {
+      "userId": "59",
+      "nPoints": 5842,
+      "home": "REDACTED-private-device-data",
+      "work": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 135,
+          "nightObs": 1936
+        },
+        "laplace_grid": {
+          "error": 112,
+          "nightObs": 1936
+        },
+        "zkls_grid_zones": {
+          "error": 2193021,
+          "nightObs": 151
+        },
+        "six_layer": {
+          "error": 17841,
+          "nightObs": 10
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.8541595344060253,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.46833276275248203,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7122560766860664,
+          "unans": 0.28774392331393356
+        },
+        "six_layer": {
+          "acc": 0.5398836015063334,
+          "unans": 0.46011639849366653
+        }
+      },
+      "spanDays": 65.98572916666667
+    }
+  ]
+}

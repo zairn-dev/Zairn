@@ -1,0 +1,784 @@
+{
+  "usersEvaluated": 19,
+  "userResults": [
+    {
+      "userId": "1",
+      "nPoints": 1796,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 386,
+          "nightObs": 830
+        },
+        "laplace_grid": {
+          "error": 257,
+          "nightObs": 830
+        },
+        "zkls_grid_zones": {
+          "error": 1114,
+          "nightObs": 421
+        },
+        "six_layer": {
+          "error": 1192,
+          "nightObs": 8
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9905345211581291,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.4955456570155902,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9047884187082406,
+          "unans": 0.09521158129175947
+        },
+        "six_layer": {
+          "acc": 0.534521158129176,
+          "unans": 0.46547884187082406
+        }
+      }
+    },
+    {
+      "userId": "2",
+      "nPoints": 4062,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 592,
+          "nightObs": 1026
+        },
+        "laplace_grid": {
+          "error": 506,
+          "nightObs": 1026
+        },
+        "zkls_grid_zones": {
+          "error": 1304,
+          "nightObs": 561
+        },
+        "six_layer": {
+          "error": 1283,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9923682914820285,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.33382570162481534,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9618414574101428,
+          "unans": 0.038158542589857215
+        },
+        "six_layer": {
+          "acc": 0.7104874446085672,
+          "unans": 0.2895125553914328
+        }
+      }
+    },
+    {
+      "userId": "3",
+      "nPoints": 721,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 204,
+          "nightObs": 211
+        },
+        "laplace_grid": {
+          "error": 297,
+          "nightObs": 211
+        },
+        "zkls_grid_zones": {
+          "error": 4687,
+          "nightObs": 43
+        },
+        "six_layer": {
+          "error": 3991,
+          "nightObs": 5
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.8737864077669902,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5755894590846047,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5700416088765603,
+          "unans": 0.42995839112343964
+        },
+        "six_layer": {
+          "acc": 0.435506241331484,
+          "unans": 0.5644937586685159
+        }
+      }
+    },
+    {
+      "userId": "4",
+      "nPoints": 479,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 539,
+          "nightObs": 104
+        },
+        "laplace_grid": {
+          "error": 612,
+          "nightObs": 104
+        },
+        "zkls_grid_zones": {
+          "error": 1216,
+          "nightObs": 41
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9874739039665971,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8622129436325678,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6617954070981211,
+          "unans": 0.33820459290187893
+        },
+        "six_layer": {
+          "acc": 0.15031315240083507,
+          "unans": 0.8496868475991649
+        }
+      }
+    },
+    {
+      "userId": "5",
+      "nPoints": 246,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 369,
+          "nightObs": 115
+        },
+        "laplace_grid": {
+          "error": 419,
+          "nightObs": 115
+        },
+        "zkls_grid_zones": {
+          "error": 1010,
+          "nightObs": 42
+        },
+        "six_layer": {
+          "error": 1567,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9796747967479674,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8414634146341463,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6951219512195121,
+          "unans": 0.3048780487804878
+        },
+        "six_layer": {
+          "acc": 0.1910569105691057,
+          "unans": 0.8089430894308943
+        }
+      }
+    },
+    {
+      "userId": "6",
+      "nPoints": 1087,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 651,
+          "nightObs": 437
+        },
+        "laplace_grid": {
+          "error": 775,
+          "nightObs": 437
+        },
+        "zkls_grid_zones": {
+          "error": 2415,
+          "nightObs": 174
+        },
+        "six_layer": {
+          "error": 2181,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9908003679852806,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.35878564857405704,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9668813247470102,
+          "unans": 0.03311867525298988
+        },
+        "six_layer": {
+          "acc": 0.6991720331186753,
+          "unans": 0.30082796688132474
+        }
+      }
+    },
+    {
+      "userId": "7",
+      "nPoints": 1051,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 1104,
+          "nightObs": 384
+        },
+        "laplace_grid": {
+          "error": 2028,
+          "nightObs": 384
+        },
+        "zkls_grid_zones": {
+          "error": 2427,
+          "nightObs": 218
+        },
+        "six_layer": {
+          "error": 2419,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9952426260704091,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.4747859181731684,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.966698382492864,
+          "unans": 0.03330161750713606
+        },
+        "six_layer": {
+          "acc": 0.5651760228353948,
+          "unans": 0.43482397716460514
+        }
+      }
+    },
+    {
+      "userId": "8",
+      "nPoints": 182,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 330,
+          "nightObs": 68
+        },
+        "laplace_grid": {
+          "error": 290,
+          "nightObs": 68
+        },
+        "zkls_grid_zones": {
+          "error": 7907,
+          "nightObs": 55
+        },
+        "six_layer": {
+          "error": 9613,
+          "nightObs": 1
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.989010989010989,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9395604395604396,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9340659340659341,
+          "unans": 0.06593406593406594
+        },
+        "six_layer": {
+          "acc": 0.12087912087912088,
+          "unans": 0.8791208791208791
+        }
+      }
+    },
+    {
+      "userId": "9",
+      "nPoints": 166,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 604,
+          "nightObs": 75
+        },
+        "laplace_grid": {
+          "error": 1000,
+          "nightObs": 75
+        },
+        "zkls_grid_zones": {
+          "error": 55450,
+          "nightObs": 72
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9939759036144579,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9819277108433735,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9939759036144579,
+          "unans": 0.006024096385542169
+        },
+        "six_layer": {
+          "acc": 0.09036144578313253,
+          "unans": 0.9096385542168675
+        }
+      }
+    },
+    {
+      "userId": "10",
+      "nPoints": 585,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 391,
+          "nightObs": 250
+        },
+        "laplace_grid": {
+          "error": 323,
+          "nightObs": 250
+        },
+        "zkls_grid_zones": {
+          "error": 177881,
+          "nightObs": 34
+        },
+        "six_layer": {
+          "error": null,
+          "nightObs": 0
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9829059829059829,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7538461538461538,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.3658119658119658,
+          "unans": 0.6341880341880342
+        },
+        "six_layer": {
+          "acc": 0.2564102564102564,
+          "unans": 0.7435897435897436
+        }
+      }
+    },
+    {
+      "userId": "11",
+      "nPoints": 1625,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 311,
+          "nightObs": 540
+        },
+        "laplace_grid": {
+          "error": 446,
+          "nightObs": 540
+        },
+        "zkls_grid_zones": {
+          "error": 354227,
+          "nightObs": 181
+        },
+        "six_layer": {
+          "error": 12377,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9889230769230769,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.4806153846153846,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7784615384615384,
+          "unans": 0.22153846153846155
+        },
+        "six_layer": {
+          "acc": 0.5581538461538461,
+          "unans": 0.44184615384615383
+        }
+      }
+    },
+    {
+      "userId": "12",
+      "nPoints": 361,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 964,
+          "nightObs": 149
+        },
+        "laplace_grid": {
+          "error": 866,
+          "nightObs": 149
+        },
+        "zkls_grid_zones": {
+          "error": 1836,
+          "nightObs": 104
+        },
+        "six_layer": {
+          "error": 1861,
+          "nightObs": 8
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9806094182825484,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9058171745152355,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.778393351800554,
+          "unans": 0.22160664819944598
+        },
+        "six_layer": {
+          "acc": 0.12742382271468145,
+          "unans": 0.8725761772853186
+        }
+      }
+    },
+    {
+      "userId": "13",
+      "nPoints": 373,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 269,
+          "nightObs": 152
+        },
+        "laplace_grid": {
+          "error": 177,
+          "nightObs": 152
+        },
+        "zkls_grid_zones": {
+          "error": 69189,
+          "nightObs": 44
+        },
+        "six_layer": {
+          "error": 14202,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.7372654155495979,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7479892761394102,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4879356568364611,
+          "unans": 0.5120643431635389
+        },
+        "six_layer": {
+          "acc": 0.2868632707774799,
+          "unans": 0.7131367292225201
+        }
+      }
+    },
+    {
+      "userId": "14",
+      "nPoints": 331,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 379,
+          "nightObs": 145
+        },
+        "laplace_grid": {
+          "error": 281,
+          "nightObs": 145
+        },
+        "zkls_grid_zones": {
+          "error": 5875,
+          "nightObs": 39
+        },
+        "six_layer": {
+          "error": 5916,
+          "nightObs": 8
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9546827794561934,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8368580060422961,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.46827794561933533,
+          "unans": 0.5317220543806647
+        },
+        "six_layer": {
+          "acc": 0.17522658610271905,
+          "unans": 0.824773413897281
+        }
+      }
+    },
+    {
+      "userId": "15",
+      "nPoints": 481,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 524,
+          "nightObs": 206
+        },
+        "laplace_grid": {
+          "error": 608,
+          "nightObs": 206
+        },
+        "zkls_grid_zones": {
+          "error": 6610,
+          "nightObs": 122
+        },
+        "six_layer": {
+          "error": 16590,
+          "nightObs": 1
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9916839916839917,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.83991683991684,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8877338877338877,
+          "unans": 0.11226611226611227
+        },
+        "six_layer": {
+          "acc": 0.18711018711018712,
+          "unans": 0.8128898128898129
+        }
+      }
+    },
+    {
+      "userId": "16",
+      "nPoints": 43,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 105,
+          "nightObs": 29
+        },
+        "laplace_grid": {
+          "error": 525,
+          "nightObs": 29
+        },
+        "zkls_grid_zones": {
+          "error": 428312,
+          "nightObs": 11
+        },
+        "six_layer": {
+          "error": 428229,
+          "nightObs": 7
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6511627906976745,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9767441860465116,
+          "unans": 0.023255813953488372
+        },
+        "six_layer": {
+          "acc": 0.6976744186046512,
+          "unans": 0.3023255813953488
+        }
+      }
+    },
+    {
+      "userId": "17",
+      "nPoints": 557,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 325,
+          "nightObs": 255
+        },
+        "laplace_grid": {
+          "error": 179,
+          "nightObs": 255
+        },
+        "zkls_grid_zones": {
+          "error": 278246,
+          "nightObs": 140
+        },
+        "six_layer": {
+          "error": 39922,
+          "nightObs": 8
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9587073608617595,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8850987432675045,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6678635547576302,
+          "unans": 0.33213644524236985
+        },
+        "six_layer": {
+          "acc": 0.13644524236983843,
+          "unans": 0.8635547576301615
+        }
+      }
+    },
+    {
+      "userId": "18",
+      "nPoints": 772,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 61827,
+          "nightObs": 421
+        },
+        "laplace_grid": {
+          "error": 57447,
+          "nightObs": 421
+        },
+        "zkls_grid_zones": {
+          "error": 61796,
+          "nightObs": 396
+        },
+        "six_layer": {
+          "error": 20924,
+          "nightObs": 6
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9987046632124352,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9715025906735751,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9974093264248705,
+          "unans": 0.0025906735751295338
+        },
+        "six_layer": {
+          "acc": 0.04533678756476684,
+          "unans": 0.9546632124352331
+        }
+      }
+    },
+    {
+      "userId": "19",
+      "nPoints": 608,
+      "home": "REDACTED-private-device-data",
+      "homeAttack": {
+        "raw": {
+          "error": 1172,
+          "nightObs": 360
+        },
+        "laplace_grid": {
+          "error": 845,
+          "nightObs": 360
+        },
+        "zkls_grid_zones": {
+          "error": 2132,
+          "nightObs": 215
+        },
+        "six_layer": {
+          "error": 7643,
+          "nightObs": 12
+        }
+      },
+      "task1": {
+        "raw": {
+          "acc": 0.9950657894736842,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.5509868421052632,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9851973684210527,
+          "unans": 0.014802631578947368
+        },
+        "six_layer": {
+          "acc": 0.49506578947368424,
+          "unans": 0.5049342105263158
+        }
+      }
+    }
+  ]
+}

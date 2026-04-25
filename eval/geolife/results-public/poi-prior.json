@@ -1,0 +1,88 @@
+{
+  "summary": {
+    "raw": {
+      "baseline": {
+        "median": 616,
+        "exposed200": 15,
+        "exposed500": 34,
+        "n": 78
+      },
+      "poi_strong": {
+        "median": 366,
+        "exposed200": 35,
+        "exposed500": 46,
+        "n": 78
+      },
+      "poi_wide": {
+        "median": 1099,
+        "exposed200": 3,
+        "exposed500": 12,
+        "n": 78
+      }
+    },
+    "laplace_grid": {
+      "baseline": {
+        "median": 628,
+        "exposed200": 11,
+        "exposed500": 32,
+        "n": 78
+      },
+      "poi_strong": {
+        "median": 403,
+        "exposed200": 34,
+        "exposed500": 43,
+        "n": 78
+      },
+      "poi_wide": {
+        "median": 1184,
+        "exposed200": 2,
+        "exposed500": 9,
+        "n": 78
+      }
+    },
+    "zkls_grid_zones": {
+      "baseline": {
+        "median": 6535,
+        "exposed200": 0,
+        "exposed500": 0,
+        "n": 78
+      },
+      "poi_strong": {
+        "median": 5323,
+        "exposed200": 4,
+        "exposed500": 4,
+        "n": 78
+      },
+      "poi_wide": {
+        "median": 6715,
+        "exposed200": 0,
+        "exposed500": 0,
+        "n": 78
+      }
+    },
+    "6layer": {
+      "baseline": {
+        "median": 9350,
+        "exposed200": 0,
+        "exposed500": 0,
+        "n": 75
+      },
+      "poi_strong": {
+        "median": 9626,
+        "exposed200": 3,
+        "exposed500": 3,
+        "n": 75
+      },
+      "poi_wide": {
+        "median": 9343,
+        "exposed200": 0,
+        "exposed500": 0,
+        "n": 75
+      }
+    }
+  },
+  "poiCounts": {
+    "strong": 78,
+    "wide": 417120
+  }
+}

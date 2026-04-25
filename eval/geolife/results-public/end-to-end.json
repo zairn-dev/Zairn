@@ -1,0 +1,20 @@
+{
+  "oracle": {
+    "medianError": 6739,
+    "exposed200": 0,
+    "exposed500": 0,
+    "avgPlaces": "N/A"
+  },
+  "detected": {
+    "medianError": 4926,
+    "exposed200": 7,
+    "exposed500": 11,
+    "avgPlaces": "0.7"
+  },
+  "detected+manual": {
+    "medianError": 5622,
+    "exposed200": 0,
+    "exposed500": 1,
+    "avgPlaces": "1.4"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "summary": {
+    "baseline": {
+      "precMed": 0.5,
+      "recallMed": 0.2631578947368421,
+      "f1Med": 0.35294117647058826,
+      "predSizeMed": 3,
+      "truthSizeMed": 5,
+      "t1Med": 0.42857142857142855,
+      "n": 75
+    },
+    "CBE": {
+      "precMed": 0.4,
+      "recallMed": 0.2,
+      "f1Med": 0.2758620689655173,
+      "predSizeMed": 3,
+      "truthSizeMed": 5,
+      "t1Med": 0.42857142857142855,
+      "n": 75
+    },
+    "CCT": {
+      "precMed": 0.5,
+      "recallMed": 0.2,
+      "f1Med": 0.28571428571428575,
+      "predSizeMed": 3,
+      "truthSizeMed": 5,
+      "t1Med": 0.42857142857142855,
+      "n": 75
+    },
+    "CBE+CCT": {
+      "precMed": 0.4,
+      "recallMed": 0.13333333333333333,
+      "f1Med": 0.2,
+      "predSizeMed": 2,
+      "truthSizeMed": 5,
+      "t1Med": 0.42857142857142855,
+      "n": 75
+    }
+  },
+  "corridorUsers": 75,
+  "totalUsers": 78
+}

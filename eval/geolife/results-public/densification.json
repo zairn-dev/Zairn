@@ -1,0 +1,88 @@
+{
+  "candidates": 78,
+  "retain_fracs": [
+    0.25,
+    0.5,
+    1
+  ],
+  "results": {
+    "1": {
+      "raw": {
+        "median": 616,
+        "exposed200": 15,
+        "exposed500": 34,
+        "finite_n": 78
+      },
+      "laplace_grid": {
+        "median": 703,
+        "exposed200": 10,
+        "exposed500": 31,
+        "finite_n": 78
+      },
+      "zkls_grid_zones": {
+        "median": 6096,
+        "exposed200": 0,
+        "exposed500": 0,
+        "finite_n": 78
+      },
+      "six_layer": {
+        "median": 10803,
+        "exposed200": 0,
+        "exposed500": 0,
+        "finite_n": 75
+      }
+    },
+    "0.25": {
+      "raw": {
+        "median": 721,
+        "exposed200": 16,
+        "exposed500": 32,
+        "finite_n": 74
+      },
+      "laplace_grid": {
+        "median": 1159,
+        "exposed200": 2,
+        "exposed500": 18,
+        "finite_n": 74
+      },
+      "zkls_grid_zones": {
+        "median": 5973,
+        "exposed200": 0,
+        "exposed500": 0,
+        "finite_n": 73
+      },
+      "six_layer": {
+        "median": 11956,
+        "exposed200": 0,
+        "exposed500": 0,
+        "finite_n": 73
+      }
+    },
+    "0.5": {
+      "raw": {
+        "median": 618,
+        "exposed200": 9,
+        "exposed500": 31,
+        "finite_n": 78
+      },
+      "laplace_grid": {
+        "median": 834,
+        "exposed200": 6,
+        "exposed500": 27,
+        "finite_n": 78
+      },
+      "zkls_grid_zones": {
+        "median": 6572,
+        "exposed200": 1,
+        "exposed500": 1,
+        "finite_n": 78
+      },
+      "six_layer": {
+        "median": 10410,
+        "exposed200": 0,
+        "exposed500": 0,
+        "finite_n": 74
+      }
+    }
+  }
+}

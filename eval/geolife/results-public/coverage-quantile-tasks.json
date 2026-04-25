@@ -1,0 +1,6184 @@
+{
+  "buckets": {
+    "Q1": {
+      "covMin": 5,
+      "covMax": 7,
+      "n": 19,
+      "methods": {
+        "raw": {
+          "t1_acc": 0.9814814814814815,
+          "t1_unans": 0,
+          "t2_det1h": 0.88,
+          "t2_undet": 0,
+          "t3_acc": 1,
+          "t3_unans": 0,
+          "t4_p95": 62
+        },
+        "laplace_grid": {
+          "t1_acc": 0.8981481481481481,
+          "t1_unans": 0,
+          "t2_det1h": 1,
+          "t2_undet": 0,
+          "t3_acc": 0.32894736842105265,
+          "t3_unans": 0,
+          "t4_p95": 62
+        },
+        "zkls_grid_zones": {
+          "t1_acc": 0.7659574468085106,
+          "t1_unans": 0.23404255319148937,
+          "t2_det1h": 0.375,
+          "t2_undet": 0,
+          "t3_acc": 0.5922330097087378,
+          "t3_unans": 0.32038834951456313,
+          "t4_p95": 85
+        },
+        "six_layer": {
+          "t1_acc": 0.31690140845070425,
+          "t1_unans": 0.6830985915492958,
+          "t2_det1h": 0.125,
+          "t2_undet": 0.09523809523809523,
+          "t3_acc": 0.1111111111111111,
+          "t3_unans": 0.8082191780821918,
+          "t4_p95": 216
+        }
+      }
+    },
+    "Q2": {
+      "covMin": 8,
+      "covMax": 12,
+      "n": 20,
+      "methods": {
+        "raw": {
+          "t1_acc": 0.975,
+          "t1_unans": 0,
+          "t2_det1h": 0.9583333333333334,
+          "t2_undet": 0,
+          "t3_acc": 1,
+          "t3_unans": 0,
+          "t4_p95": 35
+        },
+        "laplace_grid": {
+          "t1_acc": 0.8387096774193549,
+          "t1_unans": 0,
+          "t2_det1h": 1,
+          "t2_undet": 0,
+          "t3_acc": 0.35802469135802467,
+          "t3_unans": 0,
+          "t4_p95": 35
+        },
+        "zkls_grid_zones": {
+          "t1_acc": 0.7964601769911505,
+          "t1_unans": 0.2056451612903226,
+          "t2_det1h": 0.6363636363636364,
+          "t2_undet": 0,
+          "t3_acc": 0.6133828996282528,
+          "t3_unans": 0.32571428571428573,
+          "t4_p95": 47
+        },
+        "six_layer": {
+          "t1_acc": 0.29545454545454547,
+          "t1_unans": 0.7100371747211895,
+          "t2_det1h": 0.16,
+          "t2_undet": 0,
+          "t3_acc": 0.21212121212121213,
+          "t3_unans": 0.7983870967741935,
+          "t4_p95": 131
+        }
+      }
+    },
+    "Q3": {
+      "covMin": 12,
+      "covMax": 18,
+      "n": 19,
+      "methods": {
+        "raw": {
+          "t1_acc": 0.9814814814814815,
+          "t1_unans": 0,
+          "t2_det1h": 0.95,
+          "t2_undet": 0,
+          "t3_acc": 1,
+          "t3_unans": 0,
+          "t4_p95": 18
+        },
+        "laplace_grid": {
+          "t1_acc": 0.8454258675078864,
+          "t1_unans": 0,
+          "t2_det1h": 1,
+          "t2_undet": 0,
+          "t3_acc": 0.3412969283276451,
+          "t3_unans": 0,
+          "t4_p95": 18
+        },
+        "zkls_grid_zones": {
+          "t1_acc": 0.8010335917312662,
+          "t1_unans": 0.19896640826873385,
+          "t2_det1h": 0.5813953488372093,
+          "t2_undet": 0,
+          "t3_acc": 0.6304909560723514,
+          "t3_unans": 0.26627218934911245,
+          "t4_p95": 23
+        },
+        "six_layer": {
+          "t1_acc": 0.26013513513513514,
+          "t1_unans": 0.7398648648648649,
+          "t2_det1h": 0.07692307692307693,
+          "t2_undet": 0.1,
+          "t3_acc": 0.1377551020408163,
+          "t3_unans": 0.8392857142857143,
+          "t4_p95": 116
+        }
+      }
+    },
+    "Q4": {
+      "covMin": 18,
+      "covMax": 39,
+      "n": 20,
+      "methods": {
+        "raw": {
+          "t1_acc": 0.9854014598540146,
+          "t1_unans": 0,
+          "t2_det1h": 0.975,
+          "t2_undet": 0,
+          "t3_acc": 1,
+          "t3_unans": 0,
+          "t4_p95": 15
+        },
+        "laplace_grid": {
+          "t1_acc": 0.9076620825147348,
+          "t1_unans": 0,
+          "t2_det1h": 1,
+          "t2_undet": 0,
+          "t3_acc": 0.33223684210526316,
+          "t3_unans": 0,
+          "t4_p95": 15
+        },
+        "zkls_grid_zones": {
+          "t1_acc": 0.8231827111984283,
+          "t1_unans": 0.19236883942766295,
+          "t2_det1h": 0.7857142857142857,
+          "t2_undet": 0,
+          "t3_acc": 0.6781883194278904,
+          "t3_unans": 0.2475,
+          "t4_p95": 19
+        },
+        "six_layer": {
+          "t1_acc": 0.1907790143084261,
+          "t1_unans": 0.8300653594771242,
+          "t2_det1h": 0.058823529411764705,
+          "t2_undet": 0.07272727272727272,
+          "t3_acc": 0.11125,
+          "t3_unans": 0.88125,
+          "t4_p95": 96
+        }
+      }
+    }
+  },
+  "perUser": [
+    {
+      "userId": "006",
+      "coverage": 0.05,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9814814814814815,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8981481481481481,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5370370370370371,
+          "unans": 0.46296296296296297
+        },
+        "six_layer": {
+          "acc": 0.21296296296296297,
+          "unans": 0.7870370370370371
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 8,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 8,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 8,
+          "det1h": 0.375,
+          "undet": 0.125
+        },
+        "six_layer": {
+          "n": 8,
+          "det1h": 0.125,
+          "undet": 0.875
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3148148148148148,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.48148148148148145,
+          "unans": 0.46296296296296297
+        },
+        "six_layer": {
+          "acc": 0.1111111111111111,
+          "unans": 0.7870370370370371
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 45
+        },
+        "laplace_grid": {
+          "p95_h": 45
+        },
+        "zkls_grid_zones": {
+          "p95_h": 121
+        },
+        "six_layer": {
+          "p95_h": 175
+        }
+      }
+    },
+    {
+      "userId": "029",
+      "coverage": 0.05,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9904761904761905,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.819047619047619,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6857142857142857,
+          "unans": 0.3142857142857143
+        },
+        "six_layer": {
+          "acc": 0.3904761904761905,
+          "unans": 0.6095238095238096
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 16,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 16,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 16,
+          "det1h": 0.375,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 16,
+          "det1h": 0.25,
+          "undet": 0.1875
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3238095238095238,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5619047619047619,
+          "unans": 0.4
+        },
+        "six_layer": {
+          "acc": 0.22857142857142856,
+          "unans": 0.6952380952380952
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 71
+        },
+        "laplace_grid": {
+          "p95_h": 71
+        },
+        "zkls_grid_zones": {
+          "p95_h": 86
+        },
+        "six_layer": {
+          "p95_h": 216
+        }
+      }
+    },
+    {
+      "userId": "033",
+      "coverage": 0.05,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9904761904761905,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8285714285714286,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8380952380952381,
+          "unans": 0.1619047619047619
+        },
+        "six_layer": {
+          "acc": 0.4666666666666667,
+          "unans": 0.5333333333333333
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 7,
+          "det1h": 0.8571428571428571,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 7,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 7,
+          "det1h": 0.2857142857142857,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 7,
+          "det1h": 0.7142857142857143,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.34285714285714286,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6666666666666666,
+          "unans": 0.3142857142857143
+        },
+        "six_layer": {
+          "acc": 0.2,
+          "unans": 0.6857142857142857
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 28
+        },
+        "laplace_grid": {
+          "p95_h": 28
+        },
+        "zkls_grid_zones": {
+          "p95_h": 29
+        },
+        "six_layer": {
+          "p95_h": 60
+        }
+      }
+    },
+    {
+      "userId": "078",
+      "coverage": 0.05,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.8155339805825242,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7864077669902912,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4368932038834951,
+          "unans": 0.5631067961165048
+        },
+        "six_layer": {
+          "acc": 0.3300970873786408,
+          "unans": 0.6699029126213593
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 15,
+          "det1h": 0.7333333333333333,
+          "undet": 0.13333333333333333
+        },
+        "laplace_grid": {
+          "n": 15,
+          "det1h": 0.9333333333333333,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 15,
+          "det1h": 0.2,
+          "undet": 0.2
+        },
+        "six_layer": {
+          "n": 15,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.47572815533980584,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.3883495145631068,
+          "unans": 0.5825242718446602
+        },
+        "six_layer": {
+          "acc": 0.1941747572815534,
+          "unans": 0.6893203883495146
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 38
+        },
+        "laplace_grid": {
+          "p95_h": 38
+        },
+        "zkls_grid_zones": {
+          "p95_h": 142
+        },
+        "six_layer": {
+          "p95_h": 275
+        }
+      }
+    },
+    {
+      "userId": "101",
+      "coverage": 0.05,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9902912621359223,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 1,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7572815533980582,
+          "unans": 0.24271844660194175
+        },
+        "six_layer": {
+          "acc": 0.1941747572815534,
+          "unans": 0.8058252427184466
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.36893203883495146,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5922330097087378,
+          "unans": 0.32038834951456313
+        },
+        "six_layer": {
+          "acc": 0.038834951456310676,
+          "unans": 0.883495145631068
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 102
+        },
+        "laplace_grid": {
+          "p95_h": 102
+        },
+        "zkls_grid_zones": {
+          "p95_h": 225
+        },
+        "six_layer": {
+          "p95_h": 1056
+        }
+      }
+    },
+    {
+      "userId": "155",
+      "coverage": 0.05,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9826086956521739,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9739130434782609,
+          "unans": 0.02608695652173913
+        },
+        "six_layer": {
+          "acc": 0.22608695652173913,
+          "unans": 0.7739130434782608
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 1,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 1,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 1,
+          "det1h": 1,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 1,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3565217391304348,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8260869565217391,
+          "unans": 0.13043478260869565
+        },
+        "six_layer": {
+          "acc": 0.034782608695652174,
+          "unans": 0.8782608695652174
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 95
+        },
+        "laplace_grid": {
+          "p95_h": 95
+        },
+        "zkls_grid_zones": {
+          "p95_h": 95
+        },
+        "six_layer": {
+          "p95_h": 347
+        }
+      }
+    },
+    {
+      "userId": "040",
+      "coverage": 0.06,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9694656488549618,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6717557251908397,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8091603053435115,
+          "unans": 0.19083969465648856
+        },
+        "six_layer": {
+          "acc": 0.48091603053435117,
+          "unans": 0.5190839694656488
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 8,
+          "det1h": 0.875,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 8,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 8,
+          "det1h": 0.75,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 8,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.48091603053435117,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7404580152671756,
+          "unans": 0.2366412213740458
+        },
+        "six_layer": {
+          "acc": 0.3435114503816794,
+          "unans": 0.5648854961832062
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 68
+        },
+        "laplace_grid": {
+          "p95_h": 68
+        },
+        "zkls_grid_zones": {
+          "p95_h": 71
+        },
+        "six_layer": {
+          "p95_h": 213
+        }
+      }
+    },
+    {
+      "userId": "043",
+      "coverage": 0.06,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9836065573770492,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9426229508196722,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9836065573770492,
+          "unans": 0.01639344262295082
+        },
+        "six_layer": {
+          "acc": 0.3770491803278688,
+          "unans": 0.6229508196721312
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 3,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 3,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 3,
+          "det1h": 1,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 3,
+          "det1h": 1,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.4098360655737705,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6885245901639344,
+          "unans": 0.23770491803278687
+        },
+        "six_layer": {
+          "acc": 0.08196721311475409,
+          "unans": 0.8442622950819673
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 63
+        },
+        "laplace_grid": {
+          "p95_h": 63
+        },
+        "zkls_grid_zones": {
+          "p95_h": 63
+        },
+        "six_layer": {
+          "p95_h": 139
+        }
+      }
+    },
+    {
+      "userId": "089",
+      "coverage": 0.06,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9857142857142858,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 1,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9214285714285714,
+          "unans": 0.07857142857142857
+        },
+        "six_layer": {
+          "acc": 0.2785714285714286,
+          "unans": 0.7214285714285714
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3142857142857143,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7,
+          "unans": 0.2714285714285714
+        },
+        "six_layer": {
+          "acc": 0.02142857142857143,
+          "unans": 0.9142857142857143
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 62
+        },
+        "laplace_grid": {
+          "p95_h": 62
+        },
+        "zkls_grid_zones": {
+          "p95_h": 69
+        },
+        "six_layer": {
+          "p95_h": 409
+        }
+      }
+    },
+    {
+      "userId": "111",
+      "coverage": 0.06,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 1,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 1,
+          "unans": 0
+        },
+        "six_layer": {
+          "acc": 0.10236220472440945,
+          "unans": 0.8976377952755905
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.33858267716535434,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9133858267716536,
+          "unans": 0.007874015748031496
+        },
+        "six_layer": {
+          "acc": 0.015748031496062992,
+          "unans": 0.905511811023622
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 13
+        },
+        "laplace_grid": {
+          "p95_h": 13
+        },
+        "zkls_grid_zones": {
+          "p95_h": 13
+        },
+        "six_layer": {
+          "p95_h": 246
+        }
+      }
+    },
+    {
+      "userId": "125",
+      "coverage": 0.06,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9777777777777777,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9851851851851852,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8222222222222222,
+          "unans": 0.17777777777777778
+        },
+        "six_layer": {
+          "acc": 0.2,
+          "unans": 0.8
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 2,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 2,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 2,
+          "det1h": 0,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 2,
+          "det1h": 1,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3111111111111111,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6666666666666666,
+          "unans": 0.2740740740740741
+        },
+        "six_layer": {
+          "acc": 0.037037037037037035,
+          "unans": 0.8962962962962963
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 63
+        },
+        "laplace_grid": {
+          "p95_h": 63
+        },
+        "zkls_grid_zones": {
+          "p95_h": 71
+        },
+        "six_layer": {
+          "p95_h": 487
+        }
+      }
+    },
+    {
+      "userId": "142",
+      "coverage": 0.06,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 1,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9344262295081968,
+          "unans": 0.06557377049180328
+        },
+        "six_layer": {
+          "acc": 0.3524590163934426,
+          "unans": 0.6475409836065574
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.27049180327868855,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6639344262295082,
+          "unans": 0.319672131147541
+        },
+        "six_layer": {
+          "acc": 0.03278688524590164,
+          "unans": 0.9016393442622951
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 85
+        },
+        "laplace_grid": {
+          "p95_h": 85
+        },
+        "zkls_grid_zones": {
+          "p95_h": 91
+        },
+        "six_layer": {
+          "p95_h": 133
+        }
+      }
+    },
+    {
+      "userId": "147",
+      "coverage": 0.06,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9402985074626866,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6940298507462687,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5522388059701493,
+          "unans": 0.44776119402985076
+        },
+        "six_layer": {
+          "acc": 0.44776119402985076,
+          "unans": 0.5522388059701493
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 23,
+          "det1h": 0.9565217391304348,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 23,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 23,
+          "det1h": 0.43478260869565216,
+          "undet": 0.043478260869565216
+        },
+        "six_layer": {
+          "n": 23,
+          "det1h": 0.17391304347826086,
+          "undet": 0.5217391304347826
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3283582089552239,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.41044776119402987,
+          "unans": 0.4925373134328358
+        },
+        "six_layer": {
+          "acc": 0.31343283582089554,
+          "unans": 0.5970149253731343
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 58
+        },
+        "laplace_grid": {
+          "p95_h": 58
+        },
+        "zkls_grid_zones": {
+          "p95_h": 107
+        },
+        "six_layer": {
+          "p95_h": 169
+        }
+      }
+    },
+    {
+      "userId": "008",
+      "coverage": 0.07,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.8591549295774648,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7887323943661971,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5985915492957746,
+          "unans": 0.4014084507042254
+        },
+        "six_layer": {
+          "acc": 0.31690140845070425,
+          "unans": 0.6830985915492958
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 25,
+          "det1h": 0.88,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 25,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 25,
+          "det1h": 0.64,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 25,
+          "det1h": 0.24,
+          "undet": 0.08
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.29577464788732394,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5422535211267606,
+          "unans": 0.4084507042253521
+        },
+        "six_layer": {
+          "acc": 0.23943661971830985,
+          "unans": 0.6901408450704225
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 24
+        },
+        "laplace_grid": {
+          "p95_h": 24
+        },
+        "zkls_grid_zones": {
+          "p95_h": 64
+        },
+        "six_layer": {
+          "p95_h": 102
+        }
+      }
+    },
+    {
+      "userId": "018",
+      "coverage": 0.07,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9810126582278481,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9746835443037974,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8481012658227848,
+          "unans": 0.1518987341772152
+        },
+        "six_layer": {
+          "acc": 0.0949367088607595,
+          "unans": 0.9050632911392406
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 3,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 3,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 3,
+          "det1h": 0.6666666666666666,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 3,
+          "det1h": 0.3333333333333333,
+          "undet": 0.6666666666666666
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3227848101265823,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5,
+          "unans": 0.45569620253164556
+        },
+        "six_layer": {
+          "acc": 0.0379746835443038,
+          "unans": 0.9050632911392406
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 22
+        },
+        "laplace_grid": {
+          "p95_h": 22
+        },
+        "zkls_grid_zones": {
+          "p95_h": 26
+        },
+        "six_layer": {
+          "p95_h": 695
+        }
+      }
+    },
+    {
+      "userId": "019",
+      "coverage": 0.07,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9736842105263158,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6578947368421053,
+          "unans": 0.34210526315789475
+        },
+        "six_layer": {
+          "acc": 0.13815789473684212,
+          "unans": 0.8618421052631579
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 3,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 3,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 3,
+          "det1h": 0.6666666666666666,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 3,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.32894736842105265,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5855263157894737,
+          "unans": 0.375
+        },
+        "six_layer": {
+          "acc": 0.039473684210526314,
+          "unans": 0.8947368421052632
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 21
+        },
+        "laplace_grid": {
+          "p95_h": 21
+        },
+        "zkls_grid_zones": {
+          "p95_h": 28
+        },
+        "six_layer": {
+          "p95_h": 246
+        }
+      }
+    },
+    {
+      "userId": "071",
+      "coverage": 0.07,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9219858156028369,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6028368794326241,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7659574468085106,
+          "unans": 0.23404255319148937
+        },
+        "six_layer": {
+          "acc": 0.48936170212765956,
+          "unans": 0.5106382978723404
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 19,
+          "det1h": 0.8421052631578947,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 19,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 19,
+          "det1h": 0.6842105263157895,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 19,
+          "det1h": 0.2631578947368421,
+          "undet": 0.7368421052631579
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.28368794326241137,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.723404255319149,
+          "unans": 0.2553191489361702
+        },
+        "six_layer": {
+          "acc": 0.425531914893617,
+          "unans": 0.5106382978723404
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 132
+        },
+        "laplace_grid": {
+          "p95_h": 132
+        },
+        "zkls_grid_zones": {
+          "p95_h": 103
+        },
+        "six_layer": {
+          "p95_h": 159
+        }
+      }
+    },
+    {
+      "userId": "073",
+      "coverage": 0.07,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.8356164383561644,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8767123287671232,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.3219178082191781,
+          "unans": 0.678082191780822
+        },
+        "six_layer": {
+          "acc": 0.2671232876712329,
+          "unans": 0.7328767123287672
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 12,
+          "det1h": 0.5,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 12,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 12,
+          "det1h": 0.08333333333333333,
+          "undet": 0.4166666666666667
+        },
+        "six_layer": {
+          "n": 12,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.4178082191780822,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.22602739726027396,
+          "unans": 0.7534246575342466
+        },
+        "six_layer": {
+          "acc": 0.14383561643835616,
+          "unans": 0.8082191780821918
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 63
+        },
+        "laplace_grid": {
+          "p95_h": 63
+        },
+        "zkls_grid_zones": {
+          "p95_h": 95
+        },
+        "six_layer": {
+          "p95_h": 470
+        }
+      }
+    },
+    {
+      "userId": "074",
+      "coverage": 0.07,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.8873239436619719,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8028169014084507,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5070422535211268,
+          "unans": 0.49295774647887325
+        },
+        "six_layer": {
+          "acc": 0.31690140845070425,
+          "unans": 0.6830985915492958
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 21,
+          "det1h": 0.9523809523809523,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 21,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 21,
+          "det1h": 0.3333333333333333,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 21,
+          "det1h": 0.19047619047619047,
+          "undet": 0.09523809523809523
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3732394366197183,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4225352112676056,
+          "unans": 0.5492957746478874
+        },
+        "six_layer": {
+          "acc": 0.19718309859154928,
+          "unans": 0.7394366197183099
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 48
+        },
+        "laplace_grid": {
+          "p95_h": 48
+        },
+        "zkls_grid_zones": {
+          "p95_h": 85
+        },
+        "six_layer": {
+          "p95_h": 94
+        }
+      }
+    },
+    {
+      "userId": "015",
+      "coverage": 0.08,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9885714285714285,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7771428571428571,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8171428571428572,
+          "unans": 0.18285714285714286
+        },
+        "six_layer": {
+          "acc": 0.4342857142857143,
+          "unans": 0.5657142857142857
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 15,
+          "det1h": 0.9333333333333333,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 15,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 15,
+          "det1h": 0.6,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 15,
+          "det1h": 0.3333333333333333,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.32,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5885714285714285,
+          "unans": 0.32571428571428573
+        },
+        "six_layer": {
+          "acc": 0.24,
+          "unans": 0.7085714285714285
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 24
+        },
+        "laplace_grid": {
+          "p95_h": 24
+        },
+        "zkls_grid_zones": {
+          "p95_h": 34
+        },
+        "six_layer": {
+          "p95_h": 94
+        }
+      }
+    },
+    {
+      "userId": "091",
+      "coverage": 0.08,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9825581395348837,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.75,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9302325581395349,
+          "unans": 0.06976744186046512
+        },
+        "six_layer": {
+          "acc": 0.5465116279069767,
+          "unans": 0.45348837209302323
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 36,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 36,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 36,
+          "det1h": 0.9166666666666666,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 36,
+          "det1h": 0.5277777777777778,
+          "undet": 0.027777777777777776
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3546511627906977,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7034883720930233,
+          "unans": 0.2616279069767442
+        },
+        "six_layer": {
+          "acc": 0.29069767441860467,
+          "unans": 0.6453488372093024
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 46
+        },
+        "laplace_grid": {
+          "p95_h": 46
+        },
+        "zkls_grid_zones": {
+          "p95_h": 47
+        },
+        "six_layer": {
+          "p95_h": 72
+        }
+      }
+    },
+    {
+      "userId": "016",
+      "coverage": 0.09,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9595959595959596,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7878787878787878,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6767676767676768,
+          "unans": 0.32323232323232326
+        },
+        "six_layer": {
+          "acc": 0.3333333333333333,
+          "unans": 0.6666666666666666
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 21,
+          "det1h": 0.9523809523809523,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 21,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 21,
+          "det1h": 0.5238095238095238,
+          "undet": 0.047619047619047616
+        },
+        "six_layer": {
+          "n": 21,
+          "det1h": 0.047619047619047616,
+          "undet": 0.23809523809523808
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3434343434343434,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5050505050505051,
+          "unans": 0.3939393939393939
+        },
+        "six_layer": {
+          "acc": 0.21212121212121213,
+          "unans": 0.7373737373737373
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 24
+        },
+        "laplace_grid": {
+          "p95_h": 24
+        },
+        "zkls_grid_zones": {
+          "p95_h": 41
+        },
+        "six_layer": {
+          "p95_h": 96
+        }
+      }
+    },
+    {
+      "userId": "020",
+      "coverage": 0.09,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9289340101522843,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.751269035532995,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7411167512690355,
+          "unans": 0.25888324873096447
+        },
+        "six_layer": {
+          "acc": 0.28426395939086296,
+          "unans": 0.7157360406091371
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 34,
+          "det1h": 0.9411764705882353,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 34,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 34,
+          "det1h": 0.6764705882352942,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 34,
+          "det1h": 0.14705882352941177,
+          "undet": 0.8529411764705882
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.34517766497461927,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6802030456852792,
+          "unans": 0.29949238578680204
+        },
+        "six_layer": {
+          "acc": 0.23857868020304568,
+          "unans": 0.7157360406091371
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 35
+        },
+        "laplace_grid": {
+          "p95_h": 35
+        },
+        "zkls_grid_zones": {
+          "p95_h": 49
+        },
+        "six_layer": {
+          "p95_h": 138
+        }
+      }
+    },
+    {
+      "userId": "026",
+      "coverage": 0.09,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 1,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9104477611940298,
+          "unans": 0.08955223880597014
+        },
+        "six_layer": {
+          "acc": 0.19402985074626866,
+          "unans": 0.8059701492537313
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.39303482587064675,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7064676616915423,
+          "unans": 0.22388059701492538
+        },
+        "six_layer": {
+          "acc": 0.029850746268656716,
+          "unans": 0.9402985074626866
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 64
+        },
+        "laplace_grid": {
+          "p95_h": 64
+        },
+        "zkls_grid_zones": {
+          "p95_h": 64
+        },
+        "six_layer": {
+          "p95_h": 272
+        }
+      }
+    },
+    {
+      "userId": "051",
+      "coverage": 0.09,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9950738916256158,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8866995073891626,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9014778325123153,
+          "unans": 0.09852216748768473
+        },
+        "six_layer": {
+          "acc": 0.20689655172413793,
+          "unans": 0.7931034482758621
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 5,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 5,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 5,
+          "det1h": 0.6,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 5,
+          "det1h": 0.2,
+          "undet": 0.4
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.35960591133004927,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8177339901477833,
+          "unans": 0.10837438423645321
+        },
+        "six_layer": {
+          "acc": 0.1477832512315271,
+          "unans": 0.8029556650246306
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 43
+        },
+        "laplace_grid": {
+          "p95_h": 43
+        },
+        "zkls_grid_zones": {
+          "p95_h": 47
+        },
+        "six_layer": {
+          "p95_h": 52
+        }
+      }
+    },
+    {
+      "userId": "082",
+      "coverage": 0.09,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9405940594059405,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6336633663366337,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.801980198019802,
+          "unans": 0.19801980198019803
+        },
+        "six_layer": {
+          "acc": 0.5495049504950495,
+          "unans": 0.4504950495049505
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 33,
+          "det1h": 0.8484848484848485,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 33,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 33,
+          "det1h": 0.5454545454545454,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 33,
+          "det1h": 0.3939393939393939,
+          "undet": 0.030303030303030304
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.32673267326732675,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6386138613861386,
+          "unans": 0.297029702970297
+        },
+        "six_layer": {
+          "acc": 0.3564356435643564,
+          "unans": 0.5495049504950495
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 43
+        },
+        "laplace_grid": {
+          "p95_h": 43
+        },
+        "zkls_grid_zones": {
+          "p95_h": 49
+        },
+        "six_layer": {
+          "p95_h": 74
+        }
+      }
+    },
+    {
+      "userId": "044",
+      "coverage": 0.1,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9130434782608695,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7198067632850241,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7294685990338164,
+          "unans": 0.27053140096618356
+        },
+        "six_layer": {
+          "acc": 0.5507246376811594,
+          "unans": 0.4492753623188406
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 35,
+          "det1h": 0.8285714285714286,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 35,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 35,
+          "det1h": 0.42857142857142855,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 35,
+          "det1h": 0.2857142857142857,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.4251207729468599,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.46859903381642515,
+          "unans": 0.47342995169082125
+        },
+        "six_layer": {
+          "acc": 0.2995169082125604,
+          "unans": 0.6521739130434783
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 35
+        },
+        "laplace_grid": {
+          "p95_h": 35
+        },
+        "zkls_grid_zones": {
+          "p95_h": 45
+        },
+        "six_layer": {
+          "p95_h": 59
+        }
+      }
+    },
+    {
+      "userId": "092",
+      "coverage": 0.1,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9563106796116505,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6359223300970874,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7524271844660194,
+          "unans": 0.24757281553398058
+        },
+        "six_layer": {
+          "acc": 0.5776699029126213,
+          "unans": 0.4223300970873786
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 24,
+          "det1h": 0.75,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 24,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 24,
+          "det1h": 0.3333333333333333,
+          "undet": 0.2916666666666667
+        },
+        "six_layer": {
+          "n": 24,
+          "det1h": 0,
+          "undet": 0.7916666666666666
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.46601941747572817,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5631067961165048,
+          "unans": 0.39805825242718446
+        },
+        "six_layer": {
+          "acc": 0.3786407766990291,
+          "unans": 0.5728155339805825
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 61
+        },
+        "laplace_grid": {
+          "p95_h": 61
+        },
+        "zkls_grid_zones": {
+          "p95_h": 89
+        },
+        "six_layer": {
+          "p95_h": 124
+        }
+      }
+    },
+    {
+      "userId": "096",
+      "coverage": 0.1,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9619047619047619,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6952380952380952,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8904761904761904,
+          "unans": 0.10952380952380952
+        },
+        "six_layer": {
+          "acc": 0.44285714285714284,
+          "unans": 0.5571428571428572
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 24,
+          "det1h": 0.9583333333333334,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 24,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 24,
+          "det1h": 0.875,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 24,
+          "det1h": 0.25,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3523809523809524,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7047619047619048,
+          "unans": 0.18571428571428572
+        },
+        "six_layer": {
+          "acc": 0.28095238095238095,
+          "unans": 0.6333333333333333
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 40
+        },
+        "laplace_grid": {
+          "p95_h": 40
+        },
+        "zkls_grid_zones": {
+          "p95_h": 46
+        },
+        "six_layer": {
+          "p95_h": 131
+        }
+      }
+    },
+    {
+      "userId": "163",
+      "coverage": 0.1,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.990909090909091,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7681818181818182,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9090909090909091,
+          "unans": 0.09090909090909091
+        },
+        "six_layer": {
+          "acc": 0.29545454545454547,
+          "unans": 0.7045454545454546
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 25,
+          "det1h": 0.92,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 25,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 25,
+          "det1h": 0.44,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 25,
+          "det1h": 0.16,
+          "undet": 0.84
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.36818181818181817,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8227272727272728,
+          "unans": 0.09090909090909091
+        },
+        "six_layer": {
+          "acc": 0.25,
+          "unans": 0.7045454545454546
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 24
+        },
+        "laplace_grid": {
+          "p95_h": 24
+        },
+        "zkls_grid_zones": {
+          "p95_h": 29
+        },
+        "six_layer": {
+          "p95_h": 143
+        }
+      }
+    },
+    {
+      "userId": "179",
+      "coverage": 0.1,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9778761061946902,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.915929203539823,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7964601769911505,
+          "unans": 0.20353982300884957
+        },
+        "six_layer": {
+          "acc": 0.336283185840708,
+          "unans": 0.6637168141592921
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 8,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 8,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 8,
+          "det1h": 1,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 8,
+          "det1h": 0.125,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.40707964601769914,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4911504424778761,
+          "unans": 0.4026548672566372
+        },
+        "six_layer": {
+          "acc": 0.10619469026548672,
+          "unans": 0.8628318584070797
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 38
+        },
+        "laplace_grid": {
+          "p95_h": 38
+        },
+        "zkls_grid_zones": {
+          "p95_h": 48
+        },
+        "six_layer": {
+          "p95_h": 133
+        }
+      }
+    },
+    {
+      "userId": "009",
+      "coverage": 0.11,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.975,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7166666666666667,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8166666666666667,
+          "unans": 0.18333333333333332
+        },
+        "six_layer": {
+          "acc": 0.8208333333333333,
+          "unans": 0.17916666666666667
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 25,
+          "det1h": 0.92,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 25,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 25,
+          "det1h": 0.68,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 25,
+          "det1h": 0.8,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3125,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.30833333333333335,
+          "unans": 0.6708333333333333
+        },
+        "six_layer": {
+          "acc": 0.2916666666666667,
+          "unans": 0.6666666666666666
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 16
+        },
+        "laplace_grid": {
+          "p95_h": 16
+        },
+        "zkls_grid_zones": {
+          "p95_h": 18
+        },
+        "six_layer": {
+          "p95_h": 18
+        }
+      }
+    },
+    {
+      "userId": "011",
+      "coverage": 0.11,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9098360655737705,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9057377049180327,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.569672131147541,
+          "unans": 0.430327868852459
+        },
+        "six_layer": {
+          "acc": 0.1598360655737705,
+          "unans": 0.8401639344262295
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 22,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 22,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 22,
+          "det1h": 0.6363636363636364,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 22,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3729508196721312,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5122950819672131,
+          "unans": 0.45081967213114754
+        },
+        "six_layer": {
+          "acc": 0.10655737704918032,
+          "unans": 0.860655737704918
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 19
+        },
+        "laplace_grid": {
+          "p95_h": 19
+        },
+        "zkls_grid_zones": {
+          "p95_h": 35
+        },
+        "six_layer": {
+          "p95_h": 289
+        }
+      }
+    },
+    {
+      "userId": "065",
+      "coverage": 0.11,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9699570815450643,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9484978540772532,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4721030042918455,
+          "unans": 0.5278969957081545
+        },
+        "six_layer": {
+          "acc": 0.12446351931330472,
+          "unans": 0.8755364806866953
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 7,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 7,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 7,
+          "det1h": 0.5714285714285714,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 7,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3905579399141631,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.40772532188841204,
+          "unans": 0.5579399141630901
+        },
+        "six_layer": {
+          "acc": 0.04291845493562232,
+          "unans": 0.9055793991416309
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 35
+        },
+        "laplace_grid": {
+          "p95_h": 35
+        },
+        "zkls_grid_zones": {
+          "p95_h": 74
+        },
+        "six_layer": {
+          "p95_h": 304
+        }
+      }
+    },
+    {
+      "userId": "104",
+      "coverage": 0.11,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9798387096774194,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8387096774193549,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7943548387096774,
+          "unans": 0.2056451612903226
+        },
+        "six_layer": {
+          "acc": 0.20161290322580644,
+          "unans": 0.7983870967741935
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 28,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 28,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 28,
+          "det1h": 0.6785714285714286,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 28,
+          "det1h": 0.03571428571428571,
+          "undet": 0.9642857142857143
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.28225806451612906,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7096774193548387,
+          "unans": 0.22580645161290322
+        },
+        "six_layer": {
+          "acc": 0.16532258064516128,
+          "unans": 0.7983870967741935
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 25
+        },
+        "laplace_grid": {
+          "p95_h": 25
+        },
+        "zkls_grid_zones": {
+          "p95_h": 38
+        },
+        "six_layer": {
+          "p95_h": 95
+        }
+      }
+    },
+    {
+      "userId": "115",
+      "coverage": 0.11,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9506172839506173,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9382716049382716,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6666666666666666,
+          "unans": 0.3333333333333333
+        },
+        "six_layer": {
+          "acc": 0.13580246913580246,
+          "unans": 0.8641975308641975
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 11,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 11,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 11,
+          "det1h": 1,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 11,
+          "det1h": 0.2727272727272727,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.35802469135802467,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5843621399176955,
+          "unans": 0.37037037037037035
+        },
+        "six_layer": {
+          "acc": 0.06995884773662552,
+          "unans": 0.9012345679012346
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 35
+        },
+        "laplace_grid": {
+          "p95_h": 35
+        },
+        "zkls_grid_zones": {
+          "p95_h": 59
+        },
+        "six_layer": {
+          "p95_h": 215
+        }
+      }
+    },
+    {
+      "userId": "126",
+      "coverage": 0.11,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9919028340080972,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9878542510121457,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7773279352226721,
+          "unans": 0.22267206477732793
+        },
+        "six_layer": {
+          "acc": 0.11740890688259109,
+          "unans": 0.8825910931174089
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 2,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 2,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 2,
+          "det1h": 1,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 2,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.340080971659919,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.611336032388664,
+          "unans": 0.2834008097165992
+        },
+        "six_layer": {
+          "acc": 0.020242914979757085,
+          "unans": 0.9433198380566802
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 43
+        },
+        "laplace_grid": {
+          "p95_h": 43
+        },
+        "zkls_grid_zones": {
+          "p95_h": 68
+        },
+        "six_layer": {
+          "p95_h": 307
+        }
+      }
+    },
+    {
+      "userId": "168",
+      "coverage": 0.11,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9911894273127754,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9911894273127754,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8325991189427313,
+          "unans": 0.16740088105726872
+        },
+        "six_layer": {
+          "acc": 0.06167400881057269,
+          "unans": 0.9383259911894273
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.36123348017621143,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.73568281938326,
+          "unans": 0.1762114537444934
+        },
+        "six_layer": {
+          "acc": 0.00881057268722467,
+          "unans": 0.947136563876652
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 36
+        },
+        "laplace_grid": {
+          "p95_h": 36
+        },
+        "zkls_grid_zones": {
+          "p95_h": 40
+        },
+        "six_layer": {
+          "p95_h": 1390
+        }
+      }
+    },
+    {
+      "userId": "013",
+      "coverage": 0.12,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9702602230483272,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8847583643122676,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7843866171003717,
+          "unans": 0.21561338289962825
+        },
+        "six_layer": {
+          "acc": 0.2899628252788104,
+          "unans": 0.7100371747211895
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 25,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 25,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 25,
+          "det1h": 0.68,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 25,
+          "det1h": 0.44,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.34572490706319703,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6133828996282528,
+          "unans": 0.3382899628252788
+        },
+        "six_layer": {
+          "acc": 0.13382899628252787,
+          "unans": 0.8327137546468402
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 16
+        },
+        "laplace_grid": {
+          "p95_h": 16
+        },
+        "zkls_grid_zones": {
+          "p95_h": 26
+        },
+        "six_layer": {
+          "p95_h": 121
+        }
+      }
+    },
+    {
+      "userId": "023",
+      "coverage": 0.12,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.976,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.788,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.88,
+          "unans": 0.12
+        },
+        "six_layer": {
+          "acc": 0.3,
+          "unans": 0.7
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 21,
+          "det1h": 0.9047619047619048,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 21,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 21,
+          "det1h": 0.42857142857142855,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 21,
+          "det1h": 0,
+          "undet": 0.47619047619047616
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.384,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8,
+          "unans": 0.16
+        },
+        "six_layer": {
+          "acc": 0.224,
+          "unans": 0.74
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 14
+        },
+        "laplace_grid": {
+          "p95_h": 14
+        },
+        "zkls_grid_zones": {
+          "p95_h": 18
+        },
+        "six_layer": {
+          "p95_h": 43
+        }
+      }
+    },
+    {
+      "userId": "001",
+      "coverage": 0.13,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9814814814814815,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7333333333333333,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6592592592592592,
+          "unans": 0.34074074074074073
+        },
+        "six_layer": {
+          "acc": 0.3592592592592593,
+          "unans": 0.6407407407407407
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 37,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 37,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 37,
+          "det1h": 0.5405405405405406,
+          "undet": 0.02702702702702703
+        },
+        "six_layer": {
+          "n": 37,
+          "det1h": 0.08108108108108109,
+          "undet": 0.16216216216216217
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.337037037037037,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5518518518518518,
+          "unans": 0.37777777777777777
+        },
+        "six_layer": {
+          "acc": 0.2814814814814815,
+          "unans": 0.6777777777777778
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 13
+        },
+        "laplace_grid": {
+          "p95_h": 13
+        },
+        "zkls_grid_zones": {
+          "p95_h": 21
+        },
+        "six_layer": {
+          "p95_h": 29
+        }
+      }
+    },
+    {
+      "userId": "007",
+      "coverage": 0.13,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9496402877697842,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9172661870503597,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.48201438848920863,
+          "unans": 0.5179856115107914
+        },
+        "six_layer": {
+          "acc": 0.1223021582733813,
+          "unans": 0.8776978417266187
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 16,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 16,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 16,
+          "det1h": 0.25,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 16,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3129496402877698,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4064748201438849,
+          "unans": 0.5575539568345323
+        },
+        "six_layer": {
+          "acc": 0.08992805755395683,
+          "unans": 0.8776978417266187
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 15
+        },
+        "laplace_grid": {
+          "p95_h": 15
+        },
+        "zkls_grid_zones": {
+          "p95_h": 40
+        },
+        "six_layer": {
+          "p95_h": 172
+        }
+      }
+    },
+    {
+      "userId": "010",
+      "coverage": 0.13,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9928825622775801,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9928825622775801,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9466192170818505,
+          "unans": 0.05338078291814947
+        },
+        "six_layer": {
+          "acc": 0.046263345195729534,
+          "unans": 0.9537366548042705
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 1,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 1,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 1,
+          "det1h": 1,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 1,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3167259786476868,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8362989323843416,
+          "unans": 0.06761565836298933
+        },
+        "six_layer": {
+          "acc": 0.010676156583629894,
+          "unans": 0.9537366548042705
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 16
+        },
+        "laplace_grid": {
+          "p95_h": 16
+        },
+        "zkls_grid_zones": {
+          "p95_h": 16
+        },
+        "six_layer": {
+          "p95_h": 553
+        }
+      }
+    },
+    {
+      "userId": "028",
+      "coverage": 0.13,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 1,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8932384341637011,
+          "unans": 0.10676156583629894
+        },
+        "six_layer": {
+          "acc": 0.302491103202847,
+          "unans": 0.697508896797153
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 0,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3701067615658363,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5765124555160143,
+          "unans": 0.3665480427046263
+        },
+        "six_layer": {
+          "acc": 0.021352313167259787,
+          "unans": 0.9572953736654805
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 32
+        },
+        "laplace_grid": {
+          "p95_h": 32
+        },
+        "zkls_grid_zones": {
+          "p95_h": 33
+        },
+        "six_layer": {
+          "p95_h": 120
+        }
+      }
+    },
+    {
+      "userId": "112",
+      "coverage": 0.13,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.7330960854092526,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8434163701067615,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.3594306049822064,
+          "unans": 0.6405693950177936
+        },
+        "six_layer": {
+          "acc": 0.1601423487544484,
+          "unans": 0.8398576512455516
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 30,
+          "det1h": 0.8,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 30,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 30,
+          "det1h": 0.16666666666666666,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 30,
+          "det1h": 0.03333333333333333,
+          "undet": 0.9666666666666667
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3807829181494662,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.3274021352313167,
+          "unans": 0.6512455516014235
+        },
+        "six_layer": {
+          "acc": 0.12455516014234876,
+          "unans": 0.8398576512455516
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 23
+        },
+        "laplace_grid": {
+          "p95_h": 23
+        },
+        "zkls_grid_zones": {
+          "p95_h": 78
+        },
+        "six_layer": {
+          "p95_h": 116
+        }
+      }
+    },
+    {
+      "userId": "119",
+      "coverage": 0.13,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6654929577464789,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9295774647887324,
+          "unans": 0.07042253521126761
+        },
+        "six_layer": {
+          "acc": 0.4964788732394366,
+          "unans": 0.5035211267605634
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 30,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 30,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 30,
+          "det1h": 0.9333333333333333,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 30,
+          "det1h": 0.2,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.39436619718309857,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7992957746478874,
+          "unans": 0.176056338028169
+        },
+        "six_layer": {
+          "acc": 0.3591549295774648,
+          "unans": 0.6091549295774648
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 22
+        },
+        "laplace_grid": {
+          "p95_h": 22
+        },
+        "zkls_grid_zones": {
+          "p95_h": 26
+        },
+        "six_layer": {
+          "p95_h": 74
+        }
+      }
+    },
+    {
+      "userId": "005",
+      "coverage": 0.14,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9577922077922078,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7435064935064936,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8571428571428571,
+          "unans": 0.14285714285714285
+        },
+        "six_layer": {
+          "acc": 0.3474025974025974,
+          "unans": 0.6525974025974026
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 37,
+          "det1h": 0.918918918918919,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 37,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 37,
+          "det1h": 0.7837837837837838,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 37,
+          "det1h": 0.08108108108108109,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3116883116883117,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6915584415584416,
+          "unans": 0.19155844155844157
+        },
+        "six_layer": {
+          "acc": 0.2694805194805195,
+          "unans": 0.7012987012987013
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 16
+        },
+        "laplace_grid": {
+          "p95_h": 16
+        },
+        "zkls_grid_zones": {
+          "p95_h": 21
+        },
+        "six_layer": {
+          "p95_h": 43
+        }
+      }
+    },
+    {
+      "userId": "067",
+      "coverage": 0.14,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9898648648648649,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8175675675675675,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7668918918918919,
+          "unans": 0.23310810810810811
+        },
+        "six_layer": {
+          "acc": 0.26013513513513514,
+          "unans": 0.7398648648648649
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 26,
+          "det1h": 0.9230769230769231,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 26,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 26,
+          "det1h": 0.38461538461538464,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 26,
+          "det1h": 0.07692307692307693,
+          "undet": 0.23076923076923078
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.4391891891891892,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6655405405405406,
+          "unans": 0.26013513513513514
+        },
+        "six_layer": {
+          "acc": 0.19594594594594594,
+          "unans": 0.7668918918918919
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 28
+        },
+        "laplace_grid": {
+          "p95_h": 28
+        },
+        "zkls_grid_zones": {
+          "p95_h": 48
+        },
+        "six_layer": {
+          "p95_h": 130
+        }
+      }
+    },
+    {
+      "userId": "140",
+      "coverage": 0.14,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9863481228668942,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9488054607508533,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8327645051194539,
+          "unans": 0.16723549488054607
+        },
+        "six_layer": {
+          "acc": 0.16723549488054607,
+          "unans": 0.8327645051194539
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 14,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 14,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 14,
+          "det1h": 0.6428571428571429,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 14,
+          "det1h": 0.2857142857142857,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3412969283276451,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6825938566552902,
+          "unans": 0.24573378839590443
+        },
+        "six_layer": {
+          "acc": 0.05460750853242321,
+          "unans": 0.9112627986348123
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 28
+        },
+        "laplace_grid": {
+          "p95_h": 28
+        },
+        "zkls_grid_zones": {
+          "p95_h": 42
+        },
+        "six_layer": {
+          "p95_h": 107
+        }
+      }
+    },
+    {
+      "userId": "050",
+      "coverage": 0.15,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9905362776025236,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8454258675078864,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.943217665615142,
+          "unans": 0.056782334384858045
+        },
+        "six_layer": {
+          "acc": 0.25236593059936907,
+          "unans": 0.7476340694006309
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 20,
+          "det1h": 0.95,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 20,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 20,
+          "det1h": 0.9,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 20,
+          "det1h": 0.2,
+          "undet": 0.1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.31545741324921134,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8170347003154574,
+          "unans": 0.11041009463722397
+        },
+        "six_layer": {
+          "acc": 0.17350157728706625,
+          "unans": 0.8012618296529969
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 10
+        },
+        "laplace_grid": {
+          "p95_h": 10
+        },
+        "zkls_grid_zones": {
+          "p95_h": 10
+        },
+        "six_layer": {
+          "p95_h": 143
+        }
+      }
+    },
+    {
+      "userId": "012",
+      "coverage": 0.16,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9792899408284024,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6686390532544378,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.863905325443787,
+          "unans": 0.13609467455621302
+        },
+        "six_layer": {
+          "acc": 0.5059171597633136,
+          "unans": 0.4940828402366864
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 43,
+          "det1h": 0.9302325581395349,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 43,
+          "det1h": 0.9767441860465116,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 43,
+          "det1h": 0.5813953488372093,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 43,
+          "det1h": 0.37209302325581395,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3757396449704142,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6804733727810651,
+          "unans": 0.26627218934911245
+        },
+        "six_layer": {
+          "acc": 0.34615384615384615,
+          "unans": 0.6242603550295858
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 16
+        },
+        "laplace_grid": {
+          "p95_h": 16
+        },
+        "zkls_grid_zones": {
+          "p95_h": 17
+        },
+        "six_layer": {
+          "p95_h": 36
+        }
+      }
+    },
+    {
+      "userId": "034",
+      "coverage": 0.16,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.961764705882353,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9294117647058824,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7911764705882353,
+          "unans": 0.2088235294117647
+        },
+        "six_layer": {
+          "acc": 0.10588235294117647,
+          "unans": 0.8941176470588236
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 20,
+          "det1h": 0.95,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 20,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 20,
+          "det1h": 0.8,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 20,
+          "det1h": 0.05,
+          "undet": 0.95
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.32941176470588235,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.611764705882353,
+          "unans": 0.23529411764705882
+        },
+        "six_layer": {
+          "acc": 0.07058823529411765,
+          "unans": 0.8970588235294118
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 19
+        },
+        "laplace_grid": {
+          "p95_h": 19
+        },
+        "zkls_grid_zones": {
+          "p95_h": 21
+        },
+        "six_layer": {
+          "p95_h": 170
+        }
+      }
+    },
+    {
+      "userId": "036",
+      "coverage": 0.16,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9135446685878963,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7809798270893372,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5187319884726225,
+          "unans": 0.4812680115273775
+        },
+        "six_layer": {
+          "acc": 0.27089337175792505,
+          "unans": 0.729106628242075
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 40,
+          "det1h": 0.875,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 40,
+          "det1h": 0.975,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 40,
+          "det1h": 0.15,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 40,
+          "det1h": 0,
+          "undet": 0.875
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.2622478386167147,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.42939481268011526,
+          "unans": 0.5043227665706052
+        },
+        "six_layer": {
+          "acc": 0.2017291066282421,
+          "unans": 0.7521613832853026
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 22
+        },
+        "laplace_grid": {
+          "p95_h": 22
+        },
+        "zkls_grid_zones": {
+          "p95_h": 43
+        },
+        "six_layer": {
+          "p95_h": 126
+        }
+      }
+    },
+    {
+      "userId": "042",
+      "coverage": 0.16,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9943820224719101,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9634831460674157,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.800561797752809,
+          "unans": 0.199438202247191
+        },
+        "six_layer": {
+          "acc": 0.15730337078651685,
+          "unans": 0.8426966292134831
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 9,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 9,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 9,
+          "det1h": 0.6666666666666666,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 9,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3061797752808989,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6292134831460674,
+          "unans": 0.29213483146067415
+        },
+        "six_layer": {
+          "acc": 0.042134831460674156,
+          "unans": 0.9353932584269663
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 18
+        },
+        "laplace_grid": {
+          "p95_h": 18
+        },
+        "zkls_grid_zones": {
+          "p95_h": 22
+        },
+        "six_layer": {
+          "p95_h": 136
+        }
+      }
+    },
+    {
+      "userId": "153",
+      "coverage": 0.17,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9946091644204852,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9784366576819407,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8598382749326146,
+          "unans": 0.14016172506738545
+        },
+        "six_layer": {
+          "acc": 0.04851752021563342,
+          "unans": 0.9514824797843666
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 4,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 4,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 4,
+          "det1h": 0.5,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 4,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3557951482479784,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7601078167115903,
+          "unans": 0.14016172506738545
+        },
+        "six_layer": {
+          "acc": 0.02425876010781671,
+          "unans": 0.9514824797843666
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 20
+        },
+        "laplace_grid": {
+          "p95_h": 20
+        },
+        "zkls_grid_zones": {
+          "p95_h": 23
+        },
+        "six_layer": {
+          "p95_h": 542
+        }
+      }
+    },
+    {
+      "userId": "002",
+      "coverage": 0.18,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9848866498740554,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6750629722921915,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6599496221662469,
+          "unans": 0.34005037783375314
+        },
+        "six_layer": {
+          "acc": 0.4105793450881612,
+          "unans": 0.5894206549118388
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 56,
+          "det1h": 0.9107142857142857,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 56,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 56,
+          "det1h": 0.39285714285714285,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 56,
+          "det1h": 0.08928571428571429,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.33753148614609574,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5894206549118388,
+          "unans": 0.3879093198992443
+        },
+        "six_layer": {
+          "acc": 0.33753148614609574,
+          "unans": 0.6372795969773299
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 14
+        },
+        "laplace_grid": {
+          "p95_h": 14
+        },
+        "zkls_grid_zones": {
+          "p95_h": 22
+        },
+        "six_layer": {
+          "p95_h": 27
+        }
+      }
+    },
+    {
+      "userId": "037",
+      "coverage": 0.18,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9715762273901809,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9405684754521964,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8010335917312662,
+          "unans": 0.19896640826873385
+        },
+        "six_layer": {
+          "acc": 0.18863049095607234,
+          "unans": 0.8113695090439277
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 21,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 21,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 21,
+          "det1h": 0.9523809523809523,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 21,
+          "det1h": 0.19047619047619047,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3462532299741602,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6304909560723514,
+          "unans": 0.2971576227390181
+        },
+        "six_layer": {
+          "acc": 0.06459948320413436,
+          "unans": 0.9095607235142119
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 25
+        },
+        "laplace_grid": {
+          "p95_h": 25
+        },
+        "zkls_grid_zones": {
+          "p95_h": 35
+        },
+        "six_layer": {
+          "p95_h": 98
+        }
+      }
+    },
+    {
+      "userId": "084",
+      "coverage": 0.18,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9770408163265306,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8673469387755102,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8010204081632653,
+          "unans": 0.1989795918367347
+        },
+        "six_layer": {
+          "acc": 0.31887755102040816,
+          "unans": 0.6811224489795918
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 42,
+          "det1h": 0.9523809523809523,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 42,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 42,
+          "det1h": 0.7380952380952381,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 42,
+          "det1h": 0.3333333333333333,
+          "undet": 0.09523809523809523
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3622448979591837,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5943877551020408,
+          "unans": 0.35714285714285715
+        },
+        "six_layer": {
+          "acc": 0.1377551020408163,
+          "unans": 0.8392857142857143
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 15
+        },
+        "laplace_grid": {
+          "p95_h": 15
+        },
+        "zkls_grid_zones": {
+          "p95_h": 23
+        },
+        "six_layer": {
+          "p95_h": 49
+        }
+      }
+    },
+    {
+      "userId": "144",
+      "coverage": 0.18,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8278481012658228,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9417721518987342,
+          "unans": 0.05822784810126582
+        },
+        "six_layer": {
+          "acc": 0.25569620253164554,
+          "unans": 0.7443037974683544
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 34,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 34,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 34,
+          "det1h": 0.8235294117647058,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 34,
+          "det1h": 0.14705882352941177,
+          "undet": 0.08823529411764706
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3721518987341772,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8,
+          "unans": 0.11392405063291139
+        },
+        "six_layer": {
+          "acc": 0.17468354430379746,
+          "unans": 0.8
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 23
+        },
+        "laplace_grid": {
+          "p95_h": 23
+        },
+        "zkls_grid_zones": {
+          "p95_h": 24
+        },
+        "six_layer": {
+          "p95_h": 96
+        }
+      }
+    },
+    {
+      "userId": "167",
+      "coverage": 0.18,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9874055415617129,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9748110831234257,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6700251889168766,
+          "unans": 0.32997481108312343
+        },
+        "six_layer": {
+          "acc": 0.08312342569269521,
+          "unans": 0.9168765743073047
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 5,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 5,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 5,
+          "det1h": 0.6,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 5,
+          "det1h": 0,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.31738035264483627,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5214105793450882,
+          "unans": 0.3677581863979849
+        },
+        "six_layer": {
+          "acc": 0.017632241813602016,
+          "unans": 0.9546599496221663
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 17
+        },
+        "laplace_grid": {
+          "p95_h": 17
+        },
+        "zkls_grid_zones": {
+          "p95_h": 29
+        },
+        "six_layer": {
+          "p95_h": 254
+        }
+      }
+    },
+    {
+      "userId": "085",
+      "coverage": 0.19,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9854014598540146,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6885644768856448,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9221411192214112,
+          "unans": 0.07785888077858881
+        },
+        "six_layer": {
+          "acc": 0.35279805352798055,
+          "unans": 0.6472019464720195
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 42,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 42,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 42,
+          "det1h": 0.7857142857142857,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 42,
+          "det1h": 0.023809523809523808,
+          "undet": 0.9761904761904762
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.2895377128953771,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.805352798053528,
+          "unans": 0.07785888077858881
+        },
+        "six_layer": {
+          "acc": 0.3236009732360097,
+          "unans": 0.6472019464720195
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 20
+        },
+        "laplace_grid": {
+          "p95_h": 20
+        },
+        "zkls_grid_zones": {
+          "p95_h": 21
+        },
+        "six_layer": {
+          "p95_h": 63
+        }
+      }
+    },
+    {
+      "userId": "014",
+      "coverage": 0.21,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.7907488986784141,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9405286343612335,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5682819383259912,
+          "unans": 0.43171806167400884
+        },
+        "six_layer": {
+          "acc": 0.09030837004405286,
+          "unans": 0.9096916299559471
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 20,
+          "det1h": 0.75,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 20,
+          "det1h": 0.95,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 20,
+          "det1h": 0.6,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 20,
+          "det1h": 0.05,
+          "undet": 0.2
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3458149779735683,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4845814977973568,
+          "unans": 0.44493392070484583
+        },
+        "six_layer": {
+          "acc": 0.030837004405286344,
+          "unans": 0.9229074889867841
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 16
+        },
+        "laplace_grid": {
+          "p95_h": 16
+        },
+        "zkls_grid_zones": {
+          "p95_h": 29
+        },
+        "six_layer": {
+          "p95_h": 209
+        }
+      }
+    },
+    {
+      "userId": "024",
+      "coverage": 0.22,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9979253112033195,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.941908713692946,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8630705394190872,
+          "unans": 0.13692946058091288
+        },
+        "six_layer": {
+          "acc": 0.15767634854771784,
+          "unans": 0.8423236514522822
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 17,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 17,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 17,
+          "det1h": 1,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 17,
+          "det1h": 0.058823529411764705,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.37136929460580914,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7199170124481328,
+          "unans": 0.21161825726141079
+        },
+        "six_layer": {
+          "acc": 0.06431535269709543,
+          "unans": 0.91701244813278
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 17
+        },
+        "laplace_grid": {
+          "p95_h": 17
+        },
+        "zkls_grid_zones": {
+          "p95_h": 19
+        },
+        "six_layer": {
+          "p95_h": 90
+        }
+      }
+    },
+    {
+      "userId": "038",
+      "coverage": 0.23,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9158110882956879,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6673511293634496,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6817248459958932,
+          "unans": 0.3182751540041068
+        },
+        "six_layer": {
+          "acc": 0.3613963039014374,
+          "unans": 0.6386036960985626
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 76,
+          "det1h": 0.8552631578947368,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 76,
+          "det1h": 0.9868421052631579,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 76,
+          "det1h": 0.42105263157894735,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 76,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3921971252566735,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5564681724845996,
+          "unans": 0.39630390143737165
+        },
+        "six_layer": {
+          "acc": 0.34291581108829566,
+          "unans": 0.6386036960985626
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 14
+        },
+        "laplace_grid": {
+          "p95_h": 14
+        },
+        "zkls_grid_zones": {
+          "p95_h": 20
+        },
+        "six_layer": {
+          "p95_h": 40
+        }
+      }
+    },
+    {
+      "userId": "128",
+      "coverage": 0.23,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9979508196721312,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9610655737704918,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9221311475409836,
+          "unans": 0.0778688524590164
+        },
+        "six_layer": {
+          "acc": 0.04918032786885246,
+          "unans": 0.9508196721311475
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 11,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 11,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 11,
+          "det1h": 0.9090909090909091,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 11,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3790983606557377,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7172131147540983,
+          "unans": 0.20081967213114754
+        },
+        "six_layer": {
+          "acc": 0.03483606557377049,
+          "unans": 0.9508196721311475
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 14
+        },
+        "laplace_grid": {
+          "p95_h": 14
+        },
+        "zkls_grid_zones": {
+          "p95_h": 15
+        },
+        "six_layer": {
+          "p95_h": 317
+        }
+      }
+    },
+    {
+      "userId": "068",
+      "coverage": 0.24,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9724950884086444,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9076620825147348,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8231827111984283,
+          "unans": 0.17681728880157171
+        },
+        "six_layer": {
+          "acc": 0.26719056974459726,
+          "unans": 0.7328094302554028
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 40,
+          "det1h": 0.975,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 40,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 40,
+          "det1h": 0.75,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 40,
+          "det1h": 0.45,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3614931237721022,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5638506876227898,
+          "unans": 0.3241650294695481
+        },
+        "six_layer": {
+          "acc": 0.07662082514734773,
+          "unans": 0.8801571709233792
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 16
+        },
+        "laplace_grid": {
+          "p95_h": 16
+        },
+        "zkls_grid_zones": {
+          "p95_h": 19
+        },
+        "six_layer": {
+          "p95_h": 58
+        }
+      }
+    },
+    {
+      "userId": "052",
+      "coverage": 0.25,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9888475836431226,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.7156133828996283,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9182156133828996,
+          "unans": 0.08178438661710037
+        },
+        "six_layer": {
+          "acc": 0.41821561338289964,
+          "unans": 0.5817843866171004
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 50,
+          "det1h": 0.98,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 50,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 50,
+          "det1h": 0.88,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 50,
+          "det1h": 0.12,
+          "undet": 0
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3252788104089219,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7843866171003717,
+          "unans": 0.17657992565055763
+        },
+        "six_layer": {
+          "acc": 0.3104089219330855,
+          "unans": 0.6765799256505576
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 18
+        },
+        "laplace_grid": {
+          "p95_h": 18
+        },
+        "zkls_grid_zones": {
+          "p95_h": 19
+        },
+        "six_layer": {
+          "p95_h": 33
+        }
+      }
+    },
+    {
+      "userId": "062",
+      "coverage": 0.26,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9596491228070175,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8807017543859649,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7736842105263158,
+          "unans": 0.22631578947368422
+        },
+        "six_layer": {
+          "acc": 0.1456140350877193,
+          "unans": 0.8543859649122807
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 50,
+          "det1h": 0.98,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 50,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 50,
+          "det1h": 0.8,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 50,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3649122807017544,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6807017543859649,
+          "unans": 0.24561403508771928
+        },
+        "six_layer": {
+          "acc": 0.13157894736842105,
+          "unans": 0.8543859649122807
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 16
+        },
+        "laplace_grid": {
+          "p95_h": 16
+        },
+        "zkls_grid_zones": {
+          "p95_h": 18
+        },
+        "six_layer": {
+          "p95_h": 118
+        }
+      }
+    },
+    {
+      "userId": "000",
+      "coverage": 0.28,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.8562091503267973,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9428104575163399,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4950980392156863,
+          "unans": 0.5049019607843137
+        },
+        "six_layer": {
+          "acc": 0.16993464052287582,
+          "unans": 0.8300653594771242
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 22,
+          "det1h": 0.8636363636363636,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 22,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 22,
+          "det1h": 0.2727272727272727,
+          "undet": 0.045454545454545456
+        },
+        "six_layer": {
+          "n": 22,
+          "det1h": 0.22727272727272727,
+          "undet": 0.045454545454545456
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3284313725490196,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.33169934640522875,
+          "unans": 0.630718954248366
+        },
+        "six_layer": {
+          "acc": 0.042483660130718956,
+          "unans": 0.9395424836601307
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 13
+        },
+        "laplace_grid": {
+          "p95_h": 13
+        },
+        "zkls_grid_zones": {
+          "p95_h": 25
+        },
+        "six_layer": {
+          "p95_h": 99
+        }
+      }
+    },
+    {
+      "userId": "030",
+      "coverage": 0.28,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9555921052631579,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9523026315789473,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5526315789473685,
+          "unans": 0.4473684210526316
+        },
+        "six_layer": {
+          "acc": 0.05592105263157895,
+          "unans": 0.944078947368421
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 15,
+          "det1h": 0.8666666666666667,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 15,
+          "det1h": 0.9333333333333333,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 15,
+          "det1h": 0.26666666666666666,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 15,
+          "det1h": 0.06666666666666667,
+          "undet": 0.2
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.33223684210526316,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.40789473684210525,
+          "unans": 0.5394736842105263
+        },
+        "six_layer": {
+          "acc": 0.027960526315789474,
+          "unans": 0.9555921052631579
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 10
+        },
+        "laplace_grid": {
+          "p95_h": 10
+        },
+        "zkls_grid_zones": {
+          "p95_h": 23
+        },
+        "six_layer": {
+          "p95_h": 411
+        }
+      }
+    },
+    {
+      "userId": "025",
+      "coverage": 0.29,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9809220985691574,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8298887122416534,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8076311605723371,
+          "unans": 0.19236883942766295
+        },
+        "six_layer": {
+          "acc": 0.1907790143084261,
+          "unans": 0.809220985691574
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 75,
+          "det1h": 0.9466666666666667,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 75,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 75,
+          "det1h": 0.6533333333333333,
+          "undet": 0.013333333333333334
+        },
+        "six_layer": {
+          "n": 75,
+          "det1h": 0.04,
+          "undet": 0.96
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.33068362480127184,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7058823529411765,
+          "unans": 0.1987281399046105
+        },
+        "six_layer": {
+          "acc": 0.178060413354531,
+          "unans": 0.809220985691574
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 14
+        },
+        "laplace_grid": {
+          "p95_h": 14
+        },
+        "zkls_grid_zones": {
+          "p95_h": 16
+        },
+        "six_layer": {
+          "p95_h": 62
+        }
+      }
+    },
+    {
+      "userId": "039",
+      "coverage": 0.29,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9837662337662337,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8295454545454546,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8506493506493507,
+          "unans": 0.14935064935064934
+        },
+        "six_layer": {
+          "acc": 0.2922077922077922,
+          "unans": 0.7077922077922078
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 56,
+          "det1h": 0.9464285714285714,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 56,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 56,
+          "det1h": 0.6071428571428571,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 56,
+          "det1h": 0.14285714285714285,
+          "undet": 0.017857142857142856
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3717532467532468,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6542207792207793,
+          "unans": 0.2418831168831169
+        },
+        "six_layer": {
+          "acc": 0.18344155844155843,
+          "unans": 0.8003246753246753
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 12
+        },
+        "laplace_grid": {
+          "p95_h": 12
+        },
+        "zkls_grid_zones": {
+          "p95_h": 18
+        },
+        "six_layer": {
+          "p95_h": 47
+        }
+      }
+    },
+    {
+      "userId": "003",
+      "coverage": 0.3,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9938931297709923,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9083969465648855,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5816793893129771,
+          "unans": 0.4183206106870229
+        },
+        "six_layer": {
+          "acc": 0.14198473282442747,
+          "unans": 0.8580152671755725
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 21,
+          "det1h": 0.9523809523809523,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 21,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 21,
+          "det1h": 0.38095238095238093,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 21,
+          "det1h": 0.19047619047619047,
+          "undet": 0.047619047619047616
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3068702290076336,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4442748091603053,
+          "unans": 0.46412213740458014
+        },
+        "six_layer": {
+          "acc": 0.06870229007633588,
+          "unans": 0.9038167938931297
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 15
+        },
+        "laplace_grid": {
+          "p95_h": 15
+        },
+        "zkls_grid_zones": {
+          "p95_h": 23
+        },
+        "six_layer": {
+          "p95_h": 96
+        }
+      }
+    },
+    {
+      "userId": "022",
+      "coverage": 0.3,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9877488514548239,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.6140888208269525,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.9310872894333844,
+          "unans": 0.06891271056661562
+        },
+        "six_layer": {
+          "acc": 0.6094946401225115,
+          "unans": 0.3905053598774885
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 55,
+          "det1h": 0.9272727272727272,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 55,
+          "det1h": 0.9818181818181818,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 55,
+          "det1h": 0.8,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 55,
+          "det1h": 0.18181818181818182,
+          "undet": 0.07272727272727272
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.38591117917304746,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7075038284839203,
+          "unans": 0.25114854517611024
+        },
+        "six_layer": {
+          "acc": 0.4119448698315467,
+          "unans": 0.5727411944869831
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 13
+        },
+        "laplace_grid": {
+          "p95_h": 13
+        },
+        "zkls_grid_zones": {
+          "p95_h": 14
+        },
+        "six_layer": {
+          "p95_h": 20
+        }
+      }
+    },
+    {
+      "userId": "004",
+      "coverage": 0.31,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9521674140508222,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9701046337817638,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.5904334828101644,
+          "unans": 0.40956651718983555
+        },
+        "six_layer": {
+          "acc": 0.05082212257100149,
+          "unans": 0.9491778774289985
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 14,
+          "det1h": 0.9285714285714286,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 14,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 14,
+          "det1h": 0.5,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 14,
+          "det1h": 0,
+          "undet": 0.07142857142857142
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.32884902840059793,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.4020926756352765,
+          "unans": 0.5455904334828101
+        },
+        "six_layer": {
+          "acc": 0.028400597907324365,
+          "unans": 0.9611360239162929
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 11
+        },
+        "laplace_grid": {
+          "p95_h": 11
+        },
+        "zkls_grid_zones": {
+          "p95_h": 20
+        },
+        "six_layer": {
+          "p95_h": 329
+        }
+      }
+    },
+    {
+      "userId": "017",
+      "coverage": 0.32,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9856938483547926,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.8354792560801144,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.8955650929899857,
+          "unans": 0.1044349070100143
+        },
+        "six_layer": {
+          "acc": 0.32761087267525035,
+          "unans": 0.6723891273247496
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 61,
+          "det1h": 0.9672131147540983,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 61,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 61,
+          "det1h": 0.9344262295081968,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 61,
+          "det1h": 0.14754098360655737,
+          "undet": 0.03278688524590164
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.3190271816881259,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6852646638054364,
+          "unans": 0.24320457796852646
+        },
+        "six_layer": {
+          "acc": 0.17453505007153075,
+          "unans": 0.8111587982832618
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 15
+        },
+        "laplace_grid": {
+          "p95_h": 15
+        },
+        "zkls_grid_zones": {
+          "p95_h": 16
+        },
+        "six_layer": {
+          "p95_h": 38
+        }
+      }
+    },
+    {
+      "userId": "035",
+      "coverage": 0.37,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9975,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.93375,
+          "unans": 0.06625
+        },
+        "six_layer": {
+          "acc": 0.3,
+          "unans": 0.7
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 40,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 40,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 40,
+          "det1h": 0.9,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 40,
+          "det1h": 0.025,
+          "undet": 0.05
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.31625,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.64625,
+          "unans": 0.2475
+        },
+        "six_layer": {
+          "acc": 0.11125,
+          "unans": 0.88125
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 8
+        },
+        "laplace_grid": {
+          "p95_h": 8
+        },
+        "zkls_grid_zones": {
+          "p95_h": 8
+        },
+        "six_layer": {
+          "p95_h": 23
+        }
+      }
+    },
+    {
+      "userId": "041",
+      "coverage": 0.39,
+      "hasWork": true,
+      "task1": {
+        "raw": {
+          "acc": 0.9547079856972587,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.9535160905840286,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.7866507747318237,
+          "unans": 0.2133492252681764
+        },
+        "six_layer": {
+          "acc": 0.04529201430274136,
+          "unans": 0.9547079856972587
+        }
+      },
+      "task2": {
+        "raw": {
+          "n": 25,
+          "det1h": 1,
+          "undet": 0
+        },
+        "laplace_grid": {
+          "n": 25,
+          "det1h": 1,
+          "undet": 0
+        },
+        "zkls_grid_zones": {
+          "n": 25,
+          "det1h": 1,
+          "undet": 0
+        },
+        "six_layer": {
+          "n": 25,
+          "det1h": 0,
+          "undet": 1
+        }
+      },
+      "task3": {
+        "raw": {
+          "acc": 1,
+          "unans": 0
+        },
+        "laplace_grid": {
+          "acc": 0.2896305125148987,
+          "unans": 0
+        },
+        "zkls_grid_zones": {
+          "acc": 0.6781883194278904,
+          "unans": 0.22765196662693682
+        },
+        "six_layer": {
+          "acc": 0.03456495828367104,
+          "unans": 0.9547079856972587
+        }
+      },
+      "task4": {
+        "raw": {
+          "p95_h": 12
+        },
+        "laplace_grid": {
+          "p95_h": 12
+        },
+        "zkls_grid_zones": {
+          "p95_h": 13
+        },
+        "six_layer": {
+          "p95_h": 169
+        }
+      }
+    }
+  ]
+}
