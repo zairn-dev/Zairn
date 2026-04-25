@@ -81,9 +81,9 @@ npx tsc --noEmit -p apps/geo-drop-demo/tsconfig.json
 
 ## What to work on
 
-- Issues labeled [`good first issue`](https://github.com/zairn-dev/Zairn/labels/good%20first%20issue) — self-contained, well-scoped tasks
-- Issues labeled [`help wanted`](https://github.com/zairn-dev/Zairn/labels/help%20wanted) — we'd appreciate help
-- [GitHub Discussions](https://github.com/zairn-dev/Zairn/discussions) — ask questions, share ideas, show what you've built
+- Issues labeled [`good first issue`](https://github.example/REDACTED-FOR-REVIEW/labels/good%20first%20issue) — self-contained, well-scoped tasks
+- Issues labeled [`help wanted`](https://github.example/REDACTED-FOR-REVIEW/labels/help%20wanted) — we'd appreciate help
+- [GitHub Discussions](https://github.example/REDACTED-FOR-REVIEW/discussions) — ask questions, share ideas, show what you've built
 
 ## Database Changes
 
