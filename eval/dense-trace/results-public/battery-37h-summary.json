@@ -1,0 +1,30 @@
+{
+  "_description": "37.6-hour always-on Android battery measurement, 2026-04-27. Sanitised summary for public release. Used in IMWUT 2027 §7.3 (Real-Device Systems Evaluation, paragraph 'Pipeline cost is dwarfed by GPS acquisition').",
+  "measurement": {
+    "duration_hours": 37.63,
+    "screen_off_pct": 99.3,
+    "battery_capacity_mAh": 6000,
+    "discharge_mAh": 4870,
+    "discharge_pct": 81.2,
+    "drain_rate_mAh_per_h": 129.4,
+    "drain_rate_pct_per_day": 51.8
+  },
+  "components_mAh_screen_off": {
+    "gnss": 3451,
+    "cpu": 2703,
+    "wakelock": 332,
+    "wifi": 91.2,
+    "_note": "values overlap (GNSS+CPU concurrent); reconciled total = 4771 mAh"
+  },
+  "headline_pct_of_drain": {
+    "gnss": 70.9,
+    "data_collection_app_direct": 9.7,
+    "_remainder": "system services and kernel"
+  },
+  "paper_claim_validation": {
+    "claim": "Pipeline cost is dwarfed by GPS acquisition",
+    "evidence": "GNSS accounts for 71% of total drain; the data-collection app's direct CPU+wakelock+Wi-Fi share is only 9.7%; no additional wake-ups beyond the existing GPS callback",
+    "validates_proxy_estimate": true
+  },
+  "_provenance": "Single Android device, MIUI on Mediatek SoC, screen-off duty cycle 99.3%, no foreground interaction. Same device class as the 21.8-day dense trace used in this paper. Raw dumpsys output and per-UID mapping are withheld (private device data); only aggregate metrics are released."
+}
