@@ -230,6 +230,25 @@ const geoDrop = createGeoDrop({
 
 ---
 
+## Research Papers
+
+Zairn is the reference implementation behind a series of papers on
+verifiable, privacy-preserving location systems. The papers sit at three
+different layers of the same stack and can be read independently.
+
+| Layer | Question | Paper |
+|-------|----------|-------|
+| **Protocol** | How do you bind an encrypted geographic *search* to its zero-knowledge proximity proof so the proof is forensically auditable after session state is purged? | **SBPP** — Search-Bound Proximity Proofs ([arXiv:2604.03902](https://arxiv.org/abs/2604.03902)) |
+| **Proof** | What context does a stateful ZK proximity proof need to bind to (drop id, epoch, verifier identity) to resist replay across drops? | **Zairn-ZKP** — Context-Binding Gaps in Stateful Zero-Knowledge Proximity Proofs ([arXiv:2604.03900](https://arxiv.org/abs/2604.03900)) |
+| **Device** | *When* should a location service escalate to ZK verification given a graduated GPS-spoofing trust score (proceed / step-up / deny)? | **Graduated Trust Gating** — Trading Off Detection and Proof Escalation in IoT Location Verification ([arXiv:2604.03896](https://arxiv.org/abs/2604.03896)) |
+
+The three papers share no security notion, threat model, proof, or
+benchmark — only this codebase as their common substrate.
+
+Reusable artefact: [Zenodo 10.5281/zenodo.19199291](https://doi.org/10.5281/zenodo.19199291)
+
+---
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, commit conventions, and guidelines.
