@@ -1,0 +1,294 @@
+{
+  "timestamp": "2026-05-12T03:08:54.777Z",
+  "n_trials": 1000,
+  "attacks": {
+    "A1_cross_session": {
+      "description": "Cross-session proof reuse: proof from S1 submitted in S2",
+      "v1_plaintext_zkp": {
+        "success_rate": 1,
+        "blocked": false
+      },
+      "v2_gridse_only": {
+        "success_rate": 1,
+        "blocked": false
+      },
+      "v3_app_nonce": {
+        "success_rate": 1,
+        "blocked": false
+      },
+      "v4_sbpp": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v5_signed_capability": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v6_per_drop_permit": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v7_mac_bound": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v8_internalized_token": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v9_post_proof_receipt": {
+        "success_rate": 0,
+        "blocked": true
+      }
+    },
+    "A2_decorrelation": {
+      "description": "Search-verify decorrelation: attacker reassociates proof with different session",
+      "v1_plaintext_zkp": {
+        "attack_success": 1,
+        "vulnerable": true
+      },
+      "v2_gridse_only": {
+        "attack_success": 1,
+        "vulnerable": true
+      },
+      "v3_app_nonce": {
+        "attack_success": 1,
+        "vulnerable": true
+      },
+      "v4_sbpp": {
+        "attack_success": 0,
+        "vulnerable": false
+      },
+      "v5_signed_capability": {
+        "attack_success": 0,
+        "vulnerable": false
+      },
+      "v6_per_drop_permit": {
+        "attack_success": 0,
+        "vulnerable": false
+      },
+      "v7_mac_bound": {
+        "attack_success": 0,
+        "vulnerable": false
+      },
+      "v8_internalized_token": {
+        "attack_success": 0,
+        "vulnerable": false
+      },
+      "v9_post_proof_receipt": {
+        "attack_success": 0,
+        "vulnerable": false
+      }
+    },
+    "A3_cross_drop": {
+      "description": "Cross-drop proof transfer: proof for drop-A submitted for drop-B",
+      "v1_plaintext_zkp": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v2_gridse_only": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v3_app_nonce": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v4_sbpp": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v5_signed_capability": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v6_per_drop_permit": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v7_mac_bound": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v8_internalized_token": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v9_post_proof_receipt": {
+        "success_rate": 0,
+        "blocked": true
+      }
+    },
+    "A4_result_set_escape": {
+      "description": "Result-set escape: proof for drop NOT in search results",
+      "v4a_core_nonce_only": {
+        "success_rate": 1,
+        "blocked": false
+      },
+      "v4b_full_nonce_plus_rd": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v5_signed_capability": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v6_per_drop_permit": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v7_mac_bound": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v8_internalized_token": {
+        "success_rate": 0,
+        "blocked": true
+      },
+      "v9_post_proof_receipt": {
+        "success_rate": 0,
+        "blocked": true
+      }
+    },
+    "A4b_transcript_audit": {
+      "description": "Transcript-level audit: can auditor without server secret verify authorization?",
+      "v4a_core": {
+        "auditor_can_verify_proof": true,
+        "auditor_can_verify_authorization": false,
+        "reason": "Nonce in proof is verifiable, but auditor cannot confirm nonce was freshly issued by server"
+      },
+      "v4b_full": {
+        "auditor_can_verify_proof": true,
+        "auditor_can_verify_authorization": true,
+        "reason": "Merkle root in proof + signed receipt — auditor verifies ZKP, Merkle inclusion, and receipt signature without server secret"
+      },
+      "v5_signed_capability": {
+        "auditor_can_verify_proof": true,
+        "auditor_can_verify_authorization": false,
+        "reason": "Capability is HMAC-signed with server secret — auditor cannot verify without key"
+      },
+      "v6_per_drop_permit": {
+        "auditor_can_verify_proof": false,
+        "auditor_can_verify_authorization": false,
+        "reason": "No ZKP — permit is server-signed; auditor cannot verify proximity or authorization without server key"
+      },
+      "v7_mac_bound": {
+        "auditor_can_verify_proof": true,
+        "auditor_can_verify_authorization": false,
+        "reason": "MAC key is server secret — auditor cannot verify result-set binding without key"
+      },
+      "v8_internalized_token": {
+        "auditor_can_verify_proof": true,
+        "auditor_can_verify_authorization": true,
+        "fault_localization": "undifferentiated (single opaque hash)",
+        "reason": "Server-signed token committed in proof public input — auditor verifies with server public key but cannot distinguish which property (P1/P2/P3) failed on mismatch"
+      },
+      "v9_post_proof_receipt": {
+        "auditor_can_verify_proof": true,
+        "auditor_can_verify_authorization": true,
+        "trust_boundary": "server signing at acceptance + server-side log finalisation",
+        "reason": "Server signs Sig_S(sessionId, dropId, H(pi), t) at proof acceptance; auditor verifies the receipt with server public key. The audit record is finalised server-side rather than client-side as in V4b."
+      }
+    }
+  },
+  "summary": {
+    "description": "Attack success matrix (true = attack succeeds, vulnerable)",
+    "matrix": {
+      "A1 cross-session": {
+        "V1": true,
+        "V2": true,
+        "V3": true,
+        "V4a": false,
+        "V4b": false,
+        "V5": false,
+        "V6": false,
+        "V7": false,
+        "V8": false,
+        "V9": false
+      },
+      "A2 re-association": {
+        "V1": true,
+        "V2": true,
+        "V3": true,
+        "V4a": false,
+        "V4b": false,
+        "V5": false,
+        "V6": false,
+        "V7": false,
+        "V8": false,
+        "V9": false
+      },
+      "A3 cross-drop": {
+        "V1": false,
+        "V2": false,
+        "V3": false,
+        "V4a": false,
+        "V4b": false,
+        "V5": false,
+        "V6": false,
+        "V7": false,
+        "V8": false,
+        "V9": false
+      },
+      "A4 result-set escape": {
+        "V1": true,
+        "V2": true,
+        "V3": true,
+        "V4a": true,
+        "V4b": false,
+        "V5": false,
+        "V6": false,
+        "V7": false,
+        "V8": false,
+        "V9": false
+      },
+      "A4b transcript audit": {
+        "V1": true,
+        "V2": true,
+        "V3": true,
+        "V4a": true,
+        "V4b": false,
+        "V5": true,
+        "V6": true,
+        "V7": true,
+        "V8": false,
+        "V9": false
+      }
+    },
+    "note": "A1/A2 require session binding. A4 requires result-set binding. A4b requires publicly verifiable authorization. V4b, V8, and V9 all block A1-A4 and admit transcript-level audit; the differentiators are operational. V8 requires modifying the ZK circuit + re-running trusted setup; V9 requires the server to be online and willing to sign at proof acceptance, with audit integrity coupled to server-side log finalisation; V4b binds at search time inside the existing circuit, finalises the audit record client-side, and is verifiable offline using only the server public key.",
+    "key_finding": "V5/V6/V7 block online attacks (A1-A4) via server-side checks, but fail A4b (transcript audit) because authorization depends on server secrets. V4b (Full SBPP), V8 (internalized-token), and V9 (post-proof signed receipt) all achieve publicly auditable authorization. V8 carries circuit-modification + trusted-setup-rotation costs; V9 carries an online-server + server-side-log-finalisation trust dependency; V4b reuses the deployed circuit and finalises the audit record client-side."
+  },
+  "latency_v4_vs_v9": {
+    "description": "Isolated post-proof signing overhead and full protocol-path latency (excluding Groth16 prove/verify).",
+    "reps": 10000,
+    "warmup": 2000,
+    "isolated_post_proof_signing": {
+      "n": 10000,
+      "mean_ns": 4727.4,
+      "median_ns": 3000,
+      "p95_ns": 5500,
+      "p99_ns": 21000,
+      "min_ns": 2600,
+      "max_ns": 3581300
+    },
+    "full_path_v4_sbpp": {
+      "n": 10000,
+      "mean_ns": 13993,
+      "median_ns": 10700,
+      "p95_ns": 17100,
+      "p99_ns": 70200,
+      "min_ns": 9900,
+      "max_ns": 1563300
+    },
+    "full_path_v9_post_proof_receipt": {
+      "n": 10000,
+      "mean_ns": 6712.92,
+      "median_ns": 4400,
+      "p95_ns": 8400,
+      "p99_ns": 37400,
+      "min_ns": 3800,
+      "max_ns": 2849100
+    },
+    "note": "isolated_post_proof_signing is the V9-only cost above V4 at the protocol layer: receipt-payload SHA-256, signed-receipt SHA-256, and append-only log push. full_path_v4_sbpp vs full_path_v9_post_proof_receipt include unrelated session-binding work and should not be subtracted directly. The substantive operational cost of V9 is the online-server requirement, not the microsecond signing step: receipt-return-to-client over 4G adds 50-200 ms (taken from §7 mobile measurements) when the deployment requires client-side finalisation of the audit record before completion."
+  }
+}
