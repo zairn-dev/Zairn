@@ -1,0 +1,117 @@
+{
+  "_note": "RQ4 honesty gap: user-concern prevalence (coded reviews) x trace measurability (Pillar A/B). base = reviews with >=1 substantive (non-other) code.",
+  "nReviews": 1631,
+  "nSubstantive": 450,
+  "rows": [
+    {
+      "code": "safety_need",
+      "n": 219,
+      "pctOfSubstantive": 48.7,
+      "tier": "WEAK",
+      "bucket": "gap",
+      "constructs": [
+        "K4 reachable",
+        "K1 place",
+        "K3 co-presence"
+      ],
+      "why": "\"is my loved one safe / where expected\" needs reliable reachability/place/being-with-people — Pillar B r=0.10-0.34, Pillar A labeling flat/degrades"
+    },
+    {
+      "code": "battery_performance",
+      "n": 93,
+      "pctOfSubstantive": 20.7,
+      "tier": "OUT",
+      "bucket": "orthogonal",
+      "constructs": [
+        "— (systems quality)"
+      ],
+      "why": "battery/crash/perf = systems-quality concern, orthogonal to presence-construct validity"
+    },
+    {
+      "code": "control_visibility",
+      "n": 70,
+      "pctOfSubstantive": 15.6,
+      "tier": "DESIGN",
+      "bucket": "design",
+      "constructs": [
+        "K5 ghost / visibility control"
+      ],
+      "why": "who-can-see / hide / per-contact = UX/policy controls, not a construct the trace must infer"
+    },
+    {
+      "code": "freshness_complaint",
+      "n": 54,
+      "pctOfSubstantive": 12,
+      "tier": "MEASURABLE",
+      "bucket": "measurable",
+      "constructs": [
+        "K4 freshness"
+      ],
+      "why": "staleness = exact (last-fix timestamp); the system CAN honestly know and show it"
+    },
+    {
+      "code": "coordination_need",
+      "n": 52,
+      "pctOfSubstantive": 11.6,
+      "tier": "MIXED",
+      "bucket": "gap",
+      "constructs": [
+        "K2 nearby (geom)",
+        "K4 reachable"
+      ],
+      "why": "geometric proximity/ETA is exact, but \"arrived / en route / reachable\" social inference is weak (K4)"
+    },
+    {
+      "code": "monitoring_coercion",
+      "n": 15,
+      "pctOfSubstantive": 3.3,
+      "tier": "DESIGN",
+      "bucket": "design",
+      "constructs": [
+        "K5 ghost / surveillance"
+      ],
+      "why": "surveillance/coercion = policy/UX/ethics concern; no trace inference satisfies it"
+    },
+    {
+      "code": "accuracy_complaint",
+      "n": 14,
+      "pctOfSubstantive": 3.1,
+      "tier": "MEASURABLE",
+      "bucket": "measurable",
+      "constructs": [
+        "K1/K2 geometric accuracy"
+      ],
+      "why": "positional error is quantifiable; only the K1 role-labeling is weak"
+    },
+    {
+      "code": "precision_concern",
+      "n": 7,
+      "pctOfSubstantive": 1.6,
+      "tier": "DESIGN",
+      "bucket": "design",
+      "constructs": [
+        "K1/K2 precision (coarse<->exact)"
+      ],
+      "why": "a privacy/utility design choice (how coarse to show), not an inference-validity question"
+    },
+    {
+      "code": "trust_integrity",
+      "n": 6,
+      "pctOfSubstantive": 1.3,
+      "tier": "OUT",
+      "bucket": "companion",
+      "constructs": [
+        "integrity/provenance",
+        "K5"
+      ],
+      "why": "spoof/pause/\"is it real\" = integrity/provenance — companion (ZKLS) territory, cited not claimed"
+    }
+  ],
+  "bucketShareOfCodedInstances": {
+    "gap": 51.1,
+    "orthogonal": 17.5,
+    "design": 17.4,
+    "measurable": 12.8,
+    "companion": 1.1
+  }
+}

@@ -1,0 +1,12 @@
+DRY-RUN FIXTURE — synthetic `adb shell dumpsys location` snapshot.
+Location Manager State:
+  gps provider:
+    last location=Location[gps 35.681000,139.767000 hAcc=8.0]
+    enabled=true
+    Time to first fix: 1420 ms
+  network provider:
+    enabled=true
+  fused provider:
+    enabled=true
+  Historical Records:
+    gps: requests=... active

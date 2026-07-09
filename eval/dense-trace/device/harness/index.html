@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sensing-Gate Energy Arm Runner</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; max-width: 640px; margin: 16px auto; padding: 0 14px; }
+  h1 { font-size: 1.15em; margin: 4px 0; }
+  .arm { font-size: 1.4em; font-weight: 800; letter-spacing: .5px; padding: 8px 12px; border-radius: 8px; margin: 8px 0; text-align: center; }
+  .arm.continuous { background:#0d47a1; color:#fff; }
+  .arm.naive      { background:#4a148c; color:#fff; }
+  .arm.gated      { background:#1b5e20; color:#fff; }
+  .arm.unknown    { background:#b71c1c; color:#fff; }
+  button { font-size: 1em; padding: 10px 18px; margin: 4px 4px 4px 0; border-radius: 6px; }
+  .status { font-weight: bold; padding: 8px; border-radius: 4px; margin: 8px 0; }
+  .active { background: #d4edda; color: #155724; }
+  .stopped { background: #f8d7da; color: #721c24; }
+  #stats { font-size: .95em; margin: 8px 0; line-height: 1.6em; }
+  #stats b { font-variant-numeric: tabular-nums; }
+  pre { background: #1112; padding: 10px; border-radius: 8px; font-size: .78em; max-height: 40vh; overflow-y: auto; white-space: pre-wrap; }
+  .warn { color:#b71c1c; font-weight:bold; }
+  code { background:#8883; padding:1px 4px; border-radius:3px; }
+</style>
+</head>
+<body>
+<h1>Sensing-Gate Energy Arm Runner</h1>
+<div id="armBanner" class="arm unknown">ARM: (none)</div>
+<p style="font-size:.9em">
+  Open one arm per URL: <code>?arm=continuous</code>, <code>?arm=naive</code>, <code>?arm=gated</code>.
+  Add <code>&autostart=1</code> to begin on load. Keep this tab foreground, screen ON.
+</p>
+
+<div id="statusBar" class="status stopped">Stopped</div>
+<div id="stats">Not started.</div>
+
+<button id="startBtn">Start</button>
+<button id="stopBtn">Stop</button>
+<button id="exportBtn">Export JSON</button>
+<button id="copyBtn">Copy JSON</button>
+<button id="clearBtn">Clear</button>
+
+<pre id="log">Ready.</pre>
+
+<script src="./vendor/zairn-privacy.js"></script>
+<script>
+'use strict';
+// ---- arm selection --------------------------------------------------------
+const params = new URLSearchParams(location.search);
+const ARM = (params.get('arm') || 'unknown').toLowerCase();
+const AUTOSTART = params.get('autostart') === '1';
+const VALID = ['continuous', 'naive', 'gated'];
+const STORAGE_KEY = 'sensing_gate_arm_' + ARM;
+
+// gate poll cadence (ms) for the gated arm: cheap "is it time to acquire?" check.
+// Matches DEFAULT_GATE_CONFIG.minNextCheckMs (30s). Never touches GNSS on a poll.
+const GATE_POLL_MS = 30 * 1000;
+// stationary GPS-jitter displacement allowance (m/s) accumulated between checks;
+// mirrors eval/dense-trace/energy-ablation.mjs DISP_BOUND_MPS.stationary.
+const STATIONARY_MPS = 0.05;
+
+const Z = window.ZairnPrivacy;
+const armBanner = document.getElementById('armBanner');
+armBanner.textContent = 'ARM: ' + ARM.toUpperCase();
+armBanner.className = 'arm ' + (VALID.includes(ARM) ? ARM : 'unknown');
+
+// ---- run state ------------------------------------------------------------
+let running = false;
+let watchId = null;
+let gatePollId = null;
+let statsTimer = null;
+let wakeLock = null;
+
+let run = null;          // the persisted run record
+let gate = null;         // gated arm: SDK sensing gate
+let processor = null;    // naive arm: SDK privacy processor
+let lastFix = null;      // gated arm: last ACQUIRED fix {lat,lon,timestamp}
+let dispBoundM = 0;      // gated arm: accumulated cheap-sensor displacement bound
+let lastPollTs = 0;      // gated arm: previous poll wall time
+
+function freshRun() {
+  return {
+    arm: ARM,
+    schema: 'sensing-gate-arm/app-side/v1',
+    userAgent: navigator.userAgent.slice(0, 160),
+    startedAt: null, startedTs: null,
+    stoppedAt: null, stoppedTs: null,
+    // app-side GNSS duty signal (device-independent, complements adb mAh):
+    gnssAcquisitions: 0,     // # times a GNSS fix was actually requested/received
+    watchFixes: 0,           // # watchPosition callbacks (continuous/naive)
+    gatePolls: 0,            // # gate.shouldAcquire() checks (gated)
+    gateSkips: 0,            // # polls that did NOT acquire
+    processed: 0,            // # createPrivacyProcessor.process() calls (naive)
+    processedByType: {},     // {suppressed:n, coarse:n, state:n, ...}
+    gateReasons: {},         // {due-stationary:n, staleness-floor:n, zone-dwell:n, ...}
+    geoErrors: 0,
+    lastError: null,
+    notes: [],
+  };
+}
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch { return null; }
+}
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(run)); }
+
+function log(msg) {
+  const el = document.getElementById('log');
+  const t = new Date().toLocaleTimeString();
+  el.textContent = `[${t}] ${msg}\n` + el.textContent.slice(0, 6000);
+}
+
+function fmtDur(ms) {
+  if (!ms || ms < 0) return '0h';
+  const h = Math.floor(ms / 3.6e6), m = Math.floor((ms % 3.6e6) / 6e4);
+  return `${h}h ${m}m`;
+}
+
+function updateStats() {
+  if (!run) { document.getElementById('stats').textContent = 'Not started.'; return; }
+  const now = running ? Date.now() : (run.stoppedTs || Date.now());
+  const durMs = run.startedTs ? now - run.startedTs : 0;
+  const acqPerH = durMs > 0 ? (run.gnssAcquisitions / (durMs / 3.6e6)) : 0;
+  const lines = [
+    `arm: <b>${run.arm}</b> &nbsp; elapsed: <b>${fmtDur(durMs)}</b>`,
+    `GNSS acquisitions: <b>${run.gnssAcquisitions}</b> &nbsp; (~<b>${acqPerH.toFixed(2)}</b>/h)`,
+  ];
+  if (ARM === 'gated') lines.push(`gate polls: <b>${run.gatePolls}</b> &nbsp; skips: <b>${run.gateSkips}</b>`);
+  else lines.push(`watch fixes: <b>${run.watchFixes}</b>`);
+  if (ARM === 'naive') lines.push(`privacy.process() calls: <b>${run.processed}</b>`);
+  if (run.geoErrors) lines.push(`<span class="warn">geo errors: ${run.geoErrors}</span>`);
+  document.getElementById('stats').innerHTML = lines.join('<br>');
+}
+
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => log('wakeLock released'));
+      log('screen wakeLock acquired (keep screen ON anyway)');
+    } else {
+      log('WARNING: wakeLock unsupported — keep the screen ON manually.');
+    }
+  } catch (e) { log('wakeLock failed: ' + e.message); }
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && running && !wakeLock) requestWakeLock();
+});
+
+// ---- geolocation options: force GNSS, freshest possible ----
+const GEO_OPTS = { enableHighAccuracy: true, maximumAge: 0, timeout: 27000 };
+
+function onGeoError(err) {
+  run.geoErrors++; run.lastError = err.message; save();
+  log('GPS error: ' + err.message);
+  updateStats();
+}
+
+// continuous + naive: hold GNSS warm with a max-rate watch
+function onWatchFix(pos) {
+  run.watchFixes++;
+  run.gnssAcquisitions++;      // every delivered fix == a GNSS acquisition kept warm
+  const { latitude, longitude, accuracy } = pos.coords;
+  if (ARM === 'naive' && processor) {
+    const state = processor.process(latitude, longitude); // the post-acquisition pipeline
+    run.processed++;
+    run.processedByType[state.type] = (run.processedByType[state.type] || 0) + 1;
+  }
+  if (run.watchFixes % 20 === 0) log(`watch fix #${run.watchFixes} (±${Math.round(accuracy)}m)`);
+  save(); updateStats();
+}
+
+// gated: poll the SDK sensing gate; only acquire GNSS when it says so
+function onGatePoll() {
+  const now = Date.now();
+  const dt = lastPollTs ? (now - lastPollTs) / 1000 : GATE_POLL_MS / 1000;
+  lastPollTs = now;
+  dispBoundM += dt * STATIONARY_MPS;            // cheap accelerometer/step proxy (stationary)
+  run.gatePolls++;
+  const d = gate.shouldAcquire({ now, lastFix, motion: 'stationary', maxDisplacementM: dispBoundM });
+  if (!d.acquire) {
+    run.gateSkips++;
+    if (run.gatePolls % 10 === 0) log(`gate poll #${run.gatePolls}: skip (${d.reason}, next~${Math.round(d.nextCheckMs/1000)}s)`);
+    save(); updateStats();
+    return;
+  }
+  // acquire: request exactly ONE GNSS fix, then let the engine go cold again
+  log(`gate: ACQUIRE (${d.reason}) — requesting one GNSS fix`);
+  navigator.geolocation.getCurrentPosition((pos) => {
+    run.gnssAcquisitions++;
+    run.gateReasons[d.reason] = (run.gateReasons[d.reason] || 0) + 1;
+    lastFix = { lat: pos.coords.latitude, lon: pos.coords.longitude, timestamp: Date.now() };
+    dispBoundM = 0;
+    log(`gate fix #${run.gnssAcquisitions} (±${Math.round(pos.coords.accuracy)}m)`);
+    save(); updateStats();
+  }, onGeoError, GEO_OPTS);
+}
+
+async function start() {
+  if (running) { log('already running'); return; }
+  if (!VALID.includes(ARM)) { log('WARNING: unknown arm — set ?arm=continuous|naive|gated'); return; }
+  if (!navigator.geolocation) { log('ERROR: geolocation unsupported'); return; }
+  if (!Z) { log('ERROR: zairn-privacy bundle not loaded — run `node bundle-sdk.mjs`'); return; }
+
+  run = load() || freshRun();
+  if (!run.startedTs) { run.startedTs = Date.now(); run.startedAt = new Date().toISOString(); }
+  running = true;
+  await requestWakeLock();
+
+  if (ARM === 'gated') {
+    gate = Z.createSensingGate(Z.DEFAULT_PRIVACY_CONFIG, []);   // no zones: pure cadence/staleness gate
+    lastFix = null; dispBoundM = 0; lastPollTs = 0;
+    onGatePoll();                                               // immediate cold-start acquire
+    gatePollId = setInterval(onGatePoll, GATE_POLL_MS);
+  } else {
+    if (ARM === 'naive') {
+      processor = Z.createPrivacyProcessor(
+        { ...Z.DEFAULT_PRIVACY_CONFIG, gridSeed: 'device-arm-naive' }, []);
+    }
+    watchId = navigator.geolocation.watchPosition(onWatchFix, onGeoError, GEO_OPTS);
+  }
+
+  statsTimer = setInterval(updateStats, 5000);
+  document.getElementById('statusBar').textContent = 'Running: ' + ARM;
+  document.getElementById('statusBar').className = 'status active';
+  log(`STARTED arm=${ARM}`);
+  save(); updateStats();
+}
+
+function stop() {
+  if (!running) { log('not running'); return; }
+  running = false;
+  if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
+  if (gatePollId !== null) { clearInterval(gatePollId); gatePollId = null; }
+  if (statsTimer !== null) { clearInterval(statsTimer); statsTimer = null; }
+  if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
+  run.stoppedTs = Date.now(); run.stoppedAt = new Date().toISOString();
+  save();
+  document.getElementById('statusBar').textContent = 'Stopped';
+  document.getElementById('statusBar').className = 'status stopped';
+  const durMs = run.stoppedTs - run.startedTs;
+  log(`STOPPED arm=${ARM} after ${fmtDur(durMs)}, ${run.gnssAcquisitions} GNSS acquisitions`);
+  updateStats();
+}
+
+function buildExport() {
+  const r = load() || run || freshRun();
+  const durMs = (r.stoppedTs || Date.now()) - (r.startedTs || Date.now());
+  return {
+    ...r,
+    wallSeconds: Math.round(durMs / 1000),
+    acqPerHour: durMs > 0 ? +(r.gnssAcquisitions / (durMs / 3.6e6)).toFixed(3) : null,
+  };
+}
+
+function download(name, text) {
+  const blob = new Blob([text], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name; a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('startBtn').onclick = start;
+document.getElementById('stopBtn').onclick = stop;
+document.getElementById('exportBtn').onclick = () => {
+  const j = JSON.stringify(buildExport(), null, 2);
+  download(`${ARM}.app.json`, j);
+  log('exported ' + ARM + '.app.json — copy it into eval/dense-trace/device/results/');
+};
+document.getElementById('copyBtn').onclick = async () => {
+  const j = JSON.stringify(buildExport(), null, 2);
+  try { await navigator.clipboard.writeText(j); log('copied JSON to clipboard'); }
+  catch { log('clipboard blocked — use Export JSON instead'); }
+};
+document.getElementById('clearBtn').onclick = () => {
+  if (!confirm('Clear this arm\'s saved run?')) return;
+  localStorage.removeItem(STORAGE_KEY); run = null; updateStats(); log('cleared ' + ARM);
+};
+
+// restore any prior (crashed/killed) run for visibility
+run = load();
+updateStats();
+if (run && run.startedTs && !run.stoppedTs) log('recovered in-progress run (press Start to resume counting)');
+if (AUTOSTART) start();
+</script>
+</body>
+</html>

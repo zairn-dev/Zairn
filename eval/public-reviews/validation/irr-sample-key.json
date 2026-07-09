@@ -1,0 +1,1611 @@
+{
+  "meta": {
+    "seed": "irr-2026",
+    "sample_size": 200,
+    "min_per_stratum": 2,
+    "total_eligible": 1631,
+    "codes": [
+      "safety_need",
+      "battery_performance",
+      "control_visibility",
+      "freshness_complaint",
+      "coordination_need",
+      "monitoring_coercion",
+      "accuracy_complaint",
+      "precision_concern",
+      "trust_integrity"
+    ],
+    "note": "machine_codes are the lexical coder output; NOT shown to human coders. Used only to score lexical precision/recall vs human consensus in compute-irr.mjs."
+  },
+  "strata": {
+    "findmy|high": {
+      "eligible": 109,
+      "sampled": 13
+    },
+    "findmy|low": {
+      "eligible": 99,
+      "sampled": 12
+    },
+    "findmy|mid": {
+      "eligible": 18,
+      "sampled": 2
+    },
+    "glympse|high": {
+      "eligible": 202,
+      "sampled": 25
+    },
+    "glympse|low": {
+      "eligible": 156,
+      "sampled": 19
+    },
+    "glympse|mid": {
+      "eligible": 34,
+      "sampled": 4
+    },
+    "life360|high": {
+      "eligible": 261,
+      "sampled": 32
+    },
+    "life360|low": {
+      "eligible": 121,
+      "sampled": 15
+    },
+    "life360|mid": {
+      "eligible": 37,
+      "sampled": 4
+    },
+    "snapchat|high": {
+      "eligible": 132,
+      "sampled": 16
+    },
+    "snapchat|low": {
+      "eligible": 99,
+      "sampled": 12
+    },
+    "snapchat|mid": {
+      "eligible": 21,
+      "sampled": 3
+    },
+    "zenly|high": {
+      "eligible": 300,
+      "sampled": 37
+    },
+    "zenly|low": {
+      "eligible": 34,
+      "sampled": 4
+    },
+    "zenly|mid": {
+      "eligible": 8,
+      "sampled": 2
+    }
+  },
+  "key": {
+    "S001": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S002": {
+      "app": "findmy",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S003": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S004": {
+      "app": "findmy",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S005": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_other": false
+    },
+    "S006": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S007": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S008": {
+      "app": "findmy",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S009": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S010": {
+      "app": "findmy",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S011": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S012": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S013": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S014": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S015": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S016": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_other": false
+    },
+    "S017": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_other": false
+    },
+    "S018": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S019": {
+      "app": "findmy",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S020": {
+      "app": "findmy",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S021": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S022": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S023": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S024": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S025": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S026": {
+      "app": "findmy",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S027": {
+      "app": "findmy",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S028": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_other": false
+    },
+    "S029": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S030": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S031": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S032": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S033": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S034": {
+      "app": "glympse",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S035": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S036": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S037": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S038": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S039": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "freshness_complaint",
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S040": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S041": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S042": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S043": {
+      "app": "glympse",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_other": false
+    },
+    "S044": {
+      "app": "glympse",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S045": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S046": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S047": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S048": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S049": {
+      "app": "glympse",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S050": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S051": {
+      "app": "glympse",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_other": false
+    },
+    "S052": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S053": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_other": false
+    },
+    "S054": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_other": false
+    },
+    "S055": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S056": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_other": false
+    },
+    "S057": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S058": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S059": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S060": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S061": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_other": false
+    },
+    "S062": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S063": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S064": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_other": false
+    },
+    "S065": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_other": false
+    },
+    "S066": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S067": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_other": false
+    },
+    "S068": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_other": false
+    },
+    "S069": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S070": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_other": false
+    },
+    "S071": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S072": {
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S073": {
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_other": false
+    },
+    "S074": {
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S075": {
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S076": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S077": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S078": {
+      "app": "life360",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S079": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S080": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S081": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S082": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S083": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S084": {
+      "app": "life360",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S085": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S086": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_other": false
+    },
+    "S087": {
+      "app": "life360",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S088": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S089": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S090": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S091": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S092": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S093": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S094": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S095": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S096": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S097": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S098": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S099": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S100": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S101": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S102": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S103": {
+      "app": "life360",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S104": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S105": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "precision_concern",
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S106": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S107": {
+      "app": "life360",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S108": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S109": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S110": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S111": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_other": false
+    },
+    "S112": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S113": {
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S114": {
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [
+        "precision_concern"
+      ],
+      "machine_other": false
+    },
+    "S115": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_other": false
+    },
+    "S116": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "battery_performance",
+        "control_visibility"
+      ],
+      "machine_other": false
+    },
+    "S117": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S118": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_other": false
+    },
+    "S119": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "freshness_complaint",
+        "control_visibility"
+      ],
+      "machine_other": false
+    },
+    "S120": {
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S121": {
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S122": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "battery_performance",
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S123": {
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S124": {
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_other": false
+    },
+    "S125": {
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S126": {
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [
+        "freshness_complaint",
+        "safety_need",
+        "control_visibility"
+      ],
+      "machine_other": false
+    },
+    "S127": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S128": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S129": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S130": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S131": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S132": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S133": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S134": {
+      "app": "snapchat",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S135": {
+      "app": "snapchat",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S136": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S137": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S138": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S139": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S140": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_other": false
+    },
+    "S141": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S142": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S143": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S144": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S145": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S146": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S147": {
+      "app": "snapchat",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S148": {
+      "app": "snapchat",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S149": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S150": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false
+    },
+    "S151": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S152": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S153": {
+      "app": "snapchat",
+      "rating": 2,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S154": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S155": {
+      "app": "snapchat",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S156": {
+      "app": "snapchat",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_other": false
+    },
+    "S157": {
+      "app": "snapchat",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S158": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S159": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S160": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S161": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S162": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S163": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S164": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S165": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S166": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S167": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S168": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S169": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S170": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S171": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S172": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S173": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S174": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S175": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S176": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S177": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S178": {
+      "app": "zenly",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S179": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S180": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S181": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S182": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S183": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S184": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S185": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S186": {
+      "app": "zenly",
+      "rating": 4,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S187": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S188": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S189": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_other": false
+    },
+    "S190": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S191": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S192": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S193": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S194": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_other": false
+    },
+    "S195": {
+      "app": "zenly",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S196": {
+      "app": "zenly",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S197": {
+      "app": "zenly",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S198": {
+      "app": "zenly",
+      "rating": 1,
+      "bucket": "low",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S199": {
+      "app": "zenly",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    },
+    "S200": {
+      "app": "zenly",
+      "rating": 3,
+      "bucket": "mid",
+      "machine_codes": [],
+      "machine_other": true
+    }
+  }
+}
