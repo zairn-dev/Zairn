@@ -19,18 +19,18 @@ export function GeoDropProvider({ children }: { children: ReactNode }) {
 
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-    const ipfsKey = import.meta.env.VITE_IPFS_PINNING_KEY as string | undefined
-
+    // SECURITY: never read an IPFS pinning key from a VITE_* variable — Vite
+    // inlines it into the client bundle, exposing the Pinata JWT to every
+    // visitor (see apps/geo-drop-demo/.env.example warning). Pinning must run
+    // server-side via the ipfs-proxy Edge Function, which holds the key in its
+    // environment. This demo therefore uses db-only persistence; to enable
+    // durable IPFS storage, deploy `supabase/functions/ipfs-proxy` and set
+    // `ipfsProxyUrl` (defaults to `${supabaseUrl}/functions/v1/ipfs-proxy`).
     const sdk = createGeoDrop({
       supabaseUrl,
       supabaseAnonKey,
-      ipfs: ipfsKey ? {
-        gateway: 'https://gateway.pinata.cloud/ipfs',
-        pinningService: 'pinata' as const,
-        pinningApiKey: ipfsKey,
-      } : undefined,
       persistence: {
-        level: ipfsKey ? 'ipfs' as const : 'db-only' as const,
+        level: 'db-only' as const,
       },
     })
 

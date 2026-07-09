@@ -30,7 +30,10 @@ create table if not exists geo_drops (
   max_claims integer,
   claim_count integer not null default 0,
   -- Location proof (non-GPS: QR, BLE, WiFi, AR, custom)
-  proof_config jsonb, -- { mode: 'all'|'any', requirements: [...] }
+  proof_config jsonb, -- { mode: 'all'|'any', requirements: [...] } — never contains plaintext secrets
+  -- Server-only: PBKDF2-SHA256 hashes of secret-method proof requirements, keyed by requirement
+  -- index. Withheld from authenticated/anon column GRANT below. See unlock-drop Edge Function.
+  proof_secret_hashes jsonb,
   -- Expiration
   expires_at timestamptz,
   status drop_status not null default 'active',
@@ -202,8 +205,13 @@ $$ language plpgsql security definer;
 -- Run in environments with pg_cron enabled:
 -- select cron.schedule('cleanup-expired-drops', '*/15 * * * *', 'select cleanup_expired_drops()');
 
--- View for Realtime subscriptions (excludes sensitive columns)
-create or replace view geo_drops_public as
+-- View for Realtime subscriptions (excludes sensitive columns).
+-- security_invoker makes the view respect the querying user's RLS on
+-- geo_drops (PG15+); without it the view runs as owner and would leak
+-- private/friends-only drops to everyone. See migration
+-- 20260706000013_security_hardening.sql.
+create or replace view geo_drops_public
+with (security_invoker = on) as
 select id, creator_id, lat, lon, geohash, unlock_radius_meters,
        title, description, content_type, visibility,
        max_claims, claim_count, proof_config, expires_at, status,
@@ -211,3 +219,46 @@ select id, creator_id, lat, lon, geohash, unlock_radius_meters,
        metadata_cid, chain_tx_hash, ipfs_cid, encrypted,
        created_at, updated_at
 from geo_drops;
+
+-- =====================
+-- Persistent rate limiting, shared across Edge Function instances/functions.
+-- bucket_key is namespaced '{function_name}:{identity}'. See
+-- supabase/functions/unlock-drop/index.ts and migration
+-- 20260709000015_persistent_rate_limit.sql for the full rationale.
+-- =====================
+create table if not exists edge_rate_limits (
+  bucket_key   text primary key,
+  window_start timestamptz not null,
+  count        integer not null
+);
+
+create or replace function check_rate_limit(
+  p_key text, p_max integer, p_window_seconds integer
+) returns boolean
+language plpgsql security definer as $$
+declare
+  v_count integer;
+begin
+  insert into edge_rate_limits (bucket_key, window_start, count)
+  values (p_key, now(), 1)
+  on conflict (bucket_key) do update
+    set window_start = case
+          when edge_rate_limits.window_start <= now() - make_interval(secs => p_window_seconds)
+          then now() else edge_rate_limits.window_start end,
+        count = case
+          when edge_rate_limits.window_start <= now() - make_interval(secs => p_window_seconds)
+          then 1 else edge_rate_limits.count + 1 end
+  returning count into v_count;
+  return v_count <= p_max;
+end;
+$$;
+revoke all on function check_rate_limit(text, integer, integer) from public;
+grant execute on function check_rate_limit(text, integer, integer) to service_role;
+revoke all on edge_rate_limits from public, authenticated, anon;
+
+create or replace function cleanup_stale_rate_limits(p_older_than_seconds integer default 3600)
+returns void language sql security definer as $$
+  delete from edge_rate_limits where window_start < now() - make_interval(secs => p_older_than_seconds);
+$$;
+revoke all on function cleanup_stale_rate_limits(integer) from public;
+grant execute on function cleanup_stale_rate_limits(integer) to service_role;

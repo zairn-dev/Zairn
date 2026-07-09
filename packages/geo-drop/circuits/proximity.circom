@@ -1,6 +1,23 @@
 pragma circom 2.1.0;
 
 /**
+ * ⚠️  UNSOUND — EVALUATION BASELINE ONLY. DO NOT USE TO GATE ACCESS.  ⚠️
+ *
+ * This is the V1 "insecure baseline" retained for the soundness-overhead
+ * ablation (compared against sound_geo_only.circom = V2 and zairn_zkp.circom
+ * = V2 + context binding). It is DELIBERATELY unsound:
+ *   - `valid <== 1` is set unconditionally (Step 5); the circuit never
+ *     constrains distSquared <= radiusSquared, so a prover at ANY location
+ *     produces a satisfying witness. The "unsatisfiable circuit fails proof
+ *     generation" comment below is FALSE.
+ *   - `dLon_remainder` is a free witness with no in-circuit range check.
+ * A valid Groth16 proof from this circuit asserts NOTHING about proximity.
+ *
+ * Production code must use `sound_geo_only` / `zairn_zkp` (the SDK default is
+ * `sound_geo_only`; see src/zkp.ts resolveArtifacts). Keep this file for
+ * research reproducibility only.
+ *
+ * ---
  * ZK Proximity Proof Circuit
  *
  * Proves: "I am within R meters of a target location"

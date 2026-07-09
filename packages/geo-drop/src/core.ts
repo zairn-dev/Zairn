@@ -23,6 +23,7 @@ import type {
   PersistenceLevel,
   StepUpRequired,
   UnlockResult,
+  SearchAuthorizedProof,
 } from './types';
 import { IpfsClient } from './ipfs';
 import { encrypt, decrypt, hashPassword, verifyPassword, deriveLocationKey, CURRENT_KEY_VERSION } from './crypto';
@@ -41,7 +42,6 @@ import {
   sbppMatch,
   sbppVerifyBinding,
   buildSbppChallengeDigest,
-  generateIndexTokens,
 } from './sbpp';
 import type { SbppSession, EncryptedSearchConfig, LocationIndexTokens } from './sbpp';
 
@@ -52,6 +52,33 @@ function validateCoords(lat: number, lon: number): void {
   if (!Number.isFinite(lat) || !Number.isFinite(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
     throw new GeoDropError('INVALID_INPUT', `Invalid coordinates: lat=${lat}, lon=${lon}. Lat must be [-90, 90], lon must be [-180, 180].`, { lat, lon });
   }
+}
+
+/**
+ * Hash `secret`-method requirement params before persisting proof_config.
+ * The plaintext secret must never reach the DB: it is hashed (PBKDF2-SHA256,
+ * same format as password_hash) into a server-only sidecar map keyed by
+ * requirement index, and stripped from the client-readable proof_config
+ * (only `label` survives). See unlock-drop Edge Function for verification.
+ */
+async function sanitizeProofConfig(
+  proofConfig: ProofConfig | null | undefined
+): Promise<{ config: ProofConfig | null; secretHashes: Record<number, string> | null }> {
+  if (!proofConfig) return { config: null, secretHashes: null };
+  const secretHashes: Record<number, string> = {};
+  const requirements = await Promise.all(proofConfig.requirements.map(async (req, idx) => {
+    if (req.method !== 'secret') return req;
+    const secret = req.params?.secret;
+    if (typeof secret === 'string' && secret.length > 0) {
+      secretHashes[idx] = await hashPassword(secret);
+    }
+    const { secret: _plaintext, ...restParams } = req.params ?? {};
+    return { ...req, params: restParams };
+  }));
+  return {
+    config: { ...proofConfig, requirements },
+    secretHashes: Object.keys(secretHashes).length > 0 ? secretHashes : null,
+  };
 }
 
 /**
@@ -212,6 +239,10 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     const encryptedPayload = await encrypt(contentStr, locationKey);
     const encryptedJson = JSON.stringify(encryptedPayload);
 
+    // Strip plaintext secret-requirement params before this ever touches the DB
+    const { config: sanitizedProofConfig, secretHashes: proofSecretHashes } =
+      await sanitizeProofConfig(data.proof_config);
+
     // Upload to IPFS if configured, otherwise store in DB
     let ipfsCid: string | null = null;
     let encryptedContent: string | null = null;
@@ -245,7 +276,8 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         visibility: data.visibility ?? 'public',
         password_hash: data.password ? await hashPassword(data.password) : null,
         max_claims: data.max_claims ?? null,
-        proof_config: data.proof_config ?? null,
+        proof_config: sanitizedProofConfig,
+        proof_secret_hashes: proofSecretHashes,
         expires_at: data.expires_at?.toISOString() ?? null,
         preview_url: previewUrl,
         metadata: data.metadata ?? null,
@@ -1037,6 +1069,68 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         })
         .filter(n => n.distance_meters <= radiusMeters)
         .sort((a, b) => a.distance_meters - b.distance_meters);
+    },
+
+    buildSearchAuthorization: (
+      session: SbppSession,
+      dropId: string,
+      opts?: { policyVersion?: string; epoch?: string },
+    ): SearchAuthorizedProof => {
+      // Client-side: bind a discovered drop to the search session that
+      // returned it. When the search recorded a result-set digest, fold it in
+      // so the proof also commits to the specific result set (P2).
+      const policyVersion = opts?.policyVersion ?? '1';
+      const epoch = opts?.epoch ?? '1';
+      const resultSetDigest = sbppSessionStore.getResultDigest(session.sessionId);
+      const challengeDigest = buildSbppChallengeDigest({
+        dropId,
+        policyVersion,
+        epoch,
+        sessionNonce: session.nonce,
+        ...(resultSetDigest ? { resultSetDigest } : {}),
+      });
+      return { challengeDigest, policyVersion, epoch };
+    },
+
+    unlockDropSbpp: async (
+      dropId: string,
+      lat: number,
+      lon: number,
+      accuracy: number,
+      session: SbppSession,
+      authorization: SearchAuthorizedProof,
+      password?: string,
+      proofs?: ProofSubmission[],
+    ): Promise<UnlockResult> => {
+      validateCoords(lat, lon);
+
+      // --- Search-authorization gate (SBPP layer) ---
+      // Verify the search-authorized proof BEFORE unlocking any content:
+      //   P1 authorization binding   : challengeDigest embeds the session nonce
+      //   P2 result-set soundness    : dropId is in this session's search result set
+      //   P3 authorization provenance: session was server-issued and not yet consumed
+      // sbppVerifyBinding consumes the session on success (one unlock per search).
+      // Statement/context binding (dropId/policyVersion/epoch) and sensor truth
+      // are enforced by orthogonal layers (verification engine / ZKP), not here.
+      const authz = sbppVerifyBinding(
+        sbppSessionStore,
+        session.sessionId,
+        session.nonce,
+        authorization.challengeDigest,
+        dropId,
+        authorization.policyVersion ?? '1',
+        authorization.epoch ?? '1',
+      );
+      if (!authz.valid) {
+        throw new GeoDropError(
+          'SBPP_AUTHORIZATION_FAILED',
+          `Search-authorized proof rejected (${authz.reason}). Unlock is not bound to a valid search session.`,
+          { dropId, reason: authz.reason },
+        );
+      }
+
+      // Authorization verified — proceed with the standard unlock path.
+      return unlockDrop(dropId, lat, lon, accuracy, password, proofs);
     },
 
     // Utilities

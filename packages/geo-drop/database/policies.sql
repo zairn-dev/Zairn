@@ -74,9 +74,41 @@ create policy "geo_drops_delete"
 on geo_drops for delete
 using (auth.uid() = creator_id);
 
--- NOTE: RLSはカラムレベルの制限不可。センシティブカラム (encryption_salt,
--- password_hash, encrypted_content) はSDK側のSELECTでカラム指定して除外済み。
--- unlock-drop Edge FunctionはサービスロールでアクセスするためRLS非適用。
+-- センシティブカラムの列レベル保護。
+-- RLSポリシーは行単位でしか制御できず、テーブルレベルの SELECT 権限があると
+-- 全カラムが読めてしまう（生PostgRESTで `select encryption_salt from geo_drops`
+-- が通る）。Postgres の列レベル権限は加算的なので、テーブルレベルの SELECT を
+-- REVOKE し、非センシティブカラムのみ GRANT し直す。
+-- unlock-drop Edge Function は service_role で列権限を迂回するため影響なし。
+-- 保守メモ: geo_drops に新カラムを追加したら、この GRANT に追記しない限り
+-- クライアントからは読めない（=デフォルト非公開の安全側）。
+revoke select on geo_drops from authenticated;
+revoke select on geo_drops from anon;
+
+grant select (
+  id, creator_id,
+  lat, lon, geohash, unlock_radius_meters,
+  title, description, content_type, ipfs_cid, encrypted,
+  visibility, max_claims, claim_count, proof_config,
+  expires_at, status,
+  preview_url, metadata,
+  persistence_level, metadata_cid, chain_tx_hash,
+  created_at, updated_at
+) on geo_drops to authenticated;
+
+grant select (
+  id, creator_id,
+  lat, lon, geohash, unlock_radius_meters,
+  title, description, content_type, ipfs_cid, encrypted,
+  visibility, max_claims, claim_count, proof_config,
+  expires_at, status,
+  preview_url, metadata,
+  persistence_level, metadata_cid, chain_tx_hash,
+  created_at, updated_at
+) on geo_drops to anon;
+-- 非公開: encrypted_content, encryption_salt, password_hash, search_tokens,
+--         pin_status, key_derivation_version, encryption_algorithm,
+--         server_secret_version.
 
 -- 更新時にセンシティブカラム・セキュリティカラムの不正変更を防止するトリガー
 create or replace function protect_drop_sensitive_columns()
@@ -93,6 +125,10 @@ begin
   -- geohash は変更不可 (暗号化キーに使われる)
   if NEW.geohash is distinct from OLD.geohash then
     raise exception 'Cannot modify geohash';
+  end if;
+  -- proof_secret_hashes は変更不可 (secret要件の検証基盤)
+  if NEW.proof_secret_hashes is distinct from OLD.proof_secret_hashes then
+    raise exception 'Cannot modify proof_secret_hashes';
   end if;
   return NEW;
 end;

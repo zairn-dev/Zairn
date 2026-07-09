@@ -414,8 +414,11 @@ create index if not exists idx_visited_cells_user on visited_cells (user_id);
 create index if not exists idx_visited_cells_geohash on visited_cells (geohash);
 
 -- 訪問セル集計ビュー（ランキング用）
--- security_barrier prevents leaking data through predicate pushdown
-create or replace view visited_cell_stats with (security_barrier = true) as
+-- security_barrier prevents leaking data through predicate pushdown;
+-- security_invoker makes the view honour the querying user's RLS on
+-- visited_cells (PG15+) so it cannot expose other users' aggregates.
+-- Sanctioned cross-user rankings go through get_area_rankings() (security definer).
+create or replace view visited_cell_stats with (security_barrier = true, security_invoker = on) as
 select
   user_id,
   count(*) as total_cells,

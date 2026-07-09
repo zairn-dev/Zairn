@@ -65,7 +65,10 @@ export interface ProofRequirement {
   /**
    * Method-specific parameters
    * - gps: {} (default; controlled by unlock_radius_meters)
-   * - secret: { secret: string; label?: string } — secret obtained on-site (via QR/BLE/WiFi/NFC etc., acquisition method is up to the front-end)
+   * - secret: { secret: string; label?: string } — INPUT ONLY: `secret` is the plaintext used at
+   *   createDrop() time. It is never persisted in `proof_config` — createDrop hashes it into the
+   *   server-only `proof_secret_hashes` column and strips `secret` from the stored `proof_config`
+   *   (only `label` survives). Drops fetched from the DB therefore never carry `params.secret`.
    * - ar: { reference_embedding?: number[]; reference_embeddings?: number[][]; similarity_threshold?: number; max_age_seconds?: number } — DINOv2 feature vector(s). Multiple embeddings for multi-angle matching (client picks max similarity). max_age_seconds rejects stale captures
    * - zkp: { verification_key: object; artifacts_url?: string; policy_version?: string; epoch?: string|number; server_nonce?: string; drop_id?: string } — Groth16 verification key for Zairn-ZKP. Optional context fields bind proofs to a drop/session statement
    * - zkp-region: { verification_key: object; polygon: {lat: number; lon: number}[]; artifacts_url?: string; policy_version?: string; epoch?: string|number; server_nonce?: string; drop_id?: string } — polygon containment proof
@@ -138,7 +141,9 @@ export interface VerificationResult {
 export type ProofVerifier = (
   requirement: ProofRequirement,
   submission: ProofSubmission,
-  drop: GeoDrop
+  drop: GeoDrop,
+  /** Index of `requirement` within the drop's proof_config.requirements array (built-in verifiers use this to look up drop.proof_secret_hashes). Optional for backward compatibility with existing custom verifiers. */
+  requirementIndex?: number
 ) => Promise<ProofResult> | ProofResult;
 
 // =====================
@@ -181,6 +186,14 @@ export interface GeoDrop {
   claim_count: number;
   // Location proof
   proof_config: ProofConfig | null;
+  /**
+   * Server-only: PBKDF2-SHA256 hashes of secret-method proof requirements,
+   * keyed by requirement index (string keys — JSON object). Never exposed
+   * via the authenticated/anon column GRANT; only present when fetched with
+   * elevated (service-role) privileges, e.g. inside the unlock-drop Edge
+   * Function or a trusted self-hosted server process.
+   */
+  proof_secret_hashes?: Record<string, string> | null;
   // Expiration
   expires_at: string | null;
   status: DropStatus;
@@ -499,6 +512,29 @@ export interface UnlockSuccess {
 export type UnlockResult = UnlockSuccess | StepUpRequired;
 
 // =====================
+// SBPP search-authorized proof (SAP)
+// =====================
+
+/**
+ * Search-authorized proof presented at unlock time.
+ *
+ * Produced by the client from the search session that discovered the drop
+ * (see buildSearchAuthorization) and verified during unlock (unlockDropSbpp).
+ * The challengeDigest embeds the session nonce and, when the search recorded
+ * one, the result-set digest — binding the unlock to a specific authorized
+ * search. Statement/context binding (dropId/policyVersion/epoch) and sensor
+ * truth are enforced by orthogonal layers.
+ */
+export interface SearchAuthorizedProof {
+  /** SBPP challenge digest: LP("SBPP-v1", dropId, policyVersion, epoch, nonce[, resultSetDigest]). */
+  challengeDigest: string;
+  /** Policy-version context used to build the digest (default '1'). */
+  policyVersion?: string;
+  /** Epoch context used to build the digest (default '1'). */
+  epoch?: string;
+}
+
+// =====================
 // SDK
 // =====================
 export interface GeoDropOptions {
@@ -626,6 +662,10 @@ export interface GeoDropSDK {
   initSearchSession?: (ttlMs?: number) => { sessionId: string; nonce: string; createdAt: number; expiresAt: number };
   /** Find nearby drops using encrypted search tokens, bound to an SBPP session. */
   findNearbyDropsSbpp?: (lat: number, lon: number, radiusMeters: number, session: { sessionId: string; nonce: string; createdAt: number; expiresAt: number }) => Promise<NearbyDrop[]>;
+  /** Build a search-authorized proof binding a discovered drop to its search session. */
+  buildSearchAuthorization?: (session: { sessionId: string; nonce: string; createdAt: number; expiresAt: number }, dropId: string, opts?: { policyVersion?: string; epoch?: string }) => SearchAuthorizedProof;
+  /** Unlock a drop, first verifying the search-authorized proof (P1/P2/P3) against the search session. */
+  unlockDropSbpp?: (dropId: string, lat: number, lon: number, accuracy: number, session: { sessionId: string; nonce: string; createdAt: number; expiresAt: number }, authorization: SearchAuthorizedProof, password?: string, proofs?: ProofSubmission[]) => Promise<UnlockResult>;
 
   // Utilities
   encodeGeohash: (lat: number, lon: number, precision?: number) => string;

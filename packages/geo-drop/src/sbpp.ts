@@ -247,7 +247,20 @@ export function isSessionValid(session: SbppSession, now?: number): boolean {
 // Server-side session store (in-memory for evaluation)
 // =====================
 
-/** Simple in-memory session store for evaluation and testing */
+/**
+ * Simple in-memory session store for evaluation and testing. Atomic
+ * validate-and-consume (consumeIfValid) is correct within a single
+ * process, but state is lost across restarts and not shared across
+ * instances.
+ *
+ * Production self-hosted deployments (a trusted Node/Deno server process
+ * with @zairn/geo-drop imported — SBPP has no browser+Edge-Function path)
+ * running multiple instances MUST use a persistent, multi-instance-safe
+ * store instead: the `search_sessions` table plus the `issue_search_session`
+ * / `consume_search_session` Postgres functions added in
+ * supabase/migrations/20260709000017_sbpp_session_persistence.sql (same
+ * atomic-single-statement pattern as this class's consumeIfValid).
+ */
 export class SbppSessionStore {
   private sessions = new Map<string, SbppSession>();
 
