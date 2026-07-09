@@ -1,2 +1,37 @@
+# Normalize line endings to LF in the repo, check out native per OS.
+# Fixes the LF<->CRLF churn seen on .ts sources edited on Windows.
+* text=auto eol=lf
+
 # Force LF for SQL files (required for Supabase CLI migration parser)
 *.sql text eol=lf
+
+# Shell scripts must stay LF even on Windows checkouts.
+*.sh  text eol=lf
+*.mjs text eol=lf
+
+# Windows-only scripts stay CRLF.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+
+# Binary assets — never touch line endings or diff.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.woff  binary
+*.woff2 binary
+
+# ZK circuit artifacts are binary.
+*.zkey binary
+*.ptau binary
+*.wasm binary
+*.r1cs binary
+*.wtns binary
+*.sym  binary
+
+# GeoLife raw trajectory files.
+*.plt binary

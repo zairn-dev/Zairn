@@ -24,9 +24,23 @@ packages/geo-drop/circuits/*_final.zkey
 Thumbs.db
 nul
 
+# LaTeX build logs (stray texput.log etc. from paper compilation)
+texput.log
+*.aux
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Stale npm lockfile — this repo is pnpm-only (pnpm-workspace.yaml is canonical)
+package-lock.json
+
 # Supabase local
 supabase/.temp/
 supabase/.branches/
+
+# Deno lockfile from local `deno check` runs on edge functions (not a
+# build artifact anyone needs to commit; Deno regenerates it on demand)
+deno.lock
 
 # TLS / secrets
 *.crt
@@ -39,6 +53,14 @@ packages/geo-drop/test/results-*.json
 # Project-specific
 CLAUDE.md
 AGENTS.md
+
+# Internal working & strategy docs — MUST NOT ship to the public review repo.
+# (paper/review strategy, unpublished design, unpatched-vuln roadmap, AI worklists)
+docs/IMPROVEMENT-ROADMAP.md
+docs/BRUSHUP-PLAN.md
+docs/FABLE-TASKS.md
+docs/imwut-construct-ladder.md
+docs/imwut-review-panel-strategy.md
 
 # OSM cache (large, regenerable via Overpass API)
 packages/geo-drop/test/osm-tokyo-pois.json
@@ -57,6 +79,12 @@ eval/geolife/processed/
 eval/dense-trace/raw-*.json
 eval/dense-trace/clean-seg*.json
 eval/dense-trace/hybrid-trace.json
+
+# Real Android device dumps (dumpsys location/batterystats) from the
+# sensing-gate energy measurement rig — location.txt files here contain
+# actual precise researcher-device coordinates (unlike adb/fixtures/,
+# which are synthetic DRY-RUN fixtures and are fine to publish).
+eval/dense-trace/device/results/
 
 # Per-eval results/ contain auto-detected home/work coordinates (in
 # dense-trace and cross-dataset cases, real users' homes). The

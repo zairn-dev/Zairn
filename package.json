@@ -10,10 +10,6 @@
     "type": "git",
     "url": "https://github.example/REDACTED-FOR-REVIEW"
   },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
   "scripts": {
     "build": "pnpm --filter @zairn/sdk build && pnpm --filter @zairn/geo-drop build",
     "build:geo-drop": "pnpm --filter @zairn/geo-drop build",
@@ -28,7 +24,7 @@
     "test:chat": "npx tsx --env-file=.env test/chat-bump-test.ts",
     "test:extended": "npx tsx --env-file=.env test/extended-test.ts",
     "test:remaining": "npx tsx --env-file=.env test/remaining-test.ts",
-    "test:unit": "pnpm --filter @zairn/geo-drop test",
+    "test:unit": "pnpm --filter @zairn/geo-drop test && pnpm --filter @zairn/sdk test",
     "demo:bootstrap": "bash scripts/demo-bootstrap.sh",
     "dev:social-map": "pnpm --filter social-map-example dev",
     "dev:treasure-hunt": "pnpm --filter treasure-hunt-example dev",
