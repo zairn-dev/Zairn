@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import type { Profile, ShareLevel } from '@zairn/sdk'
+import PanelState from '@/components/common/PanelState'
+import ErrorBanner from '@/components/common/ErrorBanner'
 
 interface FriendShareState {
   friendId: string
@@ -101,14 +103,14 @@ export default function SharingPanel() {
     }
   }
 
-  if (loading) return <div className="p-4 text-center" style={{ color: 'var(--md-on-surface-variant)' }}>Loading sharing settings...</div>
+  if (loading) return <PanelState kind="loading" message="Loading sharing settings..." />
 
   return (
     <div className="flex flex-col gap-4">
-      {error && <div className="text-sm" style={{ color: 'var(--md-error)' }}>{error}</div>}
+      {error && <ErrorBanner message={error} onDismiss={() => setError('')} />}
 
       {friends.length === 0 ? (
-        <p className="text-sm text-center py-4" style={{ color: 'var(--md-on-surface-variant)' }}>No friends yet. Add friends to manage sharing.</p>
+        <PanelState kind="empty" icon="🔗" message="No friends yet. Add friends to manage sharing." />
       ) : (
         <div className="flex flex-col gap-3">
           {friends.map(f => (

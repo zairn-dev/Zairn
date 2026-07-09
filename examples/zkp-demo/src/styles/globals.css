@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --md-primary: #6442d6;
+  /* Logo-derived brand tokens — see docs/DESIGN.md */
+  --md-primary: #007e70;
   --md-on-primary: #fff;
-  --md-surface: #f8f5ff;
-  --md-on-surface: #1c1b1f;
-  --md-surface-container: #f2ecf9;
-  --md-outline: #79747e;
+  --md-surface: #f9f9f8;
+  --md-on-surface: #0f0e0d;
+  --md-surface-container: #edebe9;
+  --md-outline: #aea8a3;
   --md-error: #ba1a1a;
 }
 

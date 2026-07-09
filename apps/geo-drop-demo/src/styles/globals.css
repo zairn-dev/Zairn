@@ -2,91 +2,101 @@
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  /* Material 3 Expressive — Primary */
-  --md-primary: #6442d6;
+  /* Brand raw ramps (logo-derived; see docs/DESIGN.md). WCAG-measured. */
+  --brand-aqua: #00e5cc;
+  --brand-amber: #ffab00;
+  --brand-teal: #00b3a4;
+  --brand-coral: #ff5a43;
+  --brand-ink: #0f0e0d;
+  --grad-brand: linear-gradient(135deg, #ffab00 0%, #00e5cc 100%);
+  --grad-spectrum: linear-gradient(135deg, #ff5a43 0%, #ffab00 35%, #00e5cc 75%, #00b3a4 100%);
+
+  /* Primary = Aqua */
+  --md-primary: #007e70; /* solid fill + white text (AA) */
+  --md-primary-bright: #00e5cc; /* signature accent (FAB/highlight, Ink fg) */
   --md-on-primary: #fff;
-  --md-primary-container: #e6deff;
-  --md-on-primary-container: #1e0059;
+  --md-primary-container: #cefdf8;
+  --md-on-primary-container: #00352f;
 
-  /* Secondary */
-  --md-secondary: #615b71;
-  --md-on-secondary: #fff;
-  --md-secondary-container: #e7dff8;
-  --md-on-secondary-container: #1d192b;
+  /* Secondary = Amber */
+  --md-secondary: #ffab00; /* Ink foreground */
+  --md-on-secondary: #0f0e0d;
+  --md-secondary-container: #fdedce;
+  --md-on-secondary-container: #4a3200;
 
-  /* Tertiary */
-  --md-tertiary: #7d5260;
-  --md-on-tertiary: #fff;
-  --md-tertiary-container: #ffd9e3;
-  --md-on-tertiary-container: #31101d;
+  /* Tertiary = Coral */
+  --md-tertiary: #ff5a43;
+  --md-on-tertiary: #0f0e0d;
+  --md-tertiary-container: #fdd4ce;
+  --md-on-tertiary-container: #5c0b00;
 
-  /* Error */
+  /* Error (kept crimson to avoid clashing with brand Coral) */
   --md-error: #ba1a1a;
   --md-on-error: #fff;
   --md-error-container: #ffdad6;
   --md-on-error-container: #410002;
 
-  /* Surface */
-  --md-surface: #f8f5ff;
-  --md-on-surface: #1c1b1f;
-  --md-surface-variant: #e7e0ec;
-  --md-on-surface-variant: #49454f;
-  --md-surface-container: #f2ecf9;
-  --md-surface-container-low: #f8f2ff;
-  --md-surface-container-high: #ece6f3;
+  /* Neutral / Surface */
+  --md-surface: #f9f9f8;
+  --md-on-surface: #0f0e0d;
+  --md-surface-variant: #e7e6e4;
+  --md-on-surface-variant: #514d48;
+  --md-surface-container-low: #f3f2f1;
+  --md-surface-container: #edebe9;
+  --md-surface-container-high: #e7e6e4;
 
   /* Outline */
-  --md-outline: #79747e;
-  --md-outline-variant: #cac4d0;
+  --md-outline: #aea8a3;
+  --md-outline-variant: #d6d4d1;
 
   /* Inverse */
-  --md-inverse-surface: #313033;
-  --md-inverse-on-surface: #f4eff4;
-  --md-inverse-primary: #cfbcff;
+  --md-inverse-surface: #312e2b;
+  --md-inverse-on-surface: #f3f2f1;
+  --md-inverse-primary: #5cffed;
 
   /* Shadow / scrim */
-  --md-shadow: rgba(0, 0, 0, 0.15);
-  --md-scrim: rgba(0, 0, 0, 0.4);
+  --md-shadow: rgba(15, 14, 13, 0.15);
+  --md-scrim: rgba(15, 14, 13, 0.4);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --md-primary: #cfbcff;
-    --md-on-primary: #35147e;
-    --md-primary-container: #4c2a96;
-    --md-on-primary-container: #e6deff;
+    --md-primary: #29ffe8; /* Ink foreground */
+    --md-on-primary: #0f0e0d;
+    --md-primary-container: #006056;
+    --md-on-primary-container: #cefdf8;
 
-    --md-secondary: #cbc2db;
-    --md-on-secondary: #332d41;
-    --md-secondary-container: #4a4458;
-    --md-on-secondary-container: #e7dff8;
+    --md-secondary: #ffc95c; /* Ink foreground */
+    --md-on-secondary: #0f0e0d;
+    --md-secondary-container: #6b4800;
+    --md-on-secondary-container: #ffdd99;
 
-    --md-tertiary: #efb8c8;
-    --md-on-tertiary: #4a2532;
-    --md-tertiary-container: #633b48;
-    --md-on-tertiary-container: #ffd9e3;
+    --md-tertiary: #ff8a6f;
+    --md-on-tertiary: #0f0e0d;
+    --md-tertiary-container: #871100;
+    --md-on-tertiary-container: #ffd4cb;
 
     --md-error: #ffb4ab;
     --md-on-error: #690005;
     --md-error-container: #93000a;
     --md-on-error-container: #ffdad6;
 
-    --md-surface: #1c1b1f;
-    --md-on-surface: #e6e1e5;
-    --md-surface-variant: #49454f;
-    --md-on-surface-variant: #cac4d0;
-    --md-surface-container: #211f26;
-    --md-surface-container-low: #1c1b1f;
-    --md-surface-container-high: #2b2930;
+    --md-surface: #181716;
+    --md-on-surface: #f3f2f1;
+    --md-surface-variant: #514d48;
+    --md-on-surface-variant: #d6d4d1;
+    --md-surface-container-low: #0f0e0d;
+    --md-surface-container: #211f1d;
+    --md-surface-container-high: #312e2b;
 
-    --md-outline: #938f99;
-    --md-outline-variant: #49454f;
+    --md-outline: #6c6660;
+    --md-outline-variant: #514d48;
 
-    --md-inverse-surface: #e6e1e5;
-    --md-inverse-on-surface: #313033;
-    --md-inverse-primary: #6442d6;
+    --md-inverse-surface: #f3f2f1;
+    --md-inverse-on-surface: #312e2b;
+    --md-inverse-primary: #007e70;
 
-    --md-shadow: rgba(0, 0, 0, 0.3);
+    --md-shadow: rgba(0, 0, 0, 0.4);
     --md-scrim: rgba(0, 0, 0, 0.6);
   }
 }

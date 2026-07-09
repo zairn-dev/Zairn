@@ -6,6 +6,7 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import { useSdk } from '@/contexts/SdkContext'
 import { calculateDistance } from '@zairn/sdk'
+import { formatRelativeTime } from '@/utils/format'
 import TrailLayer from './TrailLayer'
 import ExplorationLayer from './ExplorationLayer'
 import type { LocationCurrentRow } from '@zairn/sdk'
@@ -60,6 +61,56 @@ function makeDemoFriends(centerLat: number, centerLon: number): LocationCurrentR
   } as LocationCurrentRow))
 }
 
+// Sample friends/trails are a dev/demo aid. In production a real user with no
+// friends yet must see their true (empty) state, not strangers' pins — so demo
+// data is off unless in dev mode or explicitly enabled via VITE_DEMO_DATA.
+const DEMO_DATA_ENABLED =
+  import.meta.env.DEV || import.meta.env.VITE_DEMO_DATA === 'true'
+
+// A shared location older than this is shown as possibly-outdated. Honest
+// presentation: a pin is a last-known report, not a guaranteed current fact.
+const STALE_MS = 15 * 60 * 1000
+
+function friendLabel(f: LocationCurrentRow): string {
+  const demoName = f.user_id.startsWith('demo-') ? f.user_id.split('-')[1] : null
+  return demoName
+    ? demoName.charAt(0).toUpperCase() + demoName.slice(1)
+    : f.user_id.slice(0, 8) + '...'
+}
+
+// Friends within this distance of each other are shown as one co-presence group.
+const CLUSTER_RADIUS_M = 60
+
+function clusterFriends(friends: LocationCurrentRow[]): LocationCurrentRow[][] {
+  const clusters: LocationCurrentRow[][] = []
+  const assigned = new Set<string>()
+  for (const f of friends) {
+    if (assigned.has(f.user_id)) continue
+    const group = [f]
+    assigned.add(f.user_id)
+    for (const other of friends) {
+      if (assigned.has(other.user_id)) continue
+      if (calculateDistance(f.lat, f.lon, other.lat, other.lon) <= CLUSTER_RADIUS_M) {
+        group.push(other)
+        assigned.add(other.user_id)
+      }
+    }
+    clusters.push(group)
+  }
+  return clusters
+}
+
+function clusterIcon(count: number): L.DivIcon {
+  return L.divIcon({
+    className: 'copresence-cluster',
+    html: `<div style="width:32px;height:32px;border-radius:50%;background:#007e70;color:#fff;`
+      + `display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;`
+      + `border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)">${count}</div>`,
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+  })
+}
+
 export default function MapView({ currentLocation, showTrails, showExploration }: MapViewProps) {
   const sdk = useSdk()
   const [friends, setFriends] = useState<LocationCurrentRow[]>([])
@@ -86,11 +137,11 @@ export default function MapView({ currentLocation, showTrails, showExploration }
             setFriends(othersOnly)
             setUseDemoData(false)
           } else {
-            setUseDemoData(true)
+            setUseDemoData(DEMO_DATA_ENABLED)
           }
         }
       } catch {
-        if (!cancelled) setUseDemoData(true)
+        if (!cancelled) setUseDemoData(DEMO_DATA_ENABLED)
       }
     }
     fetch()
@@ -143,6 +194,9 @@ export default function MapView({ currentLocation, showTrails, showExploration }
     return useDemoData ? makeDemoFriends(center[0], center[1]) : friends
   }, [useDemoData, friends, center[0], center[1]])
 
+  // Group friends who are at the same place into co-presence clusters
+  const friendClusters = useMemo(() => clusterFriends(displayFriends), [displayFriends])
+
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       {useDemoData && (
@@ -194,36 +248,72 @@ export default function MapView({ currentLocation, showTrails, showExploration }
           </>
         )}
 
-        {displayFriends.map((f) => {
-        const demoName = f.user_id.startsWith('demo-') ? f.user_id.split('-')[1] : null
-        const label = demoName
-          ? demoName.charAt(0).toUpperCase() + demoName.slice(1)
-          : f.user_id.slice(0, 8) + '...'
-        const dist = currentLocation
-          ? calculateDistance(currentLocation.lat, currentLocation.lon, f.lat, f.lon)
-          : null
+        {friendClusters.map((group) => {
+        if (group.length === 1) {
+          const f = group[0]
+          const label = friendLabel(f)
+          const dist = currentLocation
+            ? calculateDistance(currentLocation.lat, currentLocation.lon, f.lat, f.lon)
+            : null
+          const stale = Date.now() - new Date(f.updated_at).getTime() > STALE_MS
+          return (
+            <Marker key={f.user_id} position={[f.lat, f.lon]} opacity={stale ? 0.55 : 1}>
+              <Popup>
+                <div style={{ fontSize: '0.85rem', lineHeight: 1.5 }}>
+                  <strong>{label}</strong>
+                  <br />
+                  {/* Honest presentation: a pin is a last report, not a guaranteed current fact */}
+                  <span style={{ color: stale ? 'var(--md-error)' : 'var(--md-on-surface-variant)' }}>
+                    📍 {formatRelativeTime(f.updated_at)}{stale ? ' · may be outdated' : ''}
+                  </span>
+                  <br />
+                  Motion: {f.motion}
+                  <br />
+                  Battery: {f.battery_level != null ? `${f.battery_level}%` : 'N/A'}
+                  {f.accuracy != null && (
+                    <>
+                      <br />
+                      Accuracy: ±{Math.round(f.accuracy)}m
+                    </>
+                  )}
+                  {dist != null && (
+                    <>
+                      <br />
+                      Distance: {dist < 1000 ? `${Math.round(dist)}m` : `${(dist / 1000).toFixed(1)}km`}
+                    </>
+                  )}
+                </div>
+              </Popup>
+            </Marker>
+          )
+        }
+        // Co-presence: several friends at the same place
+        const cLat = group.reduce((s, g) => s + g.lat, 0) / group.length
+        const cLon = group.reduce((s, g) => s + g.lon, 0) / group.length
+        const key = group.map((g) => g.user_id).sort().join('|')
         return (
-          <Marker key={f.user_id} position={[f.lat, f.lon]}>
+          <Marker key={key} position={[cLat, cLon]} icon={clusterIcon(group.length)}>
             <Popup>
               <div style={{ fontSize: '0.85rem', lineHeight: 1.5 }}>
-                <strong>{label}</strong>
-                <br />
-                Motion: {f.motion}
-                <br />
-                Battery: {f.battery_level != null ? `${f.battery_level}%` : 'N/A'}
-                {dist != null && (
-                  <>
-                    <br />
-                    Distance: {dist < 1000 ? `${Math.round(dist)}m` : `${(dist / 1000).toFixed(1)}km`}
-                  </>
-                )}
+                <strong>{group.length} people here</strong>
+                {group.map((g) => {
+                  const stale = Date.now() - new Date(g.updated_at).getTime() > STALE_MS
+                  return (
+                    <div key={g.user_id} style={{ marginTop: 4 }}>
+                      {friendLabel(g)}
+                      <span style={{ color: stale ? 'var(--md-error)' : 'var(--md-on-surface-variant)' }}>
+                        {' '}· {formatRelativeTime(g.updated_at)}{stale ? ' (may be outdated)' : ''}
+                      </span>
+                    </div>
+                  )
+                })}
               </div>
             </Popup>
           </Marker>
         )
       })}
 
-        {showTrails && <TrailLayer sdk={sdk} onDemoChange={setTrailIsDemo} centerLat={center[0]} centerLon={center[1]} />}
+        {showTrails && <TrailLayer sdk={sdk} onDemoChange={setTrailIsDemo} demoEnabled={DEMO_DATA_ENABLED} centerLat={center[0]} centerLon={center[1]} />}
         {showExploration && <ExplorationLayer sdk={sdk} />}
       </MapContainer>
     </div>

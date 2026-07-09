@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { safeAvatarUrl } from '@/utils/format'
+import ConfirmDialog from '@/components/common/ConfirmDialog'
+import PanelState from '@/components/common/PanelState'
+import ErrorBanner from '@/components/common/ErrorBanner'
 import type { Profile, FriendRequest, FriendOfFriend } from '@zairn/sdk'
 
 type Tab = 'friends' | 'requests' | 'search'
@@ -44,6 +47,7 @@ function FriendsTab({ sdk, onOpenChat }: { sdk: any; onOpenChat?: (id: string) =
   const [friends, setFriends] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [pendingRemove, setPendingRemove] = useState<{ id: string; name: string } | null>(null)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -69,19 +73,20 @@ function FriendsTab({ sdk, onOpenChat }: { sdk: any; onOpenChat?: (id: string) =
 
   useEffect(() => { load() }, [load])
 
-  const handleRemove = async (id: string, name: string) => {
-    if (!confirm(`Remove ${name}?`)) return
+  const handleRemove = async (id: string) => {
     try {
       await sdk.removeFriend(id)
       setFriends((prev) => prev.filter((f) => f.user_id !== id))
     } catch (e: any) {
       setError(e.message ?? 'Failed to remove friend')
+    } finally {
+      setPendingRemove(null)
     }
   }
 
-  if (loading) return <p className="text-sm text-center py-4" style={{ color: 'var(--md-on-surface-variant)' }}>Loading...</p>
-  if (error) return <p className="text-sm text-center py-4" style={{ color: 'var(--md-error)' }}>{error}</p>
-  if (!friends.length) return <p className="text-sm text-center py-4" style={{ color: 'var(--md-on-surface-variant)' }}>No friends yet</p>
+  if (loading) return <PanelState kind="loading" />
+  if (error) return <PanelState kind="error" message={error} onRetry={load} />
+  if (!friends.length) return <PanelState kind="empty" icon="👥" message="No friends yet" />
 
   return (
     <ul className="space-y-2">
@@ -106,11 +111,19 @@ function FriendsTab({ sdk, onOpenChat }: { sdk: any; onOpenChat?: (id: string) =
               {onOpenChat && (
                 <button onClick={() => onOpenChat(f.user_id)} className="px-2 py-1 text-xs rounded" style={{ background: 'var(--md-surface-container-high)', color: 'var(--md-on-surface)' }}>Chat</button>
               )}
-              <button onClick={() => handleRemove(f.user_id, name)} className="px-2 py-1 text-xs rounded" style={{ background: 'var(--md-error)', color: 'var(--md-on-primary)', opacity: 0.8 }}>Remove</button>
+              <button onClick={() => setPendingRemove({ id: f.user_id, name })} className="px-2 py-1 text-xs rounded" style={{ background: 'var(--md-error)', color: 'var(--md-on-primary)', opacity: 0.8 }}>Remove</button>
             </div>
           </li>
         )
       })}
+      <ConfirmDialog
+        open={pendingRemove !== null}
+        destructive
+        confirmLabel="Remove"
+        message={pendingRemove && <>Remove <span className="font-semibold">{pendingRemove.name}</span>?</>}
+        onConfirm={() => pendingRemove && handleRemove(pendingRemove.id)}
+        onCancel={() => setPendingRemove(null)}
+      />
     </ul>
   )
 }
@@ -146,14 +159,14 @@ function RequestsTab({ sdk, userId }: { sdk: any; userId?: string }) {
     try { await fn(); load() } catch (e: any) { setError(e.message) }
   }
 
-  if (loading) return <p className="text-sm text-center py-4" style={{ color: 'var(--md-on-surface-variant)' }}>Loading...</p>
-  if (error) return <p className="text-sm text-center py-4" style={{ color: 'var(--md-error)' }}>{error}</p>
+  if (loading) return <PanelState kind="loading" />
+  if (error) return <PanelState kind="error" message={error} onRetry={load} />
 
   return (
     <div className="space-y-4">
       <div>
         <h3 className="text-xs font-semibold uppercase mb-2" style={{ color: 'var(--md-on-surface-variant)' }}>Received</h3>
-        {received.length === 0 && <p className="text-xs" style={{ color: 'var(--md-on-surface-variant)' }}>None</p>}
+        {received.length === 0 && <PanelState kind="empty" compact message="None" />}
         {received.map((r) => (
           <div key={r.id} className="flex items-center justify-between p-2 rounded-lg mb-1" style={{ background: 'var(--md-surface-container)' }}>
             <span className="text-sm truncate" style={{ color: 'var(--md-on-surface)' }}>{r.from_user_id.slice(0, 8)}</span>
@@ -166,7 +179,7 @@ function RequestsTab({ sdk, userId }: { sdk: any; userId?: string }) {
       </div>
       <div>
         <h3 className="text-xs font-semibold uppercase mb-2" style={{ color: 'var(--md-on-surface-variant)' }}>Sent</h3>
-        {sent.length === 0 && <p className="text-xs" style={{ color: 'var(--md-on-surface-variant)' }}>None</p>}
+        {sent.length === 0 && <PanelState kind="empty" compact message="None" />}
         {sent.map((r) => (
           <div key={r.id} className="flex items-center justify-between p-2 rounded-lg mb-1" style={{ background: 'var(--md-surface-container)' }}>
             <span className="text-sm truncate" style={{ color: 'var(--md-on-surface)' }}>{r.to_user_id.slice(0, 8)}</span>
@@ -226,7 +239,7 @@ function SearchTab({ sdk, userId }: { sdk: any; userId?: string }) {
           {loading ? '...' : 'Search'}
         </button>
       </div>
-      {error && <p className="text-xs" style={{ color: 'var(--md-error)' }}>{error}</p>}
+      {error && <ErrorBanner message={error} onDismiss={() => setError('')} />}
       {results.map((p) => (
         <div key={p.user_id} className="flex items-center justify-between p-2 rounded-lg" style={{ background: 'var(--md-surface-container)' }}>
           <span className="text-sm truncate" style={{ color: 'var(--md-on-surface)' }}>{p.display_name || p.username || p.user_id.slice(0, 8)}</span>

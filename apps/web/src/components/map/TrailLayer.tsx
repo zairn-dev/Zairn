@@ -5,6 +5,8 @@ import type { LocationCore, LocationHistoryRow } from '@zairn/sdk'
 interface TrailLayerProps {
   sdk: LocationCore
   onDemoChange?: (isDemo: boolean) => void
+  /** When false, no sample trails are drawn if real history is absent (production default) */
+  demoEnabled?: boolean
   /** Fixed center for demo trails (GPS position, not map center) */
   centerLat?: number
   centerLon?: number
@@ -17,8 +19,9 @@ interface TrailSegment {
   color: string
 }
 
-const SELF_COLOR = '#6442d6'
-const FRIEND_COLORS = ['#e6553a', '#22c55e', '#f59e0b', '#ec4899', '#14b8a6', '#8b5cf6']
+const SELF_COLOR = '#00b3a4' // brand Teal (docs/DESIGN.md); Leaflet needs a literal, not a CSS var
+// Categorical friend palette — brand-forward (coral/amber lead), teal/aqua reserved for self.
+const FRIEND_COLORS = ['#ff5a43', '#ffab00', '#ec4899', '#8b5cf6', '#3b82f6', '#22c55e']
 
 function getTimeStyle(recordedAt: string): { opacity: number; weight: number } {
   const age = Date.now() - new Date(recordedAt).getTime()
@@ -148,7 +151,7 @@ async function fetchRealTrails(sdk: LocationCore): Promise<TrailSegment[] | null
   return allSegments
 }
 
-export default function TrailLayer({ sdk, onDemoChange, centerLat, centerLon }: TrailLayerProps) {
+export default function TrailLayer({ sdk, onDemoChange, demoEnabled = false, centerLat, centerLon }: TrailLayerProps) {
   const [segments, setSegments] = useState<TrailSegment[]>([])
   const map = useMap()
   const onDemoChangeRef = useRef(onDemoChange)
@@ -172,23 +175,31 @@ export default function TrailLayer({ sdk, onDemoChange, centerLat, centerLon }: 
         if (realSegments && realSegments.length > 0) {
           setSegments(realSegments)
           onDemoChangeRef.current?.(false)
-        } else {
+        } else if (demoEnabled) {
           const { lat, lon } = demoCenterRef.current
           setSegments(buildDemoSegments(lat, lon))
           onDemoChangeRef.current?.(true)
+        } else {
+          setSegments([])
+          onDemoChangeRef.current?.(false)
         }
       } catch {
         if (cancelled) return
-        const { lat, lon } = demoCenterRef.current
-        setSegments(buildDemoSegments(lat, lon))
-        onDemoChangeRef.current?.(true)
+        if (demoEnabled) {
+          const { lat, lon } = demoCenterRef.current
+          setSegments(buildDemoSegments(lat, lon))
+          onDemoChangeRef.current?.(true)
+        } else {
+          setSegments([])
+          onDemoChangeRef.current?.(false)
+        }
       }
     }
 
     fetchTrails()
     const interval = setInterval(fetchTrails, 60000)
     return () => { cancelled = true; clearInterval(interval) }
-  }, [sdk, map])
+  }, [sdk, map, demoEnabled])
 
   return (
     <>

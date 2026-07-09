@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
+import ConfirmDialog from '@/components/common/ConfirmDialog'
+import PanelState from '@/components/common/PanelState'
+import ErrorBanner from '@/components/common/ErrorBanner'
 import type { Group, GroupMember, Profile } from '@zairn/sdk'
 
 export default function GroupsPanel() {
@@ -20,6 +23,7 @@ export default function GroupsPanel() {
   const [members, setMembers] = useState<GroupMember[]>([])
   const [memberProfiles, setMemberProfiles] = useState<Record<string, Profile | null>>({})
   const [loadingMembers, setLoadingMembers] = useState(false)
+  const [pendingAction, setPendingAction] = useState<{ type: 'leave' | 'delete'; groupId: string } | null>(null)
 
   useEffect(() => {
     loadGroups()
@@ -84,24 +88,26 @@ export default function GroupsPanel() {
   }
 
   async function handleLeave(groupId: string) {
-    if (!confirm('Leave this group?')) return
     try {
       await core.leaveGroup(groupId)
       setSelectedGroup(null)
       await loadGroups()
     } catch (e: any) {
       setError(e.message)
+    } finally {
+      setPendingAction(null)
     }
   }
 
   async function handleDelete(groupId: string) {
-    if (!confirm('Delete this group? This cannot be undone.')) return
     try {
       await core.deleteGroup(groupId)
       setSelectedGroup(null)
       await loadGroups()
     } catch (e: any) {
       setError(e.message)
+    } finally {
+      setPendingAction(null)
     }
   }
 
@@ -114,7 +120,7 @@ export default function GroupsPanel() {
     }
   }
 
-  if (loading) return <div className="p-4 text-center" style={{ color: 'var(--md-on-surface-variant)' }}>Loading groups...</div>
+  if (loading) return <PanelState kind="loading" message="Loading groups..." />
 
   // Group detail view
   if (selectedGroup) {
@@ -124,7 +130,7 @@ export default function GroupsPanel() {
         <button onClick={() => setSelectedGroup(null)} className="text-sm hover:underline self-start" style={{ color: 'var(--md-primary)' }}>
           &larr; Back to groups
         </button>
-        {error && <div className="text-sm" style={{ color: 'var(--md-error)' }}>{error}</div>}
+        {error && <ErrorBanner message={error} onDismiss={() => setError('')} />}
 
         <div className="rounded-lg p-4" style={{ background: 'var(--md-surface-container)' }}>
           <h3 className="text-lg font-semibold" style={{ color: 'var(--md-on-surface)' }}>{selectedGroup.name}</h3>
@@ -139,7 +145,7 @@ export default function GroupsPanel() {
             Members ({members.length})
           </h4>
           {loadingMembers ? (
-            <p className="text-sm" style={{ color: 'var(--md-on-surface-variant)' }}>Loading...</p>
+            <PanelState kind="loading" compact />
           ) : (
             <div className="flex flex-col gap-2">
               {members.map(m => {
@@ -165,17 +171,32 @@ export default function GroupsPanel() {
             className="w-full py-2 rounded text-sm" style={{ background: 'var(--md-primary)', color: 'var(--md-on-primary)' }}>
             Open Group Chat
           </button>
-          <button onClick={() => handleLeave(selectedGroup.id)}
+          <button onClick={() => setPendingAction({ type: 'leave', groupId: selectedGroup.id })}
             className="w-full py-2 rounded text-sm" style={{ background: 'var(--md-surface-container-high)', color: 'var(--md-on-surface)' }}>
             Leave Group
           </button>
           {isOwner && (
-            <button onClick={() => handleDelete(selectedGroup.id)}
+            <button onClick={() => setPendingAction({ type: 'delete', groupId: selectedGroup.id })}
               className="w-full py-2 rounded text-sm" style={{ background: 'var(--md-error)', color: 'var(--md-on-primary)' }}>
               Delete Group
             </button>
           )}
         </div>
+
+        <ConfirmDialog
+          open={pendingAction !== null}
+          destructive
+          confirmLabel={pendingAction?.type === 'delete' ? 'Delete' : 'Leave'}
+          message={pendingAction?.type === 'delete'
+            ? 'Delete this group? This cannot be undone.'
+            : 'Leave this group?'}
+          onConfirm={() => {
+            if (!pendingAction) return
+            if (pendingAction.type === 'delete') handleDelete(pendingAction.groupId)
+            else handleLeave(pendingAction.groupId)
+          }}
+          onCancel={() => setPendingAction(null)}
+        />
       </div>
     )
   }
@@ -183,7 +204,7 @@ export default function GroupsPanel() {
   // Group list view
   return (
     <div className="flex flex-col gap-4">
-      {error && <div className="text-sm" style={{ color: 'var(--md-error)' }}>{error}</div>}
+      {error && <ErrorBanner message={error} onDismiss={() => setError('')} />}
 
       {/* Join by code */}
       <div className="flex gap-2">
@@ -218,7 +239,7 @@ export default function GroupsPanel() {
 
       {/* Groups list */}
       {groups.length === 0 ? (
-        <p className="text-sm text-center py-4" style={{ color: 'var(--md-on-surface-variant)' }}>No groups yet</p>
+        <PanelState kind="empty" icon="🧑‍🤝‍🧑" message="No groups yet" />
       ) : (
         <div className="flex flex-col gap-2">
           {groups.map(g => (

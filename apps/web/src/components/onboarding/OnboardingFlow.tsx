@@ -1,6 +1,8 @@
 import { useState, useCallback, useRef } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
+import ErrorBanner from '@/components/common/ErrorBanner'
+import PanelState from '@/components/common/PanelState'
 
 interface OnboardingFlowProps {
   onComplete: () => void
@@ -19,10 +21,13 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [locationGranted, setLocationGranted] = useState(false)
+  const [locationDenied, setLocationDenied] = useState(false)
   const [friendSearch, setFriendSearch] = useState('')
   const [friendResults, setFriendResults] = useState<any[]>([])
+  const [friendsSearched, setFriendsSearched] = useState(false)
   const [sentRequests, setSentRequests] = useState<Set<string>>(new Set())
   const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
   const stepIdx = STEPS.indexOf(step)
@@ -63,7 +68,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       }
       next()
     } catch (e: any) {
-      alert(e.message)
+      setError(e.message ?? 'Could not save profile')
     } finally {
       setSaving(false)
     }
@@ -72,6 +77,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   // ─── Step: Location ─────────────────────
 
   const requestLocation = async () => {
+    setLocationDenied(false)
     try {
       const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -86,7 +92,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       })
       setLocationGranted(true)
     } catch {
-      // User denied or error — that's fine, skip
+      // User denied or error — surface it, but the Skip button already covers this path
+      setLocationDenied(true)
     }
   }
 
@@ -99,6 +106,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       setFriendResults(results.filter((p: any) => p.user_id !== user?.id))
     } catch {
       setFriendResults([])
+    } finally {
+      setFriendsSearched(true)
     }
   }
 
@@ -107,7 +116,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       await sdk.sendFriendRequest(userId)
       setSentRequests(prev => new Set(prev).add(userId))
     } catch (e: any) {
-      alert(e.message)
+      setError(e.message ?? 'Could not send request')
     }
   }
 
@@ -125,12 +134,24 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   return (
     <div style={containerStyle}>
       {/* Progress bar */}
-      <div style={{ height: 3, background: 'var(--md-surface-container)' }}>
+      <div
+        role="progressbar"
+        aria-valuenow={stepIdx + 1}
+        aria-valuemin={1}
+        aria-valuemax={STEPS.length}
+        style={{ height: 3, background: 'var(--md-surface-container)' }}
+      >
         <div style={{
           height: '100%', width: `${progress}%`,
           background: 'var(--md-primary)', transition: 'width 0.3s ease',
         }} />
       </div>
+
+      {error && (
+        <div style={{ margin: '8px 16px 0' }}>
+          <ErrorBanner message={error} onDismiss={() => setError('')} />
+        </div>
+      )}
 
       <div style={contentStyle}>
         {/* ─── Welcome ─── */}
@@ -241,6 +262,11 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                   Enable Location Sharing
                 </button>
               )}
+              {locationDenied && (
+                <p style={{ fontSize: 13, color: 'var(--md-on-surface-variant)', marginTop: 8, textAlign: 'center' }}>
+                  Location access was denied — you can enable it later in Settings.
+                </p>
+              )}
             </div>
 
             <div style={btnRowStyle}>
@@ -270,6 +296,12 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 Search
               </button>
             </div>
+
+            {friendsSearched && friendResults.length === 0 && (
+              <div style={{ marginBottom: 16 }}>
+                <PanelState kind="empty" compact message="No users found" />
+              </div>
+            )}
 
             {friendResults.length > 0 && (
               <div style={{ marginBottom: 16 }}>
