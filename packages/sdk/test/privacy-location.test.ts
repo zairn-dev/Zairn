@@ -3,6 +3,7 @@ import {
   detectSensitivePlaces,
   obfuscateLocation,
   processLocation,
+  AdaptiveReporter,
   FrequencyBudget,
   jitterDepartureTime,
   DEFAULT_PRIVACY_CONFIG,
@@ -171,7 +172,7 @@ describe('processLocation', () => {
     const medical: SensitivePlace = {
       ...home, label: 'medical', id: 'sp-1',
     };
-    const budget = new FrequencyBudget(12);
+    const budget = new AdaptiveReporter(12);
     const result = processLocation(
       medical.lat, medical.lon, [medical], config, budget
     );
@@ -179,7 +180,7 @@ describe('processLocation', () => {
   });
 
   it('returns state-only inside home zone', () => {
-    const budget = new FrequencyBudget(12);
+    const budget = new AdaptiveReporter(12);
     const result = processLocation(
       home.lat, home.lon, [home], config, budget
     );
@@ -190,7 +191,7 @@ describe('processLocation', () => {
   });
 
   it('returns coarse location outside all zones', () => {
-    const budget = new FrequencyBudget(12);
+    const budget = new AdaptiveReporter(12);
     // Shibuya station (far from home)
     const result = processLocation(
       35.6580, 139.7016, [home], config, budget
@@ -199,7 +200,7 @@ describe('processLocation', () => {
   });
 
   it('returns proximity when viewer is far', () => {
-    const budget = new FrequencyBudget(12);
+    const budget = new AdaptiveReporter(12);
     const result = processLocation(
       35.6580, 139.7016, [], config, budget,
       { lat: 35.7, lon: 140.0 } // viewer is ~30km away

@@ -27,11 +27,19 @@ export {
   AdaptiveReporter,
   FixedRateReporter,
   jitterDepartureTime,
+  createSensingGate,
+  DEFAULT_GATE_CONFIG,
   DEFAULT_PRIVACY_CONFIG,
 } from './privacy-location';
 export type {
   SensitivePlace,
   PrivacyZoneRule,
+  SensingGateConfig,
+  SensingGateMotion,
+  SensingGateLastFix,
+  SensingGateInput,
+  GateDecision,
+  SensingGate,
   LocationState,
   PrivacyConfig,
 } from './privacy-location';
