@@ -40,6 +40,14 @@ packages/geo-drop/test/results-*.json
 CLAUDE.md
 AGENTS.md
 
+# Internal working & strategy docs — MUST NOT ship to any public branch.
+# (paper/review strategy, unpublished design, unpatched-vuln roadmap, AI worklists)
+docs/IMPROVEMENT-ROADMAP.md
+docs/BRUSHUP-PLAN.md
+docs/FABLE-TASKS.md
+docs/imwut-construct-ladder.md
+docs/imwut-review-panel-strategy.md
+
 # OSM cache (large, regenerable via Overpass API)
 packages/geo-drop/test/osm-tokyo-pois.json
 packages/geo-drop/osm-eval-stderr.txt
@@ -57,6 +65,12 @@ eval/geolife/processed/
 eval/dense-trace/raw-*.json
 eval/dense-trace/clean-seg*.json
 eval/dense-trace/hybrid-trace.json
+
+# Real Android device dumps (dumpsys location/batterystats) from the
+# sensing-gate energy measurement rig — location.txt files here contain
+# actual precise researcher-device coordinates (unlike adb/fixtures/,
+# which are synthetic DRY-RUN fixtures and are fine to publish).
+eval/dense-trace/device/results/
 
 # Per-eval results/ contain auto-detected home/work coordinates (in
 # dense-trace and cross-dataset cases, real users' homes). The
