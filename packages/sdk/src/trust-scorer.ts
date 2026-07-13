@@ -5,7 +5,7 @@
  * location point and a short history of recent points.
  */
 
-import { calculateDistance } from './core';
+import { calculateDistance } from './core.js';
 
 // =====================
 // Types

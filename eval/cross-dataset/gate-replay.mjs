@@ -117,6 +117,7 @@ function runArm(trace, arm, gate) {
   let nAcq = 0, lastAcqTs = -Infinity, lastFix = null, disp = 0, obsSec = 0;
   let prevTs = trace[0].ts;
   const reasons = {};
+  const decisionReasons = {};
   const stale = new Float64Array(trace.length);
   for (let i = 0; i < trace.length; i++) {
     const pt = trace[i];
@@ -133,6 +134,7 @@ function runArm(trace, arm, gate) {
       disp += dt * DISP_BOUND_MPS[motion];
       const d = gate.shouldAcquire({ now: pt.ts, lastFix, motion, maxDisplacementM: disp });
       acquire = d.acquire;
+      decisionReasons[d.reason] = (decisionReasons[d.reason] ?? 0) + 1;
       if (acquire) reasons[d.reason] = (reasons[d.reason] ?? 0) + 1;
     }
     if (acquire) {
@@ -152,6 +154,7 @@ function runArm(trace, arm, gate) {
     medStaleMin: +((median(staleArr) ?? 0) / 60).toFixed(3),
     obsH: +obsH.toFixed(3),
     ...(Object.keys(reasons).length ? { reasons } : {}),
+    ...(Object.keys(decisionReasons).length ? { decisionReasons } : {}),
   };
 }
 
@@ -182,6 +185,20 @@ function replayUser(id, trace) {
 function aggregate(source, users) {
   const gr = users.map(u => u.gateRatio);
   const fr = users.map(u => u.fixedRatio);
+  const decisionCounts = {};
+  for (const user of users) {
+    for (const [reason, count] of Object.entries(user.gate.decisionReasons ?? {})) {
+      decisionCounts[reason] = (decisionCounts[reason] ?? 0) + count;
+    }
+  }
+  const nDecisions = Object.values(decisionCounts).reduce((sum, count) => sum + count, 0);
+  const decisionPct = Object.fromEntries(Object.entries(decisionCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([reason, count]) => [reason, +(100 * count / nDecisions).toFixed(1)]));
+  const compactUsers = users.map((user) => {
+    const { decisionReasons: _decisionReasons, ...gate } = user.gate;
+    return { ...user, gate };
+  });
   return {
     source,
     nUsers: users.length,
@@ -195,7 +212,8 @@ function aggregate(source, users) {
       gate_med: r3(median(users.map(u => u.gate.medStaleMin))),
     },
     medGapS_median: r1(median(users.map(u => u.medGapS).filter(x => x != null))),
-    users,
+    gateDecisionReasons: { counts: decisionCounts, pct: decisionPct },
+    users: compactUsers,
   };
 }
 const r1 = x => x == null ? null : +x.toFixed(1);

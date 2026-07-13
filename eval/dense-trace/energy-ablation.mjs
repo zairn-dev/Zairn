@@ -48,6 +48,7 @@ function simulate(trace, places, policy, gate = null) {
   let dispBoundM = 0;                                    // caller-accumulated movement bound since lastFix
   const gaps = []; // inter-acquisition gaps (s) for gated policies
   const gateReasons = {};
+  const gateDecisionReasons = {};
 
   for (const pt of trace) {
     const dtPrev = (pt.ts - prevTs) / 1000; prevTs = pt.ts;
@@ -64,6 +65,7 @@ function simulate(trace, places, policy, gate = null) {
       dispBoundM += dtPrev * DISP_BOUND_MPS[motion];     // cheap-sensor movement bound
       const d = gate.shouldAcquire({ now: pt.ts, lastFix, motion, maxDisplacementM: dispBoundM });
       acquire = d.acquire;
+      gateDecisionReasons[d.reason] = (gateDecisionReasons[d.reason] ?? 0) + 1;
       if (acquire) gateReasons[d.reason] = (gateReasons[d.reason] ?? 0) + 1;
     } else if (policy === 'continuous' || policy === 'naive') {
       acquire = true;                                    // acquire every sample (privacy, if any, is post-acquisition)
@@ -101,6 +103,7 @@ function simulate(trace, places, policy, gate = null) {
     gnss_mAh_per_day: +(mahPerH * 24).toFixed(1),
     medianGapMin: gaps.length ? +(gaps.sort((a,b)=>a-b)[gaps.length>>1]/60).toFixed(1) : null,
     ...(Object.keys(gateReasons).length ? { gateReasons } : {}),
+    ...(Object.keys(gateDecisionReasons).length ? { gateDecisionReasons } : {}),
   };
 }
 

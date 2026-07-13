@@ -4,14 +4,14 @@
  */
 
 // 型定義のエクスポート
-export * from './types';
+export * from './types.js';
 
 // コア機能のエクスポート
-export { createLocationCore, calculateDistance, estimateMotionType, encodeGeohash, decodeGeohash } from './core';
+export { createLocationCore, calculateDistance, estimateMotionType, encodeGeohash, decodeGeohash } from './core.js';
 
 // ポリシーエンジン（高度な利用向け）
-export { evaluatePolicies, coarsenLocation } from './policy-engine';
-export type { EvaluationContext } from './policy-engine';
+export { evaluatePolicies, coarsenLocation } from './policy-engine.js';
+export type { EvaluationContext } from './policy-engine.js';
 
 // Privacy-preserving location sharing
 export {
@@ -28,9 +28,11 @@ export {
   FixedRateReporter,
   jitterDepartureTime,
   createSensingGate,
+  createSensingGateController,
+  runSensingCycle,
   DEFAULT_GATE_CONFIG,
   DEFAULT_PRIVACY_CONFIG,
-} from './privacy-location';
+} from './privacy-location.js';
 export type {
   SensitivePlace,
   PrivacyZoneRule,
@@ -40,6 +42,11 @@ export type {
   SensingGateInput,
   GateDecision,
   SensingGate,
+  SensingGateControllerInput,
+  SensingGateControllerState,
+  SensingGateController,
+  SensingAcquirer,
+  SensingCycleResult,
   LocationState,
   PrivacyConfig,
-} from './privacy-location';
+} from './privacy-location.js';

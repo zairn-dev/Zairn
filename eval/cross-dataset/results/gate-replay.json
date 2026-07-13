@@ -21,7 +21,7 @@
     "tdriveMaxTaxis": 500,
     "minPoints": 50
   },
-  "_runtime_s": 210.1,
+  "_runtime_s": 69.3,
   "datasets": {
     "geolife": {
       "source": "geolife-raw (Geolife Trajectories 1.3 .plt, ~5s native sampling)",
@@ -44,6 +44,24 @@
         "gate_med": 2.383
       },
       "medGapS_median": 2,
+      "gateDecisionReasons": {
+        "counts": {
+          "cold-start": 78,
+          "cadence-wait": 20599608,
+          "due-moving": 218865,
+          "staleness-floor": 22148,
+          "zone-dwell": 2044085,
+          "due-stationary": 4660
+        },
+        "pct": {
+          "cadence-wait": 90,
+          "zone-dwell": 8.9,
+          "due-moving": 1,
+          "staleness-floor": 0.1,
+          "due-stationary": 0,
+          "cold-start": 0
+        }
+      },
       "users": [
         {
           "id": "000",
@@ -3032,6 +3050,24 @@
         "gate_med": 0.85
       },
       "medGapS_median": 300,
+      "gateDecisionReasons": {
+        "counts": {
+          "cold-start": 451,
+          "due-moving": 200614,
+          "cadence-wait": 163188,
+          "staleness-floor": 13959,
+          "zone-dwell": 154808,
+          "due-stationary": 9982
+        },
+        "pct": {
+          "due-moving": 36.9,
+          "cadence-wait": 30.1,
+          "zone-dwell": 28.5,
+          "staleness-floor": 2.6,
+          "due-stationary": 1.8,
+          "cold-start": 0.1
+        }
+      },
       "users": [
         {
           "id": "1",
@@ -20180,6 +20216,24 @@
         "gate_med": 20
       },
       "medGapS_median": 1200,
+      "gateDecisionReasons": {
+        "counts": {
+          "cold-start": 49,
+          "zone-dwell": 120699,
+          "staleness-floor": 40010,
+          "due-moving": 31459,
+          "cadence-wait": 2861,
+          "due-stationary": 7799
+        },
+        "pct": {
+          "zone-dwell": 59.5,
+          "staleness-floor": 19.7,
+          "due-moving": 15.5,
+          "due-stationary": 3.8,
+          "cadence-wait": 1.4,
+          "cold-start": 0
+        }
+      },
       "users": [
         {
           "id": "u00",

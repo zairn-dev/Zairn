@@ -73,11 +73,11 @@ let statsTimer = null;
 let wakeLock = null;
 
 let run = null;          // the persisted run record
-let gate = null;         // gated arm: SDK sensing gate
+let gateController = null; // gated arm: SDK sensing gate state
 let processor = null;    // naive arm: SDK privacy processor
-let lastFix = null;      // gated arm: last ACQUIRED fix {lat,lon,timestamp}
-let dispBoundM = 0;      // gated arm: accumulated cheap-sensor displacement bound
 let lastPollTs = 0;      // gated arm: previous poll wall time
+let gateAcquisitionPending = false;
+let gateAcquisitionToken = 0;
 
 function freshRun() {
   return {
@@ -93,7 +93,8 @@ function freshRun() {
     gateSkips: 0,            // # polls that did NOT acquire
     processed: 0,            // # createPrivacyProcessor.process() calls (naive)
     processedByType: {},     // {suppressed:n, coarse:n, state:n, ...}
-    gateReasons: {},         // {due-stationary:n, staleness-floor:n, zone-dwell:n, ...}
+    gateReasons: {},         // acquisition decisions only
+    gateDecisionReasons: {}, // all polls, including zone-dwell/cadence-wait skips
     geoErrors: 0,
     lastError: null,
     notes: [],
@@ -173,12 +174,19 @@ function onWatchFix(pos) {
 
 // gated: poll the SDK sensing gate; only acquire GNSS when it says so
 function onGatePoll() {
+  if (gateAcquisitionPending) return;
+
   const now = Date.now();
   const dt = lastPollTs ? (now - lastPollTs) / 1000 : GATE_POLL_MS / 1000;
   lastPollTs = now;
-  dispBoundM += dt * STATIONARY_MPS;            // cheap accelerometer/step proxy (stationary)
   run.gatePolls++;
-  const d = gate.shouldAcquire({ now, lastFix, motion: 'stationary', maxDisplacementM: dispBoundM });
+  const d = gateController.shouldAcquire({
+    now,
+    motion: 'stationary',
+    displacementBoundDeltaM: dt * STATIONARY_MPS,
+  });
+  run.gateDecisionReasons ||= {};
+  run.gateDecisionReasons[d.reason] = (run.gateDecisionReasons[d.reason] || 0) + 1;
   if (!d.acquire) {
     run.gateSkips++;
     if (run.gatePolls % 10 === 0) log(`gate poll #${run.gatePolls}: skip (${d.reason}, next~${Math.round(d.nextCheckMs/1000)}s)`);
@@ -187,14 +195,27 @@ function onGatePoll() {
   }
   // acquire: request exactly ONE GNSS fix, then let the engine go cold again
   log(`gate: ACQUIRE (${d.reason}) — requesting one GNSS fix`);
+  gateAcquisitionPending = true;
+  const acquisitionToken = ++gateAcquisitionToken;
   navigator.geolocation.getCurrentPosition((pos) => {
+    if (acquisitionToken !== gateAcquisitionToken) return;
+    gateAcquisitionPending = false;
+    if (!running) return;
     run.gnssAcquisitions++;
     run.gateReasons[d.reason] = (run.gateReasons[d.reason] || 0) + 1;
-    lastFix = { lat: pos.coords.latitude, lon: pos.coords.longitude, timestamp: Date.now() };
-    dispBoundM = 0;
+    gateController.recordFix({
+      lat: pos.coords.latitude,
+      lon: pos.coords.longitude,
+      timestamp: pos.timestamp,
+      accuracy: pos.coords.accuracy,
+    });
     log(`gate fix #${run.gnssAcquisitions} (±${Math.round(pos.coords.accuracy)}m)`);
     save(); updateStats();
-  }, onGeoError, GEO_OPTS);
+  }, (err) => {
+    if (acquisitionToken !== gateAcquisitionToken) return;
+    gateAcquisitionPending = false;
+    if (running) onGeoError(err);
+  }, GEO_OPTS);
 }
 
 async function start() {
@@ -209,9 +230,11 @@ async function start() {
   await requestWakeLock();
 
   if (ARM === 'gated') {
-    gate = Z.createSensingGate(Z.DEFAULT_PRIVACY_CONFIG, []);   // no zones: pure cadence/staleness gate
-    lastFix = null; dispBoundM = 0; lastPollTs = 0;
-    onGatePoll();                                               // immediate cold-start acquire
+    // No zones: this arm isolates cadence/staleness behavior.
+    gateController = Z.createSensingGateController(Z.DEFAULT_PRIVACY_CONFIG, []);
+    lastPollTs = 0;
+    gateAcquisitionPending = false;
+    onGatePoll(); // immediate cold-start acquire
     gatePollId = setInterval(onGatePoll, GATE_POLL_MS);
   } else {
     if (ARM === 'naive') {
@@ -233,6 +256,8 @@ function stop() {
   running = false;
   if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
   if (gatePollId !== null) { clearInterval(gatePollId); gatePollId = null; }
+  gateAcquisitionToken++;
+  gateAcquisitionPending = false;
   if (statsTimer !== null) { clearInterval(statsTimer); statsTimer = null; }
   if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
   run.stoppedTs = Date.now(); run.stoppedAt = new Date().toISOString();

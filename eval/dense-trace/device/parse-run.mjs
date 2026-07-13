@@ -11,7 +11,8 @@
  *   <base>.end.json          {t1_ms, level1, charge_counter1_uAh, current_now1_uA}
  *   <base>.batterystats.txt  `adb shell dumpsys batterystats --charged`
  *   <base>.location.txt      `adb shell dumpsys location`   (optional, best-effort)
- *   <arm>.app.json           browser harness export         (optional, GNSS acq count)
+ *   <base>.app.json          browser harness export         (optional, GNSS acq count)
+ *   <arm>.app.json           legacy browser export fallback
  *
  * Output:
  *   <base>.run.json          summary consumed by merge-results.mjs
@@ -22,7 +23,7 @@
  */
 import { readFileSync, existsSync, writeFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve } from 'node:path';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
@@ -174,16 +175,28 @@ function main() {
 
   // optional app-side GNSS acquisition signal
   let appSide = null;
-  const appPath = join(resultsDir, arm + '.app.json');
-  if (existsSync(appPath)) {
+  const appPath = [path('.app.json'), join(resultsDir, arm + '.app.json')]
+    .find((candidate) => existsSync(candidate));
+  if (appPath) {
     const a = readJSON(appPath);
+    const appHours = Number.isFinite(a.wallSeconds) && a.wallSeconds > 0
+      ? a.wallSeconds / 3600
+      : runHours;
+    const acqPerHour = Number.isFinite(a.acqPerHour)
+      ? a.acqPerHour
+      : Number.isFinite(a.gnssAcquisitions) && appHours > 0
+        ? a.gnssAcquisitions / appHours
+        : null;
     appSide = {
+      source: basename(appPath),
       gnssAcquisitions: a.gnssAcquisitions ?? null,
-      acqPerHour: a.acqPerHour ?? null,
+      acqPerHour: acqPerHour == null ? null : +acqPerHour.toFixed(3),
       watchFixes: a.watchFixes ?? null,
       gatePolls: a.gatePolls ?? null,
+      gateSkips: a.gateSkips ?? null,
       processed: a.processed ?? null,
       gateReasons: a.gateReasons ?? undefined,
+      gateDecisionReasons: a.gateDecisionReasons ?? undefined,
     };
   }
 
@@ -191,7 +204,11 @@ function main() {
   const summary = {
     _description: `Bounded on-device energy arm "${arm}", parsed from adb dumpsys. Companion to the 37.6h always-on baseline (battery-37h-summary.json).`,
     _schema: 'sensing-gate-arm/device/v1',
-    _raw: { batterystats: base + '.batterystats.txt', location: loc ? base + '.location.txt' : null },
+    _raw: {
+      batterystats: base + '.batterystats.txt',
+      location: loc ? base + '.location.txt' : null,
+      app: appSide?.source ?? null,
+    },
     arm,
     measurement: {
       started_at: begin.started_at ?? null,

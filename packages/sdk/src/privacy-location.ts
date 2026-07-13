@@ -67,6 +67,7 @@ export interface SensingGateLastFix {
   lat: number;
   lon: number;
   timestamp: number;
+  /** Conservative horizontal uncertainty radius in meters */
   accuracy?: number;
 }
 
@@ -85,6 +86,14 @@ export interface SensingGateInput {
   maxDisplacementM?: number;
 }
 
+type GateAcquireReason =
+  | 'cold-start'
+  | 'staleness-floor'
+  | 'due-stationary'
+  | 'due-moving';
+
+type GateSkipReason = 'zone-dwell' | 'cadence-wait';
+
 export interface GateDecision {
   acquire: boolean;
   mode: 'gnss' | 'network' | 'skip';
@@ -94,6 +103,36 @@ export interface GateDecision {
 
 export interface SensingGate {
   shouldAcquire(input: SensingGateInput): GateDecision;
+}
+
+export interface SensingGateControllerInput {
+  now: number;
+  motion: SensingGateMotion;
+  /** Optional conservative displacement increment since the previous check */
+  displacementBoundDeltaM?: number;
+}
+
+export interface SensingGateControllerState {
+  lastFix: SensingGateLastFix | null;
+  maxDisplacementM: number;
+  lastCheckAt: number | null;
+}
+
+export interface SensingGateController {
+  shouldAcquire(input: SensingGateControllerInput): GateDecision;
+  recordFix(fix: SensingGateLastFix): void;
+  updateSensitivePlaces(places: SensitivePlace[]): void;
+  getState(): SensingGateControllerState;
+  reset(): void;
+}
+
+export interface SensingAcquirer {
+  acquire(mode: 'gnss' | 'network'): Promise<SensingGateLastFix>;
+}
+
+export interface SensingCycleResult {
+  decision: GateDecision;
+  fix: SensingGateLastFix | null;
 }
 
 export type LocationState =
@@ -163,7 +202,7 @@ export const DEFAULT_PRIVACY_CONFIG: PrivacyConfig = {
   departureJitterMinMinutes: 5,
   departureJitterMaxMinutes: 15,
   coarseOnly: false,
-  sensingGate: DEFAULT_GATE_CONFIG,
+  sensingGate: { ...DEFAULT_GATE_CONFIG },
   zoneRules: {
     home: { coreMode: 'state-only', bufferNoiseMultiplier: 10, stateLabel: 'At home' },
     work: { coreMode: 'state-only', bufferNoiseMultiplier: 10, stateLabel: 'At work' },
@@ -626,6 +665,13 @@ const MOTION_SPEED_MPS: Record<SensingGateMotion, number> = {
   unknown: 1.5,
 };
 
+type SensingZone = Pick<SensitivePlace, 'lat' | 'lon' | 'radiusM'>;
+
+interface MotionCadence {
+  intervalMs: number;
+  dueReason: 'due-stationary' | 'due-moving';
+}
+
 /**
  * Create a privacy-as-sensing-scheduler predicate.
  *
@@ -641,46 +687,100 @@ export function createSensingGate(
 ): SensingGate {
   const gateConfig = normalizeSensingGateConfig(config);
   const coarseOnly = config.coarseOnly ?? false;
+  const zones = sensitivePlaces.map(({ lat, lon, radiusM }) => ({ lat, lon, radiusM }));
 
   return {
     shouldAcquire(input: SensingGateInput): GateDecision {
-      if (!input.lastFix) {
-        return acquire('gnss', 'cold-start');
-      }
-
-      const elapsedMs = Math.max(0, input.now - input.lastFix.timestamp);
-
-      if (elapsedMs >= gateConfig.maxStalenessMs) {
-        return acquire('gnss', 'staleness-floor');
-      }
-
-      const zoneDwellMs = zoneDwellNextCheckMs(
-        input.lastFix,
-        elapsedMs,
-        input.motion,
-        input.maxDisplacementM,
-        sensitivePlaces,
-        gateConfig,
-      );
-      if (zoneDwellMs !== null) {
-        return skip(zoneDwellMs, 'zone-dwell');
-      }
-
-      const stationary = input.motion === 'stationary';
-      const intervalMs = stationary
-        ? gateConfig.stationaryIntervalMs
-        : gateConfig.movingIntervalMs;
-
-      if (elapsedMs < intervalMs) {
-        return skip(intervalMs - elapsedMs, 'cadence-wait');
-      }
-
-      return acquire(
-        coarseOnly ? 'network' : 'gnss',
-        stationary ? 'due-stationary' : 'due-moving',
-      );
+      return decideSensingGate(input, gateConfig, coarseOnly, zones);
     },
   };
+}
+
+/**
+ * Create a stateful companion for createSensingGate.
+ *
+ * The controller owns the last acquired fix and a conservative displacement
+ * bound. Callers may provide a cheaper sensor-derived displacement increment;
+ * otherwise the controller falls back to the policy motion-speed bound.
+ */
+export function createSensingGateController(
+  config: Partial<PrivacyConfig> = DEFAULT_PRIVACY_CONFIG,
+  sensitivePlaces: SensitivePlace[] = [],
+  initialFix: SensingGateLastFix | null = null,
+): SensingGateController {
+  const policyConfig: Partial<PrivacyConfig> = {
+    ...config,
+    sensingGate: config.sensingGate ? { ...config.sensingGate } : undefined,
+  };
+  let places = sensitivePlaces.map((place) => ({ ...place }));
+  let gate = createSensingGate(policyConfig, places);
+  let lastFix = initialFix ? { ...initialFix } : null;
+  let maxDisplacementM = 0;
+  let lastCheckAt = initialFix?.timestamp ?? null;
+
+  return {
+    shouldAcquire(input: SensingGateControllerInput): GateDecision {
+      if (lastFix) {
+        const elapsedMs = Math.max(0, input.now - (lastCheckAt ?? lastFix.timestamp));
+        maxDisplacementM += resolveControllerDisplacementDeltaM(
+          input.displacementBoundDeltaM,
+          elapsedMs,
+          input.motion,
+        );
+        lastCheckAt = lastCheckAt === null
+          ? input.now
+          : Math.max(lastCheckAt, input.now);
+      }
+
+      return gate.shouldAcquire({
+        now: input.now,
+        lastFix,
+        motion: input.motion,
+        maxDisplacementM: lastFix ? maxDisplacementM : undefined,
+      });
+    },
+
+    recordFix(fix: SensingGateLastFix): void {
+      lastFix = { ...fix };
+      maxDisplacementM = 0;
+      lastCheckAt = fix.timestamp;
+    },
+
+    updateSensitivePlaces(nextPlaces: SensitivePlace[]): void {
+      places = nextPlaces.map((place) => ({ ...place }));
+      gate = createSensingGate(policyConfig, places);
+    },
+
+    getState(): SensingGateControllerState {
+      return {
+        lastFix: lastFix ? { ...lastFix } : null,
+        maxDisplacementM,
+        lastCheckAt,
+      };
+    },
+
+    reset(): void {
+      lastFix = null;
+      maxDisplacementM = 0;
+      lastCheckAt = null;
+    },
+  };
+}
+
+/** Execute one gate decision and record a successful acquisition. */
+export async function runSensingCycle(
+  controller: SensingGateController,
+  input: SensingGateControllerInput,
+  acquirer: SensingAcquirer,
+): Promise<SensingCycleResult> {
+  const decision = controller.shouldAcquire(input);
+  if (!decision.acquire || decision.mode === 'skip') {
+    return { decision, fix: null };
+  }
+
+  const fix = await acquirer.acquire(decision.mode);
+  controller.recordFix(fix);
+  return { decision, fix: { ...fix } };
 }
 
 // ============================================================
@@ -868,12 +968,59 @@ export function obfuscateLocation(
 // Helpers
 // ============================================================
 
-function acquire(mode: 'gnss' | 'network', reason: string): GateDecision {
+function acquireDecision(mode: 'gnss' | 'network', reason: GateAcquireReason): GateDecision {
   return { acquire: true, mode, nextCheckMs: 0, reason };
 }
 
-function skip(nextCheckMs: number, reason: string): GateDecision {
+function skipDecision(nextCheckMs: number, reason: GateSkipReason): GateDecision {
   return { acquire: false, mode: 'skip', nextCheckMs, reason };
+}
+
+function decideSensingGate(
+  input: SensingGateInput,
+  gateConfig: SensingGateConfig,
+  coarseOnly: boolean,
+  sensitivePlaces: readonly SensingZone[],
+): GateDecision {
+  if (!input.lastFix) {
+    return acquireDecision('gnss', 'cold-start');
+  }
+
+  const elapsedMs = Math.max(0, input.now - input.lastFix.timestamp);
+  if (elapsedMs >= gateConfig.maxStalenessMs) {
+    return acquireDecision('gnss', 'staleness-floor');
+  }
+
+  const zoneDwellMs = zoneDwellNextCheckMs(
+    input.lastFix,
+    elapsedMs,
+    input.motion,
+    input.maxDisplacementM,
+    sensitivePlaces,
+    gateConfig,
+  );
+  if (zoneDwellMs !== null) {
+    return skipDecision(zoneDwellMs, 'zone-dwell');
+  }
+
+  const cadence = motionCadence(input.motion, gateConfig);
+  if (elapsedMs < cadence.intervalMs) {
+    return skipDecision(cadence.intervalMs - elapsedMs, 'cadence-wait');
+  }
+
+  return acquireDecision(
+    coarseOnly ? 'network' : 'gnss',
+    cadence.dueReason,
+  );
+}
+
+function motionCadence(
+  motion: SensingGateMotion,
+  gateConfig: SensingGateConfig,
+): MotionCadence {
+  return motion === 'stationary'
+    ? { intervalMs: gateConfig.stationaryIntervalMs, dueReason: 'due-stationary' }
+    : { intervalMs: gateConfig.movingIntervalMs, dueReason: 'due-moving' };
 }
 
 function normalizeSensingGateConfig(config: Partial<PrivacyConfig>): SensingGateConfig {
@@ -927,18 +1074,23 @@ function zoneDwellNextCheckMs(
   elapsedMs: number,
   motion: SensingGateMotion,
   maxDisplacementM: number | undefined,
-  sensitivePlaces: SensitivePlace[],
+  sensitivePlaces: readonly SensingZone[],
   gateConfig: SensingGateConfig,
 ): number | null {
   const speedMps = MOTION_SPEED_MPS[motion];
-  const displacementM = maxDisplacementM ?? (elapsedMs / 1000) * speedMps;
+  const displacementM = resolveDisplacementBoundM(
+    maxDisplacementM,
+    elapsedMs,
+    speedMps,
+  );
+  const uncertaintyM = resolveLocationUncertaintyM(lastFix.accuracy);
   let earliestExitMs: number | null = null;
 
   for (const place of sensitivePlaces) {
     const dist = haversine(lastFix.lat, lastFix.lon, place.lat, place.lon);
     if (dist > place.radiusM) continue;
 
-    const remainingInsideM = place.radiusM - dist - displacementM;
+    const remainingInsideM = place.radiusM - dist - uncertaintyM - displacementM;
     if (remainingInsideM <= 0) continue;
 
     const exitMs = (remainingInsideM / speedMps) * 1000;
@@ -948,6 +1100,43 @@ function zoneDwellNextCheckMs(
   return earliestExitMs === null
     ? null
     : boundedNextCheck(earliestExitMs, gateConfig);
+}
+
+function resolveDisplacementBoundM(
+  maxDisplacementM: number | undefined,
+  elapsedMs: number,
+  speedMps: number,
+): number {
+  if (
+    maxDisplacementM !== undefined &&
+    Number.isFinite(maxDisplacementM) &&
+    maxDisplacementM >= 0
+  ) {
+    return maxDisplacementM;
+  }
+  return (elapsedMs / 1000) * speedMps;
+}
+
+function resolveControllerDisplacementDeltaM(
+  displacementBoundDeltaM: number | undefined,
+  elapsedMs: number,
+  motion: SensingGateMotion,
+): number {
+  if (
+    displacementBoundDeltaM !== undefined &&
+    Number.isFinite(displacementBoundDeltaM) &&
+    displacementBoundDeltaM >= 0
+  ) {
+    return displacementBoundDeltaM;
+  }
+  return (elapsedMs / 1000) * MOTION_SPEED_MPS[motion];
+}
+
+function resolveLocationUncertaintyM(accuracyM: number | undefined): number {
+  if (accuracyM === undefined) return 0;
+  return Number.isFinite(accuracyM) && accuracyM >= 0
+    ? accuracyM
+    : Number.POSITIVE_INFINITY;
 }
 
 function boundedNextCheck(nextCheckMs: number, gateConfig: SensingGateConfig): number {

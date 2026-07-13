@@ -20,13 +20,15 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:dist": "node test/sensing-gate.dist-smoke.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.0"
   },
   "devDependencies": {
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "vitest": "^4.1.0"
   },
   "peerDependencies": {
     "@supabase/supabase-js": "^2.0.0"

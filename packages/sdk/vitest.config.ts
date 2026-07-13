@@ -2,9 +2,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    // Only collect proper vitest suites. Standalone assertion scripts
-    // (e.g. test/sensing-gate.test.mjs) are run via `node` post-build,
-    // matching the geo-drop convention.
+    // Distribution smoke scripts run separately after the SDK build.
     include: ['test/**/*.test.ts'],
     environment: 'node',
   },

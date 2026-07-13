@@ -18,7 +18,7 @@ var ZairnPrivacy = (() => {
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // ../../../packages/sdk/dist/privacy-location.js
+  // packages/sdk/dist/privacy-location.js
   var privacy_location_exports = {};
   __export(privacy_location_exports, {
     AdaptiveReporter: () => AdaptiveReporter,
@@ -30,11 +30,13 @@ var ZairnPrivacy = (() => {
     bucketizeDistance: () => bucketizeDistance,
     createPrivacyProcessor: () => createPrivacyProcessor,
     createSensingGate: () => createSensingGate,
+    createSensingGateController: () => createSensingGateController,
     detectSensitivePlaces: () => detectSensitivePlaces,
     gridSnap: () => gridSnap,
     jitterDepartureTime: () => jitterDepartureTime,
     obfuscateLocation: () => obfuscateLocation,
     processLocation: () => processLocation,
+    runSensingCycle: () => runSensingCycle,
     validatePrivacyConfig: () => validatePrivacyConfig
   });
   var DEFAULT_GATE_CONFIG = {
@@ -61,7 +63,7 @@ var ZairnPrivacy = (() => {
     departureJitterMinMinutes: 5,
     departureJitterMaxMinutes: 15,
     coarseOnly: false,
-    sensingGate: DEFAULT_GATE_CONFIG,
+    sensingGate: { ...DEFAULT_GATE_CONFIG },
     zoneRules: {
       home: { coreMode: "state-only", bufferNoiseMultiplier: 10, stateLabel: "At home" },
       work: { coreMode: "state-only", bufferNoiseMultiplier: 10, stateLabel: "At work" },
@@ -342,27 +344,68 @@ var ZairnPrivacy = (() => {
   function createSensingGate(config = DEFAULT_PRIVACY_CONFIG, sensitivePlaces = []) {
     const gateConfig = normalizeSensingGateConfig(config);
     const coarseOnly = config.coarseOnly ?? false;
+    const zones = sensitivePlaces.map(({ lat, lon, radiusM }) => ({ lat, lon, radiusM }));
     return {
       shouldAcquire(input) {
-        if (!input.lastFix) {
-          return acquire("gnss", "cold-start");
-        }
-        const elapsedMs = Math.max(0, input.now - input.lastFix.timestamp);
-        if (elapsedMs >= gateConfig.maxStalenessMs) {
-          return acquire("gnss", "staleness-floor");
-        }
-        const zoneDwellMs = zoneDwellNextCheckMs(input.lastFix, elapsedMs, input.motion, input.maxDisplacementM, sensitivePlaces, gateConfig);
-        if (zoneDwellMs !== null) {
-          return skip(zoneDwellMs, "zone-dwell");
-        }
-        const stationary = input.motion === "stationary";
-        const intervalMs = stationary ? gateConfig.stationaryIntervalMs : gateConfig.movingIntervalMs;
-        if (elapsedMs < intervalMs) {
-          return skip(intervalMs - elapsedMs, "cadence-wait");
-        }
-        return acquire(coarseOnly ? "network" : "gnss", stationary ? "due-stationary" : "due-moving");
+        return decideSensingGate(input, gateConfig, coarseOnly, zones);
       }
     };
+  }
+  function createSensingGateController(config = DEFAULT_PRIVACY_CONFIG, sensitivePlaces = [], initialFix = null) {
+    const policyConfig = {
+      ...config,
+      sensingGate: config.sensingGate ? { ...config.sensingGate } : void 0
+    };
+    let places = sensitivePlaces.map((place) => ({ ...place }));
+    let gate = createSensingGate(policyConfig, places);
+    let lastFix = initialFix ? { ...initialFix } : null;
+    let maxDisplacementM = 0;
+    let lastCheckAt = initialFix?.timestamp ?? null;
+    return {
+      shouldAcquire(input) {
+        if (lastFix) {
+          const elapsedMs = Math.max(0, input.now - (lastCheckAt ?? lastFix.timestamp));
+          maxDisplacementM += resolveControllerDisplacementDeltaM(input.displacementBoundDeltaM, elapsedMs, input.motion);
+          lastCheckAt = lastCheckAt === null ? input.now : Math.max(lastCheckAt, input.now);
+        }
+        return gate.shouldAcquire({
+          now: input.now,
+          lastFix,
+          motion: input.motion,
+          maxDisplacementM: lastFix ? maxDisplacementM : void 0
+        });
+      },
+      recordFix(fix) {
+        lastFix = { ...fix };
+        maxDisplacementM = 0;
+        lastCheckAt = fix.timestamp;
+      },
+      updateSensitivePlaces(nextPlaces) {
+        places = nextPlaces.map((place) => ({ ...place }));
+        gate = createSensingGate(policyConfig, places);
+      },
+      getState() {
+        return {
+          lastFix: lastFix ? { ...lastFix } : null,
+          maxDisplacementM,
+          lastCheckAt
+        };
+      },
+      reset() {
+        lastFix = null;
+        maxDisplacementM = 0;
+        lastCheckAt = null;
+      }
+    };
+  }
+  async function runSensingCycle(controller, input, acquirer) {
+    const decision = controller.shouldAcquire(input);
+    if (!decision.acquire || decision.mode === "skip") {
+      return { decision, fix: null };
+    }
+    const fix = await acquirer.acquire(decision.mode);
+    controller.recordFix(fix);
+    return { decision, fix: { ...fix } };
   }
   function processLocation(rawLat, rawLon, sensitivePlaces, config, reporter, viewerLocation) {
     const { epsilon, zone, inCore } = effectiveEpsilon(rawLat, rawLon, sensitivePlaces, config);
@@ -416,16 +459,23 @@ var ZairnPrivacy = (() => {
   }
   var FrequencyBudget = class {
     constructor(maxPerHour = 12) {
-      this.reporter = new AdaptiveReporter(maxPerHour, maxPerHour);
+      this.timestamps = [];
+      this.maxPerHour = maxPerHour;
+    }
+    prune() {
+      const cutoff = Date.now() - 36e5;
+      this.timestamps = this.timestamps.filter((t) => t > cutoff);
     }
     canUpdate() {
-      return this.reporter.shouldReport("_");
+      this.prune();
+      return this.timestamps.length < this.maxPerHour;
     }
     record() {
-      this.reporter.record("_");
+      this.timestamps.push(Date.now());
     }
     remaining() {
-      return this.reporter.remaining().moving;
+      this.prune();
+      return Math.max(0, this.maxPerHour - this.timestamps.length);
     }
   };
   function obfuscateLocation(lat, lon, gridSizeM, gridSeed, sensitivePlaces = []) {
@@ -440,11 +490,32 @@ var ZairnPrivacy = (() => {
     }
     return { lat: snapped.lat, lon: snapped.lon };
   }
-  function acquire(mode, reason) {
+  function acquireDecision(mode, reason) {
     return { acquire: true, mode, nextCheckMs: 0, reason };
   }
-  function skip(nextCheckMs, reason) {
+  function skipDecision(nextCheckMs, reason) {
     return { acquire: false, mode: "skip", nextCheckMs, reason };
+  }
+  function decideSensingGate(input, gateConfig, coarseOnly, sensitivePlaces) {
+    if (!input.lastFix) {
+      return acquireDecision("gnss", "cold-start");
+    }
+    const elapsedMs = Math.max(0, input.now - input.lastFix.timestamp);
+    if (elapsedMs >= gateConfig.maxStalenessMs) {
+      return acquireDecision("gnss", "staleness-floor");
+    }
+    const zoneDwellMs = zoneDwellNextCheckMs(input.lastFix, elapsedMs, input.motion, input.maxDisplacementM, sensitivePlaces, gateConfig);
+    if (zoneDwellMs !== null) {
+      return skipDecision(zoneDwellMs, "zone-dwell");
+    }
+    const cadence = motionCadence(input.motion, gateConfig);
+    if (elapsedMs < cadence.intervalMs) {
+      return skipDecision(cadence.intervalMs - elapsedMs, "cadence-wait");
+    }
+    return acquireDecision(coarseOnly ? "network" : "gnss", cadence.dueReason);
+  }
+  function motionCadence(motion, gateConfig) {
+    return motion === "stationary" ? { intervalMs: gateConfig.stationaryIntervalMs, dueReason: "due-stationary" } : { intervalMs: gateConfig.movingIntervalMs, dueReason: "due-moving" };
   }
   function normalizeSensingGateConfig(config) {
     const gate = config.sensingGate ?? {};
@@ -469,19 +540,37 @@ var ZairnPrivacy = (() => {
   }
   function zoneDwellNextCheckMs(lastFix, elapsedMs, motion, maxDisplacementM, sensitivePlaces, gateConfig) {
     const speedMps = MOTION_SPEED_MPS[motion];
-    const displacementM = maxDisplacementM ?? elapsedMs / 1e3 * speedMps;
+    const displacementM = resolveDisplacementBoundM(maxDisplacementM, elapsedMs, speedMps);
+    const uncertaintyM = resolveLocationUncertaintyM(lastFix.accuracy);
     let earliestExitMs = null;
     for (const place of sensitivePlaces) {
       const dist = haversine(lastFix.lat, lastFix.lon, place.lat, place.lon);
       if (dist > place.radiusM)
         continue;
-      const remainingInsideM = place.radiusM - dist - displacementM;
+      const remainingInsideM = place.radiusM - dist - uncertaintyM - displacementM;
       if (remainingInsideM <= 0)
         continue;
       const exitMs = remainingInsideM / speedMps * 1e3;
       earliestExitMs = earliestExitMs === null ? exitMs : Math.min(earliestExitMs, exitMs);
     }
     return earliestExitMs === null ? null : boundedNextCheck(earliestExitMs, gateConfig);
+  }
+  function resolveDisplacementBoundM(maxDisplacementM, elapsedMs, speedMps) {
+    if (maxDisplacementM !== void 0 && Number.isFinite(maxDisplacementM) && maxDisplacementM >= 0) {
+      return maxDisplacementM;
+    }
+    return elapsedMs / 1e3 * speedMps;
+  }
+  function resolveControllerDisplacementDeltaM(displacementBoundDeltaM, elapsedMs, motion) {
+    if (displacementBoundDeltaM !== void 0 && Number.isFinite(displacementBoundDeltaM) && displacementBoundDeltaM >= 0) {
+      return displacementBoundDeltaM;
+    }
+    return elapsedMs / 1e3 * MOTION_SPEED_MPS[motion];
+  }
+  function resolveLocationUncertaintyM(accuracyM) {
+    if (accuracyM === void 0)
+      return 0;
+    return Number.isFinite(accuracyM) && accuracyM >= 0 ? accuracyM : Number.POSITIVE_INFINITY;
   }
   function boundedNextCheck(nextCheckMs, gateConfig) {
     return Math.round(Math.min(gateConfig.maxNextCheckMs, Math.max(gateConfig.minNextCheckMs, nextCheckMs)));

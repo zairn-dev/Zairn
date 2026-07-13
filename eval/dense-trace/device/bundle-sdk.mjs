@@ -2,8 +2,8 @@
  * Bundle the shipped privacy artifact for the browser harness.
  *
  * The on-device harness (harness/index.html) needs the REAL SDK code paths
- * — createSensingGate (the gate) and createPrivacyProcessor (the naive
- * post-acquisition pipeline) — running in Android Chrome. This bundles the
+ * — createSensingGateController (the gate) and createPrivacyProcessor (the
+ * naive post-acquisition pipeline) — running in Android Chrome. This bundles the
  * already-compiled ESM module
  *   packages/sdk/dist/privacy-location.js
  * into a single self-contained IIFE that exposes `window.ZairnPrivacy`, so
@@ -50,7 +50,7 @@ async function main() {
   const out = Object.values(result.metafile.outputs)[0];
   console.log(`[bundle-sdk] wrote ${OUT}`);
   console.log(`[bundle-sdk] bytes=${out?.bytes ?? '?'}  global=window.ZairnPrivacy`);
-  console.log('[bundle-sdk] exposed: createSensingGate, createPrivacyProcessor, detectSensitivePlaces, DEFAULT_PRIVACY_CONFIG, DEFAULT_GATE_CONFIG');
+  console.log('[bundle-sdk] exposed: createSensingGate, createSensingGateController, runSensingCycle, createPrivacyProcessor, detectSensitivePlaces, DEFAULT_PRIVACY_CONFIG, DEFAULT_GATE_CONFIG');
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });
