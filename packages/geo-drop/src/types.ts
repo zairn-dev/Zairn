@@ -3,6 +3,8 @@
  * Types for location-bound data drops
  */
 
+import type { TrustSignalEvidence } from '@zairn/sdk';
+
 // =====================
 // Drop types
 // =====================
@@ -469,10 +471,24 @@ export interface NetworkHint {
   source: 'ip' | 'cell' | 'wifi';
 }
 
+/** Device signal capabilities available to the trust scorer */
+export interface TrustDeviceCapabilities {
+  hasImu: boolean;
+  hasNetworkLocation: boolean;
+}
+
+/** Aggregate IMU evidence for custom trust signal providers */
+export interface ImuSummary {
+  stepCount: number;
+  avgAccelMagnitude: number;
+}
+
 /** Additional context for V2 trust scoring */
 export interface TrustContext {
+  deviceCapabilities?: TrustDeviceCapabilities;
   recentFixes?: GpsFix[];
   networkHint?: NetworkHint;
+  imuSummary?: ImuSummary;
 }
 
 /** Extended trust score result with V2 signals */
@@ -481,6 +497,7 @@ export interface TrustScoreResultV2 extends TrustScoreResult {
     fixConsistency?: number;
     networkConsistency?: number;
   };
+  evidence?: readonly TrustSignalEvidence[];
 }
 
 // =====================

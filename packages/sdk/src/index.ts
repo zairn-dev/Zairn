@@ -13,6 +13,31 @@ export { createLocationCore, calculateDistance, estimateMotionType, encodeGeohas
 export { evaluatePolicies, coarsenLocation } from './policy-engine.js';
 export type { EvaluationContext } from './policy-engine.js';
 
+// Probabilistic location integrity scoring
+export {
+  computeTrustScore,
+  computeTrustScoreV2,
+  gateTrustScore,
+  temporalRaimTrustSignalProvider,
+  networkCrossCheckTrustSignalProvider,
+  DEFAULT_TRUST_SIGNAL_PROVIDERS,
+} from './trust-scorer.js';
+export type {
+  LocationPoint,
+  TrustScoreResult,
+  TrustScoreResultV2,
+  TrustThresholds,
+  TrustDeviceCapabilities,
+  GpsFix,
+  NetworkHint,
+  ImuSummary,
+  TrustContext,
+  TrustSignalInput,
+  TrustSignalObservation,
+  TrustSignalProvider,
+  TrustSignalEvidence,
+} from './trust-scorer.js';
+
 // Privacy-preserving location sharing
 export {
   createPrivacyProcessor,
