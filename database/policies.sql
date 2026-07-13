@@ -539,3 +539,40 @@ create policy "avatars_read_public" on storage.objects for select using (bucket_
 create policy "avatars_insert_own" on storage.objects for insert with check (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
 create policy "avatars_update_own" on storage.objects for update using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
 create policy "avatars_delete_own" on storage.objects for delete using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
+
+-- =====================
+-- Explicit table-level privilege grants for `authenticated`
+--
+-- This repo historically relied on Supabase's platform default privilege
+-- setup (both hosted and `supabase start` locally) to grant baseline DML
+-- on public-schema tables to `authenticated`. Newer Supabase CLI/platform
+-- versions changed that default ("permission denied for table X" even
+-- though every RLS policy above is correct — the request never reaches
+-- RLS evaluation because the role lacks object-level privilege first).
+-- Granting broad DML here is safe: table-level GRANT is
+-- necessary-but-not-sufficient — every policy above still governs which
+-- ROWS are actually visible/writable per request. RLS remains the real
+-- security boundary; this just stops it from depending on an implicit,
+-- version-fragile platform default.
+-- =====================
+grant select, insert, update, delete on
+  locations_current, share_rules, locations_history, profiles,
+  friend_requests, user_settings, groups, group_members,
+  chat_rooms, chat_room_members, messages, location_reactions,
+  bump_events, favorite_places, blocked_users, push_subscriptions,
+  notification_preferences, friend_streaks, visited_cells, sharing_policies
+to authenticated;
+
+-- `anon` (pre-login) only needs SELECT on the tables the unauthenticated
+-- connectivity smoke test touches (test/connection-test.ts), PLUS every
+-- table those tables' RLS USING clauses reference in a subquery
+-- (blocked_users, user_settings) — a policy subquery runs with the
+-- querying role's own privileges, so anon needs SELECT there too or the
+-- subquery itself raises permission denied even though the policy would
+-- ultimately evaluate to false for an unauthenticated caller. This is a
+-- no-op for actual data exposure: every read policy above keys off
+-- auth.uid(), which is null for anon, so RLS still returns zero rows —
+-- these grants only let the request reach and finish RLS evaluation
+-- instead of being rejected before/during it.
+grant select on locations_current, share_rules, locations_history,
+  blocked_users, user_settings to anon;

@@ -185,3 +185,15 @@ using (auth.uid() = user_id);
 create policy "drop_location_logs_insert"
 on drop_location_logs for insert
 with check (auth.uid() = user_id);
+
+-- =====================
+-- 明示的な権限付与（authenticated）
+--
+-- database/policies.sql と同じ理由: Supabaseのプラットフォーム側の
+-- 暗黙デフォルト権限に依存せず、テーブルレベルGRANTを明示する。
+-- RLSポリシーが実際の行レベル境界（これは変わらない）。
+-- geo_drops は独自の列制限GRANT（本ファイル上部）を使うため対象外。
+-- =====================
+grant select on drop_claims to authenticated;
+grant select, insert, delete on drop_shares to authenticated;
+grant select, insert on drop_location_logs to authenticated;
