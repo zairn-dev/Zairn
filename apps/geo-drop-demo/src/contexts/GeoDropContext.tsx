@@ -18,19 +18,27 @@ export function GeoDropProvider({ children }: { children: ReactNode }) {
     const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-    const ipfsKey = import.meta.env.VITE_IPFS_PINNING_KEY as string | undefined
+    const ipfsProxyUrl = import.meta.env.VITE_IPFS_PROXY_URL as string | undefined
 
     const sdk = createGeoDrop({
       supabaseUrl,
       supabaseAnonKey,
-      ipfs: ipfsKey ? {
+      ipfs: ipfsProxyUrl ? {
         gateway: 'https://gateway.pinata.cloud/ipfs',
-        pinningService: 'pinata' as const,
-        pinningApiKey: ipfsKey,
+        pinningService: 'custom' as const,
+        customPinningUrl: ipfsProxyUrl,
+        getCustomPinningHeaders: async () => {
+          const { data: { session }, error } = await supabase.auth.getSession()
+          if (error) throw error
+          if (!session?.access_token) throw new Error('Sign in before uploading to IPFS')
+          return {
+            Authorization: `Bearer ${session.access_token}`,
+            apikey: supabaseAnonKey,
+          }
+        },
       } : undefined,
       persistence: {
-        level: ipfsKey ? 'ipfs' as const : 'db-only' as const,
+        level: ipfsProxyUrl ? 'ipfs' as const : 'db-only' as const,
       },
     })
 

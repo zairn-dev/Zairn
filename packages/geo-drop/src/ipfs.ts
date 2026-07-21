@@ -28,8 +28,57 @@ function base58Decode(str: string): Uint8Array {
 const DEFAULT_GATEWAY = 'https://w3s.link/ipfs';
 const MAX_FETCH_SIZE = 10 * 1024 * 1024; // 10MB
 const MAX_UPLOAD_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_ERROR_RESPONSE_SIZE = 1024;
 const CID_RE = /^(Qm[1-9A-HJ-NP-Za-km-z]{44}|b[a-z2-7]{58,})$/;
 const RETRY_DELAYS = [1000, 2000, 4000]; // exponential backoff
+
+function normalizeCustomPinningUrl(value: string): string {
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error('Custom pinning URL must be an absolute URL');
+  }
+
+  const isLoopback = url.hostname === 'localhost'
+    || url.hostname === '127.0.0.1'
+    || url.hostname === '[::1]';
+  if (url.protocol !== 'https:' && !(url.protocol === 'http:' && isLoopback)) {
+    throw new Error('Custom pinning URL must use HTTPS (HTTP is allowed only for loopback hosts)');
+  }
+  if (url.username || url.password) {
+    throw new Error('Custom pinning URL must not contain credentials');
+  }
+  return url.toString();
+}
+
+async function readErrorSnippet(response: Response): Promise<string> {
+  if (!response.body) {
+    return (await response.text()).slice(0, MAX_ERROR_RESPONSE_SIZE);
+  }
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let text = '';
+  let totalBytes = 0;
+
+  while (totalBytes < MAX_ERROR_RESPONSE_SIZE) {
+    const { done, value } = await reader.read();
+    if (done) return text + decoder.decode();
+
+    const remaining = MAX_ERROR_RESPONSE_SIZE - totalBytes;
+    const chunk = value.subarray(0, remaining);
+    text += decoder.decode(chunk, { stream: value.byteLength <= remaining });
+    totalBytes += chunk.byteLength;
+
+    if (value.byteLength > remaining || totalBytes === MAX_ERROR_RESPONSE_SIZE) {
+      await reader.cancel().catch(() => undefined);
+      return `${text}...`;
+    }
+  }
+
+  return text;
+}
 
 export class IpfsClient {
   private gateway: string;
@@ -38,6 +87,7 @@ export class IpfsClient {
   private pinningApiKey?: string;
   private pinningApiSecret?: string;
   private customPinningUrl?: string;
+  private getCustomPinningHeaders?: () => Promise<Record<string, string>>;
   private maxUploadSize: number;
 
   constructor(config?: IpfsConfig) {
@@ -46,8 +96,14 @@ export class IpfsClient {
     this.pinningService = config?.pinningService;
     this.pinningApiKey = config?.pinningApiKey;
     this.pinningApiSecret = config?.pinningApiSecret;
-    this.customPinningUrl = config?.customPinningUrl;
+    this.customPinningUrl = config?.customPinningUrl
+      ? normalizeCustomPinningUrl(config.customPinningUrl)
+      : undefined;
+    this.getCustomPinningHeaders = config?.getCustomPinningHeaders;
     this.maxUploadSize = config?.maxUploadSize ?? MAX_UPLOAD_SIZE;
+    if (!Number.isSafeInteger(this.maxUploadSize) || this.maxUploadSize <= 0) {
+      throw new Error('maxUploadSize must be a positive safe integer');
+    }
   }
 
   /**
@@ -233,7 +289,7 @@ export class IpfsClient {
     });
 
     if (!response.ok) {
-      const text = await response.text();
+      const text = await readErrorSnippet(response);
       throw new Error(`Pinata upload failed: ${response.status} ${text}`);
     }
 
@@ -258,7 +314,7 @@ export class IpfsClient {
     });
 
     if (!response.ok) {
-      const text = await response.text();
+      const text = await readErrorSnippet(response);
       throw new Error(`web3.storage upload failed: ${response.status} ${text}`);
     }
 
@@ -279,19 +335,27 @@ export class IpfsClient {
     const formData = new FormData();
     formData.append('file', blob);
 
-    const headers: Record<string, string> = {};
-    if (this.pinningApiKey) {
-      headers['Authorization'] = `Bearer ${this.pinningApiKey}`;
+    const headers = new Headers(
+      this.getCustomPinningHeaders
+        ? await this.getCustomPinningHeaders()
+        : undefined
+    );
+    if (this.pinningApiKey && !headers.has('authorization')) {
+      headers.set('Authorization', `Bearer ${this.pinningApiKey}`);
     }
+    // Let fetch set a safe multipart boundary and byte length.
+    headers.delete('content-type');
+    headers.delete('content-length');
 
     const response = await globalThis.fetch(this.customPinningUrl, {
       method: 'POST',
       headers,
       body: formData,
+      redirect: 'error',
     });
 
     if (!response.ok) {
-      const text = await response.text();
+      const text = await readErrorSnippet(response);
       throw new Error(`Custom IPFS upload failed: ${response.status} ${text}`);
     }
 

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   toFixedPoint,
   metersToRadiusSquared,
@@ -8,6 +8,77 @@ import {
   validateRegionPublicSignals,
   MAX_POLYGON_VERTICES,
 } from '../src/zkp';
+import {
+  createHomeCommitment,
+  createPoseidonHomeCommitment,
+  generateDepartureProof,
+} from '../src/zkls';
+
+describe('createHomeCommitment', () => {
+  it('uses a 128-bit CSPRNG salt without Math.random', () => {
+    const random = vi.spyOn(Math, 'random').mockImplementation(() => {
+      throw new Error('Math.random must not generate commitment salts');
+    });
+
+    try {
+      const result = createHomeCommitment(35.68, 139.76);
+      expect(result.salt).toBeGreaterThan(0n);
+      expect(result.salt).toBeLessThan(1n << 128n);
+      expect(result.commitment).toBeGreaterThan(0n);
+      expect(result.scheme).toBe('legacy-algebraic');
+    } finally {
+      random.mockRestore();
+    }
+  });
+
+  it('rejects out-of-range home coordinates', () => {
+    expect(() => createHomeCommitment(91, 139.76)).toThrow(RangeError);
+    expect(() => createHomeCommitment(35.68, Number.NaN)).toThrow(RangeError);
+  });
+
+  it('passes the exact circuit inputs to the Poseidon hasher', async () => {
+    let capturedInputs: readonly [bigint, bigint, bigint] | undefined;
+    const result = await createPoseidonHomeCommitment(
+      35.68,
+      139.76,
+      inputs => {
+        capturedInputs = inputs;
+        return 42n;
+      },
+    );
+
+    expect(capturedInputs).toBeDefined();
+    expect(Object.isFrozen(capturedInputs)).toBe(true);
+    expect(capturedInputs?.[0]).toBe(35_680_000n);
+    expect(capturedInputs?.[1]).toBe(139_760_000n);
+    expect(capturedInputs?.[2]).toBe(result.salt);
+    expect(result.commitment).toBe(42n);
+    expect(result.scheme).toBe('poseidon');
+  });
+
+  it('rejects non-canonical Poseidon outputs', async () => {
+    await expect(createPoseidonHomeCommitment(
+      35.68,
+      139.76,
+      () => -1n,
+    )).rejects.toThrow('canonical BN254 field bigint');
+  });
+
+  it('rejects legacy commitments for production departure proofs', async () => {
+    const commitment = createHomeCommitment(35.68, 139.76);
+    await expect(generateDepartureProof(
+      35.7,
+      139.8,
+      35.68,
+      139.76,
+      commitment,
+      100,
+      { wasmUrl: 'unused.wasm', zkeyUrl: 'unused.zkey' },
+      undefined,
+      { production: true },
+    )).rejects.toThrow('require a Poseidon home commitment');
+  });
+});
 
 describe('toFixedPoint', () => {
   it('converts 0 to 0n', () => {

@@ -28,7 +28,7 @@
     "test:chat": "npx tsx --env-file=.env test/chat-bump-test.ts",
     "test:extended": "npx tsx --env-file=.env test/extended-test.ts",
     "test:remaining": "npx tsx --env-file=.env test/remaining-test.ts",
-    "test:unit": "pnpm --filter @zairn/geo-drop test",
+    "test:unit": "pnpm --filter @zairn/sdk test && pnpm --filter @zairn/geo-drop test",
     "demo:bootstrap": "bash scripts/demo-bootstrap.sh",
     "dev:social-map": "pnpm --filter social-map-example dev",
     "dev:treasure-hunt": "pnpm --filter treasure-hunt-example dev",
@@ -46,5 +46,18 @@
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
     "vitest": "^4.1.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@babel/core": "7.29.7",
+      "brace-expansion": "2.1.2",
+      "follow-redirects": "1.16.0",
+      "picomatch": "4.0.5",
+      "postcss": "8.5.20",
+      "underscore": "1.13.8",
+      "undici": "6.27.0",
+      "vite": "7.3.5",
+      "ws": "8.21.1"
+    }
   }
 }

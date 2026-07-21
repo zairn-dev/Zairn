@@ -44,11 +44,19 @@ export interface ZkDepartureProof {
   departureDistanceM: number;
 }
 
+export type HomeCommitmentScheme = 'legacy-algebraic' | 'poseidon';
+
+export type PoseidonHasher = (
+  inputs: readonly [bigint, bigint, bigint],
+) => bigint | Promise<bigint>;
+
 export interface HomeCommitment {
   /** Public commitment hash (stored server-side) */
   commitment: bigint;
   /** Secret salt (stored on-device ONLY, never shared) */
   salt: bigint;
+  /** Missing values are treated as legacy commitments for backward compatibility. */
+  scheme?: HomeCommitmentScheme;
 }
 
 export type ZklsProtocol = 'groth16' | 'plonk';
@@ -83,25 +91,98 @@ let devZkeyWarningEmitted = false;
 // Home Commitment
 // ============================================================
 
+const BN254_SCALAR_FIELD =
+  21888242871839275222246405745257275088548364400416034343698204186575808495617n;
+
+function validateHomeCoordinates(homeLat: number, homeLon: number): void {
+  if (
+    !Number.isFinite(homeLat) ||
+    homeLat < -90 ||
+    homeLat > 90 ||
+    !Number.isFinite(homeLon) ||
+    homeLon < -180 ||
+    homeLon > 180
+  ) {
+    throw new RangeError('Home coordinates must be finite and in range.');
+  }
+}
+
+function createHomeSalt(): bigint {
+  if (!globalThis.crypto?.getRandomValues) {
+    throw new Error('Secure random number generation is unavailable.');
+  }
+
+  let salt = 0n;
+  while (salt === 0n) {
+    const words = new Uint32Array(4);
+    globalThis.crypto.getRandomValues(words);
+    salt = words.reduce(
+      (value, word) => (value << 32n) | BigInt(word),
+      0n,
+    );
+  }
+  return salt;
+}
+
 /**
  * Create a commitment to the home location.
  * The commitment is stored server-side; the salt stays on-device.
+ * Uses 128 bits of Web Crypto entropy. Environments without a CSPRNG fail
+ * closed instead of weakening the commitment.
  *
  * Uses the same algebraic hash as the circuit:
  *   H(a, b, c) = a*P1 + b*P2 + c*P3 + a*b + b*c + P4
+ *
+ * Security note: this legacy research commitment is not collision-resistant.
+ * Production deployments must migrate the circuit and client to Poseidon.
+ *
+ * @deprecated Use createPoseidonHomeCommitment with Poseidon circuit artifacts.
  */
 export function createHomeCommitment(
   homeLat: number,
   homeLon: number,
 ): HomeCommitment {
-  const salt = BigInt(Math.floor(Math.random() * 2 ** 48)) * BigInt(2 ** 16)
-    + BigInt(Math.floor(Math.random() * 2 ** 16));
+  validateHomeCoordinates(homeLat, homeLon);
+  const salt = createHomeSalt();
   const a = toFixedPoint(homeLat);
   const b = toFixedPoint(homeLon);
-  const c = salt;
+  const commitment = algebraicHash(a, b, salt);
+  return { commitment, salt, scheme: 'legacy-algebraic' };
+}
 
-  const commitment = algebraicHash(a, b, c);
-  return { commitment, salt };
+/**
+ * Create a collision-resistant commitment for the Poseidon departure circuits.
+ *
+ * The supplied hasher must implement circomlib Poseidon(3) over the BN254
+ * scalar field and return a canonical field bigint. Injecting the hasher keeps
+ * the SDK independent of a specific cryptographic runtime.
+ */
+export async function createPoseidonHomeCommitment(
+  homeLat: number,
+  homeLon: number,
+  poseidon: PoseidonHasher,
+): Promise<HomeCommitment> {
+  validateHomeCoordinates(homeLat, homeLon);
+  if (typeof poseidon !== 'function') {
+    throw new TypeError('A Poseidon(3) hasher is required.');
+  }
+
+  const salt = createHomeSalt();
+  const inputs = Object.freeze([
+    toFixedPoint(homeLat),
+    toFixedPoint(homeLon),
+    salt,
+  ]) as readonly [bigint, bigint, bigint];
+  const commitment = await poseidon(inputs);
+  if (
+    typeof commitment !== 'bigint' ||
+    commitment < 0n ||
+    commitment >= BN254_SCALAR_FIELD
+  ) {
+    throw new RangeError('Poseidon hasher must return a canonical BN254 field bigint.');
+  }
+
+  return { commitment, salt, scheme: 'poseidon' };
 }
 
 function algebraicHash(a: bigint, b: bigint, c: bigint): bigint {
@@ -264,6 +345,12 @@ export async function generateDepartureProof(
   context?: ZkContextBinding,
   options?: { production?: boolean; protocol?: ZklsProtocol },
 ): Promise<ZkDepartureProof> {
+  const commitmentScheme = homeCommitment.scheme ?? 'legacy-algebraic';
+  if (options?.production && commitmentScheme !== 'poseidon') {
+    throw new Error(
+      'Production departure proofs require a Poseidon home commitment and Poseidon circuit artifacts.'
+    );
+  }
   warnIfDevZkey(artifacts, options?.production);
   const snarkjs = await loadSnarkjs();
   const protocol = options?.protocol ?? 'groth16';

@@ -59,7 +59,9 @@ function validateCoords(lat: number, lon: number): void {
  */
 export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
   const supabase: SupabaseClient = createClient(opts.supabaseUrl, opts.supabaseAnonKey);
-  const hasIpfs = !!(opts.ipfs?.pinningApiKey || opts.ipfs?.pinningService);
+  const hasIpfs = opts.ipfs?.pinningService === 'custom'
+    ? !!opts.ipfs.customPinningUrl
+    : !!opts.ipfs?.pinningApiKey;
   const ipfs = new IpfsClient(opts.ipfs);
 
   // Build versioned secret map
@@ -829,7 +831,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
 
     // IPFS
     uploadToIpfs: (content) => {
-      if (!hasIpfs) throw new Error('IPFS is not configured. Provide ipfs config with pinningApiKey to use IPFS features.');
+      if (!hasIpfs) throw new Error('IPFS is not configured. Provide a pinning API key or custom pinning URL.');
       return ipfs.upload(content);
     },
     fetchFromIpfs: (cid) => ipfs.fetch(cid),

@@ -33,10 +33,10 @@ import {
   FilteredLocation,
   SharingEffectLevel,
   PolicyCondition,
-} from './types';
-import { computeTrustScore, gateTrustScore } from './trust-scorer';
-import type { LocationPoint } from './trust-scorer';
-import { evaluatePolicies, coarsenLocation } from './policy-engine';
+} from './types.js';
+import { computeTrustScore, gateTrustScore } from './trust-scorer.js';
+import type { LocationPoint } from './trust-scorer.js';
+import { evaluatePolicies, coarsenLocation } from './policy-engine.js';
 
 /**
  * 2点間の距離を計算（メートル）- Haversine公式

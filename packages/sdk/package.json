@@ -19,13 +19,16 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:dist": "node ./test/trust-scorer.dist-smoke.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.0"
   },
   "devDependencies": {
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "vitest": "^4.1.0"
   },
   "peerDependencies": {
     "@supabase/supabase-js": "^2.0.0"
