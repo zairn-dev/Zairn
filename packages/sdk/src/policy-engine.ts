@@ -6,7 +6,7 @@
  * (highest wins). Fallback is the static share_rules.level.
  */
 
-import { calculateDistance } from './core.js';
+import { calculateDistance } from './core';
 import type {
   PolicyCondition,
   SharingEffectLevel,
@@ -14,7 +14,7 @@ import type {
   LocationCurrentRow,
   FilteredLocation,
   ShareLevel,
-} from './types.js';
+} from './types';
 
 /**
  * Context passed to the policy engine for evaluation

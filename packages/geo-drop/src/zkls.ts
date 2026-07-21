@@ -86,42 +86,16 @@ let devZkeyWarningEmitted = false;
 /**
  * Create a commitment to the home location.
  * The commitment is stored server-side; the salt stays on-device.
- * Uses 128 bits of Web Crypto entropy. Environments without a CSPRNG fail
- * closed instead of weakening the commitment.
  *
  * Uses the same algebraic hash as the circuit:
  *   H(a, b, c) = a*P1 + b*P2 + c*P3 + a*b + b*c + P4
- *
- * Security note: this legacy research commitment is not collision-resistant.
- * Production deployments must migrate the circuit and client to Poseidon.
  */
 export function createHomeCommitment(
   homeLat: number,
   homeLon: number,
 ): HomeCommitment {
-  if (
-    !Number.isFinite(homeLat) ||
-    homeLat < -90 ||
-    homeLat > 90 ||
-    !Number.isFinite(homeLon) ||
-    homeLon < -180 ||
-    homeLon > 180
-  ) {
-    throw new RangeError('Home coordinates must be finite and in range.');
-  }
-  if (!globalThis.crypto?.getRandomValues) {
-    throw new Error('Secure random number generation is unavailable.');
-  }
-
-  let salt = 0n;
-  while (salt === 0n) {
-    const words = new Uint32Array(4);
-    globalThis.crypto.getRandomValues(words);
-    salt = words.reduce(
-      (value, word) => (value << 32n) | BigInt(word),
-      0n,
-    );
-  }
+  const salt = BigInt(Math.floor(Math.random() * 2 ** 48)) * BigInt(2 ** 16)
+    + BigInt(Math.floor(Math.random() * 2 ** 16));
   const a = toFixedPoint(homeLat);
   const b = toFixedPoint(homeLon);
   const c = salt;

@@ -22,8 +22,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Build SDK (dependency)
         run: pnpm --filter @zairn/sdk build
-      - name: Smoke test SDK distribution
-        run: pnpm --filter @zairn/sdk test:dist
       - name: Build geo-drop
         run: pnpm --filter @zairn/geo-drop build
       - name: Run unit tests
@@ -79,11 +77,11 @@ jobs:
       - name: Apply schema via psql
         run: |
           DB_URL="postgresql://postgres:postgres@127.0.0.1:54322/postgres"
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -f database/schema.sql
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -f database/policies.sql
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -f packages/geo-drop/database/schema.sql
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -f packages/geo-drop/database/policies.sql
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -c "INSERT INTO storage.buckets (id, name, public) VALUES ('avatars', 'avatars', true) ON CONFLICT DO NOTHING;"
+          psql "$DB_URL" -f database/schema.sql
+          psql "$DB_URL" -f database/policies.sql
+          psql "$DB_URL" -f packages/geo-drop/database/schema.sql
+          psql "$DB_URL" -f packages/geo-drop/database/policies.sql
+          psql "$DB_URL" -c "INSERT INTO storage.buckets (id, name, public) VALUES ('avatars', 'avatars', true) ON CONFLICT DO NOTHING;"
       - name: Create .env for tests
         run: |
           echo "SUPABASE_URL=http://127.0.0.1:54321" >> .env

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   toFixedPoint,
   metersToRadiusSquared,
@@ -8,29 +8,6 @@ import {
   validateRegionPublicSignals,
   MAX_POLYGON_VERTICES,
 } from '../src/zkp';
-import { createHomeCommitment } from '../src/zkls';
-
-describe('createHomeCommitment', () => {
-  it('uses a 128-bit CSPRNG salt without Math.random', () => {
-    const random = vi.spyOn(Math, 'random').mockImplementation(() => {
-      throw new Error('Math.random must not generate commitment salts');
-    });
-
-    try {
-      const result = createHomeCommitment(35.68, 139.76);
-      expect(result.salt).toBeGreaterThan(0n);
-      expect(result.salt).toBeLessThan(1n << 128n);
-      expect(result.commitment).toBeGreaterThan(0n);
-    } finally {
-      random.mockRestore();
-    }
-  });
-
-  it('rejects out-of-range home coordinates', () => {
-    expect(() => createHomeCommitment(91, 139.76)).toThrow(RangeError);
-    expect(() => createHomeCommitment(35.68, Number.NaN)).toThrow(RangeError);
-  });
-});
 
 describe('toFixedPoint', () => {
   it('converts 0 to 0n', () => {

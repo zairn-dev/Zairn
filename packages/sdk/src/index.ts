@@ -4,39 +4,14 @@
  */
 
 // 型定義のエクスポート
-export * from './types.js';
+export * from './types';
 
 // コア機能のエクスポート
-export { createLocationCore, calculateDistance, estimateMotionType, encodeGeohash, decodeGeohash } from './core.js';
+export { createLocationCore, calculateDistance, estimateMotionType, encodeGeohash, decodeGeohash } from './core';
 
 // ポリシーエンジン（高度な利用向け）
-export { evaluatePolicies, coarsenLocation } from './policy-engine.js';
-export type { EvaluationContext } from './policy-engine.js';
-
-// Probabilistic location integrity scoring
-export {
-  computeTrustScore,
-  computeTrustScoreV2,
-  gateTrustScore,
-  temporalRaimTrustSignalProvider,
-  networkCrossCheckTrustSignalProvider,
-  DEFAULT_TRUST_SIGNAL_PROVIDERS,
-} from './trust-scorer.js';
-export type {
-  LocationPoint,
-  TrustScoreResult,
-  TrustScoreResultV2,
-  TrustThresholds,
-  TrustDeviceCapabilities,
-  GpsFix,
-  NetworkHint,
-  ImuSummary,
-  TrustContext,
-  TrustSignalInput,
-  TrustSignalObservation,
-  TrustSignalProvider,
-  TrustSignalEvidence,
-} from './trust-scorer.js';
+export { evaluatePolicies, coarsenLocation } from './policy-engine';
+export type { EvaluationContext } from './policy-engine';
 
 // Privacy-preserving location sharing
 export {
@@ -53,11 +28,10 @@ export {
   FixedRateReporter,
   jitterDepartureTime,
   DEFAULT_PRIVACY_CONFIG,
-} from './privacy-location.js';
+} from './privacy-location';
 export type {
   SensitivePlace,
   PrivacyZoneRule,
   LocationState,
-  LocationReporter,
   PrivacyConfig,
-} from './privacy-location.js';
+} from './privacy-location';
