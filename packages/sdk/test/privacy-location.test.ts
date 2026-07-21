@@ -1,11 +1,15 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
+  addPlanarLaplaceNoise,
   detectSensitivePlaces,
   obfuscateLocation,
   processLocation,
+  AdaptiveReporter,
+  FixedRateReporter,
   FrequencyBudget,
   jitterDepartureTime,
   DEFAULT_PRIVACY_CONFIG,
+  validatePrivacyConfig,
 } from '../src/privacy-location';
 import type { SensitivePlace, PrivacyConfig } from '../src/privacy-location';
 
@@ -171,17 +175,17 @@ describe('processLocation', () => {
     const medical: SensitivePlace = {
       ...home, label: 'medical', id: 'sp-1',
     };
-    const budget = new FrequencyBudget(12);
+    const reporter = new AdaptiveReporter(12);
     const result = processLocation(
-      medical.lat, medical.lon, [medical], config, budget
+      medical.lat, medical.lon, [medical], config, reporter
     );
     expect(result.type).toBe('suppressed');
   });
 
   it('returns state-only inside home zone', () => {
-    const budget = new FrequencyBudget(12);
+    const reporter = new AdaptiveReporter(12);
     const result = processLocation(
-      home.lat, home.lon, [home], config, budget
+      home.lat, home.lon, [home], config, reporter
     );
     expect(result.type).toBe('state');
     if (result.type === 'state') {
@@ -190,21 +194,29 @@ describe('processLocation', () => {
   });
 
   it('returns coarse location outside all zones', () => {
-    const budget = new FrequencyBudget(12);
+    const reporter = new AdaptiveReporter(12);
     // Shibuya station (far from home)
     const result = processLocation(
-      35.6580, 139.7016, [home], config, budget
+      35.6580, 139.7016, [home], config, reporter
     );
     expect(result.type).toBe('coarse');
   });
 
   it('returns proximity when viewer is far', () => {
-    const budget = new FrequencyBudget(12);
+    const reporter = new AdaptiveReporter(12);
     const result = processLocation(
-      35.6580, 139.7016, [], config, budget,
+      35.6580, 139.7016, [], config, reporter,
       { lat: 35.7, lon: 140.0 } // viewer is ~30km away
     );
     expect(result.type).toBe('proximity');
+  });
+
+  it('accepts a fixed-rate reporting strategy', () => {
+    const reporter = new FixedRateReporter(0, 0);
+    const result = processLocation(
+      35.6580, 139.7016, [], config, reporter
+    );
+    expect(result.type).toBe('coarse');
   });
 });
 
@@ -219,6 +231,70 @@ describe('jitterDepartureTime', () => {
     const diffMin = (jittered.getTime() - actual.getTime()) / 60000;
     expect(diffMin).toBeGreaterThanOrEqual(5);
     expect(diffMin).toBeLessThanOrEqual(15);
+  });
+
+  it('uses secure randomness rather than Math.random', () => {
+    const random = vi.spyOn(Math, 'random').mockImplementation(() => {
+      throw new Error('Math.random must not be used for privacy noise');
+    });
+
+    try {
+      const noisy = addPlanarLaplaceNoise(35.68, 139.76, Math.LN2 / 500);
+      const jittered = jitterDepartureTime(new Date('2026-01-01T08:00:00Z'));
+
+      expect(Number.isFinite(noisy.lat)).toBe(true);
+      expect(Number.isFinite(noisy.lon)).toBe(true);
+      expect(Number.isFinite(jittered.getTime())).toBe(true);
+    } finally {
+      random.mockRestore();
+    }
+  });
+
+  it('rejects invalid jitter ranges', () => {
+    expect(() => jitterDepartureTime(
+      new Date('2026-01-01T08:00:00Z'),
+      15,
+      5,
+    )).toThrow(RangeError);
+    expect(() => jitterDepartureTime(new Date('invalid'))).toThrow(RangeError);
+  });
+});
+
+describe('privacy configuration validation', () => {
+  const config: PrivacyConfig = {
+    ...DEFAULT_PRIVACY_CONFIG,
+    gridSeed: 'security-test',
+  };
+
+  it('rejects non-finite privacy and reporting parameters', () => {
+    expect(() => validatePrivacyConfig({
+      ...config,
+      baseEpsilon: Number.NaN,
+    })).toThrow(RangeError);
+    expect(() => validatePrivacyConfig({
+      ...config,
+      gridSizeM: Number.POSITIVE_INFINITY,
+    })).toThrow(RangeError);
+    expect(() => validatePrivacyConfig({
+      ...config,
+      maxReportsPerHourMoving: Number.NaN,
+    })).toThrow(RangeError);
+    expect(() => validatePrivacyConfig({
+      ...config,
+      zoneRules: {
+        ...config.zoneRules,
+        home: {
+          ...config.zoneRules.home,
+          coreMode: 'invalid' as PrivacyConfig['zoneRules'][string]['coreMode'],
+        },
+      },
+    })).toThrow(RangeError);
+  });
+
+  it('rejects invalid reporter budgets', () => {
+    expect(() => new AdaptiveReporter(Number.NaN, 2)).toThrow(RangeError);
+    expect(() => new FixedRateReporter(1000, 1001)).toThrow(RangeError);
+    expect(() => new FrequencyBudget(0)).toThrow(RangeError);
   });
 });
 

@@ -3,6 +3,18 @@
  * Types for location-bound data drops
  */
 
+import type {
+  GpsFix as SdkGpsFix,
+  ImuSummary as SdkImuSummary,
+  LocationPoint as SdkLocationPoint,
+  NetworkHint as SdkNetworkHint,
+  TrustContext as SdkTrustContext,
+  TrustDeviceCapabilities as SdkTrustDeviceCapabilities,
+  TrustScoreResult as SdkTrustScoreResult,
+  TrustScoreResultV2 as SdkTrustScoreResultV2,
+  TrustThresholds as SdkTrustThresholds,
+} from '@zairn/sdk';
+
 // =====================
 // Drop types
 // =====================
@@ -405,70 +417,35 @@ export interface RecoveredDrop {
 // =====================
 
 /** A single location point used for trust scoring */
-export interface LocationPoint {
-  lat: number;
-  lon: number;
-  accuracy: number | null;
-  timestamp: string;
-  speed?: number | null;
-}
+export interface LocationPoint extends SdkLocationPoint {}
 
 /** Result of trust scoring */
-export interface TrustScoreResult {
-  /** Overall trust score: 0.0 (untrusted) to 1.0 (fully trusted) */
-  trustScore: number;
-  /** True when trustScore < 0.3 */
-  spoofingSuspected: boolean;
-  /** Breakdown of individual signal scores */
-  signals: {
-    movementPlausibility: number;
-    accuracyAnomaly: number;
-    temporalConsistency: number;
-  };
-}
+export interface TrustScoreResult extends SdkTrustScoreResult {}
 
 /** Action gate thresholds */
-export interface TrustThresholds {
-  /** Score >= this: proceed normally (default 0.7) */
-  proceed: number;
-  /** Score >= this but < proceed: step-up verification (default 0.3) */
-  stepUp: number;
-}
+export interface TrustThresholds extends SdkTrustThresholds {}
 
 // =====================
 // Trust scoring V2 (RAIM-style integrity)
 // =====================
 
 /** A single raw GPS fix for RAIM-style consistency analysis */
-export interface GpsFix {
-  lat: number;
-  lon: number;
-  accuracy: number;
-  timestamp: string;
-}
+export interface GpsFix extends SdkGpsFix {}
 
 /** Network-derived position hint for cross-check */
-export interface NetworkHint {
-  lat: number;
-  lon: number;
-  /** Estimated accuracy in meters (typically 1–50 km for IP geolocation) */
-  accuracy: number;
-  source: 'ip' | 'cell' | 'wifi';
-}
+export interface NetworkHint extends SdkNetworkHint {}
+
+/** Device signal capabilities available to the trust scorer */
+export interface TrustDeviceCapabilities extends SdkTrustDeviceCapabilities {}
+
+/** Aggregate IMU evidence for custom trust signal providers */
+export interface ImuSummary extends SdkImuSummary {}
 
 /** Additional context for V2 trust scoring */
-export interface TrustContext {
-  recentFixes?: GpsFix[];
-  networkHint?: NetworkHint;
-}
+export interface TrustContext extends SdkTrustContext {}
 
 /** Extended trust score result with V2 signals */
-export interface TrustScoreResultV2 extends TrustScoreResult {
-  signals: TrustScoreResult['signals'] & {
-    fixConsistency?: number;
-    networkConsistency?: number;
-  };
-}
+export interface TrustScoreResultV2 extends SdkTrustScoreResultV2 {}
 
 // =====================
 // Step-up verification

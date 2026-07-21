@@ -112,6 +112,18 @@ export const DEFAULT_PRIVACY_CONFIG: PrivacyConfig = {
 // Layer 1: Planar Laplace Mechanism
 // ============================================================
 
+const UINT53_RANGE = 0x20_0000_0000_0000;
+
+function secureRandomUnit(): number {
+  if (!globalThis.crypto?.getRandomValues) {
+    throw new Error('Secure random number generation is unavailable.');
+  }
+  const words = new Uint32Array(2);
+  globalThis.crypto.getRandomValues(words);
+  const value = (words[0] >>> 5) * 0x400_0000 + (words[1] >>> 6);
+  return (value + 0.5) / UINT53_RANGE;
+}
+
 /**
  * Lambert W function (W_{-1} branch) approximation.
  * Used for sampling from the Planar Laplace distribution.
@@ -141,7 +153,7 @@ function lambertWm1(x: number): number {
  * CDF inverse: r = -(1/ε) * (W_{-1}((p-1)/e) + 1)
  */
 function samplePlanarLaplaceRadius(epsilon: number): number {
-  const p = Math.random();
+  const p = secureRandomUnit();
   const w = lambertWm1((p - 1) / Math.E);
   return -(1 / epsilon) * (w + 1);
 }
@@ -159,7 +171,12 @@ export function addPlanarLaplaceNoise(
   lon: number,
   epsilon: number,
 ): { lat: number; lon: number } {
-  const theta = Math.random() * 2 * Math.PI;
+  assertProjectableCoordinate(lat, lon);
+  if (!Number.isFinite(epsilon) || epsilon <= 0) {
+    throw new RangeError(`epsilon must be a positive finite number (got ${epsilon}).`);
+  }
+
+  const theta = secureRandomUnit() * 2 * Math.PI;
   const rMeters = samplePlanarLaplaceRadius(epsilon);
 
   const dLat = (rMeters * Math.cos(theta)) / 111320;
@@ -186,6 +203,14 @@ export function gridSnap(
   gridSizeM: number,
   gridSeed: string,
 ): { lat: number; lon: number; cellId: string } {
+  assertProjectableCoordinate(lat, lon);
+  if (!Number.isFinite(gridSizeM) || gridSizeM <= 0) {
+    throw new RangeError(`gridSizeM must be a positive finite number (got ${gridSizeM}).`);
+  }
+  if (typeof gridSeed !== 'string' || gridSeed.length === 0) {
+    throw new RangeError('gridSeed must be a non-empty string.');
+  }
+
   const seedHash = fnv1a(gridSeed);
   const offsetLat = ((seedHash & 0xFFFF) / 0xFFFF) * (gridSizeM / 111320);
   const offsetLon = (((seedHash >> 16) & 0xFFFF) / 0xFFFF) *
@@ -366,6 +391,12 @@ function effectiveEpsilon(
 // Layer 5: Temporally-Aware Adaptive Reporting
 // ============================================================
 
+export interface LocationReporter {
+  shouldReport(currentCellId: string): boolean;
+  record(cellId: string): void;
+  remaining(): { moving: number; stationary: number };
+}
+
 /**
  * Adaptive frequency controller.
  *
@@ -378,7 +409,7 @@ function effectiveEpsilon(
  * - Moving: report at up to maxReportsPerHourMoving
  * - Stationary: exponential backoff, max maxReportsPerHourStationary
  */
-export class AdaptiveReporter {
+export class AdaptiveReporter implements LocationReporter {
   private lastReportedCell: string | null = null;
   private lastReportTime: number = 0;
   private stationaryCount: number = 0;
@@ -387,6 +418,12 @@ export class AdaptiveReporter {
   private maxStationary: number;
 
   constructor(maxMoving: number = 12, maxStationary: number = 2) {
+    if (!Number.isFinite(maxMoving) || maxMoving <= 0) {
+      throw new RangeError('maxMoving must be a positive finite number.');
+    }
+    if (!Number.isFinite(maxStationary) || maxStationary <= 0) {
+      throw new RangeError('maxStationary must be a positive finite number.');
+    }
     this.maxMoving = maxMoving;
     this.maxStationary = maxStationary;
   }
@@ -452,19 +489,25 @@ export class AdaptiveReporter {
  * @param intervalMs Fixed reporting interval (default: 5 minutes)
  * @param jitterMs Random jitter range added to each interval (default: ±30 seconds)
  */
-export class FixedRateReporter {
+export class FixedRateReporter implements LocationReporter {
   private lastReportTime: number = 0;
   private intervalMs: number;
   private jitterMs: number;
 
   constructor(intervalMs: number = 5 * 60 * 1000, jitterMs: number = 30 * 1000) {
+    if (!Number.isFinite(intervalMs) || intervalMs < 0) {
+      throw new RangeError('intervalMs must be a non-negative finite number.');
+    }
+    if (!Number.isFinite(jitterMs) || jitterMs < 0 || jitterMs > intervalMs) {
+      throw new RangeError('jitterMs must be finite and between 0 and intervalMs.');
+    }
     this.intervalMs = intervalMs;
     this.jitterMs = jitterMs;
   }
 
   shouldReport(_currentCellId: string): boolean {
     const now = Date.now();
-    const jitter = (Math.random() - 0.5) * 2 * this.jitterMs;
+    const jitter = (secureRandomUnit() - 0.5) * 2 * this.jitterMs;
     const nextReportTime = this.lastReportTime + this.intervalMs + jitter;
     return now >= nextReportTime;
   }
@@ -489,7 +532,20 @@ export function jitterDepartureTime(
   minJitterMinutes: number = 5,
   maxJitterMinutes: number = 15,
 ): Date {
-  const jitter = minJitterMinutes + Math.random() * (maxJitterMinutes - minJitterMinutes);
+  if (!Number.isFinite(actualDepartureTime.getTime())) {
+    throw new RangeError('actualDepartureTime must be a valid date.');
+  }
+  if (
+    !Number.isFinite(minJitterMinutes) ||
+    !Number.isFinite(maxJitterMinutes) ||
+    minJitterMinutes < 0 ||
+    maxJitterMinutes < minJitterMinutes
+  ) {
+    throw new RangeError('Departure jitter must be finite, non-negative, and ordered.');
+  }
+
+  const jitter =
+    minJitterMinutes + secureRandomUnit() * (maxJitterMinutes - minJitterMinutes);
   return new Date(actualDepartureTime.getTime() + jitter * 60000);
 }
 
@@ -519,34 +575,66 @@ export function bucketizeDistance(distanceM: number): string {
 
 /**
  * Validate a PrivacyConfig and throw on invalid values.
- * Call this once at initialization, not on every location update.
+ * The main processor also calls this defensively before each update.
  */
 export function validatePrivacyConfig(config: PrivacyConfig): void {
-  if (config.baseEpsilon <= 0) {
+  if (!Number.isFinite(config.baseEpsilon) || config.baseEpsilon <= 0) {
     throw new RangeError(
       `baseEpsilon must be positive (got ${config.baseEpsilon}). ` +
       `Recommended: Math.LN2 / 500 ≈ 0.001386 for 500m privacy radius.`
     );
   }
-  if (config.gridSizeM <= 0) {
+  if (!Number.isFinite(config.gridSizeM) || config.gridSizeM <= 0) {
     throw new RangeError(`gridSizeM must be positive (got ${config.gridSizeM}).`);
   }
-  if (!config.gridSeed) {
+  if (typeof config.gridSeed !== 'string' || !config.gridSeed) {
     throw new RangeError(
       `gridSeed must be a non-empty string (per-user unique). ` +
       `Without it, all users share the same grid, enabling cross-user correlation attacks.`
     );
   }
-  if (config.defaultZoneRadiusM < 0) {
+  if (!Number.isFinite(config.defaultZoneRadiusM) || config.defaultZoneRadiusM < 0) {
     throw new RangeError(`defaultZoneRadiusM must be non-negative (got ${config.defaultZoneRadiusM}).`);
   }
-  if (config.defaultBufferRadiusM < config.defaultZoneRadiusM) {
+  if (
+    !Number.isFinite(config.defaultBufferRadiusM) ||
+    config.defaultBufferRadiusM < config.defaultZoneRadiusM
+  ) {
     throw new RangeError(
       `defaultBufferRadiusM (${config.defaultBufferRadiusM}) should be >= defaultZoneRadiusM (${config.defaultZoneRadiusM}).`
     );
   }
-  if (config.maxReportsPerHourMoving <= 0 || config.maxReportsPerHourStationary <= 0) {
+  if (
+    !Number.isFinite(config.maxReportsPerHourMoving) ||
+    !Number.isFinite(config.maxReportsPerHourStationary) ||
+    config.maxReportsPerHourMoving <= 0 ||
+    config.maxReportsPerHourStationary <= 0
+  ) {
     throw new RangeError(`maxReportsPerHour values must be positive.`);
+  }
+  if (
+    !Number.isFinite(config.departureJitterMinMinutes) ||
+    !Number.isFinite(config.departureJitterMaxMinutes) ||
+    config.departureJitterMinMinutes < 0 ||
+    config.departureJitterMaxMinutes < config.departureJitterMinMinutes
+  ) {
+    throw new RangeError('Departure jitter must be finite, non-negative, and ordered.');
+  }
+  if (!config.zoneRules || typeof config.zoneRules !== 'object') {
+    throw new RangeError('zoneRules must be an object.');
+  }
+  for (const [label, rule] of Object.entries(config.zoneRules)) {
+    if (rule.coreMode !== 'suppress' && rule.coreMode !== 'state-only') {
+      throw new RangeError(`zoneRules.${label}.coreMode is invalid.`);
+    }
+    if (
+      !Number.isFinite(rule.bufferNoiseMultiplier) ||
+      rule.bufferNoiseMultiplier <= 0
+    ) {
+      throw new RangeError(
+        `zoneRules.${label}.bufferNoiseMultiplier must be positive and finite.`,
+      );
+    }
   }
 }
 
@@ -572,9 +660,15 @@ export function processLocation(
   rawLon: number,
   sensitivePlaces: SensitivePlace[],
   config: PrivacyConfig,
-  reporter: AdaptiveReporter,
+  reporter: LocationReporter,
   viewerLocation?: { lat: number; lon: number },
 ): LocationState {
+  validatePrivacyConfig(config);
+  assertProjectableCoordinate(rawLat, rawLon);
+  if (viewerLocation) {
+    assertProjectableCoordinate(viewerLocation.lat, viewerLocation.lon);
+  }
+
   // Layer 4: Graduated privacy zones
   const { epsilon, zone, inCore } = effectiveEpsilon(
     rawLat, rawLon, sensitivePlaces, config
@@ -682,15 +776,42 @@ export function createPrivacyProcessor(
 // Backward Compatibility Exports
 // ============================================================
 
-/** @deprecated Use AdaptiveReporter instead */
+/**
+ * @deprecated Use AdaptiveReporter instead.
+ *
+ * This compatibility class is a simple hourly count budget. It intentionally
+ * does not delegate to AdaptiveReporter because stationary backoff would
+ * reject rapid updates before the count budget is exhausted.
+ */
 export class FrequencyBudget {
-  private reporter: AdaptiveReporter;
+  private maxPerHour: number;
+  private timestamps: number[] = [];
+
   constructor(maxPerHour: number = 12) {
-    this.reporter = new AdaptiveReporter(maxPerHour, maxPerHour);
+    if (!Number.isFinite(maxPerHour) || maxPerHour <= 0) {
+      throw new RangeError('maxPerHour must be a positive finite number.');
+    }
+    this.maxPerHour = maxPerHour;
   }
-  canUpdate(): boolean { return this.reporter.shouldReport('_'); }
-  record(): void { this.reporter.record('_'); }
-  remaining(): number { return this.reporter.remaining().moving; }
+
+  private prune(): void {
+    const cutoff = Date.now() - 3600000;
+    this.timestamps = this.timestamps.filter((timestamp) => timestamp > cutoff);
+  }
+
+  canUpdate(): boolean {
+    this.prune();
+    return this.timestamps.length < this.maxPerHour;
+  }
+
+  record(): void {
+    this.timestamps.push(Date.now());
+  }
+
+  remaining(): number {
+    this.prune();
+    return Math.max(0, this.maxPerHour - this.timestamps.length);
+  }
 }
 
 /** @deprecated Use processLocation with Planar Laplace instead */
@@ -725,6 +846,19 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
     Math.sin(dLon / 2) ** 2
   );
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function assertProjectableCoordinate(lat: number, lon: number): void {
+  if (
+    !Number.isFinite(lat) ||
+    lat <= -90 ||
+    lat >= 90 ||
+    !Number.isFinite(lon) ||
+    lon < -180 ||
+    lon > 180
+  ) {
+    throw new RangeError('Coordinates must be finite and within projection bounds.');
+  }
 }
 
 /** FNV-1a hash for deterministic per-user grid offset */

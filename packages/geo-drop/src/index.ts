@@ -101,9 +101,33 @@ export type {
 } from './zkp';
 
 // Trust scoring
-export { computeTrustScore, computeTrustScoreV2, gateTrustScore, createTrustSession } from './trust-scorer';
-export type { TrustSession } from './trust-scorer';
-export type { LocationPoint, TrustScoreResult, TrustScoreResultV2, TrustThresholds, GpsFix, NetworkHint, TrustContext } from './types';
+export {
+  computeTrustScore,
+  computeTrustScoreV2,
+  gateTrustScore,
+  createTrustSession,
+  temporalRaimTrustSignalProvider,
+  networkCrossCheckTrustSignalProvider,
+  DEFAULT_TRUST_SIGNAL_PROVIDERS,
+} from './trust-scorer';
+export type {
+  TrustSession,
+  TrustSignalEvidence,
+  TrustSignalInput,
+  TrustSignalObservation,
+  TrustSignalProvider,
+} from './trust-scorer';
+export type {
+  LocationPoint,
+  TrustScoreResult,
+  TrustScoreResultV2,
+  TrustThresholds,
+  TrustDeviceCapabilities,
+  GpsFix,
+  NetworkHint,
+  ImuSummary,
+  TrustContext,
+} from './types';
 
 // Geofence utilities
 export { encodeGeohash, decodeGeohash, calculateDistance, verifyProximity, geohashNeighbors, isMovementRealistic } from './geofence';
