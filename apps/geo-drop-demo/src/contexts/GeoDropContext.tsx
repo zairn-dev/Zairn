@@ -40,6 +40,8 @@ export function GeoDropProvider({ children }: { children: ReactNode }) {
       persistence: {
         level: ipfsProxyUrl ? 'ipfs' as const : 'db-only' as const,
       },
+      // Local demo only; production must use a server-side unlock path.
+      allowInsecureNoSecret: import.meta.env.DEV,
     })
 
     return { sdk, supabase }
