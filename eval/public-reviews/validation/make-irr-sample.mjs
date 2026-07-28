@@ -1,11 +1,51 @@
 /**
  * make-irr-sample.mjs — build the inter-rater-reliability (IRR) coding kit.
  *
- * Draws a STRATIFIED random sample of 200 public reviews (strata = app ×
- * rating-bucket) from the same corpus and with the same cleaning pipeline as
- * ../code-reviews.mjs, joins back the VERBATIM review text, and emits two
- * blank coder worksheets plus a hidden machine-code key.
+ * Draws a STRATIFIED sample of 200 public reviews from the same corpus and with
+ * the same cleaning pipeline as ../code-reviews.mjs, joins back the VERBATIM
+ * review text, and emits two blank coder worksheets plus a hidden machine key.
  *
+ * ---------------------------------------------------------------------------
+ * WHY THIS STRATIFIES BY PREDICTED CODE (changed 2026-07)
+ * ---------------------------------------------------------------------------
+ * The original design stratified by app x rating-bucket. That yields a sample
+ * that is representative of the corpus — and therefore useless for estimating
+ * per-code reliability, because the corpus itself is sparse. Measured on the
+ * app x bucket sample:
+ *
+ *     safety_need 32 | battery 11 | freshness 10 | control 8
+ *     coordination 3 | precision 2 | monitoring 1
+ *     accuracy 0 | trust_integrity 0        (70% of rows carried NO code)
+ *
+ * With 0-8 positives, Cohen's kappa is not estimable: chance agreement Pe
+ * approaches 1, so near-perfect observed agreement still yields kappa near 0 or
+ * undefined (the "kappa paradox"). compute-irr.mjs already returns null in that
+ * degenerate case. Paying two coders for that sample would have bought a usable
+ * kappa for exactly one of the nine codes.
+ *
+ * Stratifying by PREDICTED code fixes the composition at identical coding cost
+ * (still 200 items). The trade-off is that the sample is no longer
+ * corpus-representative, so corpus-level prevalence must come from the full
+ * lexical run corrected by the precision/recall measured here — the standard
+ * design for validating a classifier. The `other` stratum is retained
+ * specifically so recall (the lexical coder's false negatives) stays estimable.
+ *
+ * ---------------------------------------------------------------------------
+ * WHY safety_need IS SPLIT IN TWO
+ * ---------------------------------------------------------------------------
+ * safety_need is the dominant code and drives the headline number. Its lexical
+ * rule fires on bare family nouns (son/daughter/mom/husband/...), but CODEBOOK.md
+ * states the opposite: "Requires an explicit protective / wellbeing /
+ * peace-of-mind / emergency framing. Merely naming a family member is not enough
+ * on its own." Measured on the raw corpus, 126 of 224 safety_need hits (56%)
+ * fire on a family noun with NO protective wording anywhere in the review.
+ *
+ * That subgroup is where the machine and the codebook disagree by construction,
+ * so it is sampled as its own stratum. Its precision is the single number most
+ * able to move the headline, and it deserves a direct estimate rather than a
+ * handful of incidental rows.
+ *
+ * ---------------------------------------------------------------------------
  * Fully deterministic: a seeded PRNG (seed "irr-2026") drives both the
  * within-stratum sampling and the per-coder row shuffle. No Math.random / no
  * Date.now anywhere, so re-running reproduces byte-identical output.
@@ -13,7 +53,7 @@
  * Outputs (all in this validation/ directory):
  *   irr-sample-coder-A.csv   blank worksheet, coder-A row order
  *   irr-sample-coder-B.csv   blank worksheet, coder-B row order (independent shuffle)
- *   irr-sample-key.json      sample_id -> {app, rating, bucket, machine_codes}
+ *   irr-sample-key.json      sample_id -> {app, rating, bucket, stratum, machine_codes}
  *                            (the lexical coder's codes — kept OUT of the CSVs)
  *
  * Run:  node make-irr-sample.mjs
@@ -21,13 +61,13 @@
 
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
+import { RULES_V1, RULES_V2, applyRules, SAFETY_PROTECTIVE } from '../lexical-rules.mjs';
 
 const DIR = import.meta.dirname;      // .../eval/public-reviews/validation
 const SRC = join(DIR, '..');          // .../eval/public-reviews
 
 const SEED = 'irr-2026';
 const SAMPLE_SIZE = 200;
-const MIN_PER_STRATUM = 2;
 
 // Column order for the human coder worksheets (task-specified order).
 const CODES = [
@@ -42,113 +82,41 @@ const CODES = [
   'trust_integrity',
 ];
 
+// Desired rows per stratum. Capped by availability; any shortfall is absorbed
+// by the `other` stratum, which is by far the largest.
+const TARGETS = {
+  'safety_need@family': 35,     // the codebook/machine disagreement zone
+  'safety_need@protective': 20,
+  battery_performance: 18,
+  control_visibility: 18,
+  freshness_complaint: 18,
+  coordination_need: 18,
+  monitoring_coercion: 15,
+  accuracy_complaint: 14,
+  precision_concern: 7,
+  trust_integrity: 6,
+  other: 31,                    // recall arm: lexical false negatives
+};
+
 // ---------------------------------------------------------------------------
 // Lexical rules — copied verbatim from ../code-reviews.mjs so the machine key
 // matches the pipeline exactly. (code-reviews.mjs runs main() on import and
 // exports nothing, so we replicate rather than import.)
+//
+// safety_need's patterns are additionally tagged protective/family so the
+// stratum split above can be computed. The union is byte-identical to the
+// original list; the tags change nothing about which reviews match.
 // ---------------------------------------------------------------------------
-const RULES = [
-  { code: 'precision_concern', patterns: [
-    /\b(approx|approximate|coars(e|er))/,
-    /\b(less precise|not exact|rough location)/,
-    /\b(neighbou?rhood|city[- ]level|region[- ]only)/,
-    /\b(too precise|too accurate|too specific)/,
-    /\b(exact location|exact address|pinpoint)/,
-    /\b(down to the (inch|foot|meter|metre|house))/,
-  ] },
-  { code: 'monitoring_coercion', patterns: [
-    /\b(controlling|control[- ]freak|possessive|jealous)/,
-    /\b(stalk|stalker|stalking)/,
-    /\b(spy|spying|surveillance|creep|creepy|invasive)/,
-    /\b(forced to|made to|have to have|obligated|coerc)/,
-    /\b(abusive|toxic (partner|relationship|parent))/,
-    /\b(overbearing|helicopter (parent|mom|dad))/,
-    /\b(big brother|watching me|watching my every)/,
-    /\b(prison|grounded|feels like (jail|prison))/,
-  ] },
-  { code: 'freshness_complaint', patterns: [
-    /\b(stale|outdated|not (updating|refreshing))/,
-    /\b(won'?t update|doesn'?t update|never updates)/,
-    /\b(delayed|delay in|lag(s|ging) behind)/,
-    /\b(hours? (behind|old|stale|ago))/,
-    /\b(last seen \d+)/,
-    /\b(frozen (at|on)|stuck at|stuck on)/,
-    /\b(real[- ]time|real time|live (location|update))/,
-    /\b(keeps? loading|loading forever)/,
-  ] },
-  { code: 'accuracy_complaint', patterns: [
-    /\b(inaccurate|inacurate|wrong location|incorrect)/,
-    /\b(miles (off|away from|from where))/,
-    /\b(says? (i|they|he|she) (am|are|is) (somewhere|at|in))/,
-    /\b(false (arrival|departure|alert|notif|alarm))/,
-    /\b(drift|drifting|keeps? moving|moves when)/,
-    /\b(random (trip|location|place))/,
-    /\b(says (i|they)'?m|thinks (i|they)'?m|placed me)/,
-    /\b(way off|completely wrong|totally wrong)/,
-  ] },
-  { code: 'trust_integrity', patterns: [
-    /\b(fake (location|gps|position)|spoof)/,
-    /\b(lying|lied about|lies about)/,
-    /\b(can'?t trust|don'?t trust|lost trust|trust issues)/,
-    /\b(paus(e|ed|ing) (their )?location|ghost mode|bubble)/,
-    /\b(tricks? the app|bypass|cheat the app|trick it)/,
-    /\b(privacy (concern|issue|worry|violation|nightmare))/,
-    /\b(data (broker|sold|sell|selling))/,
-    /\b(sells? (our|your|my) (location|data))/,
-    /\b(turned off without|quietly turned)/,
-  ] },
-  { code: 'battery_performance', patterns: [
-    /\b(battery (drain|hog|killer|eater|life))/,
-    /\b(drains? (my )?battery|eats? (the )?battery|battery dies)/,
-    /\b(crash(es|ed|ing)?|freez(e|es|ing)|hangs?\b)/,
-    /\b(slow|laggy|unresponsive|sluggish|choppy)/,
-    /\b(overheats?|phone gets hot|makes my phone)/,
-    /\b(buggy|bugs?\b|glitch(es|y)?|broken|doesn'?t work)/,
-    /\b(won'?t load|won'?t open|keeps? crashing|force close)/,
-    /\b(uninstall(ed|ing)?|reinstall(ed|ing)?)/,
-  ] },
-  { code: 'coordination_need', patterns: [
-    /\b(pick[- ]?up|drop[- ]?off|pickup|dropoff)/,
-    /\b(arrival|arrived|got there|reached|on (the|her|his) way)/,
-    /\b(eta\b|estimated time|when .* arrive)/,
-    /\b(meet(ing)? up|meet[- ]?up|meet(ing)? at)/,
-    /\b(where (is|are|r) (you|they|he|she|my)|find (him|her|them|my friend))/,
-    /\b(coordinat(e|ing|ion))/,
-    /\b(share (my )?location|sharing location|sending location)/,
-    /\b(glympse (to|with)|sent a glympse)/,
-  ] },
-  { code: 'safety_need', patterns: [
-    /\b(safe(ty)?|peace of mind|comforting|reassur)/,
-    /\b(emergenc(y|ies)|\bsos\b|911)/,
-    /\b(crash (detect|alert)|accident detect)/,
-    /\b(child(ren)?|kid(s)?|son|daughter|teen(ager)?)/,
-    /\b(elderly|grandparent|mom|dad|mother|father|parent)/,
-    /\b(husband|wife|spouse|partner|boyfriend|girlfriend)/,
-    /\b(worry|worri(ed|es) about|scared|concerned)/,
-    /\b(found (my|his|her) phone|lost my phone)/,
-  ] },
-  { code: 'control_visibility', patterns: [
-    /\b(who can see|see who|who sees)/,
-    /\b(turn (it )?off|toggle|disable|pause)/,
-    /\b(per[- ]contact|individual (setting|control)|granular)/,
-    /\b(selective(ly)? shar|share with only|share with just)/,
-    /\b(hide (from|my location)|invisible to)/,
-    /\b(opt[- ]?(in|out))/,
-    /\b(setting(s)?|permission(s)?|privacy setting)/,
-    /\b(notifications?|alerts? (for|when))/,
-  ] },
-];
-
 function codeOne(text) {
+  const codes = applyRules(text, RULES_V1);
+  return codes.length ? codes : ['other'];
+}
+
+/** Which half of the safety_need rule fired? Only meaningful when safety_need did fire. */
+function safetyFlavour(text) {
   const t = text.toLowerCase();
-  const codes = new Set();
-  for (const rule of RULES) {
-    for (const pat of rule.patterns) {
-      if (pat.test(t)) { codes.add(rule.code); break; }
-    }
-  }
-  if (codes.size === 0) codes.add('other');
-  return [...codes];
+  const prot = SAFETY_PROTECTIVE.some(p => p.test(t));
+  return prot ? 'protective' : 'family';
 }
 
 // ---------------------------------------------------------------------------
@@ -209,41 +177,6 @@ function shuffle(arr, rng) {
   return a;
 }
 
-// ---------------------------------------------------------------------------
-// Proportional allocation with a floor of MIN_PER_STRATUM per non-empty
-// stratum. Deterministic largest-target greedy fill; always sums to n exactly
-// (assuming totalN >= n, which holds here: 1631 eligible >> 200).
-// ---------------------------------------------------------------------------
-function allocate(strata, n) {
-  const keys = Object.keys(strata).sort();
-  const N = {}, alloc = {}, target = {};
-  let totalN = 0;
-  for (const k of keys) { N[k] = strata[k].length; totalN += N[k]; }
-  if (totalN < n) throw new Error(`corpus too small: ${totalN} eligible < ${n} requested`);
-
-  let assigned = 0;
-  for (const k of keys) {
-    alloc[k] = Math.min(MIN_PER_STRATUM, N[k]);
-    target[k] = (n * N[k]) / totalN;
-    assigned += alloc[k];
-  }
-  if (assigned > n) {
-    throw new Error(`floor allocation ${assigned} exceeds sample size ${n} ` +
-      `(too many strata for MIN_PER_STRATUM=${MIN_PER_STRATUM})`);
-  }
-  while (assigned < n) {
-    let best = null, bestGap = -Infinity;
-    for (const k of keys) {
-      if (alloc[k] >= N[k]) continue;          // stratum exhausted
-      const gap = target[k] - alloc[k];
-      if (gap > bestGap) { bestGap = gap; best = k; }
-    }
-    if (best === null) break;                   // all strata exhausted (unreachable here)
-    alloc[best]++; assigned++;
-  }
-  return { keys, N, alloc, totalN };
-}
-
 function csvEscape(v) {
   const s = String(v ?? '');
   if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
@@ -274,8 +207,8 @@ async function main() {
     zenly:    [...(play.reviews.zenly    || [])],
   };
 
-  // Clean each app + bucket into strata keyed "app|bucket" (pipeline order).
-  const strata = {};
+  // Clean, then code every eligible review with the lexical coder.
+  const pool = [];
   for (const [slug, revs] of Object.entries(merged)) {
     const clean = deduplicate(revs
       .map(r => ({ ...r, title: r.title || '', body: r.body || '' }))
@@ -283,37 +216,116 @@ async function main() {
       .filter(r => isEnglish((r.title || '') + ' ' + (r.body || ''))));
     for (const r of clean) {
       const text = ((r.title || '') + ' ' + (r.body || '')).trim();  // == lexical coder input
-      const key = slug + '|' + bucketRating(r.rating);
-      (strata[key] ||= []).push({ app: slug, rating: r.rating, bucket: bucketRating(r.rating), text });
+      const machine = codeOne(text).filter(c => c !== 'other');
+      // V2 predictions ride along so the same human coding can score both
+      // rulesets. Stratification stays on V1 (the ruleset the paper used);
+      // V2 is restrictive-only, so every V2 positive is inside the V1
+      // strata and is therefore covered by this sample.
+      const machineV2 = applyRules(text, RULES_V2);
+      pool.push({
+        app: slug, rating: r.rating, bucket: bucketRating(r.rating), text,
+        machine, machineV2,
+      });
     }
   }
 
-  const { keys, N, alloc, totalN } = allocate(strata, SAMPLE_SIZE);
+  // Corpus-wide predicted-positive counts, used to break multi-code ties by
+  // rarity so scarce codes are not starved by common ones.
+  const corpusCount = {};
+  for (const c of CODES) corpusCount[c] = 0;
+  for (const r of pool) for (const c of r.machine) corpusCount[c]++;
 
-  // Draw the sample: per-stratum independent seeded shuffle -> take alloc[k].
-  const picked = [];
-  for (const key of keys) {
-    const rng = rngFrom(SEED + '::stratum::' + key);
-    const shuffled = shuffle(strata[key], rng);
-    for (const r of shuffled.slice(0, alloc[key])) picked.push(r);
+  // Assign each review to exactly ONE stratum (rarest code it carries).
+  // Note: stratification only controls the sample's COMPOSITION. Every sampled
+  // review is still coded on all nine codes by the humans, so a review filed
+  // under, say, `trust_integrity` still contributes a safety_need judgement.
+  const strata = {};
+  for (const r of pool) {
+    let stratum;
+    if (r.machine.length === 0) {
+      stratum = 'other';
+    } else {
+      const rarest = r.machine.slice().sort((a, b) =>
+        (corpusCount[a] - corpusCount[b]) || a.localeCompare(b))[0];
+      stratum = rarest === 'safety_need'
+        ? 'safety_need@' + safetyFlavour(r.text)
+        : rarest;
+    }
+    r.stratum = stratum;
+    (strata[stratum] ||= []).push(r);
   }
 
-  // Canonical order (stratum-key, then draw order) -> stable sample_id.
-  const keyBucket = {};
+  // Allocate: min(target, available); push any shortfall onto `other`.
+  const keys = Object.keys(TARGETS).filter(k => (strata[k] || []).length > 0);
+  const alloc = {};
+  let assigned = 0;
+  for (const k of keys) {
+    if (k === 'other') continue;
+    alloc[k] = Math.min(TARGETS[k], strata[k].length);
+    assigned += alloc[k];
+  }
+  alloc.other = Math.min((strata.other || []).length, SAMPLE_SIZE - assigned);
+  assigned += alloc.other;
+  if (assigned < SAMPLE_SIZE) {
+    console.warn('WARNING: corpus could only supply ' + assigned + ' of ' + SAMPLE_SIZE + ' rows.');
+  }
+
+  // Draw: per-stratum independent seeded shuffle -> take alloc[k].
+  const picked = [];
+  for (const key of Object.keys(alloc).sort()) {
+    const rng = rngFrom(SEED + '::stratum::' + key);
+    for (const r of shuffle(strata[key], rng).slice(0, alloc[key])) picked.push(r);
+  }
+
+  // CODEBOOK.md illustrates each code with verbatim excerpts from this same
+  // corpus. Any sampled review that IS one of those excerpts arrives at the
+  // coder pre-answered, which inflates agreement on that row. Flag them so the
+  // analysis can report kappa with and without. (Not excluded from the draw:
+  // for trust_integrity and precision_concern the corpus holds only 6 and 7
+  // instances, so dropping any would cost more than the contamination does.)
+  let codebookExcerpts = [];
+  try {
+    const cb = await readFile(join(DIR, 'CODEBOOK.md'), 'utf-8');
+    codebookExcerpts = [...cb.matchAll(/`([^`]{40,})`/g)]
+      .map(m => m[1].replace(/…/g, '').trim())
+      .filter(Boolean);
+  } catch { /* codebook absent — flag simply stays false */ }
+  const isCodebookExample = text =>
+    codebookExcerpts.some(e => text.includes(e.slice(0, 40)));
+
+  // sample_id must NOT encode the stratum. Drawing stratum-by-stratum and then
+  // numbering in that order made S001-S013 all accuracy_complaint, S140-S174 all
+  // safety_need@family, and so on — 11 contiguous blocks. A coder who sorts by
+  // id, or who simply notices that neighbouring ids feel thematically alike,
+  // gets a free hint about what the row is "supposed" to be. Shuffle once more
+  // with a dedicated seed before numbering. This renumbers rows; it does not
+  // change which reviews were drawn.
+  const ordered = shuffle(picked, rngFrom(SEED + '::sample-id-order'));
+
+  // Inverse inclusion probability per row (Horvitz-Thompson weight). Sampling
+  // fractions across strata span 2.7% (other) to 100% (trust_integrity), a 37x
+  // spread, so any corpus-level quantity computed from this sample MUST be
+  // weighted. compute-irr.mjs consumes this for precision/recall.
+  const weightOf = stratum => strata[stratum].length / alloc[stratum];
+
   const sample = [];
   const keyJson = {};
   let i = 0;
-  for (const r of picked) {
+  let contaminated = 0;
+  for (const r of ordered) {
     const sample_id = 'S' + String(++i).padStart(3, '0');
-    const machine = codeOne(r.text).filter(c => c !== 'other');
+    const cbEx = isCodebookExample(r.text);
+    if (cbEx) contaminated++;
     sample.push({ sample_id, app: r.app, rating: r.rating, review_text: r.text });
     keyJson[sample_id] = {
       app: r.app, rating: r.rating, bucket: r.bucket,
-      machine_codes: machine,
-      machine_other: machine.length === 0,   // lexical coder assigned only 'other'
+      stratum: r.stratum,
+      weight: weightOf(r.stratum),
+      machine_codes: r.machine,
+      machine_codes_v2: r.machineV2,
+      machine_other: r.machine.length === 0,
+      codebook_example: cbEx,
     };
-    const bk = r.app + '|' + r.bucket;
-    keyBucket[bk] = (keyBucket[bk] || 0) + 1;
   }
 
   // Independent per-coder row shuffles (different seeds) to reduce order effects.
@@ -323,46 +335,69 @@ async function main() {
   await writeFile(join(DIR, 'irr-sample-coder-A.csv'), buildCsv(rowsA), 'utf-8');
   await writeFile(join(DIR, 'irr-sample-coder-B.csv'), buildCsv(rowsB), 'utf-8');
 
+  // Predicted positives per code IN THE DRAWN SAMPLE — the number that decides
+  // whether kappa is estimable for each code.
+  const inSample = {};
+  for (const c of CODES) inSample[c] = 0;
+  for (const r of picked) for (const c of r.machine) inSample[c]++;
+
   const keyOut = {
     meta: {
       seed: SEED,
-      sample_size: SAMPLE_SIZE,
-      min_per_stratum: MIN_PER_STRATUM,
-      total_eligible: totalN,
+      sample_size: sample.length,
+      stratification: 'predicted lexical code (rarest-first), safety_need split protective/family',
+      total_eligible: pool.length,
       codes: CODES,
-      note: 'machine_codes are the lexical coder output; NOT shown to human coders. Used only to score lexical precision/recall vs human consensus in compute-irr.mjs.',
+      targets: TARGETS,
+      predicted_positives_in_sample: inSample,
+      codebook_example_rows: contaminated,
+      codebook_example_note: 'Rows flagged codebook_example:true appear verbatim as illustrations in CODEBOOK.md, so coders see their intended coding before starting. Report kappa both including and excluding them.',
+      note: 'machine_codes are the lexical coder output; NOT shown to human coders. Used only to score lexical precision/recall vs human consensus in compute-irr.mjs. Sample is stratified by predicted code and is therefore NOT corpus-representative: corpus prevalence must be estimated from the full lexical run corrected by the precision/recall measured here.',
     },
-    strata: Object.fromEntries(keys.map(k => [k, { eligible: N[k], sampled: alloc[k] }])),
+    strata: Object.fromEntries(Object.keys(alloc).sort()
+      .map(k => [k, {
+        eligible: strata[k].length,
+        sampled: alloc[k],
+        sampling_fraction: alloc[k] / strata[k].length,
+        weight: strata[k].length / alloc[k],
+      }])),
     key: keyJson,
   };
   await writeFile(join(DIR, 'irr-sample-key.json'), JSON.stringify(keyOut, null, 2), 'utf-8');
 
-  // ---- Console report: stratification table -------------------------------
-  const apps = ['life360', 'findmy', 'snapchat', 'glympse', 'zenly'];
-  const buckets = ['low', 'mid', 'high'];
+  // ---- Console report ------------------------------------------------------
   console.log('\n══════════════════════════════════════════════════════════');
-  console.log('  IRR STRATIFIED SAMPLE  (seed="' + SEED + '", n=' + sample.length + ')');
+  console.log('  IRR SAMPLE — stratified by predicted code  (seed="' + SEED + '", n=' + sample.length + ')');
   console.log('══════════════════════════════════════════════════════════');
-  console.log('Total eligible (English, deduped): ' + totalN);
-  console.log('\nSampled rows per stratum (app × rating-bucket):');
-  console.log('  app       ' + buckets.map(b => b.padStart(6)).join('') + '   total');
-  let gtot = 0;
-  for (const app of apps) {
-    let rtot = 0;
-    const cells = buckets.map(b => {
-      const c = keyBucket[app + '|' + b] || 0; rtot += c; return String(c).padStart(6);
-    });
-    gtot += rtot;
-    console.log('  ' + app.padEnd(10) + cells.join('') + '   ' + String(rtot).padStart(5));
+  console.log('Total eligible (English, deduped): ' + pool.length);
+  console.log('\nStratum                    eligible   sampled    frac   weight');
+  for (const k of Object.keys(alloc).sort()) {
+    const frac = alloc[k] / strata[k].length;
+    console.log('  ' + k.padEnd(24) + String(strata[k].length).padStart(6) +
+      String(alloc[k]).padStart(10) +
+      (100 * frac).toFixed(1).padStart(8) + '%' +
+      (strata[k].length / alloc[k]).toFixed(1).padStart(8));
   }
-  const colTot = buckets.map(b => {
-    let s = 0; for (const app of apps) s += keyBucket[app + '|' + b] || 0; return String(s).padStart(6);
-  });
-  console.log('  ' + 'TOTAL'.padEnd(10) + colTot.join('') + '   ' + String(gtot).padStart(5));
-
-  console.log('\nEligible vs sampled per stratum:');
-  for (const k of keys) console.log('  ' + k.padEnd(18) + 'eligible=' + String(N[k]).padStart(4) + '  sampled=' + String(alloc[k]).padStart(3));
-
+  console.log('  Sampling fractions span ' +
+    (100 * Math.min(...Object.keys(alloc).map(k => alloc[k] / strata[k].length))).toFixed(1) + '% to ' +
+    (100 * Math.max(...Object.keys(alloc).map(k => alloc[k] / strata[k].length))).toFixed(0) +
+    '% -- corpus-level figures must use the weights.');
+  console.log('\nPredicted positives per code IN THE SAMPLE (kappa feasibility):');
+  console.log('   was  now   code');
+  const BEFORE = {                     // app x bucket sample, for comparison
+    safety_need: 32, battery_performance: 11, freshness_complaint: 10,
+    control_visibility: 8, coordination_need: 3, precision_concern: 2,
+    monitoring_coercion: 1, accuracy_complaint: 0, trust_integrity: 0,
+  };
+  for (const c of CODES) {
+    const n = inSample[c];
+    const flag = n >= 15 ? '' : n >= 8 ? '   (thin)' : '   (kappa unlikely to be estimable)';
+    console.log('   ' + String(BEFORE[c]).padStart(3) + '  ' + String(n).padStart(3) +
+      '   ' + c.padEnd(22) + flag);
+  }
+  console.log('\nRows that appear verbatim as CODEBOOK.md examples: ' + contaminated +
+    ' of ' + sample.length + '  (flagged codebook_example in the key;');
+  console.log('  coders see their intended coding in the codebook, so report kappa with and without)');
   console.log('\nWrote:');
   console.log('  irr-sample-coder-A.csv  (' + rowsA.length + ' rows)');
   console.log('  irr-sample-coder-B.csv  (' + rowsB.length + ' rows)');

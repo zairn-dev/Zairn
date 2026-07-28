@@ -2,7 +2,7 @@
   "meta": {
     "seed": "irr-2026",
     "sample_size": 200,
-    "min_per_stratum": 2,
+    "stratification": "predicted lexical code (rarest-first), safety_need split protective/family",
     "total_eligible": 1631,
     "codes": [
       "safety_need",
@@ -15,1597 +15,2943 @@
       "precision_concern",
       "trust_integrity"
     ],
-    "note": "machine_codes are the lexical coder output; NOT shown to human coders. Used only to score lexical precision/recall vs human consensus in compute-irr.mjs."
+    "targets": {
+      "safety_need@family": 35,
+      "safety_need@protective": 20,
+      "battery_performance": 18,
+      "control_visibility": 18,
+      "freshness_complaint": 18,
+      "coordination_need": 18,
+      "monitoring_coercion": 15,
+      "accuracy_complaint": 14,
+      "precision_concern": 7,
+      "trust_integrity": 6,
+      "other": 31
+    },
+    "predicted_positives_in_sample": {
+      "safety_need": 78,
+      "battery_performance": 25,
+      "control_visibility": 22,
+      "freshness_complaint": 21,
+      "coordination_need": 21,
+      "monitoring_coercion": 15,
+      "accuracy_complaint": 14,
+      "precision_concern": 7,
+      "trust_integrity": 6
+    },
+    "codebook_example_rows": 0,
+    "codebook_example_note": "Rows flagged codebook_example:true appear verbatim as illustrations in CODEBOOK.md, so coders see their intended coding before starting. Report kappa both including and excluding them.",
+    "note": "machine_codes are the lexical coder output; NOT shown to human coders. Used only to score lexical precision/recall vs human consensus in compute-irr.mjs. Sample is stratified by predicted code and is therefore NOT corpus-representative: corpus prevalence must be estimated from the full lexical run corrected by the precision/recall measured here."
   },
   "strata": {
-    "findmy|high": {
-      "eligible": 109,
-      "sampled": 13
+    "accuracy_complaint": {
+      "eligible": 13,
+      "sampled": 13,
+      "sampling_fraction": 1,
+      "weight": 1
     },
-    "findmy|low": {
-      "eligible": 99,
-      "sampled": 12
+    "battery_performance": {
+      "eligible": 78,
+      "sampled": 18,
+      "sampling_fraction": 0.23076923076923078,
+      "weight": 4.333333333333333
     },
-    "findmy|mid": {
-      "eligible": 18,
-      "sampled": 2
+    "control_visibility": {
+      "eligible": 61,
+      "sampled": 18,
+      "sampling_fraction": 0.29508196721311475,
+      "weight": 3.388888888888889
     },
-    "glympse|high": {
-      "eligible": 202,
-      "sampled": 25
+    "coordination_need": {
+      "eligible": 49,
+      "sampled": 18,
+      "sampling_fraction": 0.3673469387755102,
+      "weight": 2.7222222222222223
     },
-    "glympse|low": {
-      "eligible": 156,
-      "sampled": 19
+    "freshness_complaint": {
+      "eligible": 49,
+      "sampled": 18,
+      "sampling_fraction": 0.3673469387755102,
+      "weight": 2.7222222222222223
     },
-    "glympse|mid": {
-      "eligible": 34,
-      "sampled": 4
+    "monitoring_coercion": {
+      "eligible": 15,
+      "sampled": 15,
+      "sampling_fraction": 1,
+      "weight": 1
     },
-    "life360|high": {
-      "eligible": 261,
-      "sampled": 32
+    "other": {
+      "eligible": 1181,
+      "sampled": 32,
+      "sampling_fraction": 0.027095681625740897,
+      "weight": 36.90625
     },
-    "life360|low": {
-      "eligible": 121,
-      "sampled": 15
+    "precision_concern": {
+      "eligible": 7,
+      "sampled": 7,
+      "sampling_fraction": 1,
+      "weight": 1
     },
-    "life360|mid": {
-      "eligible": 37,
-      "sampled": 4
+    "safety_need@family": {
+      "eligible": 95,
+      "sampled": 35,
+      "sampling_fraction": 0.3684210526315789,
+      "weight": 2.7142857142857144
     },
-    "snapchat|high": {
-      "eligible": 132,
-      "sampled": 16
+    "safety_need@protective": {
+      "eligible": 77,
+      "sampled": 20,
+      "sampling_fraction": 0.2597402597402597,
+      "weight": 3.85
     },
-    "snapchat|low": {
-      "eligible": 99,
-      "sampled": 12
-    },
-    "snapchat|mid": {
-      "eligible": 21,
-      "sampled": 3
-    },
-    "zenly|high": {
-      "eligible": 300,
-      "sampled": 37
-    },
-    "zenly|low": {
-      "eligible": 34,
-      "sampled": 4
-    },
-    "zenly|mid": {
-      "eligible": 8,
-      "sampled": 2
+    "trust_integrity": {
+      "eligible": 6,
+      "sampled": 6,
+      "sampling_fraction": 1,
+      "weight": 1
     }
   },
   "key": {
     "S001": {
-      "app": "findmy",
+      "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S002": {
-      "app": "findmy",
-      "rating": 4,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S003": {
-      "app": "findmy",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S004": {
-      "app": "findmy",
-      "rating": 4,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S005": {
-      "app": "findmy",
-      "rating": 5,
-      "bucket": "high",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
       "machine_codes": [
         "battery_performance"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
-    "S006": {
-      "app": "findmy",
-      "rating": 5,
-      "bucket": "high",
+    "S002": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
-    "S007": {
-      "app": "findmy",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S008": {
-      "app": "findmy",
+    "S003": {
+      "app": "glympse",
       "rating": 4,
       "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S004": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S005": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S006": {
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S007": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S008": {
+      "app": "glympse",
+      "rating": 4,
+      "bucket": "high",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S009": {
       "app": "findmy",
       "rating": 5,
       "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S010": {
-      "app": "findmy",
+      "app": "glympse",
       "rating": 4,
       "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S011": {
-      "app": "findmy",
-      "rating": 5,
-      "bucket": "high",
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S012": {
-      "app": "findmy",
-      "rating": 5,
-      "bucket": "high",
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
       "machine_codes": [
-        "safety_need"
+        "accuracy_complaint"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S013": {
       "app": "findmy",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S014": {
-      "app": "findmy",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "control_visibility"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S015": {
       "app": "findmy",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S016": {
-      "app": "findmy",
-      "rating": 1,
-      "bucket": "low",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
       "machine_codes": [
         "battery_performance"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S016": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion",
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion",
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S017": {
-      "app": "findmy",
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S018": {
+      "app": "snapchat",
       "rating": 1,
       "bucket": "low",
+      "stratum": "trust_integrity",
+      "weight": 1,
+      "machine_codes": [
+        "trust_integrity",
+        "battery_performance",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "trust_integrity",
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S019": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S020": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S021": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
       "machine_codes": [
         "freshness_complaint"
       ],
-      "machine_other": false
-    },
-    "S018": {
-      "app": "findmy",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S019": {
-      "app": "findmy",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S020": {
-      "app": "findmy",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S021": {
-      "app": "findmy",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S022": {
-      "app": "findmy",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S023": {
-      "app": "findmy",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S024": {
-      "app": "findmy",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S025": {
-      "app": "findmy",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S026": {
-      "app": "findmy",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S027": {
-      "app": "findmy",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "battery_performance",
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S028": {
       "app": "glympse",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [
-        "control_visibility"
-      ],
-      "machine_other": false
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S029": {
-      "app": "glympse",
+      "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S030": {
-      "app": "glympse",
+      "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S031": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S032": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
-    },
-    "S033": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S034": {
-      "app": "glympse",
-      "rating": 4,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S035": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
-    },
-    "S036": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
-    },
-    "S037": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S038": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S039": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
       "machine_codes": [
         "freshness_complaint",
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
-    "S040": {
+    "S033": {
       "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
-    "S041": {
+    "S034": {
       "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
-    "S042": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S043": {
+    "S035": {
       "app": "glympse",
       "rating": 4,
       "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
-        "battery_performance"
+        "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S036": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S037": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S038": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S039": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S040": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S041": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S042": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S043": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S044": {
       "app": "glympse",
-      "rating": 4,
+      "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S045": {
       "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
       "machine_codes": [
-        "safety_need"
+        "freshness_complaint"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S046": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S047": {
-      "app": "glympse",
+      "app": "life360",
       "rating": 5,
       "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S048": {
-      "app": "glympse",
+      "app": "findmy",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S049": {
       "app": "glympse",
       "rating": 4,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S050": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S051": {
-      "app": "glympse",
+      "app": "life360",
       "rating": 4,
       "bucket": "high",
-      "machine_codes": [
-        "coordination_need"
-      ],
-      "machine_other": false
-    },
-    "S052": {
-      "app": "glympse",
-      "rating": 5,
-      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S051": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "precision_concern",
+      "weight": 1,
+      "machine_codes": [
+        "precision_concern",
+        "freshness_complaint",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "precision_concern",
+        "freshness_complaint",
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S052": {
+      "app": "life360",
+      "rating": 4,
+      "bucket": "high",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S053": {
-      "app": "glympse",
-      "rating": 1,
-      "bucket": "low",
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "trust_integrity",
+      "weight": 1,
       "machine_codes": [
-        "battery_performance"
+        "trust_integrity"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "trust_integrity"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S054": {
-      "app": "glympse",
-      "rating": 1,
-      "bucket": "low",
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
       "machine_codes": [
-        "battery_performance"
+        "control_visibility"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S055": {
       "app": "glympse",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S056": {
-      "app": "glympse",
       "rating": 1,
       "bucket": "low",
+      "stratum": "precision_concern",
+      "weight": 1,
       "machine_codes": [
-        "freshness_complaint"
+        "precision_concern",
+        "accuracy_complaint",
+        "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "precision_concern",
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S056": {
+      "app": "snapchat",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S057": {
       "app": "glympse",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S058": {
-      "app": "glympse",
-      "rating": 1,
-      "bucket": "low",
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S059": {
-      "app": "glympse",
+      "app": "snapchat",
       "rating": 1,
       "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S060": {
-      "app": "glympse",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S061": {
-      "app": "glympse",
+      "app": "life360",
       "rating": 2,
       "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
       "machine_codes": [
-        "freshness_complaint"
+        "safety_need",
+        "control_visibility"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S062": {
-      "app": "glympse",
-      "rating": 2,
+      "app": "findmy",
+      "rating": 1,
       "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S063": {
-      "app": "glympse",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S064": {
       "app": "glympse",
       "rating": 1,
       "bucket": "low",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
       "machine_codes": [
-        "battery_performance"
+        "monitoring_coercion",
+        "coordination_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "monitoring_coercion",
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S065": {
-      "app": "glympse",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [
-        "freshness_complaint"
-      ],
-      "machine_other": false
-    },
-    "S066": {
-      "app": "glympse",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S067": {
-      "app": "glympse",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [
-        "freshness_complaint"
-      ],
-      "machine_other": false
-    },
-    "S068": {
-      "app": "glympse",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [
-        "battery_performance"
-      ],
-      "machine_other": false
-    },
-    "S069": {
-      "app": "glympse",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S070": {
-      "app": "glympse",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [
-        "freshness_complaint"
-      ],
-      "machine_other": false
-    },
-    "S071": {
-      "app": "glympse",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
-    },
-    "S072": {
-      "app": "glympse",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S073": {
-      "app": "glympse",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [
-        "control_visibility"
-      ],
-      "machine_other": false
-    },
-    "S074": {
-      "app": "glympse",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S075": {
-      "app": "glympse",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S076": {
       "app": "life360",
       "rating": 5,
       "bucket": "high",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S066": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S067": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion",
+        "battery_performance",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion",
+        "battery_performance",
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S068": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S069": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S070": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "precision_concern",
+      "weight": 1,
+      "machine_codes": [
+        "precision_concern"
+      ],
+      "machine_codes_v2": [
+        "precision_concern"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S071": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S072": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "battery_performance",
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "battery_performance",
+        "control_visibility"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S073": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S074": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "control_visibility"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S075": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S076": {
+      "app": "zenly",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S077": {
       "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint",
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S078": {
-      "app": "life360",
-      "rating": 4,
+      "app": "zenly",
+      "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S079": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
       "machine_codes": [
-        "safety_need"
+        "freshness_complaint"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S080": {
-      "app": "life360",
+      "app": "zenly",
       "rating": 5,
       "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S081": {
-      "app": "life360",
+      "app": "zenly",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S082": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
-    },
-    "S083": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
-    },
-    "S084": {
-      "app": "life360",
-      "rating": 4,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S085": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
-    },
-    "S086": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
       "machine_codes": [
         "coordination_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S082": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S083": {
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S084": {
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S085": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint",
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S086": {
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S087": {
       "app": "life360",
-      "rating": 4,
+      "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "safety_need",
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S088": {
-      "app": "life360",
+      "app": "snapchat",
       "rating": 5,
       "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S089": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
       "machine_codes": [
-        "safety_need"
+        "coordination_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S090": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
       "machine_codes": [
-        "safety_need"
+        "control_visibility"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S091": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
       "machine_codes": [
-        "safety_need"
+        "freshness_complaint",
+        "battery_performance"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "freshness_complaint",
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S092": {
       "app": "life360",
       "rating": 5,
       "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S093": {
-      "app": "life360",
-      "rating": 5,
+      "app": "glympse",
+      "rating": 4,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S094": {
-      "app": "life360",
+      "app": "glympse",
       "rating": 5,
       "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S095": {
       "app": "life360",
       "rating": 5,
       "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S096": {
       "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S097": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S097": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S098": {
       "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S099": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
+      "app": "snapchat",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S100": {
-      "app": "life360",
+      "app": "zenly",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S101": {
       "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S102": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S103": {
       "app": "life360",
-      "rating": 4,
+      "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S104": {
       "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S105": {
-      "app": "life360",
-      "rating": 5,
-      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
       "machine_codes": [
-        "precision_concern",
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S105": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S106": {
-      "app": "life360",
-      "rating": 5,
+      "app": "glympse",
+      "rating": 4,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S107": {
       "app": "life360",
-      "rating": 4,
+      "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S108": {
-      "app": "life360",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 4,
+      "bucket": "high",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S109": {
       "app": "life360",
-      "rating": 1,
-      "bucket": "low",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S110": {
+      "app": "snapchat",
+      "rating": 4,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
-    },
-    "S110": {
-      "app": "life360",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S111": {
       "app": "life360",
-      "rating": 1,
-      "bucket": "low",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
       "machine_codes": [
-        "battery_performance"
+        "freshness_complaint"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S112": {
-      "app": "life360",
-      "rating": 1,
-      "bucket": "low",
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
       "machine_codes": [
+        "freshness_complaint",
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "freshness_complaint",
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S113": {
       "app": "life360",
-      "rating": 2,
+      "rating": 1,
       "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "trust_integrity",
+      "weight": 1,
+      "machine_codes": [
+        "trust_integrity",
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "trust_integrity",
+        "control_visibility"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S114": {
       "app": "life360",
-      "rating": 2,
+      "rating": 1,
       "bucket": "low",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
       "machine_codes": [
-        "precision_concern"
+        "monitoring_coercion"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S115": {
       "app": "life360",
       "rating": 1,
       "bucket": "low",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
       "machine_codes": [
-        "control_visibility"
+        "accuracy_complaint"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S116": {
-      "app": "life360",
-      "rating": 1,
-      "bucket": "low",
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
       "machine_codes": [
-        "battery_performance",
-        "control_visibility"
+        "coordination_need",
+        "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S117": {
-      "app": "life360",
-      "rating": 1,
+      "app": "glympse",
+      "rating": 2,
       "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S118": {
-      "app": "life360",
+      "app": "glympse",
       "rating": 1,
       "bucket": "low",
-      "machine_codes": [
-        "control_visibility"
-      ],
-      "machine_other": false
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S119": {
       "app": "life360",
-      "rating": 1,
-      "bucket": "low",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
       "machine_codes": [
-        "freshness_complaint",
-        "control_visibility"
+        "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S120": {
       "app": "life360",
       "rating": 2,
       "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S121": {
-      "app": "life360",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S122": {
-      "app": "life360",
+      "app": "glympse",
       "rating": 1,
       "bucket": "low",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
       "machine_codes": [
-        "battery_performance",
-        "safety_need"
+        "battery_performance"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S122": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S123": {
-      "app": "life360",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S124": {
-      "app": "life360",
-      "rating": 3,
-      "bucket": "mid",
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
       "machine_codes": [
         "freshness_complaint"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S124": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S125": {
       "app": "life360",
       "rating": 3,
       "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S126": {
       "app": "life360",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [
-        "freshness_complaint",
-        "safety_need",
-        "control_visibility"
-      ],
-      "machine_other": false
-    },
-    "S127": {
-      "app": "snapchat",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S128": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S129": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S130": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S131": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S132": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S133": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S134": {
-      "app": "snapchat",
-      "rating": 4,
-      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
-    "S135": {
-      "app": "snapchat",
-      "rating": 4,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S136": {
-      "app": "snapchat",
+    "S127": {
+      "app": "glympse",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S137": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S138": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S139": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S140": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
       "machine_codes": [
         "battery_performance"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
-    "S141": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+    "S128": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "control_visibility"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
-    "S142": {
-      "app": "snapchat",
-      "rating": 5,
-      "bucket": "high",
+    "S129": {
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S130": {
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S131": {
+      "app": "findmy",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S132": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S133": {
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S134": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S135": {
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S136": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S137": {
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S138": {
+      "app": "zenly",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S139": {
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S140": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S141": {
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "precision_concern",
+      "weight": 1,
+      "machine_codes": [
+        "precision_concern"
+      ],
+      "machine_codes_v2": [
+        "precision_concern"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S142": {
+      "app": "zenly",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S143": {
-      "app": "snapchat",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S144": {
-      "app": "snapchat",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S145": {
-      "app": "snapchat",
+      "app": "life360",
       "rating": 1,
       "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "trust_integrity",
+      "weight": 1,
+      "machine_codes": [
+        "trust_integrity",
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "trust_integrity"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S146": {
-      "app": "snapchat",
+      "app": "findmy",
       "rating": 1,
       "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S147": {
-      "app": "snapchat",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S148": {
-      "app": "snapchat",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S149": {
-      "app": "snapchat",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S150": {
-      "app": "snapchat",
-      "rating": 1,
-      "bucket": "low",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
       "machine_codes": [
         "monitoring_coercion"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S147": {
+      "app": "glympse",
+      "rating": 4,
+      "bucket": "high",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S148": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "battery_performance",
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S149": {
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S150": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S151": {
       "app": "snapchat",
       "rating": 1,
       "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S152": {
-      "app": "snapchat",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S153": {
-      "app": "snapchat",
-      "rating": 2,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S154": {
-      "app": "snapchat",
-      "rating": 1,
-      "bucket": "low",
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S155": {
-      "app": "snapchat",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S156": {
       "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S157": {
+      "app": "life360",
       "rating": 3,
       "bucket": "mid",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
       "machine_codes": [
         "control_visibility"
       ],
-      "machine_other": false
-    },
-    "S157": {
-      "app": "snapchat",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S158": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "trust_integrity",
+      "weight": 1,
+      "machine_codes": [
+        "freshness_complaint",
+        "trust_integrity",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint",
+        "trust_integrity",
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S159": {
-      "app": "zenly",
+      "app": "life360",
       "rating": 5,
       "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S160": {
-      "app": "zenly",
-      "rating": 5,
+      "app": "life360",
+      "rating": 4,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S161": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S162": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S163": {
-      "app": "zenly",
+      "app": "glympse",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "precision_concern",
+      "weight": 1,
+      "machine_codes": [
+        "precision_concern",
+        "coordination_need",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "precision_concern",
+        "coordination_need",
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S164": {
-      "app": "zenly",
+      "app": "snapchat",
       "rating": 5,
       "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S165": {
-      "app": "zenly",
-      "rating": 5,
+      "app": "glympse",
+      "rating": 4,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S166": {
-      "app": "zenly",
+      "app": "glympse",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S167": {
-      "app": "zenly",
-      "rating": 5,
+      "app": "glympse",
+      "rating": 4,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "control_visibility"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S168": {
       "app": "zenly",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S169": {
       "app": "zenly",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S170": {
-      "app": "zenly",
+      "app": "snapchat",
       "rating": 5,
       "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S171": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "coordination_need",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S172": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint",
+        "safety_need",
+        "control_visibility"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S173": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "freshness_complaint",
+      "weight": 2.7222222222222223,
+      "machine_codes": [
+        "freshness_complaint"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S174": {
-      "app": "zenly",
+      "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S175": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S176": {
-      "app": "zenly",
+      "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S177": {
       "app": "zenly",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S178": {
-      "app": "zenly",
-      "rating": 4,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "findmy",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "precision_concern",
+      "weight": 1,
+      "machine_codes": [
+        "precision_concern"
+      ],
+      "machine_codes_v2": [
+        "precision_concern"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S179": {
-      "app": "zenly",
+      "app": "life360",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "monitoring_coercion",
+      "weight": 1,
+      "machine_codes": [
+        "monitoring_coercion",
+        "coordination_need",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "monitoring_coercion",
+        "coordination_need",
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S180": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S181": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
-    },
-    "S182": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S183": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S184": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S185": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S186": {
-      "app": "zenly",
+      "app": "glympse",
       "rating": 4,
       "bucket": "high",
-      "machine_codes": [
-        "safety_need"
-      ],
-      "machine_other": false
-    },
-    "S187": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S188": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S189": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
+      "stratum": "coordination_need",
+      "weight": 2.7222222222222223,
       "machine_codes": [
         "coordination_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [
+        "coordination_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
-    "S190": {
-      "app": "zenly",
+    "S181": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S182": {
+      "app": "snapchat",
       "rating": 5,
       "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S191": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S192": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S193": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
-      "machine_codes": [],
-      "machine_other": true
-    },
-    "S194": {
-      "app": "zenly",
-      "rating": 5,
-      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
       "machine_codes": [
         "safety_need"
       ],
-      "machine_other": false
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S183": {
+      "app": "snapchat",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S184": {
+      "app": "snapchat",
+      "rating": 4,
+      "bucket": "high",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S185": {
+      "app": "findmy",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S186": {
+      "app": "life360",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "control_visibility",
+      "weight": 3.388888888888889,
+      "machine_codes": [
+        "safety_need",
+        "control_visibility"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S187": {
+      "app": "glympse",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S188": {
+      "app": "life360",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "trust_integrity",
+      "weight": 1,
+      "machine_codes": [
+        "trust_integrity"
+      ],
+      "machine_codes_v2": [
+        "trust_integrity"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S189": {
+      "app": "glympse",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S190": {
+      "app": "zenly",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "other",
+      "weight": 36.90625,
+      "machine_codes": [],
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
+    },
+    "S191": {
+      "app": "glympse",
+      "rating": 2,
+      "bucket": "low",
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S192": {
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "freshness_complaint",
+        "accuracy_complaint",
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "freshness_complaint",
+        "accuracy_complaint",
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S193": {
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
+    },
+    "S194": {
+      "app": "zenly",
+      "rating": 4,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S195": {
-      "app": "zenly",
-      "rating": 1,
-      "bucket": "low",
+      "app": "findmy",
+      "rating": 3,
+      "bucket": "mid",
+      "stratum": "other",
+      "weight": 36.90625,
       "machine_codes": [],
-      "machine_other": true
+      "machine_codes_v2": [],
+      "machine_other": true,
+      "codebook_example": false
     },
     "S196": {
-      "app": "zenly",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@family",
+      "weight": 2.7142857142857144,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S197": {
-      "app": "zenly",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "glympse",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "safety_need@protective",
+      "weight": 3.85,
+      "machine_codes": [
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "safety_need"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S198": {
-      "app": "zenly",
-      "rating": 1,
-      "bucket": "low",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 5,
+      "bucket": "high",
+      "stratum": "precision_concern",
+      "weight": 1,
+      "machine_codes": [
+        "precision_concern",
+        "safety_need"
+      ],
+      "machine_codes_v2": [
+        "precision_concern"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S199": {
-      "app": "zenly",
+      "app": "snapchat",
       "rating": 3,
       "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
+      "stratum": "battery_performance",
+      "weight": 4.333333333333333,
+      "machine_codes": [
+        "battery_performance"
+      ],
+      "machine_codes_v2": [
+        "battery_performance"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     },
     "S200": {
-      "app": "zenly",
-      "rating": 3,
-      "bucket": "mid",
-      "machine_codes": [],
-      "machine_other": true
+      "app": "life360",
+      "rating": 1,
+      "bucket": "low",
+      "stratum": "accuracy_complaint",
+      "weight": 1,
+      "machine_codes": [
+        "accuracy_complaint"
+      ],
+      "machine_codes_v2": [
+        "accuracy_complaint"
+      ],
+      "machine_other": false,
+      "codebook_example": false
     }
   }
 }

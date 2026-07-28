@@ -239,40 +239,141 @@ async function main() {
   }
 
   // ---- Lexical coder precision / recall vs human consensus -----------------
-  console.log('\n══════════════════════════════════════════════════════════');
-  console.log('  LEXICAL CODER vs HUMAN CONSENSUS');
-  console.log('══════════════════════════════════════════════════════════');
-  console.log('code                    prec   recall     F1    (TP  FP  FN)   excl');
-  console.log('---------------------------------------------------------------------');
-  let mTP = 0, mFP = 0, mFN = 0, mExcl = 0;
-  for (const c of CODES) {
-    let TP = 0, FP = 0, FN = 0, excl = 0;
-    for (const id of ids) {
-      const av = toBinary(mapA.get(id)[c]);
-      const bv = toBinary(mapB.get(id)[c]);
-      let gold;
-      if (av === bv) gold = av;
-      else if (resolved && resolved.has(id)) gold = toBinary(resolved.get(id)[c]);
-      else { excl++; continue; }             // unresolved disagreement -> excluded
-      const machine = (key.key[id]?.machine_codes || []).includes(c) ? 1 : 0;
-      if (machine === 1 && gold === 1) TP++;
-      else if (machine === 1 && gold === 0) FP++;
-      else if (machine === 0 && gold === 1) FN++;
-    }
-    mTP += TP; mFP += FP; mFN += FN; mExcl += excl;
-    const prec = (TP + FP) ? TP / (TP + FP) : null;
-    const rec = (TP + FN) ? TP / (TP + FN) : null;
-    const f1 = (prec && rec && (prec + rec)) ? 2 * prec * rec / (prec + rec) : null;
-    console.log(
-      c.padEnd(22) + fmt(prec) + '  ' + fmt(rec) + '  ' + fmt(f1) +
-      '   (' + String(TP).padStart(2) + '  ' + String(FP).padStart(2) + '  ' + String(FN).padStart(2) + ')   ' + String(excl).padStart(3));
+  //
+  // The sample is stratified by PREDICTED code, so it deliberately
+  // over-represents rows the lexical coder called positive. Two consequences:
+  //
+  //   * Sample-level (unweighted) figures describe the enriched sample only.
+  //     Recall in particular is badly optimistic there, because false
+  //     negatives live almost entirely in the `other` stratum, which is
+  //     sampled at a few percent while some positive strata are sampled at
+  //     100%.
+  //   * Corpus-level figures need Horvitz-Thompson weighting by the inverse
+  //     inclusion probability, which make-irr-sample.mjs writes to
+  //     key.key[id].weight.
+  //
+  // Both are printed. The weighted block is the one that describes the corpus.
+  const hasWeights = ids.every(id => typeof key.key[id]?.weight === 'number');
+  if (!hasWeights) {
+    console.log('\n⚠  key.json has no per-row `weight` field — regenerate it with');
+    console.log('   make-irr-sample.mjs to get corpus-level (weighted) estimates.');
   }
-  const micP = (mTP + mFP) ? mTP / (mTP + mFP) : null;
-  const micR = (mTP + mFN) ? mTP / (mTP + mFN) : null;
-  const micF = (micP && micR && (micP + micR)) ? 2 * micP * micR / (micP + micR) : null;
-  console.log('---------------------------------------------------------------------');
-  console.log('MICRO (all codes)'.padEnd(22) + fmt(micP) + '  ' + fmt(micR) + '  ' + fmt(micF) +
-    '   (' + String(mTP).padStart(2) + '  ' + String(mFP).padStart(2) + '  ' + String(mFN).padStart(2) + ')   ' + String(mExcl).padStart(3));
+
+  /** Tally TP/FP/FN (raw and weighted) for one ruleset field in the key. */
+  function tally(field) {
+    const acc = {};
+    for (const c of CODES) acc[c] = { TP: 0, FP: 0, FN: 0, excl: 0, wTP: 0, wFP: 0, wFN: 0 };
+    for (const c of CODES) {
+      for (const id of ids) {
+        const av = toBinary(mapA.get(id)[c]);
+        const bv = toBinary(mapB.get(id)[c]);
+        let gold;
+        if (av === bv) gold = av;
+        else if (resolved && resolved.has(id)) gold = toBinary(resolved.get(id)[c]);
+        else { acc[c].excl++; continue; }     // unresolved disagreement -> excluded
+        const machine = (key.key[id]?.[field] || []).includes(c) ? 1 : 0;
+        const w = hasWeights ? key.key[id].weight : 1;
+        if (machine === 1 && gold === 1) { acc[c].TP++; acc[c].wTP += w; }
+        else if (machine === 1 && gold === 0) { acc[c].FP++; acc[c].wFP += w; }
+        else if (machine === 0 && gold === 1) { acc[c].FN++; acc[c].wFN += w; }
+      }
+    }
+    return acc;
+  }
+
+  // V1 is the ruleset that produced the published numbers. V2 is the
+  // codebook-corrected ruleset (see ../lexical-rules.mjs). Both are scored
+  // against the same human gold so the correction's cost is measurable.
+  const hasV2 = ids.some(id => Array.isArray(key.key[id]?.machine_codes_v2));
+  const RULESETS = [{ label: 'V1 (as published)', field: 'machine_codes' }];
+  if (hasV2) RULESETS.push({ label: 'V2 (codebook-corrected)', field: 'machine_codes_v2' });
+
+  const acc = tally('machine_codes');
+
+  const prf = (tp, fp, fn) => {
+    const p = (tp + fp) ? tp / (tp + fp) : null;
+    const r = (tp + fn) ? tp / (tp + fn) : null;
+    const f = (p && r && (p + r)) ? 2 * p * r / (p + r) : null;
+    return { p, r, f };
+  };
+
+  let mExcl = 0;
+  for (const { label, field } of RULESETS) {
+    const A = field === 'machine_codes' ? acc : tally(field);
+
+    console.log('\n══════════════════════════════════════════════════════════');
+    console.log('  LEXICAL CODER ' + label + ' vs HUMAN CONSENSUS');
+    console.log('  sample level (unweighted) — describes the enriched sample,');
+    console.log('  NOT the corpus. Recall here is optimistic by construction.');
+    console.log('══════════════════════════════════════════════════════════');
+    console.log('code                    prec   recall     F1    (TP  FP  FN)   excl');
+    console.log('---------------------------------------------------------------------');
+    let mTP = 0, mFP = 0, mFN = 0, ex = 0;
+    for (const c of CODES) {
+      const { TP, FP, FN, excl } = A[c];
+      mTP += TP; mFP += FP; mFN += FN; ex += excl;
+      const { p, r, f } = prf(TP, FP, FN);
+      console.log(
+        c.padEnd(22) + fmt(p) + '  ' + fmt(r) + '  ' + fmt(f) +
+        '   (' + String(TP).padStart(2) + '  ' + String(FP).padStart(2) + '  ' + String(FN).padStart(2) + ')   ' + String(excl).padStart(3));
+    }
+    mExcl = ex;
+    {
+      const { p, r, f } = prf(mTP, mFP, mFN);
+      console.log('---------------------------------------------------------------------');
+      console.log('MICRO (all codes)'.padEnd(22) + fmt(p) + '  ' + fmt(r) + '  ' + fmt(f) +
+        '   (' + String(mTP).padStart(2) + '  ' + String(mFP).padStart(2) + '  ' + String(mFN).padStart(2) + ')   ' + String(ex).padStart(3));
+    }
+
+    if (hasWeights) {
+      const fracs = Object.values(key.strata || {})
+        .map(s => s.sampling_fraction).filter(x => typeof x === 'number');
+      console.log('\n  --- ' + label + ': CORPUS-LEVEL, inverse-probability weighted ---');
+      if (fracs.length) {
+        console.log('  Stratum sampling fractions span ' + (100 * Math.min(...fracs)).toFixed(1) +
+          '% to ' + (100 * Math.max(...fracs)).toFixed(0) + '%. These describe the full corpus.');
+      }
+      console.log('code                    prec   recall     F1      (TPw    FPw    FNw)');
+      console.log('---------------------------------------------------------------------');
+      let wTP = 0, wFP = 0, wFN = 0;
+      for (const c of CODES) {
+        const a = A[c];
+        wTP += a.wTP; wFP += a.wFP; wFN += a.wFN;
+        const { p, r, f } = prf(a.wTP, a.wFP, a.wFN);
+        console.log(
+          c.padEnd(22) + fmt(p) + '  ' + fmt(r) + '  ' + fmt(f) +
+          '   (' + a.wTP.toFixed(0).padStart(5) + '  ' + a.wFP.toFixed(0).padStart(5) +
+          '  ' + a.wFN.toFixed(0).padStart(5) + ')');
+      }
+      const { p, r, f } = prf(wTP, wFP, wFN);
+      console.log('---------------------------------------------------------------------');
+      console.log('MICRO (all codes)'.padEnd(22) + fmt(p) + '  ' + fmt(r) + '  ' + fmt(f) +
+        '   (' + wTP.toFixed(0).padStart(5) + '  ' + wFP.toFixed(0).padStart(5) + '  ' + wFN.toFixed(0).padStart(5) + ')');
+      console.log('  TPw/FPw/FNw are estimated corpus counts, not row counts.');
+    }
+  }
+  if (!hasV2) {
+    console.log('\nNote: key.json has no machine_codes_v2 — regenerate with');
+    console.log('      make-irr-sample.mjs to score the codebook-corrected ruleset too.');
+  }
+
+  // ---- Codebook-example contamination -------------------------------------
+  const cbIds = ids.filter(id => key.key[id]?.codebook_example);
+  console.log('\nRows that also appear as CODEBOOK.md examples: ' + cbIds.length +
+    (cbIds.length === 0 ? '  (no contamination)' : ''));
+  if (cbIds.length) {
+    const keep = ids.filter(id => !key.key[id]?.codebook_example);
+    const pa = [], pb = [];
+    for (const c of CODES) for (const id of keep) {
+      pa.push(toBinary(mapA.get(id)[c])); pb.push(toBinary(mapB.get(id)[c]));
+    }
+    const k2 = cohenKappa(pa, pb);
+    console.log('  Those rows arrive pre-answered (both coders read the codebook),');
+    console.log('  so they inflate agreement. Pooled kappa excluding them (n=' +
+      keep.length + '): ' + fmt(k2.kappa) + '   [including: ' + fmt(pooled.kappa) + ']');
+    console.log('  Report both.');
+  }
+
   if (!resolved && mExcl > 0) {
     console.log('\nNote: ' + mExcl + ' code-cells excluded (coder disagreement, no adjudication).');
     console.log('      Provide irr-sample-resolved.csv to fold them back in.');

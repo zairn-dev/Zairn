@@ -18,140 +18,17 @@
 
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
+import { RULES_V1, applyRules } from './lexical-rules.mjs';
 
 const DIR = import.meta.dirname;
 
-// Deterministic lexical rules.  Each rule is a test of the lowercased
-// body + title; multiple rules can fire per review.
-const RULES = [
-  {
-    code: 'precision_concern',
-    patterns: [
-      /\b(approx|approximate|coars(e|er))/,
-      /\b(less precise|not exact|rough location)/,
-      /\b(neighbou?rhood|city[- ]level|region[- ]only)/,
-      /\b(too precise|too accurate|too specific)/,
-      /\b(exact location|exact address|pinpoint)/,
-      /\b(down to the (inch|foot|meter|metre|house))/,
-    ],
-  },
-  {
-    code: 'monitoring_coercion',
-    patterns: [
-      /\b(controlling|control[- ]freak|possessive|jealous)/,
-      /\b(stalk|stalker|stalking)/,
-      /\b(spy|spying|surveillance|creep|creepy|invasive)/,
-      /\b(forced to|made to|have to have|obligated|coerc)/,
-      /\b(abusive|toxic (partner|relationship|parent))/,
-      /\b(overbearing|helicopter (parent|mom|dad))/,
-      /\b(big brother|watching me|watching my every)/,
-      /\b(prison|grounded|feels like (jail|prison))/,
-    ],
-  },
-  {
-    code: 'freshness_complaint',
-    patterns: [
-      /\b(stale|outdated|not (updating|refreshing))/,
-      /\b(won'?t update|doesn'?t update|never updates)/,
-      /\b(delayed|delay in|lag(s|ging) behind)/,
-      /\b(hours? (behind|old|stale|ago))/,
-      /\b(last seen \d+)/,
-      /\b(frozen (at|on)|stuck at|stuck on)/,
-      /\b(real[- ]time|real time|live (location|update))/,
-      /\b(keeps? loading|loading forever)/,
-    ],
-  },
-  {
-    code: 'accuracy_complaint',
-    patterns: [
-      /\b(inaccurate|inacurate|wrong location|incorrect)/,
-      /\b(miles (off|away from|from where))/,
-      /\b(says? (i|they|he|she) (am|are|is) (somewhere|at|in))/,
-      /\b(false (arrival|departure|alert|notif|alarm))/,
-      /\b(drift|drifting|keeps? moving|moves when)/,
-      /\b(random (trip|location|place))/,
-      /\b(says (i|they)'?m|thinks (i|they)'?m|placed me)/,
-      /\b(way off|completely wrong|totally wrong)/,
-    ],
-  },
-  {
-    code: 'trust_integrity',
-    patterns: [
-      /\b(fake (location|gps|position)|spoof)/,
-      /\b(lying|lied about|lies about)/,
-      /\b(can'?t trust|don'?t trust|lost trust|trust issues)/,
-      /\b(paus(e|ed|ing) (their )?location|ghost mode|bubble)/,
-      /\b(tricks? the app|bypass|cheat the app|trick it)/,
-      /\b(privacy (concern|issue|worry|violation|nightmare))/,
-      /\b(data (broker|sold|sell|selling))/,
-      /\b(sells? (our|your|my) (location|data))/,
-      /\b(turned off without|quietly turned)/,
-    ],
-  },
-  {
-    code: 'battery_performance',
-    patterns: [
-      /\b(battery (drain|hog|killer|eater|life))/,
-      /\b(drains? (my )?battery|eats? (the )?battery|battery dies)/,
-      /\b(crash(es|ed|ing)?|freez(e|es|ing)|hangs?\b)/,
-      /\b(slow|laggy|unresponsive|sluggish|choppy)/,
-      /\b(overheats?|phone gets hot|makes my phone)/,
-      /\b(buggy|bugs?\b|glitch(es|y)?|broken|doesn'?t work)/,
-      /\b(won'?t load|won'?t open|keeps? crashing|force close)/,
-      /\b(uninstall(ed|ing)?|reinstall(ed|ing)?)/,
-    ],
-  },
-  {
-    code: 'coordination_need',
-    patterns: [
-      /\b(pick[- ]?up|drop[- ]?off|pickup|dropoff)/,
-      /\b(arrival|arrived|got there|reached|on (the|her|his) way)/,
-      /\b(eta\b|estimated time|when .* arrive)/,
-      /\b(meet(ing)? up|meet[- ]?up|meet(ing)? at)/,
-      /\b(where (is|are|r) (you|they|he|she|my)|find (him|her|them|my friend))/,
-      /\b(coordinat(e|ing|ion))/,
-      /\b(share (my )?location|sharing location|sending location)/,
-      /\b(glympse (to|with)|sent a glympse)/,
-    ],
-  },
-  {
-    code: 'safety_need',
-    patterns: [
-      /\b(safe(ty)?|peace of mind|comforting|reassur)/,
-      /\b(emergenc(y|ies)|\bsos\b|911)/,
-      /\b(crash (detect|alert)|accident detect)/,
-      /\b(child(ren)?|kid(s)?|son|daughter|teen(ager)?)/,
-      /\b(elderly|grandparent|mom|dad|mother|father|parent)/,
-      /\b(husband|wife|spouse|partner|boyfriend|girlfriend)/,
-      /\b(worry|worri(ed|es) about|scared|concerned)/,
-      /\b(found (my|his|her) phone|lost my phone)/,
-    ],
-  },
-  {
-    code: 'control_visibility',
-    patterns: [
-      /\b(who can see|see who|who sees)/,
-      /\b(turn (it )?off|toggle|disable|pause)/,
-      /\b(per[- ]contact|individual (setting|control)|granular)/,
-      /\b(selective(ly)? shar|share with only|share with just)/,
-      /\b(hide (from|my location)|invisible to)/,
-      /\b(opt[- ]?(in|out))/,
-      /\b(setting(s)?|permission(s)?|privacy setting)/,
-      /\b(notifications?|alerts? (for|when))/,
-    ],
-  },
-];
-
+// The lexical rules live in lexical-rules.mjs (single source of truth, shared
+// with validation/make-irr-sample.mjs). RULES_V1 is the ruleset that produced
+// the published numbers; behaviour verified byte-identical to the previous
+// inline copy on all 1,631 eligible reviews before the switch.
 function codeOne(text) {
-  const t = text.toLowerCase();
-  const codes = new Set();
-  for (const rule of RULES) {
-    for (const pat of rule.patterns) {
-      if (pat.test(t)) { codes.add(rule.code); break; }
-    }
-  }
-  if (codes.size === 0) codes.add('other');
-  return [...codes];
+  const codes = applyRules(text, RULES_V1);
+  return codes.length ? codes : ['other'];
 }
 
 function bucketRating(r) {
