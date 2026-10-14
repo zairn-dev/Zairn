@@ -61,12 +61,9 @@ fi
 # ─────────────────────────────────────
 step "Applying database schema"
 
-DB_URL="postgresql://postgres:postgres@127.0.0.1:54322/postgres"
-psql "$DB_URL" -f database/schema.sql 2>/dev/null || true
-psql "$DB_URL" -f database/policies.sql 2>/dev/null || true
-psql "$DB_URL" -f packages/geo-drop/database/schema.sql 2>/dev/null || true
-psql "$DB_URL" -f packages/geo-drop/database/policies.sql 2>/dev/null || true
-psql "$DB_URL" -c "INSERT INTO storage.buckets (id, name, public) VALUES ('avatars', 'avatars', true) ON CONFLICT DO NOTHING;" 2>/dev/null || true
+# `supabase start` applies supabase/migrations on first start; this applies
+# any migrations added since an already-running instance was started.
+npx supabase migration up
 info "Schema applied"
 
 # ─────────────────────────────────────

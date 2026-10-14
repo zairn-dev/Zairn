@@ -24,7 +24,7 @@
     "test:chat": "npx tsx --env-file=.env test/chat-bump-test.ts",
     "test:extended": "npx tsx --env-file=.env test/extended-test.ts",
     "test:remaining": "npx tsx --env-file=.env test/remaining-test.ts",
-    "test:unit": "pnpm --filter @zairn/geo-drop test && pnpm --filter @zairn/sdk build && pnpm --filter @zairn/sdk test && pnpm --filter @zairn/sdk test:dist && pnpm test:eval-device",
+    "test:unit": "pnpm --filter @zairn/geo-drop test && pnpm --filter @zairn/sdk build && pnpm --filter @zairn/sdk test && pnpm --filter @zairn/sdk test:dist && pnpm test:eval-device && pnpm test:db",
     "test:eval-device": "node --test eval/dense-trace/device/device-tools.test.mjs",
     "demo:bootstrap": "bash scripts/demo-bootstrap.sh",
     "dev:social-map": "pnpm --filter social-map-example dev",
@@ -32,27 +32,32 @@
     "dev:zkp-demo": "pnpm --filter zkp-demo-example dev",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
-    "db:reset": "supabase db reset"
+    "db:reset": "supabase db reset",
+    "test:db": "node --test \"test/db/*.test.mjs\"",
+    "db:snapshot": "node scripts/build-db-snapshot.mjs"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.9",
     "@supabase/supabase-js": "^2.99.1",
     "ethers": "^6.16.0",
     "hardhat": "^3.2.0",
-    "sharp": "^0.34.5",
     "solc": "^0.8.34",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
-    "vitest": "^4.1.0"
+    "vitest": "^4.1.11"
   },
   "pnpm": {
     "overrides": {
       "@babel/core": "7.29.7",
-      "brace-expansion": "2.1.2",
+      "brace-expansion": ">=2.1.7 <3",
+      "browserslist@<4.28.7": "^4.28.7",
       "follow-redirects": "1.16.0",
+      "nanoid@<3.3.18": "^3.3.18",
       "picomatch": "4.0.5",
-      "postcss": "8.5.20",
+      "postcss": ">=8.5.23 <9",
+      "source-map-js@<1.2.2": "^1.2.2",
       "underscore": "1.13.8",
-      "undici": "6.27.0",
+      "undici": ">=6.28.1 <7",
       "vite": "7.3.5",
       "ws": "8.21.1"
     }

@@ -49,7 +49,7 @@
     "circom2": "^0.2.22",
     "circomlib": "^2.0.5",
     "typescript": "^5.6.0",
-    "vitest": "^4.1.0"
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "@supabase/supabase-js": "^2.0.0",

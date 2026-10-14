@@ -68,5 +68,16 @@ grant select (
 -- 2. + 3. Make views respect the querying user's RLS.
 --     security_invoker requires PostgreSQL 15+ (Supabase default).
 -- ---------------------------------------------------------------------
-alter view geo_drops_public set (security_invoker = on);
+-- geo_drops_public was historically created only by
+-- packages/geo-drop/database/schema.sql, never by a migration, so an
+-- `alter view` here aborts a migration-only deploy. Create it instead.
+create or replace view geo_drops_public
+with (security_invoker = on) as
+select id, creator_id, lat, lon, geohash, unlock_radius_meters,
+       title, description, content_type, visibility,
+       max_claims, claim_count, proof_config, expires_at, status,
+       preview_url, metadata, persistence_level,
+       metadata_cid, chain_tx_hash, ipfs_cid, encrypted,
+       created_at, updated_at
+from geo_drops;
 alter view visited_cell_stats set (security_invoker = on);

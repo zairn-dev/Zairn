@@ -24,6 +24,24 @@
 -- INSERT, so this tightens it to SELECT-only before anything does.
 -- =====================================================================
 
+-- The table itself was only ever created by sbpp_schema.sql, never by a
+-- migration; create it here so a migration-only deploy does not abort.
+create table if not exists search_sessions (
+  session_id  text primary key,
+  nonce       text not null,
+  user_id     uuid not null references auth.users(id),
+  created_at  timestamptz not null default now(),
+  expires_at  timestamptz not null,
+  consumed_at timestamptz,
+  constraint search_sessions_nonce_unique unique (nonce)
+);
+create index if not exists idx_search_sessions_user
+  on search_sessions(user_id, created_at desc);
+create index if not exists idx_search_sessions_expires
+  on search_sessions(expires_at)
+  where consumed_at is null;
+alter table search_sessions enable row level security;
+
 drop policy if exists search_sessions_own on search_sessions;
 
 create policy search_sessions_select_own on search_sessions
