@@ -8,8 +8,9 @@ judgement (Cohen's kappa / Krippendorff's alpha, plus lexical precision/recall).
 **Estimated effort: ~2 hours per coder** (200 short reviews, 9 binary codes).
 
 **Tool.** Open `coding-tool.html` in any browser and load your assigned CSV. It
-shows one review at a time with the nine codes, keeps each code's rule and its
-near-miss example on screen, takes `1`–`9` / `Enter` on the keyboard, autosaves
+shows one review at a time with the nine codes plus an explicit "none of the
+nine" choice, keeps each code's rule and its near-miss example on screen, takes
+`0`–`9` / `Enter` on the keyboard, autosaves
 to the browser so you can stop and resume, and exports a CSV in exactly the
 format `compute-irr.mjs` expects. It never loads `irr-sample-key.json` or the
 lexical coder's output. Coding by hand in a spreadsheet works too.
@@ -50,8 +51,12 @@ data anywhere in the analysis.
   app", "love it", "5 stars"), install chatter, and unrelated feature requests.
   A code applies only when the reviewer makes a *real claim* about that theme.
 - **`other` is implicit.** There is no `other` column: if none of the nine
-  codes apply, leave all nine at `0`. This is a common and correct outcome —
-  roughly seven in ten reviews in this corpus carry no code at all.
+  codes apply, the row is all `0`. This is a common and correct outcome —
+  roughly seven in ten reviews in this corpus carry no code at all, positive
+  and negative reviews alike. In `coding-tool.html`, record it explicitly with
+  the **"none of the nine"** box (key `0`); the tool exports a judged all-zero
+  row as nine explicit `0`s, and a row you never judged as blank cells, so an
+  unfinished sheet can't be mistaken for two hundred considered zeros.
 - **Code independently.** Do not look at the other coder's sheet, the automatic
   coder's output, or `irr-sample-key.json` while coding. Use the `notes` column
   for genuinely ambiguous items and adjudication hints.

@@ -132,8 +132,9 @@
   </div>
 
   <div class="codes" id="codes"></div>
-  <div class="none-note hide" id="noneNote">No codes selected — this review will be recorded as
-    “other” (all nine codes 0). That is a valid answer if none of the nine themes apply.</div>
+  <div class="none-note hide" id="noneNote">No judgement recorded yet — tick every code that
+    applies, or press <b>0</b> / “none of the nine” if none do. Rows left without a judgement are
+    exported as blank, not as zeros.</div>
   <div class="card hide" id="feedback"></div>
 
   <div class="card" style="margin-top:12px">
@@ -152,6 +153,7 @@
 
   <div class="kbd">
     <code>1</code>–<code>9</code> toggle a code &nbsp;·&nbsp;
+    <code>0</code> none of the nine &nbsp;·&nbsp;
     <code>Enter</code> / <code>→</code> next &nbsp;·&nbsp;
     <code>←</code> previous &nbsp;·&nbsp;
     <code>?</code> expand all definitions &nbsp;·&nbsp;
@@ -348,13 +350,22 @@ let fbShown = false;                   // practice: feedback visible for current
 let practiceScore = [];                // practice: per-item exact-match booleans
 const $ = id => document.getElementById(id);
 
+/* A row counts as JUDGED only when the coder has made an active choice:
+ * at least one code ticked, or the explicit "none of the nine" box.
+ * Merely paging past a row does NOT count — otherwise Enter-mashing
+ * through the file would be indistinguishable from 200 considered
+ * all-zero judgements, and no quality check could ever catch it. */
+function isJudged(r) {
+  return r._none === '1' || CODE_KEYS.some(k => r[k] === '1');
+}
+
 function saveState() {
   if (!storeKey) return;
   try {
     localStorage.setItem(storeKey, JSON.stringify({
       idx,
       data: rows.map(r => ({
-        seen: !!r._seen,
+        z: r._none === '1' ? 1 : 0,
         v: CODE_KEYS.map(k => r[k] === '1' ? 1 : 0),
         n: r.notes || '',
       })),
@@ -368,7 +379,7 @@ function restoreState() {
     const s = JSON.parse(raw);
     if (!s || !Array.isArray(s.data) || s.data.length !== rows.length) return false;
     s.data.forEach((d, i) => {
-      rows[i]._seen = !!d.seen;
+      rows[i]._none = d.z ? '1' : '0';
       CODE_KEYS.forEach((k, j) => { rows[i][k] = d.v[j] ? '1' : '0'; });
       rows[i].notes = d.n || '';
     });
@@ -397,7 +408,15 @@ function buildCodeList() {
         <p class="lbl">Near miss — code <b>${c.miss.code}</b> instead</p>
         <div class="ex miss">${escapeHtml(c.miss.text)}<br><span class="meta">→ ${c.miss.why}</span></div>
       </div>
-    </div>`).join('');
+    </div>`).join('') + `
+    <div class="code" data-key="__none" style="border-style:dashed;margin-top:6px">
+      <div class="code-row" data-toggle="__none">
+        <span class="key">0</span>
+        <input type="checkbox" id="cb___none" tabindex="-1">
+        <span class="code-name">none of the nine</span>
+        <span class="code-rule">No substantive claim about any theme — records an explicit all-zero judgement. Expect this often (~7 in 10 corpus reviews), for praise and complaints alike.</span>
+      </div>
+    </div>`;
 
   $('codes').addEventListener('click', e => {
     const info = e.target.closest('[data-info]');
@@ -422,9 +441,12 @@ function render() {
     $('cb_' + c.key).checked = on;
     document.querySelector(`.code[data-key="${c.key}"]`).classList.toggle('on', on);
   });
+  const noneOn = r._none === '1';
+  $('cb___none').checked = noneOn;
+  document.querySelector('.code[data-key="__none"]').classList.toggle('on', noneOn);
 
-  const anyOn = CODE_KEYS.some(k => r[k] === '1');
-  $('noneNote').classList.toggle('hide', !(r._seen && !anyOn) || mode === 'practice');
+  // Unjudged rows carry a standing hint; they export as blank cells.
+  $('noneNote').classList.toggle('hide', isJudged(r) || mode === 'practice');
 
   if (mode === 'practice') {
     const right = practiceScore.filter(Boolean).length;
@@ -439,9 +461,9 @@ function render() {
     if (!fbShown) $('feedback').classList.add('hide');
     return;
   }
-  const seen = rows.filter(x => x._seen).length;
-  $('counter').textContent = `${idx + 1} / ${rows.length}  ·  ${seen} coded`;
-  $('bar').style.width = (seen / rows.length * 100) + '%';
+  const judged = rows.filter(isJudged).length;
+  $('counter').textContent = `${idx + 1} / ${rows.length}  ·  ${judged} judged`;
+  $('bar').style.width = (judged / rows.length * 100) + '%';
   $('prevBtn').disabled = idx === 0;
   $('nextBtn').textContent = idx === rows.length - 1 ? 'Finish →' : 'Next →';
   $('jump').classList.remove('hide'); $('firstUnseenBtn').classList.remove('hide');
@@ -453,13 +475,17 @@ function render() {
 function toggle(key) {
   if (mode === 'practice' && fbShown) return;   // answer locked once checked
   const r = rows[idx];
-  r[key] = r[key] === '1' ? '0' : '1';
-  r._seen = true;
+  if (key === '__none') {
+    r._none = r._none === '1' ? '0' : '1';
+    if (r._none === '1') CODE_KEYS.forEach(k => { r[k] = '0'; });   // mutually exclusive
+  } else {
+    r[key] = r[key] === '1' ? '0' : '1';
+    if (r[key] === '1') r._none = '0';                              // a code beats "none"
+  }
   saveState(); render();
 }
 function go(n) {
   rows[idx].notes = $('notes').value;
-  rows[idx]._seen = true;                 // visiting counts as coded (all-zero is valid)
   idx = Math.min(Math.max(0, n), rows.length - 1);
   saveState(); render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -508,7 +534,13 @@ function practiceSummary() {
 }
 function nextAction() {
   if (mode === 'practice') {
-    if (!fbShown) { showPracticeFeedback(); return; }
+    if (!fbShown) {
+      if (!isJudged(rows[idx])) {
+        alert('Tick every code that applies, or "none of the nine" (key 0), then check.');
+        return;
+      }
+      showPracticeFeedback(); return;
+    }
     fbShown = false;
     if (idx === rows.length - 1) { practiceSummary(); return; }
     idx++; render();
@@ -539,8 +571,18 @@ $('fileInput').addEventListener('change', ev => {
     $('loadErr').classList.add('hide');
     header = parsed.header;
     rows = parsed.records.map(r => {
-      CODE_KEYS.forEach(k => { r[k] = r[k] === '1' ? '1' : '0'; });
-      r._seen = false;
+      // Preserve the judged/unjudged distinction when re-loading a
+      // previously exported CSV: a judged row has explicit cells (nine 0/1
+      // values); an all-zero judged row maps back to the "none" box. A
+      // fresh worksheet has blank cells -> unjudged.
+      const rowHasValues = CODE_KEYS.some(k => String(r[k] ?? '').trim() !== '');
+      let anyOne = false;
+      CODE_KEYS.forEach(k => {
+        r[k] = r[k] === '1' ? '1' : '0';
+        if (r[k] === '1') anyOne = true;
+      });
+      r._none = (rowHasValues && !anyOne) ? '1' : '0';
+      if (!rowHasValues) CODE_KEYS.forEach(k => { r[k] = '0'; });
       return r;
     });
     fileName = f.name;
@@ -564,7 +606,7 @@ $('practiceBtn').onclick = () => {
   mode = 'practice'; storeKey = ''; fileName = ''; fbShown = false; practiceScore = [];
   rows = PRACTICE.map((p, i) => {
     const r = { sample_id: 'P' + String(i + 1).padStart(2, '0'), app: 'practice',
-      rating: '', review_text: p.t, notes: '', _seen: false, _answer: p.a, _why: p.w };
+      rating: '', review_text: p.t, notes: '', _none: '0', _answer: p.a, _why: p.w };
     CODE_KEYS.forEach(k => { r[k] = '0'; });
     return r;
   });
@@ -578,20 +620,24 @@ $('practiceBtn').onclick = () => {
 };
 $('jump').addEventListener('change', e => { const n = parseInt(e.target.value, 10); if (n) go(n - 1); });
 $('firstUnseenBtn').onclick = () => {
-  const n = rows.findIndex(r => !r._seen);
-  if (n === -1) alert('Every review has been coded. You can export now.');
+  const n = rows.findIndex(r => !isJudged(r));
+  if (n === -1) alert('Every review has a judgement. You can export now.');
   else go(n);
 };
 $('notes').addEventListener('input', () => { rows[idx].notes = $('notes').value; saveState(); });
 
 $('exportBtn').onclick = () => {
   rows[idx].notes = $('notes').value;
-  const left = rows.filter(r => !r._seen).length;
-  if (left && !confirm(`${left} review(s) have not been opened yet; they will be exported as all-zero. Export anyway?`)) return;
+  const left = rows.filter(r => !isJudged(r)).length;
+  if (left && !confirm(`${left} review(s) have no judgement (no code and no "none of the nine"). They will be exported with BLANK cells, not zeros, so they are visible as unfinished. Export anyway?`)) return;
   const out = rows.map(r => {
     const o = {};
     header.forEach(h => { o[h] = r[h] ?? ''; });
-    CODE_KEYS.forEach(k => { o[k] = r[k] === '1' ? '1' : '0'; });
+    // Judged rows export explicit 0/1; unjudged rows stay blank so a
+    // half-finished sheet cannot masquerade as 200 considered zeros.
+    // (compute-irr scores blank as 0, but the blank is visible in QC.)
+    if (isJudged(r)) CODE_KEYS.forEach(k => { o[k] = r[k] === '1' ? '1' : '0'; });
+    else CODE_KEYS.forEach(k => { o[k] = ''; });
     return o;
   });
   const blob = new Blob([toCsv(header, out)], { type: 'text/csv;charset=utf-8' });
@@ -609,6 +655,7 @@ document.addEventListener('keydown', e => {
   if (e.ctrlKey || e.metaKey || e.altKey) return;
 
   if (e.key >= '1' && e.key <= '9') { toggle(CODE_KEYS[+e.key - 1]); e.preventDefault(); return; }
+  if (e.key === '0') { toggle('__none'); e.preventDefault(); return; }
   if (e.key === 'Enter' || e.key === 'ArrowRight') { nextAction(); e.preventDefault(); return; }
   if (e.key === 'ArrowLeft') { if (mode !== 'practice') go(idx - 1); e.preventDefault(); return; }
   if (e.key === '?') {
@@ -620,7 +667,7 @@ document.addEventListener('keydown', e => {
 
 window.addEventListener('beforeunload', e => {
   if (mode === 'practice') return;          // nothing to lose in practice
-  if (rows.length && rows.some(r => r._seen)) { e.preventDefault(); e.returnValue = ''; }
+  if (rows.length && rows.some(isJudged)) { e.preventDefault(); e.returnValue = ''; }
 });
 </script>
 </body>
