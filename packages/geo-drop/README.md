@@ -18,17 +18,27 @@ pnpm add @zairn/geo-drop @supabase/supabase-js
 
 ### Database
 
-Apply `database/schema.sql` to Supabase:
+The GeoDrop tables are part of the main schema in `supabase/migrations/` (repository root). Apply them with:
 
 ```bash
 supabase db push
 ```
 
-### Edge Function (for image-based verification)
+Without the CLI, run the generated snapshot `database/schema.sql` (repository root) in the Supabase SQL editor.
+
+### Edge Functions
+
+Content is encrypted and decrypted on the server, so clients never hold the
+encryption secret:
 
 ```bash
-supabase functions deploy image-proof
+supabase secrets set GEODROP_ENCRYPTION_SECRET=<256-bit-hex> CORS_ORIGIN=https://your-app.com
+supabase functions deploy create-drop   # encrypts + stores new drops
+supabase functions deploy unlock-drop   # verifies the claimant, decrypts
+supabase functions deploy ipfs-proxy    # pins with the server's Pinata key
 ```
+
+See `docs/supabase-production-setup.md` for the full list of secrets.
 
 ## Quick Start
 
@@ -38,11 +48,9 @@ import { createGeoDrop } from '@zairn/geo-drop';
 const geo = createGeoDrop({
   supabaseUrl: 'https://xxx.supabase.co',
   supabaseAnonKey: 'eyJ...',
-  ipfs: {
-    gateway: 'https://w3s.link/ipfs',
-    pinningService: 'pinata',
-    pinningApiKey: 'your-api-key',
-  },
+  // create-drop / unlock-drop Edge Functions do the crypto. Never put an
+  // encryption secret or a pinning API key in browser code.
+  serverUnlock: true,
 });
 
 // Create a drop
@@ -313,7 +321,7 @@ Recommended: deploy on L2 (Base, Polygon, Arbitrum). Gas < $0.01 per registratio
 ## API Reference
 
 ### Drop Management
-- `createDrop(data, content)` — Create a drop (encrypts content → IPFS)
+- `createDrop(data, content)` — Create a drop (the create-drop Edge Function encrypts and stores the content)
 - `getDrop(dropId)` — Get a drop
 - `getMyDrops(options?)` — List own drops
 - `deleteDrop(dropId)` — Soft-delete a drop

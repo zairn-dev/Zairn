@@ -44,8 +44,13 @@ Run a multi-party ceremony with ≥3 contributors:
 ```bash
 cd packages/geo-drop/circuits
 
-# Phase 1: Use existing Powers of Tau (shared across circuits)
-# pot10_final.ptau is already included
+# Phase 1: Powers of Tau (shared across circuits). Not in the repository
+# (*.ptau is gitignored). Do NOT generate it yourself for production: whoever
+# knows the phase-1 toxic waste can forge proofs, and PLONK's soundness rests
+# on phase 1 alone. Download a public multi-party ceremony file, e.g. the
+# Hermez/Polygon "powersOfTau28_hez_final_10.ptau" listed in the snarkjs
+# README, check its hash against the one published there (b2sum), and save it
+# here as pot10_final.ptau.
 
 # Phase 2: Circuit-specific setup with multiple contributors
 snarkjs groth16 setup build/grid_membership_zkp.r1cs pot10_final.ptau grid_membership_zkp_0000.zkey

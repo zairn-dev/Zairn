@@ -18,6 +18,16 @@ This applies all migrations in `supabase/migrations/`, including:
 - GeoDrop schema
 - Realtime publication configuration
 
+Projects first deployed from early versions of migrations 0001–0012 lack
+functions, triggers, constraints and policies that were added to those files
+later. `20261014000017_reconcile_production_drift.sql` brings such a project
+up to date before `20261014000018` runs; on a project built from the current
+migrations its only effect is the GeoDrop policy-recursion fix. It deletes `locations_current`,
+`locations_history` and `share_rules` rows that belong to deleted accounts
+before adding the missing `ON DELETE CASCADE` foreign keys. If `db push` fails
+with `function ... does not exist` on an older project, check that this file
+is present.
+
 ## 2. Enable Realtime RLS (Required)
 
 The migration `20240101000007_realtime_rls.sql` creates the publication,
@@ -42,21 +52,34 @@ via Realtime, regardless of RLS policies.
 supabase secrets set GEODROP_ENCRYPTION_SECRET=<your-256-bit-hex-secret>
 supabase secrets set PINATA_JWT=<your-pinata-jwt>
 supabase secrets set IPFS_GATEWAY=https://gateway.pinata.cloud/ipfs
+# Only if drops may require ZK proofs: contents of circuits/sound_geo_only_vkey.json
+supabase secrets set GEODROP_ZKP_VKEY="$(cat packages/geo-drop/circuits/sound_geo_only_vkey.json)"
 
+supabase functions deploy create-drop
 supabase functions deploy unlock-drop
 supabase functions deploy ipfs-proxy
 ```
 
+- `create-drop` encrypts drop content with a key derived from
+  `GEODROP_ENCRYPTION_SECRET`; `unlock-drop` decrypts it after verifying the
+  claimant. Browsers never hold the secret — the SDK uses these functions
+  automatically when `serverUnlock` is set and no `encryptionSecret` is passed.
+- Secret rotation: add `GEODROP_ENCRYPTION_SECRET_V2=<new>` and set
+  `GEODROP_CURRENT_SECRET_VERSION=2`. New drops use v2; existing drops keep
+  decrypting with the version they were created with.
+- `GEODROP_ZKP_VKEY` must be the `sound_geo_only` key (5 public signals).
+  Never the `proximity` key: that circuit proves nothing about distance.
+
 ### CORS Configuration
 
-Set `CORS_ORIGIN` to your frontend URL:
+Set `CORS_ORIGIN` to your frontend origin(s), comma-separated:
 
 ```bash
-supabase secrets set CORS_ORIGIN=https://your-app.com
+supabase secrets set CORS_ORIGIN=https://your-app.com,https://demo.your-app.com
 ```
 
-If not set, it falls back to `SUPABASE_URL` (acceptable for same-origin).
-**Never** leave it as `*` in production.
+If unset, browsers are refused (no `Access-Control-Allow-Origin` is sent).
+Wildcards are not supported.
 
 ## 4. Storage Setup
 
@@ -100,8 +123,10 @@ GEODROP_ENCRYPTION_SECRET=<your-256-bit-hex-secret>
 ## 7. Security Checklist
 
 - [ ] Realtime RLS enabled in dashboard
-- [ ] Edge Functions deployed with CORS_ORIGIN set
-- [ ] GEODROP_ENCRYPTION_SECRET is a 256-bit random hex string
+- [ ] All migrations applied (`supabase db push`), then `node scripts/migrate-proof-secrets.mjs`
+- [ ] `node scripts/check-realtime-rls.mjs` passes against the deployed project
+- [ ] create-drop, unlock-drop and ipfs-proxy deployed with CORS_ORIGIN set
+- [ ] GEODROP_ENCRYPTION_SECRET is a 256-bit random hex string and appears in no client env file
 - [ ] Email confirmations enabled
 - [ ] IPFS keys are server-side only (not in VITE_ variables)
 - [ ] Database backups enabled (Supabase Pro plan)

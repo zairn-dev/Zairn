@@ -87,9 +87,10 @@ npx tsc --noEmit -p apps/geo-drop-demo/tsconfig.json
 
 ## Database Changes
 
-- Update `database/schema.sql` for table definitions
-- Add RLS policies in `database/policies.sql`
-- Use `security definer` helper functions if policies reference the same table (avoids infinite recursion)
+- Add a new migration under `supabase/migrations/` — it is the single source of truth (production applies it with `supabase db push`, CI with `supabase start`)
+- Regenerate the snapshot with `pnpm db:snapshot` (`database/schema.sql` is generated; don't edit it by hand)
+- Add an RLS regression test in `test/db/rls-security.test.mjs` (`pnpm test:db`, no Docker needed)
+- Use `security definer` helper functions if policies reference the same table (avoids infinite recursion); pin `set search_path` and revoke EXECUTE from `public, anon, authenticated` for anything clients must not call (Supabase grants EXECUTE to `anon`/`authenticated` directly, so revoking from `public` alone is not enough)
 - Document RLS implications in your PR
 
 ## Commit Messages

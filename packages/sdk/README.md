@@ -121,13 +121,13 @@ await core.addSharingPolicy({
 
 ## Database Setup
 
-Apply the core schema and RLS policies to your Supabase project:
+Apply the schema and RLS policies (the migrations in `supabase/migrations/` at the repository root) to your Supabase project:
 
 ```bash
-# In Supabase SQL Editor, run:
-# 1. database/schema.sql
-# 2. database/policies.sql
+supabase db push
 ```
+
+Without the CLI, run the generated snapshot `database/schema.sql` in the Supabase SQL editor.
 
 ## Security
 
