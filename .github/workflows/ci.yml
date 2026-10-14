@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   unit-test:
     name: Unit Tests
@@ -55,6 +58,28 @@ jobs:
       - name: Build geo-drop-demo
         run: pnpm --filter geo-drop-demo build
 
+  edge-functions:
+    name: Edge Functions (Deno)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Type check
+        run: deno check --no-lock supabase/functions/create-drop/index.ts supabase/functions/unlock-drop/index.ts supabase/functions/ipfs-proxy/index.ts
+      - name: Test
+        run: deno test -A --no-lock supabase/functions/
+      # `supabase functions deploy` bundles with the Edge Runtime, which rejects
+      # some node: built-ins that plain Deno accepts (node:vm broke unlock-drop).
+      - name: Bundle with the Edge Runtime
+        run: |
+          for fn in create-drop unlock-drop ipfs-proxy; do
+            docker run --rm -v "$PWD/supabase/functions:/home/deno/functions:ro" \
+              public.ecr.aws/supabase/edge-runtime:v1.77.4 \
+              bundle --entrypoint "/home/deno/functions/$fn/index.ts" --output /tmp/bundle.eszip
+          done
+
   test:
     name: Integration Tests
     runs-on: ubuntu-latest
@@ -71,19 +96,10 @@ jobs:
       - name: Install Supabase CLI
         run: |
           npx --yes supabase --version
-      - name: Start local Supabase (skip migrations, apply via psql)
-        run: |
-          mv supabase/migrations supabase/_migrations_backup
-          npx supabase start
-          mv supabase/_migrations_backup supabase/migrations
-      - name: Apply schema via psql
-        run: |
-          DB_URL="postgresql://postgres:postgres@127.0.0.1:54322/postgres"
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -f database/schema.sql
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -f database/policies.sql
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -f packages/geo-drop/database/schema.sql
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -f packages/geo-drop/database/policies.sql
-          psql -v ON_ERROR_STOP=1 "$DB_URL" -c "INSERT INTO storage.buckets (id, name, public) VALUES ('avatars', 'avatars', true) ON CONFLICT DO NOTHING;"
+      # Applies supabase/migrations — the same path production uses
+      # (`supabase db push`), so CI tests the schema that actually ships.
+      - name: Start local Supabase (applies migrations)
+        run: npx supabase start
       - name: Create .env for tests
         run: |
           echo "SUPABASE_URL=http://127.0.0.1:54321" >> .env

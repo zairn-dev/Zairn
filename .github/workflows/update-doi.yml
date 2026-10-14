@@ -53,8 +53,15 @@ jobs:
 
       - name: Update README.md
         if: steps.doi.outputs.skip != 'true'
+        # The DOI comes from an external API response: pass it as data and
+        # accept only the exact Zenodo format before it reaches sed or git.
+        env:
+          NEW_DOI: ${{ steps.doi.outputs.new_doi }}
         run: |
-          NEW_DOI="${{ steps.doi.outputs.new_doi }}"
+          if ! [[ "$NEW_DOI" =~ ^10\.5281/zenodo\.[0-9]+$ ]]; then
+            echo "Unexpected DOI format: refusing to use it" >&2
+            exit 1
+          fi
           sed -i "s|10\.5281/zenodo\.[0-9]*|${NEW_DOI}|g" README.md
           echo "Updated README.md with DOI: $NEW_DOI"
 
@@ -81,9 +88,11 @@ jobs:
 
       - name: Commit and push
         if: steps.doi.outputs.skip != 'true' && steps.diff.outputs.changed == 'true'
+        env:
+          NEW_DOI: ${{ steps.doi.outputs.new_doi }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md CITATION.cff
-          git commit -m "docs: auto-update DOI to ${{ steps.doi.outputs.new_doi }} [skip ci]"
+          git commit -m "docs: auto-update DOI to ${NEW_DOI} [skip ci]"
           git push

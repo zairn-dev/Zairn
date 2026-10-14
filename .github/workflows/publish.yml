@@ -23,25 +23,27 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Set version from release tag
+        # The tag is passed as data (env), never spliced into script source.
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          echo "Publishing version: $VERSION"
           node -e "
             const fs = require('fs');
+            const version = process.env.GITHUB_REF_NAME.replace(/^v/, '');
+            if (!/^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/.test(version)) {
+              console.error('Release tag is not a semver version: ' + version);
+              process.exit(1);
+            }
             for (const dir of ['packages/sdk', 'packages/geo-drop']) {
               const path = dir + '/package.json';
               const pkg = JSON.parse(fs.readFileSync(path, 'utf8'));
-              pkg.version = '$VERSION';
+              pkg.version = version;
               fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n');
               console.log(dir + ': ' + pkg.version);
             }
           "
 
-      - name: Configure npm auth
-        run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
+      # npm auth comes from setup-node (registry-url) and NODE_AUTH_TOKEN,
+      # which is exposed only to the publish steps — never written to disk
+      # while build-time dependency code runs.
       - name: Build SDK
         run: pnpm --filter @zairn/sdk build
       - name: Build geo-drop
