@@ -131,6 +131,7 @@ function FriendsTab({ sdk, onOpenChat }: { sdk: any; onOpenChat?: (id: string) =
 function RequestsTab({ sdk, userId }: { sdk: any; userId?: string }) {
   const [received, setReceived] = useState<FriendRequest[]>([])
   const [sent, setSent] = useState<FriendRequest[]>([])
+  const [names, setNames] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -139,6 +140,20 @@ function RequestsTab({ sdk, userId }: { sdk: any; userId?: string }) {
     setError('')
     try {
       const [r, s] = await Promise.all([sdk.getPendingRequests(), sdk.getSentRequests()])
+      // Accepting shares location history both ways, so the user must be
+      // able to see WHO is asking, not just an opaque id prefix.
+      const ids = [...new Set([...r.map((x: FriendRequest) => x.from_user_id), ...s.map((x: FriendRequest) => x.to_user_id)])]
+      if (ids.length > 0) {
+        const { data: profiles, error: profileError } = await sdk.supabase
+          .from('profiles')
+          .select('user_id, username, display_name')
+          .in('user_id', ids)
+        if (profileError) throw profileError
+        setNames(Object.fromEntries((profiles ?? []).map((p: Pick<Profile, 'user_id' | 'username' | 'display_name'>) => [
+          p.user_id,
+          [p.display_name, p.username ? `@${p.username}` : null].filter(Boolean).join(' '),
+        ])))
+      }
       setReceived(r)
       setSent(s)
     } catch (e: any) {
@@ -169,7 +184,7 @@ function RequestsTab({ sdk, userId }: { sdk: any; userId?: string }) {
         {received.length === 0 && <PanelState kind="empty" compact message="None" />}
         {received.map((r) => (
           <div key={r.id} className="flex items-center justify-between p-2 rounded-lg mb-1" style={{ background: 'var(--md-surface-container)' }}>
-            <span className="text-sm truncate" style={{ color: 'var(--md-on-surface)' }}>{r.from_user_id.slice(0, 8)}</span>
+            <span className="text-sm truncate" style={{ color: 'var(--md-on-surface)' }}>{names[r.from_user_id] || `Unknown user (${r.from_user_id.slice(0, 8)})`}</span>
             <div className="flex gap-1">
               <button onClick={() => act(() => sdk.acceptFriendRequest(r.id))} className="px-2 py-1 text-xs rounded" style={{ background: 'var(--md-primary)', color: 'var(--md-on-primary)' }}>Accept</button>
               <button onClick={() => act(() => sdk.rejectFriendRequest(r.id))} className="px-2 py-1 text-xs rounded" style={{ background: 'var(--md-surface-container-high)', color: 'var(--md-on-surface-variant)' }}>Reject</button>
@@ -182,7 +197,7 @@ function RequestsTab({ sdk, userId }: { sdk: any; userId?: string }) {
         {sent.length === 0 && <PanelState kind="empty" compact message="None" />}
         {sent.map((r) => (
           <div key={r.id} className="flex items-center justify-between p-2 rounded-lg mb-1" style={{ background: 'var(--md-surface-container)' }}>
-            <span className="text-sm truncate" style={{ color: 'var(--md-on-surface)' }}>{r.to_user_id.slice(0, 8)}</span>
+            <span className="text-sm truncate" style={{ color: 'var(--md-on-surface)' }}>{names[r.to_user_id] || `Unknown user (${r.to_user_id.slice(0, 8)})`}</span>
             <button onClick={() => act(() => sdk.cancelFriendRequest(r.id))} className="px-2 py-1 text-xs rounded" style={{ background: 'var(--md-surface-container-high)', color: 'var(--md-on-surface-variant)' }}>Cancel</button>
           </div>
         ))}

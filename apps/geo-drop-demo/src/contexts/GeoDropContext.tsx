@@ -40,8 +40,10 @@ export function GeoDropProvider({ children }: { children: ReactNode }) {
       persistence: {
         level: ipfsProxyUrl ? 'ipfs' as const : 'db-only' as const,
       },
-      // Local demo only; production must use a server-side unlock path.
-      allowInsecureNoSecret: import.meta.env.DEV,
+      // Drops are encrypted and decrypted by the create-drop / unlock-drop
+      // Edge Functions; the browser never holds the encryption secret.
+      // Locally: `supabase start` + `supabase functions serve`.
+      serverUnlock: true,
     })
 
     return { sdk, supabase }

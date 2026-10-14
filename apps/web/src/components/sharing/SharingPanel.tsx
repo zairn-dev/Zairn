@@ -36,11 +36,15 @@ export default function SharingPanel() {
       setError('')
       const friendIds = await core.getFriends()
 
-      // share_rulesから実際のレベルを取得
-      const { data: rules } = await core.supabase
-        .from('share_rules')
-        .select('viewer_id, level, expires_at')
-        .in('viewer_id', friendIds.length > 0 ? friendIds : ['__none__'])
+      // share_rulesから実際のレベルを取得。読めなかった時に「共有なし」と
+      // 表示すると、実際は共有中なのに止めたと誤認させてしまうためエラーにする
+      const { data: rules, error: rulesError } = friendIds.length > 0
+        ? await core.supabase
+          .from('share_rules')
+          .select('viewer_id, level, expires_at')
+          .in('viewer_id', friendIds)
+        : { data: [], error: null }
+      if (rulesError) throw rulesError
 
       const ruleMap = new Map<string, { level: ShareLevel; expiresAt: string | null }>()
       for (const r of rules ?? []) {

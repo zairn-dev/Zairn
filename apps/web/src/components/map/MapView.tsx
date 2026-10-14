@@ -5,6 +5,7 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import { useSdk } from '@/contexts/SdkContext'
+import { DEMO_DATA_ENABLED } from '@/utils/demo'
 import { calculateDistance } from '@zairn/sdk'
 import { formatRelativeTime } from '@/utils/format'
 import TrailLayer from './TrailLayer'
@@ -61,11 +62,6 @@ function makeDemoFriends(centerLat: number, centerLon: number): LocationCurrentR
   } as LocationCurrentRow))
 }
 
-// Sample friends/trails are a dev/demo aid. In production a real user with no
-// friends yet must see their true (empty) state, not strangers' pins — so demo
-// data is off unless in dev mode or explicitly enabled via VITE_DEMO_DATA.
-const DEMO_DATA_ENABLED =
-  import.meta.env.DEV || import.meta.env.VITE_DEMO_DATA === 'true'
 
 // A shared location older than this is shown as possibly-outdated. Honest
 // presentation: a pin is a last-known report, not a guaranteed current fact.
@@ -123,6 +119,8 @@ export default function MapView({ currentLocation, showTrails, showExploration }
     if (!showTrails) setTrailIsDemo(false)
   }, [showTrails])
 
+  const myUserIdRef = useRef<string | null>(null)
+
   // Fetch friends every 15s — fall back to demo data if none found
   useEffect(() => {
     let cancelled = false
@@ -131,14 +129,13 @@ export default function MapView({ currentLocation, showTrails, showExploration }
         const data = await sdk.getVisibleFriends()
         // Get current user id to filter out self
         const { data: { user } } = await sdk.supabase.auth.getUser()
+        myUserIdRef.current = user?.id ?? null
         const othersOnly = user ? data.filter(f => f.user_id !== user.id) : data
         if (!cancelled) {
-          if (othersOnly.length > 0) {
-            setFriends(othersOnly)
-            setUseDemoData(false)
-          } else {
-            setUseDemoData(DEMO_DATA_ENABLED)
-          }
+          // Replace, never merge: friends who revoked sharing or went ghost
+          // must disappear rather than keep their last pin on the map.
+          setFriends(othersOnly)
+          setUseDemoData(othersOnly.length === 0 && DEMO_DATA_ENABLED)
         }
       } catch {
         if (!cancelled) setUseDemoData(DEMO_DATA_ENABLED)
@@ -152,6 +149,7 @@ export default function MapView({ currentLocation, showTrails, showExploration }
   // Subscribe to realtime location updates
   useEffect(() => {
     const channel = sdk.subscribeLocations((row) => {
+      if (row.user_id === myUserIdRef.current) return
       setFriends((prev) => {
         const idx = prev.findIndex((f) => f.user_id === row.user_id)
         if (idx >= 0) {

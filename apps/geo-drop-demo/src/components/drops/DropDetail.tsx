@@ -27,7 +27,7 @@ export default function DropDetail({
   const [stepUp, setStepUp] = useState<{
     reason: string
     availableMethods: ProofMethodType[]
-    trustScore: number
+    trustScore?: number
   } | null>(null)
   const [secretInput, setSecretInput] = useState('')
 
@@ -261,9 +261,11 @@ export default function DropDetail({
                 <p style={{ margin: '0 0 10px', fontSize: '0.85rem', lineHeight: 1.4 }}>
                   {stepUp.reason}
                 </p>
-                <p style={{ margin: '0 0 10px', fontSize: '0.75rem', opacity: 0.8 }}>
-                  Trust score: {(stepUp.trustScore * 100).toFixed(0)}%
-                </p>
+                {stepUp.trustScore !== undefined && (
+                  <p style={{ margin: '0 0 10px', fontSize: '0.75rem', opacity: 0.8 }}>
+                    Trust score: {(stepUp.trustScore * 100).toFixed(0)}%
+                  </p>
+                )}
 
                 {stepUp.availableMethods.includes('secret') && (
                   <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>

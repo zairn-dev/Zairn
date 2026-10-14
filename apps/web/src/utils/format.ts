@@ -22,11 +22,19 @@ export function formatRelativeTime(date: string | Date): string {
 /**
  * Sanitize avatar URL — only allow https: protocol to prevent XSS via javascript: or data: URIs
  */
+/**
+ * Avatars are user-controlled URLs, so only this project's Supabase Storage
+ * is accepted: an arbitrary host would turn every rendered avatar into a
+ * tracking pixel that learns each viewer's IP address.
+ */
 export function safeAvatarUrl(url: string | null | undefined): string | null {
   if (!url) return null
   try {
     const parsed = new URL(url)
-    if (parsed.protocol === 'https:') return url
+    const storage = new URL(import.meta.env.VITE_SUPABASE_URL as string)
+    const sameOrigin = parsed.origin === storage.origin
+    const secure = parsed.protocol === 'https:' || storage.protocol === 'http:'
+    if (sameOrigin && secure && parsed.pathname.startsWith('/storage/v1/')) return url
     return null
   } catch {
     return null

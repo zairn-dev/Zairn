@@ -45,6 +45,8 @@ function AuthPanel({ onAuth }: { onAuth: (user: User, geo: ReturnType<typeof cre
     const geo = createGeoDrop({
       supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
       supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY,
+      // Encryption happens in the create-drop / unlock-drop Edge Functions.
+      serverUnlock: true,
     })
     onAuth(result.data.user!, geo)
   }

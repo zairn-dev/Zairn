@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Rectangle, useMap } from 'react-leaflet'
 import type { LocationCore, VisitedCell } from '@zairn/sdk'
+import { DEMO_DATA_ENABLED } from '@/utils/demo'
 
 interface ExplorationLayerProps {
   sdk: LocationCore
@@ -118,7 +119,7 @@ export default function ExplorationLayer({ sdk }: ExplorationLayerProps) {
       try {
         const data = await sdk.getMyVisitedCells()
         if (!cancelled) {
-          if (data.length > 10) {
+          if (data.length > 0 || !DEMO_DATA_ENABLED) {
             // Use real data — need to decode geohash to bounds
             const { decodeGeohash } = await import('@zairn/sdk')
             const real: CellDisplay[] = data.map(c => {
@@ -139,7 +140,7 @@ export default function ExplorationLayer({ sdk }: ExplorationLayerProps) {
           }
         }
       } catch {
-        if (!cancelled) {
+        if (!cancelled && DEMO_DATA_ENABLED) {
           const center = map.getCenter()
           setCells(makeDemoCells(center.lat, center.lng))
         }

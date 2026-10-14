@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- In-browser ZK proof generation (snarkjs) will additionally need
+         script-src 'wasm-unsafe-eval' and worker-src blob:. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 ws://127.0.0.1:54321 https://gateway.pinata.cloud; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://gateway.pinata.cloud https://*.supabase.co; media-src 'self' data: blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';" />
     <title>GeoDrop Demo</title>
   </head>
   <body>
