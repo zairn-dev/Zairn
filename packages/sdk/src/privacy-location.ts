@@ -178,13 +178,13 @@ export interface PrivacyConfig {
   zoneRules: Record<string, PrivacyZoneRule>;
 }
 
-export const DEFAULT_GATE_CONFIG: SensingGateConfig = {
+export const DEFAULT_GATE_CONFIG: Readonly<SensingGateConfig> = Object.freeze({
   stationaryIntervalMs: 30 * 60 * 1000,
   movingIntervalMs: 5 * 60 * 1000,
   maxStalenessMs: 60 * 60 * 1000,
   minNextCheckMs: 30 * 1000,
   maxNextCheckMs: 10 * 60 * 1000,
-};
+});
 
 export const DEFAULT_PRIVACY_CONFIG: PrivacyConfig = {
   autoDetectSensitivePlaces: true,
@@ -202,7 +202,9 @@ export const DEFAULT_PRIVACY_CONFIG: PrivacyConfig = {
   departureJitterMinMinutes: 5,
   departureJitterMaxMinutes: 15,
   coarseOnly: false,
-  sensingGate: { ...DEFAULT_GATE_CONFIG },
+  // Frozen: configs built by spreading DEFAULT_PRIVACY_CONFIG share this
+  // object, so mutating it through one of them would change the default.
+  sensingGate: Object.freeze({ ...DEFAULT_GATE_CONFIG }),
   zoneRules: {
     home: { coreMode: 'state-only', bufferNoiseMultiplier: 10, stateLabel: 'At home' },
     work: { coreMode: 'state-only', bufferNoiseMultiplier: 10, stateLabel: 'At work' },
@@ -274,7 +276,12 @@ export function addPlanarLaplaceNoise(
   const dLat = (rMeters * Math.cos(theta)) / 111320;
   const dLon = (rMeters * Math.sin(theta)) / (111320 * Math.cos(lat * Math.PI / 180));
 
-  return { lat: lat + dLat, lon: lon + dLon };
+  // Noise can cross the antimeridian or a pole; return a valid coordinate so
+  // the downstream grid snap does not reject (and callers fall back to raw).
+  const MAX_LAT = 90 - 1e-9;
+  const noisyLat = Math.min(MAX_LAT, Math.max(-MAX_LAT, lat + dLat));
+  const noisyLon = ((((lon + dLon + 180) % 360) + 360) % 360) - 180;
+  return { lat: noisyLat, lon: noisyLon };
 }
 
 // ============================================================
@@ -459,23 +466,30 @@ function effectiveEpsilon(
   sensitivePlaces: SensitivePlace[],
   config: PrivacyConfig,
 ): { epsilon: number; zone: SensitivePlace | null; inCore: boolean } {
+  // Overlapping zones resolve to the strictest treatment, independent of
+  // list order: any core beats any buffer (a 'suppress' core beats a
+  // 'state-only' one), and among buffers the largest noise multiplier wins.
+  // Taking the first match let e.g. a home buffer listed before a clinic
+  // core replace the clinic's suppression with mere noise.
+  let core: SensitivePlace | null = null;
+  let buffer: { place: SensitivePlace; multiplier: number } | null = null;
   for (const place of sensitivePlaces) {
     const dist = haversine(lat, lon, place.lat, place.lon);
     const rule = config.zoneRules[place.label];
-
     if (dist <= place.radiusM) {
-      return { epsilon: 0, zone: place, inCore: true };
-    }
-
-    if (dist <= place.bufferRadiusM && rule) {
-      return {
-        epsilon: config.baseEpsilon / rule.bufferNoiseMultiplier,
-        zone: place,
-        inCore: false,
-      };
+      const suppresses = rule?.coreMode === 'suppress';
+      if (!core || (suppresses && config.zoneRules[core.label]?.coreMode !== 'suppress')) core = place;
+    } else if (dist <= place.bufferRadiusM && rule) {
+      if (!buffer || rule.bufferNoiseMultiplier > buffer.multiplier) {
+        buffer = { place, multiplier: rule.bufferNoiseMultiplier };
+      }
     }
   }
 
+  if (core) return { epsilon: 0, zone: core, inCore: true };
+  if (buffer) {
+    return { epsilon: config.baseEpsilon / buffer.multiplier, zone: buffer.place, inCore: false };
+  }
   return { epsilon: config.baseEpsilon, zone: null, inCore: false };
 }
 
@@ -763,13 +777,39 @@ export function createSensingGate(
 ): SensingGate {
   const gateConfig = normalizeSensingGateConfig(config);
   const coarseOnly = config.coarseOnly ?? false;
-  const zones = sensitivePlaces.map(({ lat, lon, radiusM }) => ({ lat, lon, radiusM }));
+  // A NaN zone or radius used to make every zone-dwell check NaN, i.e. skip
+  // GNSS indefinitely with nextCheckMs = NaN (a busy loop for setTimeout).
+  const zones = sensitivePlaces.map(({ lat, lon, radiusM }) => {
+    if (!isValidCoordinate(lat, lon) || !Number.isFinite(radiusM) || radiusM < 0) {
+      throw new RangeError('Sensing-gate zones need finite coordinates and a non-negative radius.');
+    }
+    return { lat, lon, radiusM };
+  });
 
   return {
     shouldAcquire(input: SensingGateInput): GateDecision {
+      assertSensingGateInput(input);
       return decideSensingGate(input, gateConfig, coarseOnly, zones);
     },
   };
+}
+
+function isValidCoordinate(lat: number, lon: number): boolean {
+  return Number.isFinite(lat) && lat >= -90 && lat <= 90
+    && Number.isFinite(lon) && lon >= -180 && lon <= 180;
+}
+
+function assertSensingGateInput(input: SensingGateInput): void {
+  if (!Number.isFinite(input.now)) {
+    throw new RangeError('Sensing-gate input.now must be a finite timestamp.');
+  }
+  if (!Object.prototype.hasOwnProperty.call(MOTION_SPEED_MPS, input.motion)) {
+    throw new RangeError(`Unknown sensing-gate motion state: ${String(input.motion)}`);
+  }
+  const fix = input.lastFix;
+  if (fix && (!isValidCoordinate(fix.lat, fix.lon) || !Number.isFinite(fix.timestamp))) {
+    throw new RangeError('Sensing-gate lastFix needs finite coordinates and timestamp.');
+  }
 }
 
 /**
@@ -1253,17 +1293,21 @@ function fnv1a(str: string): number {
   return hash >>> 0;
 }
 
-const UINT53_RANGE = 0x20_0000_0000_0000;
+const UINT52_RANGE = 0x10_0000_0000_0000;
 
-/** Uniform sample in the open interval (0, 1) from the platform CSPRNG. */
+/**
+ * Uniform sample in the open interval (0, 1) from the platform CSPRNG.
+ * 52 bits, not 53: with 53 the top value (2^53 - 0.5) / 2^53 rounds to
+ * exactly 1.0, where the Laplace radius becomes infinite.
+ */
 function secureRandomUnit(): number {
   if (!globalThis.crypto?.getRandomValues) {
     throw new Error('Secure random number generation is unavailable.');
   }
   const words = new Uint32Array(2);
   globalThis.crypto.getRandomValues(words);
-  const value = (words[0] >>> 5) * 0x400_0000 + (words[1] >>> 6);
-  return (value + 0.5) / UINT53_RANGE;
+  const value = (words[0] >>> 6) * 0x400_0000 + (words[1] >>> 6);
+  return (value + 0.5) / UINT52_RANGE;
 }
 
 function assertProjectableCoordinate(lat: number, lon: number): void {

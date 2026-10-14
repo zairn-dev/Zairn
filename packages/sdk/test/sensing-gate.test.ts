@@ -477,3 +477,23 @@ describe('createSensingGateController', () => {
     }).reason).toBe('cold-start');
   });
 });
+
+describe('sensing gate input validation', () => {
+  const zone: SensitivePlace = { id: 'h', label: 'home', lat: 35, lon: 139, radiusM: 100, bufferRadiusM: 500, visitCount: 5, avgDwellMinutes: 60 };
+
+  it('rejects zones that would make every check NaN', () => {
+    expect(() => createSensingGate(DEFAULT_PRIVACY_CONFIG, [{ ...zone, radiusM: Number.NaN }])).toThrow(RangeError);
+    expect(() => createSensingGate(DEFAULT_PRIVACY_CONFIG, [{ ...zone, lat: Number.NaN }])).toThrow(RangeError);
+  });
+
+  it('rejects unknown motion states and non-finite time', () => {
+    const gate = createSensingGate(DEFAULT_PRIVACY_CONFIG, [zone]);
+    const lastFix = { lat: 35, lon: 139, timestamp: NOW - MINUTE };
+    expect(() => gate.shouldAcquire({ now: NOW, lastFix, motion: 'teleporting' } as unknown as SensingGateInput)).toThrow(RangeError);
+    expect(() => gate.shouldAcquire({ now: Number.NaN, lastFix, motion: 'stationary' })).toThrow(RangeError);
+  });
+
+  it('shares a frozen default so one config cannot mutate another', () => {
+    expect(Object.isFrozen(DEFAULT_PRIVACY_CONFIG.sensingGate)).toBe(true);
+  });
+});

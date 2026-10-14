@@ -313,3 +313,26 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
   );
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
+
+describe('audit regressions', () => {
+  const cfg = { ...DEFAULT_PRIVACY_CONFIG, gridSeed: 'user-secret-seed' };
+  const place = (label: SensitivePlace['label'], lat: number, lon: number, radiusM: number, bufferRadiusM: number): SensitivePlace =>
+    ({ id: label, label, lat, lon, radiusM, bufferRadiusM, visitCount: 10, avgDwellMinutes: 60 });
+
+  it('a suppress core wins over an overlapping buffer listed first', () => {
+    const home = place('home', 35.0, 139.0, 100, 1000);
+    const clinic = place('medical', 35.0045, 139.0, 50, 200); // ~500 m north, inside home buffer
+    const state = processLocation(35.0045, 139.0, [home, clinic], cfg, new AdaptiveReporter());
+    expect(state).toEqual({ type: 'suppressed', reason: 'privacy_zone' });
+  });
+
+  it('noise across the antimeridian yields valid coordinates and never throws', () => {
+    for (let i = 0; i < 500; i++) {
+      const p = addPlanarLaplaceNoise(0.5, 179.9995, Math.LN2 / 500);
+      expect(p.lon).toBeGreaterThanOrEqual(-180);
+      expect(p.lon).toBeLessThan(180);
+      expect(Math.abs(p.lat)).toBeLessThan(90);
+      expect(() => processLocation(0.5, 179.9995, [], cfg, new AdaptiveReporter(1000, 1000))).not.toThrow();
+    }
+  });
+});

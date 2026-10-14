@@ -31,8 +31,6 @@ import {
   SharingPolicy,
   SharingPolicyCreate,
   FilteredLocation,
-  SharingEffectLevel,
-  PolicyCondition,
 } from './types.js';
 import { computeTrustScore, gateTrustScore } from './trust-scorer.js';
 import type { LocationPoint } from './trust-scorer.js';
@@ -127,6 +125,9 @@ export function decodeGeohash(geohash: string): { lat: number; lon: number } {
  * UUID v4 format validation (prevents PostgREST filter injection via .or() / .in())
  */
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Radius applied when a 'coarse' sharing policy has none stored. */
+const DEFAULT_COARSE_RADIUS_M = 1000;
 function assertUuid(value: string, name = 'id'): void {
   if (!UUID_RE.test(value)) throw new Error(`Invalid UUID for ${name}: ${value}`);
 }
@@ -212,7 +213,7 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       // 現在の位置を取得して、滞在時間を計算
       const { data: current } = await supabase
         .from('locations_current')
-        .select('lat, lon, location_since')
+        .select('lat, lon, location_since, updated_at')
         .eq('user_id', userId)
         .maybeSingle();
 
@@ -223,12 +224,15 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
           locationSince = current.location_since;
         }
 
-        // Trust scoring: use previous location as single-entry history
+        // Trust scoring: use previous location as single-entry history.
+        // Its time is the last fix (updated_at), not the arrival time
+        // (location_since): after a long dwell the latter makes a jump look
+        // slow enough to pass the velocity check.
         const trustHistory: LocationPoint[] = [{
           lat: current.lat,
           lon: current.lon,
           accuracy: null,
-          timestamp: current.location_since ?? new Date().toISOString(),
+          timestamp: current.updated_at ?? current.location_since ?? new Date().toISOString(),
         }];
         const trustResult = computeTrustScore(
           { lat: update.lat, lon: update.lon, accuracy: update.accuracy ?? null, timestamp: new Date().toISOString() },
@@ -505,6 +509,11 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
         .eq('viewer_id', userId),
     ]);
 
+    // Fail closed: without the owner's policies we cannot know how much
+    // they allow us to see, so never fall back to exact coordinates.
+    if (policiesResult.error) throw policiesResult.error;
+    if (rulesResult.error) throw rulesResult.error;
+
     // Build share level map: owner_id → level
     const shareLevels = new Map<string, ShareLevel>();
     for (const rule of rulesResult.data ?? []) {
@@ -548,8 +557,10 @@ export function createLocationCore(opts: LocationCoreOptions): LocationCore {
       let { lat, lon } = friend;
       let coarsened = false;
 
-      if (level === 'coarse' && coarseRadiusM) {
-        const snapped = coarsenLocation(lat, lon, coarseRadiusM);
+      if (level === 'coarse') {
+        // A coarse policy without a usable radius must still coarsen.
+        const radius = coarseRadiusM && coarseRadiusM > 0 ? coarseRadiusM : DEFAULT_COARSE_RADIUS_M;
+        const snapped = coarsenLocation(lat, lon, radius);
         lat = snapped.lat;
         lon = snapped.lon;
         coarsened = true;
