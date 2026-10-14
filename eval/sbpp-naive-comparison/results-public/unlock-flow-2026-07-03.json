@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-07-03T08:06:08.075Z",
+  "description": "End-to-end GeoDrop unlock-flow latency: search-authorized-proof (SAP) verification ON vs OFF over an OSM POI corpus (Tokyo). Network I/O excluded.",
+  "hardware_note": "Node.js v24.11.1, consumer x86-64. Times in microseconds.",
+  "parameters": {
+    "seed": 42,
+    "indexed_drops": 5000,
+    "queries": 200,
+    "warmup": 50,
+    "search_radius_m": 1000,
+    "precision_levels": [
+      4,
+      5,
+      6
+    ],
+    "key_derivation_version": 2,
+    "content_bytes": 274,
+    "cipher": "AES-256-GCM (PBKDF2-SHA256, 100k iterations)"
+  },
+  "corpus": {
+    "source": "OpenStreetMap POIs, Tokyo metropolitan area (osm-tokyo-pois.json)",
+    "total_pois": 110776,
+    "sampled_indexed": 5000,
+    "result_set_size_mean": 107.39,
+    "result_set_size_median": 71
+  },
+  "unlock_off": {
+    "median_us": 26399.7,
+    "mean_us": 25572.75,
+    "p95_us": 27569.2,
+    "p99_us": 30645.9
+  },
+  "unlock_on": {
+    "median_us": 26742.1,
+    "mean_us": 25965.99,
+    "p95_us": 28537,
+    "p99_us": 30308.6
+  },
+  "sap_verify_isolated": {
+    "median_us": 4.8,
+    "mean_us": 5.91,
+    "p95_us": 9.3,
+    "p99_us": 30.5
+  },
+  "merkle_audit_isolated": {
+    "median_us": 98.8,
+    "mean_us": 146.33,
+    "p95_us": 503,
+    "p99_us": 970.4
+  },
+  "overhead": {
+    "on_vs_off_abs_us_median": 342.4,
+    "on_vs_off_pct_median": 1.3,
+    "sap_verify_median_us": 4.8,
+    "sap_verify_share_of_unlock_pct_median": 0.02
+  },
+  "correctness": {
+    "honest_path_all_valid": true,
+    "honest_checks": 200,
+    "tampered_nonce_all_rejected": true,
+    "tampered_checks": 50
+  }
+}

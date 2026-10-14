@@ -259,6 +259,11 @@ export const networkCrossCheckTrustSignalProvider: TrustSignalProvider = Object.
     if (!isValidNetworkHint(context.networkHint)) {
       return { score: 0, reason: 'invalid-network-hint' };
     }
+    // Android reports accuracy 0 when it is unknown. A hint without a radius
+    // cannot be scored, and because the hint is optional, ignoring it is
+    // equivalent to omitting it — penalising it would only lock out honest
+    // devices, never an attacker (who can simply omit the hint).
+    if (context.networkHint.accuracy === 0) return null;
     return {
       score: scoreNetworkConsistency(current, context.networkHint),
       reason: 'network-distance',
@@ -270,7 +275,7 @@ function isValidNetworkHint(hint: NetworkHint): boolean {
   return (
     isValidCoordinate(hint.lat, hint.lon) &&
     Number.isFinite(hint.accuracy) &&
-    hint.accuracy > 0 &&
+    hint.accuracy >= 0 &&
     (hint.source === 'ip' || hint.source === 'cell' || hint.source === 'wifi')
   );
 }

@@ -3,6 +3,8 @@ import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
 import type { ChatRoom, Message, Profile } from '@zairn/sdk'
 import { formatRelativeTime } from '@/utils/format'
+import PanelState from '@/components/common/PanelState'
+import ErrorBanner from '@/components/common/ErrorBanner'
 
 interface ChatPanelProps {
   initialFriendId?: string
@@ -23,7 +25,7 @@ export default function ChatPanel({ initialFriendId }: ChatPanelProps) {
     return () => { cancelled = true }
   }, [sdk, initialFriendId])
 
-  if (!initDone) return <p className="text-sm text-center py-8" style={{ color: 'var(--md-on-surface-variant)' }}>Opening chat...</p>
+  if (!initDone) return <PanelState kind="loading" message="Opening chat..." />
 
   if (activeRoom) {
     return <ThreadView sdk={sdk} userId={user?.id ?? ''} roomId={activeRoom} onBack={() => setActiveRoom(null)} />
@@ -36,44 +38,43 @@ function RoomList({ sdk, userId, onSelectRoom }: { sdk: any; userId: string; onS
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    let cancelled = false
-    const load = async () => {
-      try {
-        const raw: ChatRoom[] = await sdk.getChatRooms()
-        const enriched = await Promise.all(
-          raw.map(async (room) => {
-            let otherName = 'Chat'
-            let preview = ''
-            try {
-              const members: string[] = await sdk.getChatRoomMembers(room.id)
-              const otherId = members.find((m: string) => m !== userId)
-              if (otherId) {
-                const p: Profile | null = await sdk.getProfile(otherId)
-                otherName = p?.display_name || otherId.slice(0, 8)
-              }
-            } catch {}
-            try {
-              const msgs: Message[] = await sdk.getMessages(room.id, { limit: 1 })
-              if (msgs.length) preview = msgs[0].content ?? ''
-            } catch {}
-            return { ...room, otherName, preview }
-          }),
-        )
-        if (!cancelled) setRooms(enriched)
-      } catch (e: any) {
-        if (!cancelled) setError(e.message ?? 'Failed to load rooms')
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
+  const load = useCallback(async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const raw: ChatRoom[] = await sdk.getChatRooms()
+      const enriched = await Promise.all(
+        raw.map(async (room) => {
+          let otherName = 'Chat'
+          let preview = ''
+          try {
+            const members: string[] = await sdk.getChatRoomMembers(room.id)
+            const otherId = members.find((m: string) => m !== userId)
+            if (otherId) {
+              const p: Profile | null = await sdk.getProfile(otherId)
+              otherName = p?.display_name || otherId.slice(0, 8)
+            }
+          } catch {}
+          try {
+            const msgs: Message[] = await sdk.getMessages(room.id, { limit: 1 })
+            if (msgs.length) preview = msgs[0].content ?? ''
+          } catch {}
+          return { ...room, otherName, preview }
+        }),
+      )
+      setRooms(enriched)
+    } catch (e: any) {
+      setError(e.message ?? 'Failed to load rooms')
+    } finally {
+      setLoading(false)
     }
-    load()
-    return () => { cancelled = true }
   }, [sdk, userId])
 
-  if (loading) return <p className="text-sm text-center py-8" style={{ color: 'var(--md-on-surface-variant)' }}>Loading rooms...</p>
-  if (error) return <p className="text-sm text-center py-4" style={{ color: 'var(--md-error)' }}>{error}</p>
-  if (!rooms.length) return <p className="text-sm text-center py-8" style={{ color: 'var(--md-on-surface-variant)' }}>No conversations yet</p>
+  useEffect(() => { load() }, [load])
+
+  if (loading) return <PanelState kind="loading" message="Loading rooms..." />
+  if (error) return <PanelState kind="error" message={error} onRetry={load} />
+  if (!rooms.length) return <PanelState kind="empty" icon="💬" message="No conversations yet" />
 
   return (
     <ul className="space-y-1 p-3">
@@ -172,8 +173,8 @@ function ThreadView({ sdk, userId, roomId, onBack }: { sdk: any; userId: string;
         <button onClick={onBack} className="text-sm" style={{ color: 'var(--md-on-surface-variant)' }}>&larr; Back</button>
       </div>
       <div className="flex-1 overflow-y-auto p-3 space-y-2">
-        {loading && <p className="text-sm text-center" style={{ color: 'var(--md-on-surface-variant)' }}>Loading...</p>}
-        {error && <p className="text-xs text-center" style={{ color: 'var(--md-error)' }}>{error}</p>}
+        {loading && <PanelState kind="loading" compact />}
+        {error && <ErrorBanner message={error} onDismiss={() => setError('')} />}
         {messages.map((m) => {
           const mine = m.sender_id === userId
           const name = profiles[m.sender_id]?.display_name || m.sender_id.slice(0, 6)

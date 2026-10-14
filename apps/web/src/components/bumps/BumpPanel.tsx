@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import type { NearbyUser, BumpEvent, Profile } from '@zairn/sdk'
 import { formatRelativeTime, formatDistance } from '@/utils/format'
+import PanelState from '@/components/common/PanelState'
+import ErrorBanner from '@/components/common/ErrorBanner'
 
 interface BumpPanelProps {
   currentLocation: { lat: number; lon: number } | null
@@ -108,7 +110,7 @@ export default function BumpPanel({ currentLocation }: BumpPanelProps) {
         {searching ? 'Searching...' : 'Find Nearby Friends'}
       </button>
 
-      {error && <p className="text-xs" style={{ color: 'var(--md-error)' }}>{error}</p>}
+      {error && <ErrorBanner message={error} onDismiss={() => setError('')} />}
 
       {nearby.length > 0 && (
         <div>
@@ -140,8 +142,8 @@ export default function BumpPanel({ currentLocation }: BumpPanelProps) {
 
       <div>
         <h3 className="text-xs font-semibold uppercase mb-2" style={{ color: 'var(--md-on-surface-variant)' }}>Bump History</h3>
-        {loadingHistory && <p className="text-xs text-center" style={{ color: 'var(--md-on-surface-variant)' }}>Loading...</p>}
-        {!loadingHistory && history.length === 0 && <p className="text-xs" style={{ color: 'var(--md-on-surface-variant)' }}>No bumps yet</p>}
+        {loadingHistory && <PanelState kind="loading" compact />}
+        {!loadingHistory && history.length === 0 && <PanelState kind="empty" compact message="No bumps yet" />}
         <ul className="space-y-1">
           {history.map((b) => (
             <li key={b.id} className="flex items-center justify-between p-2 rounded-lg" style={{ background: 'var(--md-surface-container)' }}>

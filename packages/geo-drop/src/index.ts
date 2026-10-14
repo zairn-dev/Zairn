@@ -61,6 +61,8 @@ export type {
   StepUpRequired,
   UnlockSuccess,
   UnlockResult,
+  // SBPP search-authorized proof
+  SearchAuthorizedProof,
 } from './types';
 
 // Persistence (DB-independent recovery)

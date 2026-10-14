@@ -1,0 +1,95 @@
+{
+  "timestamp": "2026-05-10T10:57:02.928Z",
+  "drops": 1000,
+  "queries": 100,
+  "iterations": 1000,
+  "plaintext": {
+    "median_us": 3.8,
+    "mean_us": 20.9,
+    "p95_us": 83.8,
+    "p99_us": 187.3
+  },
+  "gridse": {
+    "token_gen": {
+      "median_us": 649.6,
+      "mean_us": 713.54,
+      "p95_us": 1203.3,
+      "p99_us": 1537.5
+    },
+    "matching": {
+      "median_us": 37.6,
+      "mean_us": 53.5,
+      "p95_us": 125.5,
+      "p99_us": 274.9
+    },
+    "total": {
+      "median_us": 696.6,
+      "mean_us": 767.04,
+      "p95_us": 1316.5,
+      "p99_us": 1642.1
+    }
+  },
+  "sbpp": {
+    "session_create": {
+      "median_us": 22.2,
+      "mean_us": 29.47,
+      "p95_us": 52.3,
+      "p99_us": 159.9
+    },
+    "token_gen": {
+      "median_us": 602.7,
+      "mean_us": 656.08,
+      "p95_us": 1074.7,
+      "p99_us": 1545.2
+    },
+    "matching": {
+      "median_us": 38,
+      "mean_us": 53.62,
+      "p95_us": 120.2,
+      "p99_us": 279
+    },
+    "digest": {
+      "median_us": 3.1,
+      "mean_us": 4.11,
+      "p95_us": 8,
+      "p99_us": 12.4
+    },
+    "total": {
+      "median_us": 676.4,
+      "mean_us": 743.29,
+      "p95_us": 1228,
+      "p99_us": 1742.7
+    }
+  },
+  "individual": {
+    "session_create": {
+      "median_us": 12.1,
+      "mean_us": 14.78,
+      "p95_us": 23.4,
+      "p99_us": 38.4
+    },
+    "hmac_token_gen": {
+      "median_us": 635.6,
+      "mean_us": 705.93,
+      "p95_us": 1229.7,
+      "p99_us": 1547.6
+    },
+    "challenge_digest": {
+      "median_us": 0.6,
+      "mean_us": 0.79,
+      "p95_us": 1.1,
+      "p99_us": 1.9
+    },
+    "session_validation": {
+      "median_us": 0.3,
+      "mean_us": 0.46,
+      "p95_us": 0.5,
+      "p99_us": 0.9
+    }
+  },
+  "overhead": {
+    "gridse_vs_plaintext_pct": 18231.58,
+    "sbpp_vs_gridse_pct": -2.9,
+    "sbpp_vs_plaintext_pct": 17700
+  }
+}

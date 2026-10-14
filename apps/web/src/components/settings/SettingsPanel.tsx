@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
 import type { UserSettings, NotificationPreferences, Profile } from '@zairn/sdk'
+import PanelState from '@/components/common/PanelState'
+import ErrorBanner from '@/components/common/ErrorBanner'
 
 const GHOST_DURATIONS = [
   { label: '1 hour', value: 60 },
@@ -115,11 +117,11 @@ export default function SettingsPanel() {
     }
   }
 
-  if (loading) return <div className="p-4 text-center" style={{ color: 'var(--md-on-surface-variant)' }}>Loading settings...</div>
+  if (loading) return <PanelState kind="loading" message="Loading settings..." />
 
   return (
     <div className="flex flex-col gap-6">
-      {error && <div className="text-sm" style={{ color: 'var(--md-error)' }}>{error}</div>}
+      {error && <ErrorBanner message={error} onDismiss={() => setError('')} />}
 
       {/* Ghost Mode */}
       <div className="rounded-lg p-4" style={{ background: 'var(--md-surface-container)' }}>
@@ -194,7 +196,7 @@ export default function SettingsPanel() {
             ))}
           </div>
         ) : (
-          <p className="text-sm" style={{ color: 'var(--md-on-surface-variant)' }}>No notification preferences set</p>
+          <PanelState kind="empty" compact message="No notification preferences set" />
         )}
       </div>
 
@@ -204,7 +206,7 @@ export default function SettingsPanel() {
           Blocked Users ({blockedUsers.length})
         </h3>
         {blockedUsers.length === 0 ? (
-          <p className="text-sm" style={{ color: 'var(--md-on-surface-variant)' }}>No blocked users</p>
+          <PanelState kind="empty" compact message="No blocked users" />
         ) : (
           <div className="flex flex-col gap-2">
             {blockedUsers.map(uid => {

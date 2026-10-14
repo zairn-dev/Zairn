@@ -22,11 +22,69 @@ CREATE INDEX IF NOT EXISTS idx_search_sessions_expires
   ON search_sessions(expires_at)
   WHERE consumed_at IS NULL;
 
--- RLS: users can only see/use their own sessions
+-- RLS: users can only see their own sessions. No client-side INSERT/UPDATE
+-- policy — a client-choosable nonce would defeat the "server-issued
+-- nonce" anti-replay property. All writes go through the SECURITY DEFINER
+-- functions below (issue_search_session / consume_search_session), which
+-- enforce auth.uid() themselves and bypass RLS for their own writes.
 ALTER TABLE search_sessions ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY search_sessions_own ON search_sessions
-  FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY search_sessions_select_own ON search_sessions
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE OR REPLACE FUNCTION issue_search_session(p_ttl_seconds integer DEFAULT 300)
+RETURNS TABLE (session_id text, nonce text, expires_at timestamptz)
+LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE
+  v_session_id text;
+  v_nonce text;
+  v_expires_at timestamptz;
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Authentication required';
+  END IF;
+  v_session_id := encode(gen_random_bytes(16), 'hex');
+  v_nonce := encode(gen_random_bytes(32), 'hex');
+  v_expires_at := now() + make_interval(secs => greatest(1, p_ttl_seconds));
+  INSERT INTO search_sessions (session_id, nonce, user_id, expires_at)
+  VALUES (v_session_id, v_nonce, auth.uid(), v_expires_at);
+  RETURN QUERY SELECT v_session_id, v_nonce, v_expires_at;
+END;
+$$;
+
+-- Atomic validate-and-consume: single UPDATE, all conditions in WHERE.
+CREATE OR REPLACE FUNCTION consume_search_session(p_session_id text, p_nonce text)
+RETURNS boolean
+LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE
+  v_updated integer;
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Authentication required';
+  END IF;
+  UPDATE search_sessions
+  SET consumed_at = now()
+  WHERE session_id = p_session_id
+    AND nonce = p_nonce
+    AND user_id = auth.uid()
+    AND consumed_at IS NULL
+    AND expires_at > now();
+  GET DIAGNOSTICS v_updated = ROW_COUNT;
+  RETURN v_updated > 0;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION issue_search_session(integer) FROM public;
+REVOKE ALL ON FUNCTION consume_search_session(text, text) FROM public;
+GRANT EXECUTE ON FUNCTION issue_search_session(integer) TO authenticated;
+GRANT EXECUTE ON FUNCTION consume_search_session(text, text) TO authenticated;
+
+CREATE OR REPLACE FUNCTION cleanup_expired_search_sessions()
+RETURNS void LANGUAGE sql SECURITY DEFINER AS $$
+  DELETE FROM search_sessions WHERE expires_at < now() - interval '1 hour';
+$$;
+REVOKE ALL ON FUNCTION cleanup_expired_search_sessions() FROM public;
+GRANT EXECUTE ON FUNCTION cleanup_expired_search_sessions() TO authenticated, service_role;
 
 
 -- Drop index tokens: HMAC-based encrypted search tokens per drop

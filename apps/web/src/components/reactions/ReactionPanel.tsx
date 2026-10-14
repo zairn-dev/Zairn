@@ -3,6 +3,8 @@ import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
 import type { Profile, LocationReaction } from '@zairn/sdk'
 import { formatRelativeTime } from '@/utils/format'
+import PanelState from '@/components/common/PanelState'
+import ErrorBanner from '@/components/common/ErrorBanner'
 
 const EMOJIS = ['\u{1F44B}', '\u{1F525}', '\u{2764}\u{FE0F}', '\u{1F602}', '\u{1F389}', '\u{1F440}', '\u{1F4AF}', '\u{1F64C}']
 
@@ -96,11 +98,11 @@ function SendTab({ sdk }: { sdk: any }) {
     }
   }
 
-  if (loading) return <p className="text-sm text-center py-4" style={{ color: 'var(--md-on-surface-variant)' }}>Loading...</p>
+  if (loading) return <PanelState kind="loading" />
 
   return (
     <div className="space-y-4">
-      {error && <p className="text-xs" style={{ color: 'var(--md-error)' }}>{error}</p>}
+      {error && <ErrorBanner message={error} onDismiss={() => setError('')} />}
       {success && <p className="text-xs" style={{ color: '#22c55e' }}>{success}</p>}
       <div>
         <p className="text-xs mb-1" style={{ color: 'var(--md-on-surface-variant)' }}>Select friend</p>
@@ -120,7 +122,7 @@ function SendTab({ sdk }: { sdk: any }) {
               </button>
             )
           })}
-          {!friends.length && <p className="text-xs" style={{ color: 'var(--md-on-surface-variant)' }}>No friends</p>}
+          {!friends.length && <PanelState kind="empty" compact message="No friends" />}
         </div>
       </div>
       <div>
@@ -165,36 +167,38 @@ function ReceivedTab({ sdk, userId }: { sdk: any; userId: string }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    let cancelled = false
-    Promise.all([
+  const load = useCallback(() => {
+    setLoading(true)
+    setError('')
+    return Promise.all([
       sdk.getReceivedReactions({ limit: 20 }),
       sdk.getSentReactions({ limit: 20 }),
     ]).then(([r, s]) => {
-      if (!cancelled) { setReceived(r); setSent(s) }
+      setReceived(r); setSent(s)
     }).catch((e: any) => {
-      if (!cancelled) setError(e.message)
+      setError(e.message)
     }).finally(() => {
-      if (!cancelled) setLoading(false)
+      setLoading(false)
     })
-    return () => { cancelled = true }
   }, [sdk])
 
-  if (loading) return <p className="text-sm text-center py-4" style={{ color: 'var(--md-on-surface-variant)' }}>Loading...</p>
-  if (error) return <p className="text-xs text-center py-4" style={{ color: 'var(--md-error)' }}>{error}</p>
+  useEffect(() => { load() }, [load])
+
+  if (loading) return <PanelState kind="loading" />
+  if (error) return <PanelState kind="error" message={error} onRetry={load} />
 
   return (
     <div className="space-y-4">
       <div>
         <h3 className="text-xs font-semibold uppercase mb-2" style={{ color: 'var(--md-on-surface-variant)' }}>Received</h3>
-        {received.length === 0 && <p className="text-xs" style={{ color: 'var(--md-on-surface-variant)' }}>None yet</p>}
+        {received.length === 0 && <PanelState kind="empty" compact message="None yet" />}
         {received.map((r) => (
           <ReactionRow key={r.id} emoji={r.emoji} userId={r.from_user_id} message={r.message} time={r.created_at} />
         ))}
       </div>
       <div>
         <h3 className="text-xs font-semibold uppercase mb-2" style={{ color: 'var(--md-on-surface-variant)' }}>Sent</h3>
-        {sent.length === 0 && <p className="text-xs" style={{ color: 'var(--md-on-surface-variant)' }}>None yet</p>}
+        {sent.length === 0 && <PanelState kind="empty" compact message="None yet" />}
         {sent.map((r) => (
           <ReactionRow key={r.id} emoji={r.emoji} userId={r.to_user_id} message={r.message} time={r.created_at} />
         ))}

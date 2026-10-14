@@ -204,7 +204,7 @@ function GameView({ geo }: { geo: ReturnType<typeof createGeoDrop> }) {
               <Popup>You are here (accuracy: {myPos.accuracy.toFixed(0)}m)</Popup>
             </Marker>
             <Circle center={[myPos.lat, myPos.lon]} radius={myPos.accuracy}
-              pathOptions={{ color: '#6442d6', fillOpacity: 0.1 }} />
+              pathOptions={{ color: '#00b3a4', fillOpacity: 0.1 }} />
           </>
         )}
 

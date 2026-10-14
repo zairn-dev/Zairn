@@ -21,12 +21,22 @@ export default function SlidePanel({ open, onClose, title, children }: SlidePane
     }
   }, [open])
 
+  useEffect(() => {
+    if (!open) return
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [open, onClose])
+
   if (!mounted && !open) return null
 
   return (
     <>
       {/* Backdrop */}
       <div
+        aria-hidden="true"
         className="fixed inset-0 z-40 transition-opacity duration-300"
         style={{
           background: 'var(--md-scrim)',
@@ -38,6 +48,9 @@ export default function SlidePanel({ open, onClose, title, children }: SlidePane
 
       {/* Panel — bottom-14 to sit above the nav bar */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="slide-panel-title"
         className="fixed top-0 right-0 z-50 w-[90vw] max-w-[420px] flex flex-col transition-transform duration-300 ease-out"
         style={{
           bottom: '3.5rem',
@@ -51,6 +64,7 @@ export default function SlidePanel({ open, onClose, title, children }: SlidePane
           style={{ borderBottom: `1px solid var(--md-outline-variant)` }}
         >
           <h2
+            id="slide-panel-title"
             className="text-lg font-semibold m-0"
             style={{ color: 'var(--md-on-surface)' }}
           >
@@ -58,6 +72,7 @@ export default function SlidePanel({ open, onClose, title, children }: SlidePane
           </h2>
           <button
             onClick={onClose}
+            aria-label="Close panel"
             className="w-9 h-9 flex items-center justify-center rounded-full text-lg cursor-pointer border-none"
             style={{
               background: 'var(--md-surface-container-high)',

@@ -164,8 +164,8 @@ export default function ExplorationLayer({ sdk }: ExplorationLayerProps) {
             key={cell.id}
             bounds={cell.bounds}
             pathOptions={{
-              color: '#6442d6',
-              fillColor: '#6442d6',
+              color: '#00b3a4', // brand Teal (docs/DESIGN.md)
+              fillColor: '#00b3a4',
               fillOpacity: opacity,
               weight: 0.5,
               opacity: 0.3,

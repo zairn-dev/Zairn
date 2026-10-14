@@ -222,6 +222,21 @@ describe('computeTrustScoreV2 default providers', () => {
     expect(gateTrustScore(v2)).toBe('deny');
   });
 
+  it('ignores a network hint whose accuracy is unknown (0)', () => {
+    const v1 = computeTrustScore(current, normalHistory);
+    const v2 = computeTrustScoreV2(current, normalHistory, {
+      networkHint: {
+        lat: 35.68,
+        lon: 139.76,
+        accuracy: 0,
+        source: 'cell',
+      },
+    });
+
+    expect(v2).toEqual(v1);
+    expect(gateTrustScore(v2)).toBe(gateTrustScore(v1));
+  });
+
   it('treats malformed RAIM fixes as contradictory evidence', () => {
     const result = computeTrustScoreV2(current, normalHistory, {
       recentFixes: [

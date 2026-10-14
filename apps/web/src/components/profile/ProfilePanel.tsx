@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { formatRelativeTime, safeAvatarUrl } from '@/utils/format'
+import ConfirmDialog from '@/components/common/ConfirmDialog'
+import PanelState from '@/components/common/PanelState'
 import type { Profile, AreaRanking, FriendStreak, VisitedCellStats } from '@zairn/sdk'
 
 const EMOJI_GRID = ['😀','😎','🔥','❤️','🎉','💤','📍','🏃','🎮','📚','🍕','☕','🎵','✈️','🏠','💼']
@@ -20,6 +22,7 @@ export default function ProfilePanel() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [editing, setEditing] = useState(false)
+  const [confirmDeleteAvatar, setConfirmDeleteAvatar] = useState(false)
   const [username, setUsername] = useState('')
   const [displayName, setDisplayName] = useState('')
 
@@ -105,12 +108,13 @@ export default function ProfilePanel() {
   }
 
   async function handleDeleteAvatar() {
-    if (!confirm('Delete your avatar?')) return
     try {
       await core.deleteAvatar()
       await loadProfile()
     } catch (e: any) {
       setError(e.message)
+    } finally {
+      setConfirmDeleteAvatar(false)
     }
   }
 
@@ -133,8 +137,8 @@ export default function ProfilePanel() {
     }
   }
 
-  if (loading) return <div className="p-4 text-center" style={{ color: 'var(--md-on-surface-variant)' }}>Loading profile...</div>
-  if (error) return <div className="p-4 text-center" style={{ color: 'var(--md-error)' }}>{error}</div>
+  if (loading) return <PanelState kind="loading" message="Loading profile..." />
+  if (error) return <PanelState kind="error" message={error} onRetry={loadProfile} />
 
   return (
     <div className="flex flex-col gap-6">
@@ -152,7 +156,7 @@ export default function ProfilePanel() {
             Upload
           </button>
           {profile?.avatar_url && (
-            <button onClick={handleDeleteAvatar} className="text-sm hover:underline" style={{ color: 'var(--md-error)' }}>
+            <button onClick={() => setConfirmDeleteAvatar(true)} className="text-sm hover:underline" style={{ color: 'var(--md-error)' }}>
               Remove
             </button>
           )}
@@ -234,7 +238,7 @@ export default function ProfilePanel() {
             <p style={{ color: 'var(--md-on-surface-variant)' }}>Since {formatRelativeTime(stats.exploring_since)}</p>
           </div>
         ) : (
-          <p className="text-sm mb-3" style={{ color: 'var(--md-on-surface-variant)' }}>No exploration data yet</p>
+          <PanelState kind="empty" compact message="No exploration data yet" />
         )}
         {ranking.length > 0 && (
           <div>
@@ -256,7 +260,7 @@ export default function ProfilePanel() {
       <div className="rounded-lg p-4" style={{ background: 'var(--md-surface-container)' }}>
         <h3 className="text-sm font-semibold uppercase mb-3" style={{ color: 'var(--md-on-surface-variant)' }}>Streaks</h3>
         {streaks.length === 0 ? (
-          <p className="text-sm" style={{ color: 'var(--md-on-surface-variant)' }}>No streaks yet</p>
+          <PanelState kind="empty" compact message="No streaks yet" />
         ) : (
           <div className="flex flex-col gap-2">
             {streaks.map(s => {
@@ -276,6 +280,15 @@ export default function ProfilePanel() {
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        open={confirmDeleteAvatar}
+        destructive
+        confirmLabel="Delete"
+        message="Delete your avatar?"
+        onConfirm={handleDeleteAvatar}
+        onCancel={() => setConfirmDeleteAvatar(false)}
+      />
     </div>
   )
 }

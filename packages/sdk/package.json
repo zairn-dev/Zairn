@@ -19,9 +19,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:dist": "node ./test/trust-scorer.dist-smoke.mjs",
-    "typecheck": "tsc --noEmit"
+    "test:dist": "node test/sensing-gate.dist-smoke.mjs && node test/trust-scorer.dist-smoke.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.0"

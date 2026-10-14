@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import {
   addPlanarLaplaceNoise,
   detectSensitivePlaces,
-  createSensingGate,
   obfuscateLocation,
   processLocation,
   AdaptiveReporter,
@@ -10,7 +9,6 @@ import {
   FrequencyBudget,
   jitterDepartureTime,
   DEFAULT_PRIVACY_CONFIG,
-  DEFAULT_GATE_CONFIG,
   validatePrivacyConfig,
 } from '../src/privacy-location';
 import type { SensitivePlace, PrivacyConfig } from '../src/privacy-location';
@@ -297,128 +295,6 @@ describe('privacy configuration validation', () => {
     expect(() => new AdaptiveReporter(Number.NaN, 2)).toThrow(RangeError);
     expect(() => new FixedRateReporter(1000, 1001)).toThrow(RangeError);
     expect(() => new FrequencyBudget(0)).toThrow(RangeError);
-  });
-});
-
-// ============================================================
-// Pre-acquisition Sensing Gate
-// ============================================================
-
-describe('createSensingGate', () => {
-  const zone: SensitivePlace = {
-    id: 'home',
-    label: 'home',
-    lat: 0,
-    lon: 0,
-    radiusM: 400,
-    bufferRadiusM: 1000,
-    visitCount: 10,
-    avgDwellMinutes: 480,
-  };
-
-  it('requires a GNSS fix on cold start', () => {
-    const gate = createSensingGate(DEFAULT_PRIVACY_CONFIG, [zone]);
-
-    expect(gate.shouldAcquire({
-      now: 0,
-      lastFix: null,
-      motion: 'stationary',
-    })).toEqual({
-      acquire: true,
-      mode: 'gnss',
-      nextCheckMs: 0,
-      reason: 'cold-start',
-    });
-  });
-
-  it('skips sensing while zone exit is impossible and orders checks by speed', () => {
-    const gate = createSensingGate(DEFAULT_PRIVACY_CONFIG, [zone]);
-    const decisions = (['stationary', 'walking', 'driving'] as const).map(motion =>
-      gate.shouldAcquire({
-        now: 10_000,
-        lastFix: { lat: 0, lon: 0, timestamp: 0 },
-        motion,
-      }),
-    );
-
-    for (const decision of decisions) {
-      expect(decision.acquire).toBe(false);
-      expect(decision.mode).toBe('skip');
-      expect(decision.reason).toBe('zone-dwell');
-      expect(decision.nextCheckMs).toBeGreaterThanOrEqual(30_000);
-      expect(decision.nextCheckMs).toBeLessThanOrEqual(10 * 60_000);
-    }
-    expect(decisions[0].nextCheckMs).toBeGreaterThan(decisions[1].nextCheckMs);
-    expect(decisions[1].nextCheckMs).toBeGreaterThan(decisions[2].nextCheckMs);
-  });
-
-  it('acquires once movement could have exited the zone and cadence is due', () => {
-    const gate = createSensingGate(DEFAULT_PRIVACY_CONFIG, [{ ...zone, radiusM: 100 }]);
-
-    expect(gate.shouldAcquire({
-      now: DEFAULT_GATE_CONFIG.movingIntervalMs,
-      lastFix: { lat: 0, lon: 0, timestamp: 0 },
-      motion: 'walking',
-    })).toMatchObject({ acquire: true, mode: 'gnss', reason: 'due-moving' });
-  });
-
-  it('applies stationary and moving cadences', () => {
-    const gate = createSensingGate(DEFAULT_PRIVACY_CONFIG, []);
-    const lastFix = { lat: 0, lon: 0, timestamp: 0 };
-
-    expect(gate.shouldAcquire({
-      now: DEFAULT_GATE_CONFIG.stationaryIntervalMs - 60_000,
-      lastFix,
-      motion: 'stationary',
-    })).toMatchObject({
-      acquire: false,
-      mode: 'skip',
-      nextCheckMs: 60_000,
-      reason: 'cadence-wait',
-    });
-    expect(gate.shouldAcquire({
-      now: DEFAULT_GATE_CONFIG.stationaryIntervalMs,
-      lastFix,
-      motion: 'stationary',
-    })).toMatchObject({ acquire: true, mode: 'gnss', reason: 'due-stationary' });
-    expect(gate.shouldAcquire({
-      now: DEFAULT_GATE_CONFIG.movingIntervalMs - 60_000,
-      lastFix,
-      motion: 'driving',
-    })).toMatchObject({ acquire: false, nextCheckMs: 60_000, reason: 'cadence-wait' });
-    expect(gate.shouldAcquire({
-      now: DEFAULT_GATE_CONFIG.movingIntervalMs,
-      lastFix,
-      motion: 'unknown',
-    })).toMatchObject({ acquire: true, mode: 'gnss', reason: 'due-moving' });
-  });
-
-  it('forces GNSS at the freshness floor before zone or cadence checks', () => {
-    const gate = createSensingGate(DEFAULT_PRIVACY_CONFIG, [zone]);
-
-    expect(gate.shouldAcquire({
-      now: DEFAULT_GATE_CONFIG.maxStalenessMs,
-      lastFix: { lat: 0, lon: 0, timestamp: 0 },
-      motion: 'stationary',
-    })).toEqual({
-      acquire: true,
-      mode: 'gnss',
-      nextCheckMs: 0,
-      reason: 'staleness-floor',
-    });
-  });
-
-  it('downgrades cadence-driven acquisition when only coarse location is needed', () => {
-    const gate = createSensingGate({
-      ...DEFAULT_PRIVACY_CONFIG,
-      coarseOnly: true,
-    }, []);
-
-    expect(gate.shouldAcquire({
-      now: DEFAULT_GATE_CONFIG.movingIntervalMs,
-      lastFix: { lat: 0, lon: 0, timestamp: 0 },
-      motion: 'walking',
-    })).toMatchObject({ acquire: true, mode: 'network', reason: 'due-moving' });
   });
 });
 

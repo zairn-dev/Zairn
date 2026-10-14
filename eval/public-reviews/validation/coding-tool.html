@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IRR Coding Tool — location-sharing review corpus</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #fff; --ink: #17181a; --muted: #6b6f76;
+    --line: #dfe1e5; --accent: #0b6b5e; --accent-soft: #e6f2f0;
+    --warn: #a8500f; --warn-soft: #fdf1e5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181a; --panel: #1e2124; --ink: #e9eaec; --muted: #9aa0a8;
+      --line: #32363b; --accent: #4fd1bd; --accent-soft: #16302c;
+      --warn: #e8a86a; --warn-soft: #2e2317;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 940px; margin: 0 auto; padding: 16px 16px 64px; }
+  header {
+    position: sticky; top: 0; z-index: 10; background: var(--bg);
+    padding: 12px 0 10px; border-bottom: 1px solid var(--line);
+  }
+  .bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  h1 { font-size: 16px; margin: 0; font-weight: 650; }
+  .spacer { flex: 1; }
+  button, .btn {
+    font: inherit; padding: 6px 13px; border-radius: 7px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:disabled { opacity: .4; cursor: default; }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .progress { height: 5px; background: var(--line); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+  .progress > i { display: block; height: 100%; background: var(--accent); transition: width .15s; }
+  .meta { font-size: 13px; color: var(--muted); }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 11px; padding: 16px; margin-top: 16px; }
+  .rev-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 10px; }
+  .pill { font-size: 12px; padding: 2px 9px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .rev-text { font-size: 16.5px; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+
+  .codes { display: grid; gap: 7px; margin-top: 6px; }
+  .code {
+    border: 1px solid var(--line); border-radius: 9px; background: var(--panel);
+    overflow: hidden; transition: border-color .12s, background .12s;
+  }
+  .code.on { border-color: var(--accent); background: var(--accent-soft); }
+  .code-row { display: flex; align-items: center; gap: 11px; padding: 9px 12px; cursor: pointer; user-select: none; }
+  .code-row input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; flex: none; }
+  .key { font: 600 12px/1 ui-monospace, Menlo, Consolas, monospace; color: var(--muted);
+         border: 1px solid var(--line); border-radius: 4px; padding: 3px 6px; flex: none; }
+  .code-name { font-weight: 600; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13.5px; }
+  .code-rule { color: var(--muted); font-size: 13px; flex: 1; min-width: 0; }
+  .info { border: none; background: none; color: var(--muted); font-size: 15px; padding: 2px 7px; flex: none; }
+  .detail { display: none; padding: 0 12px 12px 52px; font-size: 13.5px; border-top: 1px dashed var(--line); margin-top: -1px; }
+  .detail.open { display: block; }
+  .detail p { margin: 9px 0 4px; }
+  .detail .lbl { font-weight: 650; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); }
+  .ex { border-left: 3px solid var(--accent); padding: 5px 0 5px 10px; margin: 4px 0; color: var(--ink); }
+  .ex.miss { border-left-color: var(--warn); background: var(--warn-soft); padding-right: 8px; border-radius: 0 5px 5px 0; }
+
+  textarea { width: 100%; font: inherit; padding: 9px 11px; border-radius: 8px;
+             border: 1px solid var(--line); background: var(--panel); color: var(--ink); resize: vertical; }
+  .nav { display: flex; gap: 10px; align-items: center; margin-top: 16px; flex-wrap: wrap; }
+  .none-note { font-size: 13px; color: var(--warn); margin-top: 10px; }
+  .kbd { font-size: 12.5px; color: var(--muted); margin-top: 22px; line-height: 1.9; }
+  .kbd code { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 2px 6px;
+              font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .intro { max-width: 660px; }
+  .intro ol { padding-left: 20px; }
+  .intro li { margin: 7px 0; }
+  .hide { display: none !important; }
+  input[type=file] { font: inherit; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--warn); color: var(--warn);
+             border-radius: 8px; padding: 10px 13px; font-size: 13.5px; margin-top: 14px; }
+  .jump { width: 74px; font: inherit; padding: 5px 8px; border-radius: 6px;
+          border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="bar">
+    <h1>IRR Coding Tool</h1>
+    <span class="meta" id="fileMeta">no file loaded</span>
+    <span class="spacer"></span>
+    <span class="meta" id="counter"></span>
+    <button id="exportBtn" disabled>Export CSV</button>
+  </div>
+  <div class="progress"><i id="bar" style="width:0%"></i></div>
+</header>
+
+<!-- ---------- start screen ---------- -->
+<section id="start" class="card intro">
+  <h2 style="margin-top:0;font-size:17px">Before you start</h2>
+  <ol>
+    <li>Load your assigned CSV file (<code>irr-sample-coder-A.csv</code> or <code>-B.csv</code>).</li>
+    <li>Read each review and tick every code whose theme is <strong>substantively present</strong>.
+        Multi-label is expected — a review can earn several codes, or none.</li>
+    <li><strong>Code independently.</strong> Do not consult the other coder's sheet, the automatic
+        coder's output, or <code>irr-sample-key.json</code>.</li>
+    <li>Judge the <strong>review text only</strong>. The star rating is context, not evidence.</li>
+    <li>Ignore generic praise ("nice app", "5 stars"), install chatter, and unrelated feature
+        requests. A code applies only when the reviewer makes a <em>real claim</em> about that theme.</li>
+    <li>When you finish, press <strong>Export CSV</strong> and return the downloaded file.</li>
+  </ol>
+  <p class="meta">Your progress is saved in this browser automatically. You can close the tab and
+     reload the same file later to resume. Roughly 2 hours for 200 reviews.</p>
+  <p><button id="practiceBtn" class="primary">Practice first (15 items, ~10 min — recommended)</button></p>
+  <p class="meta">Practice uses the codebook's own examples with known answers and instant
+     feedback. None of them appear in the real sample. Aim for 12/15 before starting.</p>
+  <p><input type="file" id="fileInput" accept=".csv,text/csv"></p>
+  <div id="loadErr" class="warnbox hide"></div>
+</section>
+
+<!-- ---------- coding screen ---------- -->
+<section id="coder" class="hide">
+  <div class="card">
+    <div class="rev-head">
+      <span class="pill" id="sid"></span>
+      <span class="meta" id="appMeta"></span>
+    </div>
+    <div class="rev-text" id="revText"></div>
+  </div>
+
+  <div class="codes" id="codes"></div>
+  <div class="none-note hide" id="noneNote">No codes selected — this review will be recorded as
+    “other” (all nine codes 0). That is a valid answer if none of the nine themes apply.</div>
+  <div class="card hide" id="feedback"></div>
+
+  <div class="card" style="margin-top:12px">
+    <label class="meta" for="notes">Notes (optional — use for genuinely ambiguous items)</label>
+    <textarea id="notes" rows="2" style="margin-top:6px"></textarea>
+  </div>
+
+  <div class="nav">
+    <button id="prevBtn">← Previous</button>
+    <button id="nextBtn" class="primary">Next →</button>
+    <span class="spacer"></span>
+    <span class="meta">Jump to</span>
+    <input class="jump" id="jump" type="number" min="1" placeholder="#">
+    <button id="firstUnseenBtn">First uncoded</button>
+  </div>
+
+  <div class="kbd">
+    <code>1</code>–<code>9</code> toggle a code &nbsp;·&nbsp;
+    <code>Enter</code> / <code>→</code> next &nbsp;·&nbsp;
+    <code>←</code> previous &nbsp;·&nbsp;
+    <code>?</code> expand all definitions &nbsp;·&nbsp;
+    <code>Esc</code> leave the notes box
+  </div>
+</section>
+
+</div>
+
+<script>
+"use strict";
+
+/* ------------------------------------------------------------------ *
+ * Codebook — mirrors CODEBOOK.md. Order matters: it is the column
+ * order compute-irr.mjs expects.
+ * ------------------------------------------------------------------ */
+const CODES = [
+  {
+    key: 'safety_need',
+    rule: 'Protective / peace-of-mind / emergency framing. Naming a family member is not enough.',
+    def: 'The reviewer frames location sharing as protecting the safety or wellbeing of a specific person (child, elderly parent, partner) or of themselves — peace of mind, reassurance, or emergency / accident / crash response.',
+    pos: [
+      "We enjoy the app as it's needed for tracking our whereabouts so proper plans can be kept. It also serves as a safety feature for each other.",
+      'Highly recommended Great for planning and knowing if my kids have arrive safely to their destination.',
+    ],
+    miss: { text: "Its great for stalking my family members when I'm home alone. and making fun of my sister cos her phone always almost dead", code: 'monitoring_coercion', why: 'names family and tracking, but the framing is playful surveillance, not protection' },
+  },
+  {
+    key: 'battery_performance',
+    rule: 'Crashes / battery / speed / bugs of the app itself. Stale or wrong location goes elsewhere.',
+    def: 'Reliability and device performance of the app itself — battery drain, overheating, crashes, freezes, lag/slowness, bugs/glitches, "doesn\'t work", forced uninstall/reinstall.',
+    pos: [
+      'The app is great, it glitches sometimes and also stops working randomly but overall is great',
+      'SO useless anymore. Doesn\'t even show anything anymore! It just sits there and spins and freezes.',
+    ],
+    miss: { text: 'came to give 5 stars, but the locations are not updating. Horrible since the last update. I will get notifications an hour later.', code: 'freshness_complaint', why: 'the app runs fine; only the location data is stale' },
+  },
+  {
+    key: 'control_visibility',
+    rule: 'Must be about controlling what is shared or with whom. Boilerplate "settings" does not count.',
+    def: "The user's ability to control their own visibility and the app's intrusions — who can see them, turning sharing/notifications off, hiding/pausing, per-contact or duration-limited sharing, opt-in/out, privacy settings and permissions.",
+    pos: [
+      "I can't turn off notifications for marketing, unless I want to turn off notifications completely. It constantly says I have missed notifications…",
+      'We use this app every time a family member travels … and you can choose for how long you want to share your location.',
+    ],
+    miss: { text: 'I love the fact that it sends you notifications I can see where my family is at all times.', code: 'coordination_need / safety_need', why: '"notifications" is incidental; no claim about controlling visibility' },
+  },
+  {
+    key: 'freshness_complaint',
+    rule: 'Right place, reported late / not refreshing. Wrong place = accuracy_complaint.',
+    def: "The location data is stale / not updating / delayed / frozen / stuck — the shown position lags reality or won't refresh. Also praise for, or requests for, real-time / live updates.",
+    pos: [
+      'the locations are not updating. Horrible since the last update. I will get notifications an hour later.',
+      "doesn't provide live notifications. Notifications are extremely delayed, so mich can happen during that period of time.",
+    ],
+    miss: { text: 'Life360 Drive speed is way off, and location has been off. Example it would say we are across town when we are at home.', code: 'accuracy_complaint', why: 'the location is wrong, not merely late' },
+  },
+  {
+    key: 'coordination_need',
+    rule: 'Logistics / rendezvous / arrival timing. Pure protection with no logistics = safety_need only.',
+    def: 'Using location to coordinate logistics between people — pickups/drop-offs, ETAs and arrival times, "on my way", meeting up, knowing when someone reached a destination, sharing location to rendezvous.',
+    pos: [
+      'My husband and I were constantly having to send texts like "How far from home are you now?", or "Have you made it…"',
+      'Great for planning and knowing if my kids have arrive safely to their destination.  (also safety_need — multi-label)',
+    ],
+    miss: { text: 'It also serves as a safety feature for each other.', code: 'safety_need', why: 'protection, with no logistical / rendezvous use' },
+  },
+  {
+    key: 'monitoring_coercion',
+    rule: 'Interpersonal surveillance / control / coercion. The app nagging you is not coercion.',
+    def: 'Location tracking experienced or described as surveillance/control — being watched, stalked, spied on; forced/coerced into sharing; controlling / possessive / jealous partner or parent; "big brother"; feels like prison. Includes playful "stalking" self-descriptions.',
+    pos: [
+      "I like being able to stalk my friends on it (jokes) 🙂 it's a good app",
+      "Its great for stalking my family members when I'm home alone…",
+    ],
+    miss: { text: "I can't turn off notifications for marketing, unless I want to turn off notifications completely.", code: 'control_visibility', why: 'annoyance at app settings, not interpersonal surveillance' },
+  },
+  {
+    key: 'accuracy_complaint',
+    rule: 'The location is incorrect. Correct but too coarse/exact = precision_concern.',
+    def: 'The displayed location is wrong — off by miles, "across town when at home", false arrival/departure alerts, drifting, random trips, or the app placing the user somewhere they are not.',
+    pos: [
+      'Life360 Drive speed is way off, and location has been off. Example it would say we are across town when we are at home.',
+      'just had dinner in another town with a family member … after 2 hours, it never showed they left their house.',
+    ],
+    miss: { text: "very bad experience, didn't get the exact location in data mode.", code: 'precision_concern', why: 'wants a more exact fix, not reporting a wrong one' },
+  },
+  {
+    key: 'precision_concern',
+    rule: 'Resolution: coarse vs pinpoint, or too precise. Right-vs-wrong place = accuracy_complaint.',
+    def: 'The granularity / exactness of location — wanting or valuing a more exact/pinpoint fix, complaining it is only coarse (approximate / neighbourhood / city-level), or (privacy angle) that it is too precise.',
+    pos: [
+      "very bad experience, didn't get the exact location in data mode.",
+      'This helps me easily track my kids … I was able to track it exact location, even better than apple location',
+    ],
+    miss: { text: 'great for finding people although sometimes a bit inaccurate.', code: 'accuracy_complaint', why: 'it is wrong, not merely coarse' },
+  },
+  {
+    key: 'trust_integrity',
+    rule: 'Is the signal / vendor honest? Spoofing, ghosting, lying, data-selling, privacy violation.',
+    def: 'Trust in the truthfulness / integrity of the location signal or the vendor — spoofing / fake GPS, pausing or ghosting location to deceive, people lying about where they are, distrust, privacy violations, or selling/brokering location data.',
+    pos: [
+      'Life 360 sells your data to insurance brokers. If you install this and don\'t drive like a grandma, expect your rates to go up. An opt out would be great…',
+      'NOW I CAN SEE IF MY FRIEND ARE LYING ABOUT THEIR PHONE BATTERY TY ZENLY  (detecting deception)',
+    ],
+    miss: { text: "Its great for stalking my family members when I'm home alone…", code: 'monitoring_coercion', why: 'a surveillance framing, not a truthfulness / privacy-integrity claim' },
+  },
+];
+const CODE_KEYS = CODES.map(c => c.key);
+
+/* ------------------------------------------------------------------ *
+ * RFC-4180 CSV parse / serialise
+ * ------------------------------------------------------------------ */
+function parseCsv(text) {
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);   // strip BOM
+  const rows = []; let row = []; let field = ''; let quoted = false; let i = 0;
+  while (i < text.length) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"') {
+        if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+        quoted = false; i++; continue;
+      }
+      field += ch; i++; continue;
+    }
+    if (ch === '"') { quoted = true; i++; continue; }
+    if (ch === ',') { row.push(field); field = ''; i++; continue; }
+    if (ch === '\r') { i++; continue; }
+    if (ch === '\n') { row.push(field); rows.push(row); row = []; field = ''; i++; continue; }
+    field += ch; i++;
+  }
+  if (field.length || row.length) { row.push(field); rows.push(row); }
+  if (!rows.length) return { header: [], records: [] };
+  const header = rows[0];
+  const records = rows.slice(1)
+    .filter(r => r.length && r.some(c => c !== ''))
+    .map(r => Object.fromEntries(header.map((h, k) => [h, r[k] ?? ''])));
+  return { header, records };
+}
+function csvCell(v) {
+  const s = String(v ?? '');
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+}
+function toCsv(header, records) {
+  return [header.join(',')]
+    .concat(records.map(r => header.map(h => csvCell(r[h])).join(',')))
+    .join('\r\n') + '\r\n';
+}
+
+/* ------------------------------------------------------------------ *
+ * Practice items — the codebook's own examples (all verified to be
+ * OUTSIDE the 200-row sample) plus two constructed drills. Answers are
+ * the codings the codebook itself teaches.
+ * ------------------------------------------------------------------ */
+const PRACTICE = [
+  { t: 'I Love this app I feel great knowing where my kids are at any given time. It brings deep peace of mind',
+    a: ['safety_need'], w: '"peace of mind" is an explicit protective framing. (Naming the kids alone would NOT be enough.)' },
+  { t: 'my mom makes me keep this on 24/7 and checks it constantly, i cant go anywhere without getting a text asking why im there',
+    a: ['monitoring_coercion'], w: 'Forced, constant interpersonal surveillance. A family member being named does not make it safety_need — the framing is control, not protection.' },
+  { t: 'still has some glitches but has improved a lot since the last time I used this app.',
+    a: ['battery_performance'], w: 'Glitches = the app’s own reliability. The location data itself is not discussed.' },
+  { t: 'its not live location...always need to click refresh...and sometime dont show anything location',
+    a: ['freshness_complaint'], w: 'The app runs; the LOCATION is stale / won’t refresh. Freshness, not battery_performance.' },
+  { t: 'wish i could pick who sees me. right now its my whole circle or nobody, i want to share with just my partner some days',
+    a: ['control_visibility'], w: 'An explicit claim about controlling WHO can see them (per-contact sharing).' },
+  { t: 'doesn’t give real time has too much time delay',
+    a: ['freshness_complaint'], w: 'Right place, reported late.' },
+  { t: 'it had me at the shopping centre when i was sat at home, does that most evenings',
+    a: ['accuracy_complaint'], w: 'The shown place is WRONG (and recurring), not merely late — accuracy, not freshness.' },
+  { t: 'why can’t we no longer see arrival times and navigation? I relied on that a lot.',
+    a: ['coordination_need'], w: 'Arrival times = logistics / rendezvous use.' },
+  { t: 'bf checks this every 10 min and calls if i stop somewhere he doesnt know. feels like im being watched all day',
+    a: ['monitoring_coercion'], w: 'Interpersonal surveillance by a partner.' },
+  { t: 'keeps putting me at the retail park two miles away, ive never even been there',
+    a: ['accuracy_complaint'], w: 'The location is outright wrong.' },
+  { t: 'only shows the street not the actual building, would be better if it could pinpoint the exact door',
+    a: ['precision_concern'], w: 'The fix is correct but too COARSE — resolution, not correctness.' },
+  { t: 'you can freeze your location and everyone still thinks its live, so people just lie about where they are',
+    a: ['trust_integrity'], w: 'The signal can be made to deceive — truthfulness of the signal/vendor.' },
+  { t: 'my dad watches every move i make on here, its honestly invasive',
+    a: ['monitoring_coercion'], w: 'Surveillance of a person. NOT trust_integrity — nothing claims the signal or vendor is dishonest.' },
+  { t: 'great app 10/10, my whole friend group uses it every day',
+    a: [], w: 'Generic praise, no substantive claim about any theme — all nine codes stay 0. Roughly 7 in 10 real rows are like this.' },
+  { t: 'shared my location so my husband could see when id arrived safely at the airport',
+    a: ['coordination_need', 'safety_need'], w: 'Multi-label: "arrived safely" is a protective framing AND an arrival/logistics use. Both apply.' },
+];
+
+/* ------------------------------------------------------------------ *
+ * State
+ * ------------------------------------------------------------------ */
+let header = [], rows = [], idx = 0, storeKey = '', fileName = '';
+let mode = 'real';                     // 'real' | 'practice'
+let fbShown = false;                   // practice: feedback visible for current item
+let practiceScore = [];                // practice: per-item exact-match booleans
+const $ = id => document.getElementById(id);
+
+function saveState() {
+  if (!storeKey) return;
+  try {
+    localStorage.setItem(storeKey, JSON.stringify({
+      idx,
+      data: rows.map(r => ({
+        seen: !!r._seen,
+        v: CODE_KEYS.map(k => r[k] === '1' ? 1 : 0),
+        n: r.notes || '',
+      })),
+    }));
+  } catch (e) { /* quota / private mode — coding still works, just no resume */ }
+}
+function restoreState() {
+  try {
+    const raw = localStorage.getItem(storeKey);
+    if (!raw) return false;
+    const s = JSON.parse(raw);
+    if (!s || !Array.isArray(s.data) || s.data.length !== rows.length) return false;
+    s.data.forEach((d, i) => {
+      rows[i]._seen = !!d.seen;
+      CODE_KEYS.forEach((k, j) => { rows[i][k] = d.v[j] ? '1' : '0'; });
+      rows[i].notes = d.n || '';
+    });
+    idx = Math.min(Math.max(0, s.idx | 0), rows.length - 1);
+    return true;
+  } catch (e) { return false; }
+}
+
+/* ------------------------------------------------------------------ *
+ * Render
+ * ------------------------------------------------------------------ */
+function buildCodeList() {
+  $('codes').innerHTML = CODES.map((c, i) => `
+    <div class="code" data-key="${c.key}">
+      <div class="code-row" data-toggle="${c.key}">
+        <span class="key">${i + 1}</span>
+        <input type="checkbox" id="cb_${c.key}" tabindex="-1">
+        <span class="code-name">${c.key}</span>
+        <span class="code-rule">${c.rule}</span>
+        <button class="info" data-info="${c.key}" title="definition and examples">ⓘ</button>
+      </div>
+      <div class="detail" id="d_${c.key}">
+        <p>${c.def}</p>
+        <p class="lbl">Counts as ${c.key}</p>
+        ${c.pos.map(p => `<div class="ex">${escapeHtml(p)}</div>`).join('')}
+        <p class="lbl">Near miss — code <b>${c.miss.code}</b> instead</p>
+        <div class="ex miss">${escapeHtml(c.miss.text)}<br><span class="meta">→ ${c.miss.why}</span></div>
+      </div>
+    </div>`).join('');
+
+  $('codes').addEventListener('click', e => {
+    const info = e.target.closest('[data-info]');
+    if (info) { $('d_' + info.dataset.info).classList.toggle('open'); e.stopPropagation(); return; }
+    const row = e.target.closest('[data-toggle]');
+    if (row) toggle(row.dataset.toggle);
+  });
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function render() {
+  const r = rows[idx];
+  $('sid').textContent = r.sample_id || `#${idx + 1}`;
+  $('appMeta').textContent = [r.app, r.rating ? `${r.rating}★` : ''].filter(Boolean).join(' · ');
+  $('revText').textContent = r.review_text || '(empty review text)';
+  $('notes').value = r.notes || '';
+
+  CODES.forEach(c => {
+    const on = r[c.key] === '1';
+    $('cb_' + c.key).checked = on;
+    document.querySelector(`.code[data-key="${c.key}"]`).classList.toggle('on', on);
+  });
+
+  const anyOn = CODE_KEYS.some(k => r[k] === '1');
+  $('noneNote').classList.toggle('hide', !(r._seen && !anyOn) || mode === 'practice');
+
+  if (mode === 'practice') {
+    const right = practiceScore.filter(Boolean).length;
+    $('counter').textContent = `Practice ${idx + 1} / ${rows.length}` +
+      (practiceScore.length ? `  ·  ${right}/${practiceScore.length} correct` : '');
+    $('bar').style.width = (practiceScore.length / rows.length * 100) + '%';
+    $('prevBtn').disabled = true;
+    $('jump').classList.add('hide'); $('firstUnseenBtn').classList.add('hide');
+    $('nextBtn').textContent = fbShown
+      ? (idx === rows.length - 1 ? 'Finish practice →' : 'Continue →')
+      : 'Check answer →';
+    if (!fbShown) $('feedback').classList.add('hide');
+    return;
+  }
+  const seen = rows.filter(x => x._seen).length;
+  $('counter').textContent = `${idx + 1} / ${rows.length}  ·  ${seen} coded`;
+  $('bar').style.width = (seen / rows.length * 100) + '%';
+  $('prevBtn').disabled = idx === 0;
+  $('nextBtn').textContent = idx === rows.length - 1 ? 'Finish →' : 'Next →';
+  $('jump').classList.remove('hide'); $('firstUnseenBtn').classList.remove('hide');
+  $('jump').max = rows.length;
+  $('jump').value = '';
+  $('feedback').classList.add('hide');
+}
+
+function toggle(key) {
+  if (mode === 'practice' && fbShown) return;   // answer locked once checked
+  const r = rows[idx];
+  r[key] = r[key] === '1' ? '0' : '1';
+  r._seen = true;
+  saveState(); render();
+}
+function go(n) {
+  rows[idx].notes = $('notes').value;
+  rows[idx]._seen = true;                 // visiting counts as coded (all-zero is valid)
+  idx = Math.min(Math.max(0, n), rows.length - 1);
+  saveState(); render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ---------------- practice flow ---------------- */
+function showPracticeFeedback() {
+  const r = rows[idx];
+  const mine = CODE_KEYS.filter(k => r[k] === '1');
+  const ans = r._answer;
+  const exact = mine.length === ans.length && ans.every(c => mine.includes(c));
+  practiceScore.push(exact);
+  fbShown = true;
+  const missed = ans.filter(c => !mine.includes(c));
+  const extra = mine.filter(c => !ans.includes(c));
+  let html = '<p style="margin-top:0"><b>' + (exact ? '✔ Correct' : '✘ Not quite') + '</b></p>';
+  html += '<p>Intended coding: <b>' + (ans.length ? ans.join(' + ') : 'none of the nine (all 0)') + '</b></p>';
+  if (missed.length) html += '<p>You missed: <b>' + missed.join(', ') + '</b></p>';
+  if (extra.length) html += '<p>You added: <b>' + extra.join(', ') + '</b> — not intended here.</p>';
+  html += '<p class="meta">' + escapeHtml(r._why) + '</p>';
+  $('feedback').innerHTML = html;
+  $('feedback').classList.remove('hide');
+  render();
+  $('feedback').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function practiceSummary() {
+  const right = practiceScore.filter(Boolean).length;
+  const n = rows.length;
+  let html = '<h2 style="margin-top:0;font-size:17px">Practice complete: ' + right + ' / ' + n + '</h2>';
+  html += right >= 12
+    ? '<p><b>Good to go.</b> Return to the start screen and load your assigned CSV.</p>'
+    : '<p><b>Below the 12/' + n + ' bar.</b> Re-read the codebook sections you missed, then run the practice again before coding the real sample.</p>';
+  const missedIdx = practiceScore.map((ok, i) => ok ? null : i).filter(i => i !== null);
+  if (missedIdx.length) {
+    html += '<p class="meta">Missed: ' + missedIdx.map(i =>
+      (rows[i]._answer.length ? rows[i]._answer.join('+') : 'all-zero')).join(' · ') + '</p>';
+  }
+  html += '<p><button class="primary" onclick="location.reload()">Back to start</button></p>';
+  $('feedback').innerHTML = html;
+  $('feedback').classList.remove('hide');
+  document.querySelector('#coder .card').classList.add('hide');
+  $('codes').classList.add('hide');
+  document.querySelector('#coder .nav').classList.add('hide');
+  $('counter').textContent = 'Practice ' + right + '/' + n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function nextAction() {
+  if (mode === 'practice') {
+    if (!fbShown) { showPracticeFeedback(); return; }
+    fbShown = false;
+    if (idx === rows.length - 1) { practiceSummary(); return; }
+    idx++; render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  go(idx + 1);
+}
+
+/* ------------------------------------------------------------------ *
+ * Wiring
+ * ------------------------------------------------------------------ */
+$('fileInput').addEventListener('change', ev => {
+  const f = ev.target.files[0];
+  if (!f) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    const err = m => { $('loadErr').textContent = m; $('loadErr').classList.remove('hide'); };
+    let parsed;
+    try { parsed = parseCsv(String(fr.result)); }
+    catch (e) { return err('Could not parse that file as CSV.'); }
+
+    const missing = ['sample_id', 'review_text', ...CODE_KEYS].filter(c => !parsed.header.includes(c));
+    if (missing.length) return err('This CSV is missing expected columns: ' + missing.join(', ') +
+      '. Please load irr-sample-coder-A.csv or irr-sample-coder-B.csv.');
+    if (!parsed.records.length) return err('That CSV has no data rows.');
+
+    $('loadErr').classList.add('hide');
+    header = parsed.header;
+    rows = parsed.records.map(r => {
+      CODE_KEYS.forEach(k => { r[k] = r[k] === '1' ? '1' : '0'; });
+      r._seen = false;
+      return r;
+    });
+    fileName = f.name;
+    storeKey = 'irrcoding:' + f.name + ':' + rows.length;
+    const resumed = restoreState();
+
+    $('fileMeta').textContent = fileName + (resumed ? ' · resumed' : '');
+    $('start').classList.add('hide');
+    $('coder').classList.remove('hide');
+    $('exportBtn').disabled = false;
+    buildCodeList();
+    render();
+  };
+  fr.readAsText(f);
+});
+
+$('prevBtn').onclick = () => { if (mode !== 'practice') go(idx - 1); };
+$('nextBtn').onclick = nextAction;
+
+$('practiceBtn').onclick = () => {
+  mode = 'practice'; storeKey = ''; fileName = ''; fbShown = false; practiceScore = [];
+  rows = PRACTICE.map((p, i) => {
+    const r = { sample_id: 'P' + String(i + 1).padStart(2, '0'), app: 'practice',
+      rating: '', review_text: p.t, notes: '', _seen: false, _answer: p.a, _why: p.w };
+    CODE_KEYS.forEach(k => { r[k] = '0'; });
+    return r;
+  });
+  idx = 0;
+  $('fileMeta').textContent = 'practice mode (answers known, nothing is saved)';
+  $('start').classList.add('hide');
+  $('coder').classList.remove('hide');
+  $('exportBtn').disabled = true;
+  buildCodeList();
+  render();
+};
+$('jump').addEventListener('change', e => { const n = parseInt(e.target.value, 10); if (n) go(n - 1); });
+$('firstUnseenBtn').onclick = () => {
+  const n = rows.findIndex(r => !r._seen);
+  if (n === -1) alert('Every review has been coded. You can export now.');
+  else go(n);
+};
+$('notes').addEventListener('input', () => { rows[idx].notes = $('notes').value; saveState(); });
+
+$('exportBtn').onclick = () => {
+  rows[idx].notes = $('notes').value;
+  const left = rows.filter(r => !r._seen).length;
+  if (left && !confirm(`${left} review(s) have not been opened yet; they will be exported as all-zero. Export anyway?`)) return;
+  const out = rows.map(r => {
+    const o = {};
+    header.forEach(h => { o[h] = r[h] ?? ''; });
+    CODE_KEYS.forEach(k => { o[k] = r[k] === '1' ? '1' : '0'; });
+    return o;
+  });
+  const blob = new Blob([toCsv(header, out)], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fileName || 'irr-sample-coded.csv';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+
+document.addEventListener('keydown', e => {
+  if ($('coder').classList.contains('hide')) return;
+  if (e.target === $('notes')) { if (e.key === 'Escape') $('notes').blur(); return; }
+  if (e.target.tagName === 'INPUT' && e.target.type === 'number') return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+  if (e.key >= '1' && e.key <= '9') { toggle(CODE_KEYS[+e.key - 1]); e.preventDefault(); return; }
+  if (e.key === 'Enter' || e.key === 'ArrowRight') { nextAction(); e.preventDefault(); return; }
+  if (e.key === 'ArrowLeft') { if (mode !== 'practice') go(idx - 1); e.preventDefault(); return; }
+  if (e.key === '?') {
+    const anyClosed = CODES.some(c => !$('d_' + c.key).classList.contains('open'));
+    CODES.forEach(c => $('d_' + c.key).classList.toggle('open', anyClosed));
+    e.preventDefault();
+  }
+});
+
+window.addEventListener('beforeunload', e => {
+  if (mode === 'practice') return;          // nothing to lose in practice
+  if (rows.length && rows.some(r => r._seen)) { e.preventDefault(); e.returnValue = ''; }
+});
+</script>
+</body>
+</html>

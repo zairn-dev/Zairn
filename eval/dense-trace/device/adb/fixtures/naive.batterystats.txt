@@ -1,0 +1,25 @@
+DRY-RUN FIXTURE — synthetic `dumpsys batterystats --charged` for arm=naive (~2h, screen-on).
+Continuous GNSS (still warm) PLUS post-acquisition privacy compute on every fix -> higher CPU, no GNSS saving.
+Statistics since last charge:
+  System starts: 0, currently on battery: true
+  Estimated battery capacity: 6000 mAh
+  Last learned battery capacity: 5897 mAh
+  Time on battery: 2h 0m 0s 0ms (100.0%) realtime, 2h 0m 0s 0ms (100.0%) uptime
+  Estimated power use (mAh):
+    Capacity: 6000, Computed drain: 430, actual drain: 430
+    Global
+    screen: 150 apps: 150
+    cpu: 68.0 apps: 68.0 duration: 1h 59m 20s 0ms
+    bluetooth: 0.10 apps: 0.05
+    sensors: 0.50 apps: 0.50
+    gnss: 183.4 apps: 0 duration: 1h 59m 50s 0ms
+    wifi: 2.10 apps: 1.90
+    wakelock: 22.0 apps: 22.0 duration: 1h 45m 0s 0ms
+      (on battery, screen on)
+      screen: 150 apps: 150
+      cpu: 68.0 apps: 68.0 duration: 1h 59m 20s 0ms
+      gnss: 183.4 apps: 0 duration: 1h 59m 50s 0ms
+      wifi: 2.10 apps: 1.90
+      wakelock: 22.0 apps: 22.0 duration: 1h 45m 0s 0ms
+  UID u0a900: 205 bg: 0.5 fgs: 204
+      cpu=53 (40m 0s 0ms) gnss:fgs handled-by-system wifi=1.9

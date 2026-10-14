@@ -6,6 +6,21 @@
  *   dLat² + (dLon × cos(lat))² ≤ R²
  * in fixed-point arithmetic (scale factor 1e6 ≈ ~0.11m per unit).
  *
+ * SECURITY: the default circuit is `sound_geo_only`, which enforces the
+ * `distSquared <= radiusSquared` inequality and the division-remainder
+ * range check IN-CIRCUIT (see circuits/sound_geo_only.circom). The legacy
+ * `proximity` circuit is an UNSOUND evaluation baseline — it asserts
+ * `valid <== 1` unconditionally and must never be used to gate access.
+ * See circuits/proximity.circom's header for details.
+ *
+ * NOTE ON THREAT MODEL: a ZK proximity proof attests that the *committed*
+ * coordinates lie within R of the target. Because `userLat`/`userLon` are
+ * prover-chosen private inputs, this proves geometric containment, not
+ * physical presence — a spoofer can commit to the target coordinates.
+ * The proof raises the cost of a bypass and hides the honest prover's
+ * position; it is not a proof of real-world location. Verification MUST
+ * run server-side (see supabase/functions/unlock-drop) to be authoritative.
+ *
  * Flow:
  *   1. Drop creator sets proof_config with method 'zkp' and params { verification_key }
  *   2. Claimer calls generateProximityProof(userLat, userLon, drop)
@@ -92,7 +107,7 @@ export interface ZkpConfig {
   artifacts?: CircuitArtifacts;
   /** Verification key for proof verification */
   verificationKey?: VerificationKey;
-  /** Circuit basename under artifactsBaseUrl. Defaults to `proximity`. */
+  /** Circuit basename under artifactsBaseUrl. Defaults to the sound `sound_geo_only`. */
   circuitName?: string;
 }
 
@@ -526,7 +541,8 @@ function resolveArtifacts(config: ZkpConfig): CircuitArtifacts {
       'ZKP artifacts not configured. Provide artifacts or artifactsBaseUrl in ZkpConfig.'
     );
   }
-  const circuitName = config.circuitName ?? 'proximity';
+  // Default to the SOUND circuit. `proximity` is an unsound eval-only baseline.
+  const circuitName = config.circuitName ?? 'sound_geo_only';
   return {
     wasmUrl: `${base}/${circuitName}.wasm`,
     zkeyUrl: `${base}/${circuitName}_final.zkey`,

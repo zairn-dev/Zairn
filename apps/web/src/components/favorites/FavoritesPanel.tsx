@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useSdk } from '@/contexts/SdkContext'
+import ConfirmDialog from '@/components/common/ConfirmDialog'
+import PanelState from '@/components/common/PanelState'
+import ErrorBanner from '@/components/common/ErrorBanner'
 import type { FavoritePlace, PlaceType } from '@zairn/sdk'
 
 const PLACE_TYPES: { type: PlaceType; icon: string; label: string }[] = [
@@ -25,6 +28,7 @@ export default function FavoritesPanel({ currentLocation }: FavoritesPanelProps)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [atPlace, setAtPlace] = useState<FavoritePlace | null>(null)
+  const [pendingDelete, setPendingDelete] = useState<FavoritePlace | null>(null)
 
   const [showAdd, setShowAdd] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -126,12 +130,13 @@ export default function FavoritesPanel({ currentLocation }: FavoritesPanelProps)
   }
 
   async function handleDelete(id: string) {
-    if (!confirm('Delete this favorite place?')) return
     try {
       await core.deleteFavoritePlace(id)
       await loadPlaces()
     } catch (e: any) {
       setError(e.message)
+    } finally {
+      setPendingDelete(null)
     }
   }
 
@@ -141,11 +146,11 @@ export default function FavoritesPanel({ currentLocation }: FavoritesPanelProps)
     return d < 1000 ? `${Math.round(d)}m` : `${(d / 1000).toFixed(1)}km`
   }
 
-  if (loading) return <div className="p-4 text-center" style={{ color: 'var(--md-on-surface-variant)' }}>Loading favorites...</div>
+  if (loading) return <PanelState kind="loading" message="Loading favorites..." />
 
   return (
     <div className="flex flex-col gap-4">
-      {error && <div className="text-sm" style={{ color: 'var(--md-error)' }}>{error}</div>}
+      {error && <ErrorBanner message={error} onDismiss={() => setError('')} />}
 
       {atPlace && (
         <div className="rounded-lg p-3 text-sm" style={{ background: 'var(--md-primary-container)', color: 'var(--md-on-primary-container)', border: '1px solid var(--md-primary)' }}>
@@ -195,7 +200,7 @@ export default function FavoritesPanel({ currentLocation }: FavoritesPanelProps)
 
       {/* Places list */}
       {places.length === 0 ? (
-        <p className="text-sm text-center py-4" style={{ color: 'var(--md-on-surface-variant)' }}>No favorite places yet</p>
+        <PanelState kind="empty" icon="⭐" message="No favorite places yet" />
       ) : (
         <div className="flex flex-col gap-2">
           {places.map(place => (
@@ -217,13 +222,24 @@ export default function FavoritesPanel({ currentLocation }: FavoritesPanelProps)
                 </div>
                 <div className="flex gap-2">
                   <button onClick={() => startEdit(place)} className="text-xs hover:underline" style={{ color: 'var(--md-primary)' }}>Edit</button>
-                  <button onClick={() => handleDelete(place.id)} className="text-xs hover:underline" style={{ color: 'var(--md-error)' }}>Delete</button>
+                  <button onClick={() => setPendingDelete(place)} className="text-xs hover:underline" style={{ color: 'var(--md-error)' }}>Delete</button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        destructive
+        confirmLabel="Delete"
+        message={pendingDelete && (
+          <>Delete <span className="font-semibold">{placeIcon(pendingDelete.place_type)} {pendingDelete.name}</span>?</>
+        )}
+        onConfirm={() => pendingDelete && handleDelete(pendingDelete.id)}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   )
 }
