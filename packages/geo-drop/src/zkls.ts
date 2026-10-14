@@ -23,7 +23,6 @@ import {
   cosLatScaled as computeCosLatScaled,
   metersToRadiusSquared,
   buildZkStatementBinding,
-  lengthPrefixEncode,
 } from './zkp.js';
 
 // ============================================================
@@ -133,8 +132,14 @@ function createHomeSalt(): bigint {
  * Uses the same algebraic hash as the circuit:
  *   H(a, b, c) = a*P1 + b*P2 + c*P3 + a*b + b*c + P4
  *
- * Security note: this legacy research commitment is not collision-resistant.
- * Production deployments must migrate the circuit and client to Poseidon.
+ * SECURITY: this legacy research commitment is neither hiding nor binding.
+ * Because P1 - P3 = -2, guessing the longitude b fixes the latitude via
+ * a = -(C - b*P2 - P4)/2 mod (P3 + b), so the holder of C can enumerate
+ * every candidate home in minutes: a ~10 km prior already narrows it to a
+ * few dozen points (measured 2026-10), and a grid signal or neighbourhood
+ * prior makes it unique. Each longitude also yields another valid opening,
+ * so the commitment does not bind the prover to one home. Use
+ * createPoseidonHomeCommitment with the Poseidon circuit artifacts.
  *
  * @deprecated Use createPoseidonHomeCommitment with Poseidon circuit artifacts.
  */

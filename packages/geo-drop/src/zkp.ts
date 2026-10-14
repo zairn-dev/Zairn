@@ -288,26 +288,24 @@ export function validatePublicSignals(
   unlockRadius: number,
   statement?: ZkStatementBinding
 ): boolean {
-  if (publicSignals.length < 5) return false;
+  if (!Array.isArray(publicSignals) || publicSignals.length < 5) return false;
+  if (publicSignals[0] !== '1') return false;
 
-  const valid = publicSignals[0];
-  const sigTargetLat = publicSignals[1];
-  const sigTargetLon = publicSignals[2];
-  const sigRadiusSq = publicSignals[3];
-  const sigCosLat = publicSignals[4];
-
-  // Check valid flag
-  if (valid !== '1') return false;
-
-  // Check target coordinates match
-  if (BigInt(sigTargetLat) !== toFixedPoint(targetLat)) return false;
-  if (BigInt(sigTargetLon) !== toFixedPoint(targetLon)) return false;
-
-  // Check radius matches
-  if (BigInt(sigRadiusSq) !== metersToRadiusSquared(unlockRadius)) return false;
-
-  // Check cosLat matches (prevents manipulation of correction factor)
-  if (BigInt(sigCosLat) !== cosLatScaled(targetLat)) return false;
+  // Signals are field elements: a negative coordinate (southern or western
+  // hemisphere) appears as p - |x|, so compare in the field.
+  const expected = [
+    toFixedPoint(targetLat),
+    toFixedPoint(targetLon),
+    metersToRadiusSquared(unlockRadius),
+    cosLatScaled(targetLat), // prevents manipulation of the correction factor
+  ];
+  try {
+    for (let i = 0; i < expected.length; i++) {
+      if (BigInt(publicSignals[i + 1]) !== toField(expected[i])) return false;
+    }
+  } catch {
+    return false; // non-numeric signal
+  }
 
   if (!statement) return true;
   if (publicSignals.length < 8) return false;
@@ -567,11 +565,26 @@ async function loadSnarkjs(): Promise<any> {
   }
 }
 
-async function hashToField(value: string): Promise<string> {
+/** BN254 scalar field modulus; circuit inputs and outputs live in this field. */
+export const BN254_FIELD_MODULUS =
+  21888242871839275222246405745257275088548364400416034343698204186575808495617n;
+
+/** Field representation of a signed integer (negative x becomes p - |x|). */
+export function toField(x: bigint): bigint {
+  return ((x % BN254_FIELD_MODULUS) + BN254_FIELD_MODULUS) % BN254_FIELD_MODULUS;
+}
+
+/**
+ * SHA-256 reduced into the BN254 field. The reduction is required: a raw
+ * 256-bit digest is >= p about 81% of the time, and the circuit would
+ * silently reduce it, so the public signal would no longer match.
+ * (Only collision resistance is relied on, not uniformity.)
+ */
+export async function hashToField(value: string): Promise<string> {
   const bytes = new TextEncoder().encode(value);
   const digest = await crypto.subtle.digest('SHA-256', bytes);
   const hex = Array.from(new Uint8Array(digest), byte =>
     byte.toString(16).padStart(2, '0')
   ).join('');
-  return BigInt(`0x${hex}`).toString();
+  return (BigInt(`0x${hex}`) % BN254_FIELD_MODULUS).toString();
 }

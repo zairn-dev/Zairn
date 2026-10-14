@@ -3,7 +3,7 @@
  * Handles communication with the GeoDropRegistry contract
  * No external dependencies (raw JSON-RPC + manual ABI encoding)
  */
-import type { ChainConfig, EvmSigner } from './types';
+import type { ChainConfig } from './types';
 
 // GeoDropRegistry function selectors (first 4 bytes of keccak256)
 const SELECTOR_REGISTER = '0xd0495692'; // registerDrop(bytes7,string)

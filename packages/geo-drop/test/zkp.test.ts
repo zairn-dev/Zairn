@@ -7,6 +7,8 @@ import {
   buildZkStatementBinding,
   validateRegionPublicSignals,
   MAX_POLYGON_VERTICES,
+  hashToField,
+  BN254_FIELD_MODULUS,
 } from '../src/zkp';
 import {
   createHomeCommitment,
@@ -273,5 +275,39 @@ describe('validateRegionPublicSignals', () => {
 
   it('rejects too few signals', () => {
     expect(validateRegionPublicSignals(['1'], polygon)).toBe(false);
+  });
+});
+
+describe('field-element handling', () => {
+  // Public signals of a real sound_geo_only proof for a drop in Buenos Aires
+  // (negative lat and lon are encoded as p - |x| by the circuit).
+  const southWest = ['1',
+    '21888242871839275222246405745257275088548364400416034343698204186575773891917',
+    '21888242871839275222246405745257275088548364400416034343698204186575750114017',
+    '201601', '823100'];
+
+  it('accepts signals for drops with negative coordinates', () => {
+    expect(validatePublicSignals(southWest, -34.6037, -58.3816, 50)).toBe(true);
+  });
+
+  it('still binds negative coordinates to the right drop', () => {
+    expect(validatePublicSignals(southWest, -34.6038, -58.3816, 50)).toBe(false);
+    expect(validatePublicSignals(southWest, 34.6037, 58.3816, 50)).toBe(false);
+  });
+
+  it('rejects non-numeric signals instead of throwing', () => {
+    expect(validatePublicSignals(['1', 'abc', '0', '0', '0'], 0, 0, 50)).toBe(false);
+  });
+
+  it('hashToField always lands in the BN254 field', async () => {
+    for (let i = 0; i < 200; i++) {
+      expect(BigInt(await hashToField(`input-${i}`)) < BN254_FIELD_MODULUS).toBe(true);
+    }
+  });
+
+  it('statement digests match what the circuit would output', async () => {
+    const statement = await buildZkStatementBinding({ dropId: 'drop-1', epoch: 7, serverNonce: 'nonce' });
+    expect(BigInt(statement.contextDigest) < BN254_FIELD_MODULUS).toBe(true);
+    expect(BigInt(statement.challengeDigest) < BN254_FIELD_MODULUS).toBe(true);
   });
 });

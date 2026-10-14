@@ -458,18 +458,6 @@ export interface TrustDeviceCapabilities extends SdkTrustDeviceCapabilities {}
 /** Aggregate IMU evidence for custom trust signal providers */
 export interface ImuSummary extends SdkImuSummary {}
 
-/** Device signal capabilities available to the trust scorer */
-export interface TrustDeviceCapabilities {
-  hasImu: boolean;
-  hasNetworkLocation: boolean;
-}
-
-/** Aggregate IMU evidence for custom trust signal providers */
-export interface ImuSummary {
-  stepCount: number;
-  avgAccelMagnitude: number;
-}
-
 /** Additional context for V2 trust scoring */
 export interface TrustContext extends SdkTrustContext {}
 
@@ -483,8 +471,12 @@ export interface TrustScoreResultV2 extends SdkTrustScoreResultV2 {}
 /** Returned by unlockDrop when trust score is in the step-up range */
 export interface StepUpRequired {
   type: 'step-up-required';
-  /** The trust score that triggered step-up (between stepUp and proceed thresholds) */
-  trustScore: number;
+  /**
+   * The trust score that triggered step-up (between stepUp and proceed
+   * thresholds). Only set by the client-side unlock path: the server does
+   * not disclose scores, which would help an attacker tune spoofed input.
+   */
+  trustScore?: number;
   /** Human-readable reason for the step-up request */
   reason: string;
   /** Proof methods available for step-up verification on this drop */
@@ -548,6 +540,15 @@ export interface GeoDropOptions {
    * Defaults to supabaseUrl + '/functions/v1/unlock-drop'
    */
   serverUnlock?: boolean | string;
+  /**
+   * Create drops via the create-drop Edge Function, which encrypts content
+   * with the server secret so clients never hold it. true uses
+   * supabaseUrl + '/functions/v1/create-drop'; a string overrides the URL.
+   * Defaults to on when serverUnlock is set and no encryptionSecret is
+   * configured (the client then cannot encrypt for the server); pass false
+   * to force client-side encryption from a trusted backend.
+   */
+  serverCreate?: boolean | string;
   /**
    * IPFS proxy Edge Function URL.
    * When set, IPFS operations go through the proxy and API keys stay server-side.

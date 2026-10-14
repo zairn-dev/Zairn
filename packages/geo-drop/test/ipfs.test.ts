@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { IpfsClient } from '../src/ipfs';
+import { IpfsClient, unixFsSingleBlock } from '../src/ipfs';
 
 const VALID_CID = `Qm${'a'.repeat(44)}`;
 
@@ -100,5 +100,34 @@ describe('IpfsClient custom pinning', () => {
       gateway: 'https://gateway.example/ipfs',
       maxUploadSize: 0,
     })).toThrow('maxUploadSize must be a positive safe integer');
+  });
+});
+
+describe('IpfsClient content integrity (CIDv0)', () => {
+  // kubo: `echo "hello world" | ipfs add`
+  const HELLO = 'hello world\n';
+  const HELLO_CID = 'QmT78zSuBmuS4z925WZfrqQ1qHaJ56DQaTfyMUF7F8ff5o';
+  const gatewayReturning = (body: string) => vi.fn().mockImplementation(async () => new Response(body, { status: 200 }));
+
+  it('rebuilds the dag-pb block that a CIDv0 actually hashes', async () => {
+    const block = unixFsSingleBlock(new TextEncoder().encode(HELLO));
+    const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', block as BufferSource));
+    const alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    let n = BigInt('0x' + Buffer.from([0x12, 0x20, ...digest]).toString('hex'));
+    let cid = '';
+    while (n > 0n) { cid = alphabet[Number(n % 58n)] + cid; n /= 58n; }
+    expect(cid).toBe(HELLO_CID);
+  });
+
+  it('accepts genuine content for its CID', async () => {
+    vi.stubGlobal('fetch', gatewayReturning(HELLO));
+    const client = new IpfsClient({ gateway: 'https://gateway.example/ipfs' });
+    await expect(client.fetch(HELLO_CID)).resolves.toBe(HELLO);
+  });
+
+  it('rejects content a gateway altered', async () => {
+    vi.stubGlobal('fetch', gatewayReturning('hello w0rld\n'));
+    const client = new IpfsClient({ gateway: 'https://gateway.example/ipfs' });
+    await expect(client.fetch(HELLO_CID)).rejects.toThrow(/integrity/);
   });
 });

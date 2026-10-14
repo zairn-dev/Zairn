@@ -6,7 +6,6 @@ import type {
   GeoDrop,
   ProofConfig,
   ProofMethodType,
-  ProofRequirement,
   ProofSubmission,
   ProofResult,
   ProofVerifier,

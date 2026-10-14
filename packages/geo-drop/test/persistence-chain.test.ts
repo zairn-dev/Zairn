@@ -239,3 +239,26 @@ describe('PersistenceManager', () => {
     warnSpy.mockRestore();
   });
 });
+
+describe('PersistenceManager — encryption salt exposure', () => {
+  it('never publishes the content salt in plaintext metadata', async () => {
+    const ipfs = new MockIpfsClient();
+    const pm = createPersistenceManager(ipfs as unknown as IpfsClient);
+    const result = await pm.persist(makeDrop(), 'ipfs', undefined, 'real-salt');
+    const doc = JSON.parse(await ipfs.fetch(result.metadataCid!));
+    expect(doc.encryptionSalt).toBe('');
+    expect(JSON.stringify(doc)).not.toContain('real-salt');
+    expect(JSON.stringify(doc)).not.toContain('salt123');
+  });
+
+  it('embeds the salt only inside recoverySecret-encrypted metadata', async () => {
+    const ipfs = new MockIpfsClient();
+    const pm = createPersistenceManager(ipfs as unknown as IpfsClient);
+    const secret = 'a-long-recovery-secret';
+    const result = await pm.persist(makeDrop(), 'ipfs', secret, 'real-salt');
+    const raw = await ipfs.fetch(result.metadataCid!);
+    expect(raw).not.toContain('real-salt');
+    const recovered = await pm.recoverFromCid(result.metadataCid!, secret);
+    expect(JSON.stringify(recovered)).toContain('real-salt');
+  });
+});

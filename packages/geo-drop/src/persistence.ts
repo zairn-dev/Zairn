@@ -15,8 +15,13 @@ import type { ChainClient } from './chain';
 import { encrypt, decrypt, CURRENT_KEY_VERSION } from './crypto';
 
 export interface PersistenceManager {
-  /** Persist drop metadata */
-  persist(drop: GeoDrop, level: PersistenceLevel, recoverySecret?: string): Promise<PersistenceResult>;
+  /**
+   * Persist drop metadata. The content-encryption salt is embedded only when
+   * the document is encrypted with recoverySecret: published in the clear it
+   * would let anyone who also holds the server secret decrypt the content
+   * without ever visiting the drop.
+   */
+  persist(drop: GeoDrop, level: PersistenceLevel, recoverySecret?: string, encryptionSalt?: string): Promise<PersistenceResult>;
   /** Recover directly from a metadata CID */
   recoverFromCid(metadataCid: string, recoverySecret?: string): Promise<RecoveredDrop>;
   /** Search the on-chain index by geohash and recover */
@@ -48,7 +53,7 @@ export function createPersistenceManager(
   // Metadata document construction
   // =====================
 
-  function buildMetadataDoc(drop: GeoDrop): DropMetadataDocument {
+  function buildMetadataDoc(drop: GeoDrop, encryptionSalt: string): DropMetadataDocument {
     if (!useV2) {
       // V1 backward compatibility
       return {
@@ -56,7 +61,7 @@ export function createPersistenceManager(
         dropId: drop.id,
         geohash: drop.geohash,
         contentCid: drop.ipfs_cid ?? '',
-        encryptionSalt: drop.encryption_salt ?? '',
+        encryptionSalt,
         unlockRadiusMeters: drop.unlock_radius_meters,
         contentType: drop.content_type,
         title: drop.title,
@@ -70,7 +75,7 @@ export function createPersistenceManager(
       dropId: drop.id,
       geohash: drop.geohash,
       contentCid: drop.ipfs_cid ?? '',
-      encryptionSalt: drop.encryption_salt ?? '',
+      encryptionSalt,
       unlockRadiusMeters: drop.unlock_radius_meters,
       contentType: drop.content_type,
       title: drop.title,
@@ -115,13 +120,12 @@ export function createPersistenceManager(
   // =====================
 
   return {
-    async persist(drop, level, recoverySecret?) {
+    async persist(drop, level, recoverySecret?, encryptionSalt?) {
       const result: PersistenceResult = { level };
 
       if (level === 'db-only') return result;
 
-      // Build metadata document
-      const doc = buildMetadataDoc(drop);
+      const doc = buildMetadataDoc(drop, recoverySecret ? (encryptionSalt ?? drop.encryption_salt ?? '') : '');
       let content: string;
       if (recoverySecret) {
         if (recoverySecret.length < 16) {

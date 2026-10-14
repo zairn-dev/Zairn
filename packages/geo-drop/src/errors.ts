@@ -30,7 +30,12 @@ export type GeoDropErrorCode =
   | 'IPFS_INTEGRITY_FAILED'
   | 'ENCRYPTION_ERROR'
   | 'SIGNER_REQUIRED'
-  | 'CHAIN_REQUIRED';
+  | 'CHAIN_REQUIRED'
+  | 'ALREADY_CLAIMED'
+  | 'RATE_LIMITED'
+  | 'SERVER_UNLOCK_REQUIRED'
+  | 'SERVER_CREATE_REQUIRED'
+  | 'SERVER_ERROR';
 
 export class GeoDropError extends Error {
   readonly code: GeoDropErrorCode;

@@ -5,7 +5,10 @@
  * detecting degraded/missing pins, and re-pinning content.
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { IpfsClient } from './ipfs';
+import { IpfsClient, CID_RE } from './ipfs';
+
+/** Largest object re-pinned from a gateway (matches the client fetch limit). */
+const MAX_REPIN_BYTES = 10 * 1024 * 1024;
 
 // ---------------------------------------------------------------------------
 // Types
@@ -107,6 +110,27 @@ const PAGE_SIZE = 500;
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+/** Read a response body, aborting once it exceeds maxBytes. */
+async function readBlobWithLimit(res: Response, maxBytes: number): Promise<Blob> {
+  const declared = Number(res.headers.get('content-length') ?? 'NaN');
+  if (Number.isFinite(declared) && declared > maxBytes) throw new Error('Content too large to re-pin');
+  if (!res.body) return res.blob();
+  const reader = res.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > maxBytes) {
+      await reader.cancel().catch(() => undefined);
+      throw new Error('Content too large to re-pin');
+    }
+    chunks.push(value);
+  }
+  return new Blob(chunks as BlobPart[]);
+}
 
 /**
  * Fetch with an AbortController-based timeout.
@@ -254,7 +278,9 @@ export async function auditDropPins(
       hasMore = false;
     } else {
       for (const row of data) {
-        if (row.ipfs_cid) {
+        // ipfs_cid is creator-controlled and is interpolated into gateway
+        // URLs below, so anything that is not a plain CID is skipped.
+        if (row.ipfs_cid && CID_RE.test(row.ipfs_cid)) {
           drops.push({ id: row.id, ipfs_cid: row.ipfs_cid });
         }
       }
@@ -363,14 +389,18 @@ export async function repinMissing(
     try {
       // Fetch the raw content.
       const url = `${reachableGw.gateway.replace(/\/+$/, '')}/${entry.cid}`;
-      const res = await globalThis.fetch(url);
+      const res = await globalThis.fetch(url, { redirect: 'error' });
       if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
-      const blob = await res.blob();
+      const blob = await readBlobWithLimit(res, MAX_REPIN_BYTES);
 
-      // Re-upload to each redundant pinner.
+      // Re-upload to each redundant pinner. A different resulting CID means
+      // the gateway served other bytes than the drop references.
       for (const pinner of redundantPinners) {
         try {
-          await pinner.upload(blob);
+          const pinned = await pinner.upload(blob);
+          if (pinned.cid !== entry.cid) {
+            throw new Error(`Re-pinned content hashes to ${pinned.cid}, expected ${entry.cid}`);
+          }
           details.push({
             cid: entry.cid,
             dropId: entry.dropId,

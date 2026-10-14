@@ -7,6 +7,30 @@ import type { IpfsConfig, IpfsUploadResult } from './types';
 
 // Base58btc alphabet (used by IPFS CIDv0)
 const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+
+/** Default UnixFS chunk size; files up to this size are a single dag-pb block. */
+const UNIXFS_CHUNK_SIZE = 262_144;
+
+function protobufVarint(n: number): number[] {
+  const out: number[] = [];
+  while (n >= 0x80) {
+    out.push((n & 0x7f) | 0x80);
+    n >>>= 7;
+  }
+  out.push(n);
+  return out;
+}
+
+/**
+ * dag-pb block of a single-chunk UnixFS file, as kubo and pinning services
+ * produce for CIDv0: PBNode { Data: UnixFS { Type: File, Data, filesize } }.
+ */
+export function unixFsSingleBlock(data: Uint8Array): Uint8Array {
+  const unixfs = [0x08, 0x02];
+  if (data.length > 0) unixfs.push(0x12, ...protobufVarint(data.length), ...data);
+  unixfs.push(0x18, ...protobufVarint(data.length));
+  return new Uint8Array([0x0a, ...protobufVarint(unixfs.length), ...unixfs]);
+}
 function base58Decode(str: string): Uint8Array {
   const bytes: number[] = [0];
   for (const char of str) {
@@ -29,7 +53,7 @@ const DEFAULT_GATEWAY = 'https://w3s.link/ipfs';
 const MAX_FETCH_SIZE = 10 * 1024 * 1024; // 10MB
 const MAX_UPLOAD_SIZE = 10 * 1024 * 1024; // 10MB
 const MAX_ERROR_RESPONSE_SIZE = 1024;
-const CID_RE = /^(Qm[1-9A-HJ-NP-Za-km-z]{44}|b[a-z2-7]{58,})$/;
+export const CID_RE = /^(Qm[1-9A-HJ-NP-Za-km-z]{44}|b[a-z2-7]{58,})$/;
 const RETRY_DELAYS = [1000, 2000, 4000]; // exponential backoff
 
 function normalizeCustomPinningUrl(value: string): string {
@@ -180,33 +204,34 @@ export class IpfsClient {
   }
 
   /**
-   * Verify a CIDv0 (Qm...) matches the SHA-256 hash of content.
-   * CIDv0 = Base58btc(0x12 0x20 <sha256-hash>)
+   * Verify a CIDv0 (Qm...) against the fetched content.
+   *
+   * A CIDv0 is sha2-256 over the dag-pb/UnixFS block, not over the raw
+   * bytes, so hashing the content directly rejects every genuine upload.
+   * Single-block files (the default chunk size, 256 KiB) are verified by
+   * rebuilding that block. Larger files form a multi-block DAG that cannot be
+   * checked from the reassembled bytes alone; those are accepted unverified —
+   * drop content is AES-GCM authenticated, so tampering still fails to
+   * decrypt. Malformed CIDs and verification errors fail closed.
    */
   private async verifyCidV0(cid: string, content: string): Promise<boolean> {
     try {
-      // Decode base58btc
       const decoded = base58Decode(cid);
       // CIDv0 format: 0x12 (sha2-256) 0x20 (32 bytes) <hash>
-      if (decoded.length !== 34 || decoded[0] !== 0x12 || decoded[1] !== 0x20) {
-        return true; // Not a standard CIDv0 sha2-256, skip verification
-      }
+      if (decoded.length !== 34 || decoded[0] !== 0x12 || decoded[1] !== 0x20) return false;
       const expectedHash = decoded.slice(2);
 
-      // Hash the content
-      const encoder = new TextEncoder();
-      const data = encoder.encode(content);
-      const hashBuffer = await globalThis.crypto.subtle.digest('SHA-256', data);
-      const actualHash = new Uint8Array(hashBuffer);
+      const data = new TextEncoder().encode(content);
+      if (data.length > UNIXFS_CHUNK_SIZE) return true;
 
-      // Compare
+      const block = unixFsSingleBlock(data);
+      const actualHash = new Uint8Array(await globalThis.crypto.subtle.digest('SHA-256', block as BufferSource));
       if (actualHash.length !== expectedHash.length) return false;
-      for (let i = 0; i < actualHash.length; i++) {
-        if (actualHash[i] !== expectedHash[i]) return false;
-      }
-      return true;
+      let diff = 0;
+      for (let i = 0; i < actualHash.length; i++) diff |= actualHash[i] ^ expectedHash[i];
+      return diff === 0;
     } catch {
-      return true; // On error, don't block (best-effort verification)
+      return false;
     }
   }
 

@@ -13,12 +13,10 @@ import type {
   DropStats,
   NearbyDrop,
   NftMetadata,
-  IpfsUploadResult,
   LocationProof,
   ProofConfig,
   ProofMethodType,
   ProofSubmission,
-  VerificationResult,
   RecoveredDrop,
   PersistenceLevel,
   StepUpRequired,
@@ -28,15 +26,15 @@ import type {
 import { IpfsClient } from './ipfs';
 import { encrypt, decrypt, hashPassword, verifyPassword, deriveLocationKey, CURRENT_KEY_VERSION } from './crypto';
 import type { KeyDerivationVersion } from './crypto';
-import { calculateDistance, encodeGeohash, decodeGeohash, isMovementRealistic, geohashNeighbors } from './geofence';
+import { calculateDistance, encodeGeohash, decodeGeohash, geohashNeighbors } from './geofence';
 import { computeTrustScore, gateTrustScore } from './trust-scorer';
 import type { LocationPoint } from './types';
 import { createVerificationEngine } from './verification';
 import { createPersistenceManager } from './persistence';
 import { createChainClient } from './chain';
 import { GeoDropError } from './errors';
+import type { GeoDropErrorCode } from './errors';
 import {
-  createSession as createSbppSession,
   SbppSessionStore,
   sbppSearch,
   sbppMatch,
@@ -81,6 +79,37 @@ async function sanitizeProofConfig(
   };
 }
 
+/** Map a create-drop error response to a GeoDropError code. */
+function createErrorCode(status: number): GeoDropErrorCode {
+  if (status === 400) return 'INVALID_INPUT';
+  if (status === 401) return 'NOT_AUTHENTICATED';
+  if (status === 429) return 'RATE_LIMITED';
+  return 'SERVER_ERROR';
+}
+
+/** Map an unlock-drop error response to a GeoDropError code. */
+function serverErrorCode(status: number, code: string | undefined): GeoDropErrorCode {
+  switch (code) {
+    case 'already_claimed': return 'ALREADY_CLAIMED';
+    case 'max_claims_reached': return 'DROP_MAX_CLAIMS';
+    case 'password_required': return 'PASSWORD_REQUIRED';
+    case 'incorrect_password': return 'PASSWORD_INCORRECT';
+    case 'trust_denied': return 'SUSPICIOUS_MOVEMENT';
+    case 'too_many_attempts': return 'RATE_LIMITED';
+    case 'too_far': return 'VERIFICATION_FAILED';
+  }
+  if (status === 401) return 'NOT_AUTHENTICATED';
+  if (status === 404) return 'DROP_NOT_FOUND';
+  if (status === 429) return 'RATE_LIMITED';
+  if (status === 400) return 'INVALID_INPUT';
+  return 'VERIFICATION_FAILED';
+}
+
+// Columns clients may read. Encryption material (encryption_salt,
+// password_hash, encrypted_content, proof_secret_hashes, ...) is withheld by
+// column GRANTs and only read server-side by the unlock-drop Edge Function.
+const GEO_DROP_PUBLIC_COLUMNS = 'id,creator_id,title,description,content_type,lat,lon,geohash,unlock_radius_meters,visibility,max_claims,claim_count,proof_config,expires_at,status,preview_url,metadata,persistence_level,metadata_cid,chain_tx_hash,ipfs_cid,encrypted,created_at,updated_at';
+
 /**
  * Main factory function for the geo-drop SDK
  */
@@ -113,6 +142,16 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       + 'Set allowInsecureNoSecret: true for development only.'
     );
   }
+
+  // Server-side creation: explicit option, or implied when the client must
+  // not hold the encryption secret (serverUnlock without encryptionSecret).
+  const serverCreateUrl: string | null = opts.serverCreate === false
+    ? null
+    : typeof opts.serverCreate === 'string'
+      ? opts.serverCreate
+      : opts.serverCreate === true || (opts.serverUnlock && !encryptionSecret)
+        ? `${opts.supabaseUrl}/functions/v1/create-drop`
+        : null;
 
   /** Resolve secret for a specific version (for decryption of old drops) */
   const getSecretForVersion = (version: number): string | undefined => {
@@ -189,22 +228,6 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     });
   };
 
-  const checkAntiSpoof = async (userId: string, lat: number, lon: number): Promise<void> => {
-    const { data: logs } = await supabase
-      .from('drop_location_logs')
-      .select('lat, lon, created_at')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(1);
-
-    if (logs && logs.length > 0) {
-      const prev = logs[0];
-      if (!isMovementRealistic(prev.lat, prev.lon, prev.created_at, lat, lon, new Date().toISOString())) {
-        throw new Error('Suspicious movement detected. Location change too fast.');
-      }
-    }
-  };
-
   // =====================
   // Drop creation
   // =====================
@@ -224,6 +247,90 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       throw new RangeError(`max_claims must be at least 1 (got ${data.max_claims})`);
     }
 
+    const contentStr = typeof content === 'string' ? content : await new Response(content).text();
+
+    let createdDrop: GeoDrop;
+    let encSaltStr: string | undefined;
+    if (serverCreateUrl) {
+      createdDrop = await createDropOnServer(serverCreateUrl, data, contentStr);
+    } else {
+      ({ drop: createdDrop, encSaltStr } = await createDropLocally(data, contentStr));
+    }
+
+    // Persistence (save metadata outside DB). Server-created drops have no
+    // client-known salt, so their metadata never carries one.
+    const level = data.persistence ?? defaultPersistenceLevel;
+    if (level !== 'db-only') {
+      try {
+        const pResult = await persistenceManager.persist(createdDrop, level, data.recoverySecret, encSaltStr);
+        // Also record persistence info in DB (for reference; not required for recovery)
+        await supabase
+          .from('geo_drops')
+          .update({
+            persistence_level: pResult.level,
+            metadata_cid: pResult.metadataCid ?? null,
+            chain_tx_hash: pResult.txHash ?? null,
+            pin_status: pResult.pinResults ?? null,
+          })
+          .eq('id', createdDrop.id);
+        createdDrop.persistence_level = pResult.level;
+        createdDrop.metadata_cid = pResult.metadataCid;
+        createdDrop.chain_tx_hash = pResult.txHash;
+      } catch (e) {
+        if (persistenceStrict) throw e;
+        // If not strict, drop is already saved in DB so continue
+      }
+    }
+
+    return createdDrop;
+  };
+
+  /** Server-side encryption via the create-drop Edge Function. */
+  const createDropOnServer = async (url: string, data: GeoDropCreate, contentStr: string): Promise<GeoDrop> => {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: await getAuthHeaders(),
+      body: JSON.stringify({
+        title: data.title,
+        description: data.description,
+        content_type: data.content_type,
+        content: contentStr,
+        lat: data.lat,
+        lon: data.lon,
+        unlock_radius_meters: data.unlock_radius_meters,
+        visibility: data.visibility,
+        password: data.password,
+        max_claims: data.max_claims,
+        expires_at: data.expires_at?.toISOString(),
+        metadata: data.metadata,
+        shared_with: data.shared_with,
+        proof_config: data.proof_config,
+        storage: hasIpfs ? 'ipfs' : 'db',
+      }),
+    });
+    const body = await res.json().catch(() => ({})) as { drop?: GeoDrop; error?: string };
+    if (!res.ok || !body.drop) {
+      throw new GeoDropError(createErrorCode(res.status), body.error ?? res.statusText, { status: res.status });
+    }
+    return body.drop;
+  };
+
+  /**
+   * Client-side encryption, for trusted backends that hold encryptionSecret.
+   * Without the server secret the content key would be derivable from the
+   * drop's own columns, and unlock-drop (which always mixes the secret in)
+   * could never decrypt it.
+   */
+  const createDropLocally = async (
+    data: GeoDropCreate,
+    contentStr: string,
+  ): Promise<{ drop: GeoDrop; encSaltStr: string }> => {
+    if (!encryptionSecret && !opts.allowInsecureNoSecret) {
+      throw new GeoDropError('ENCRYPTION_ERROR',
+        'Creating a drop requires encryptionSecret (the GEODROP_ENCRYPTION_SECRET used by unlock-drop). '
+        + 'Create drops from a trusted backend that holds it, or use serverCreate (create-drop Edge Function).');
+    }
+
     const userId = await getUserId();
     const geohash = encodeGeohash(data.lat, data.lon);
 
@@ -233,7 +340,6 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
     const dropId = crypto.randomUUID();
 
     // Encrypt content
-    const contentStr = typeof content === 'string' ? content : await new Response(content).text();
     const encSalt = crypto.getRandomValues(new Uint8Array(16));
     const encSaltStr = Array.from(encSalt).map(b => b.toString(16).padStart(2, '0')).join('');
     const keyVersion = CURRENT_KEY_VERSION;
@@ -287,9 +393,14 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         encryption_algorithm: 'aes-256-gcm',
         server_secret_version: currentSecretVersion,
       })
-      .select()
+      .select(GEO_DROP_PUBLIC_COLUMNS)
       .single();
 
+    if (error?.code === '42501') {
+      // The hardened schema only lets the create-drop Edge Function insert drops.
+      throw new GeoDropError('SERVER_CREATE_REQUIRED',
+        'This database only accepts drops created by the create-drop Edge Function. Enable serverCreate.');
+    }
     if (error) throw error;
     const createdDrop = drop as GeoDrop;
 
@@ -300,40 +411,12 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       );
     }
 
-    // Persistence (save metadata outside DB)
-    const level = data.persistence ?? defaultPersistenceLevel;
-    if (level !== 'db-only') {
-      try {
-        const pResult = await persistenceManager.persist(createdDrop, level, data.recoverySecret);
-        // Also record persistence info in DB (for reference; not required for recovery)
-        await supabase
-          .from('geo_drops')
-          .update({
-            persistence_level: pResult.level,
-            metadata_cid: pResult.metadataCid ?? null,
-            chain_tx_hash: pResult.txHash ?? null,
-            pin_status: pResult.pinResults ?? null,
-          })
-          .eq('id', createdDrop.id);
-        createdDrop.persistence_level = pResult.level;
-        createdDrop.metadata_cid = pResult.metadataCid;
-        createdDrop.chain_tx_hash = pResult.txHash;
-      } catch (e) {
-        if (persistenceStrict) throw e;
-        // If not strict, drop is already saved in DB so continue
-      }
-    }
-
-    return createdDrop;
+    return { drop: createdDrop, encSaltStr };
   };
 
   // =====================
   // Drop retrieval
   // =====================
-
-  // Exclude sensitive columns (encryption_salt, password_hash, encrypted_content)
-  // These are only accessed server-side in the unlock-drop Edge Function
-  const GEO_DROP_PUBLIC_COLUMNS = 'id,creator_id,title,description,content_type,lat,lon,geohash,unlock_radius_meters,visibility,max_claims,claim_count,proof_config,expires_at,status,preview_url,metadata,persistence_level,metadata_cid,chain_tx_hash,ipfs_cid,encrypted,created_at,updated_at';
 
   const getDrop = async (dropId: string): Promise<GeoDrop | null> => {
     const { data, error } = await supabase
@@ -363,7 +446,7 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
 
   const deleteDrop = async (dropId: string): Promise<void> => {
     const userId = await getUserId();
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('geo_drops')
       .update({ status: 'deleted', updated_at: new Date().toISOString() })
       .eq('id', dropId)
@@ -503,8 +586,23 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
         body: JSON.stringify({ drop_id: dropId, lat, lon, accuracy, password, proofs }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: res.statusText })) as { error: string };
-        throw new Error(err.error);
+        const err = await res.json().catch(() => ({ error: res.statusText })) as {
+          error?: string; code?: string; step_up_options?: string[];
+          distance_meters?: number; required_radius?: number;
+        };
+        if (err.code === 'step_up_required') {
+          return {
+            type: 'step-up-required',
+            reason: 'Additional verification needed to confirm your location.',
+            availableMethods: (err.step_up_options ?? []) as ProofMethodType[],
+            dropId,
+          } satisfies StepUpRequired;
+        }
+        throw new GeoDropError(
+          serverErrorCode(res.status, err.code),
+          err.error ?? res.statusText,
+          { dropId, status: res.status, distanceMeters: err.distance_meters, requiredRadius: err.required_radius },
+        );
       }
       const result = await res.json();
       // Server may return the legacy format (no type field) — normalize
@@ -569,6 +667,13 @@ export function createGeoDrop(opts: GeoDropOptions): GeoDropSDK {
       .select('*')
       .eq('id', dropId)
       .single();
+    if (dropError && dropError.code === '42501') {
+      // The schema withholds encryption material and claim writes from
+      // clients, so this path only works against an unhardened database.
+      throw new GeoDropError('SERVER_UNLOCK_REQUIRED',
+        'Client-side unlock cannot read sealed drop columns on this database. Configure serverUnlock (unlock-drop Edge Function).',
+        { dropId });
+    }
     if (dropError && dropError.code === 'PGRST116') throw new GeoDropError('DROP_NOT_FOUND', 'Drop not found or you do not have permission to access it.', { dropId });
     if (dropError) throw dropError;
     if (!drop) throw new GeoDropError('DROP_NOT_FOUND', 'Drop not found.', { dropId });
