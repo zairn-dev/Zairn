@@ -85,7 +85,32 @@ function scoreTemporalConsistency(current: LocationPoint, history: LocationPoint
   return 0.0;
 }
 
+// Mirrors packages/sdk/src/trust-scorer.ts: malformed input scores as
+// spoofed rather than falling through to default "trusted" sub-scores
+// (e.g. an unparseable timestamp used to yield temporalConsistency = 1).
+function isValidCoordinate(lat: number, lon: number): boolean {
+  return Number.isFinite(lat) && lat >= -90 && lat <= 90 &&
+    Number.isFinite(lon) && lon >= -180 && lon <= 180;
+}
+
+function isValidLocationPoint(point: LocationPoint): boolean {
+  return isValidCoordinate(point.lat, point.lon) &&
+    (point.accuracy === null || (Number.isFinite(point.accuracy) && point.accuracy >= 0)) &&
+    typeof point.timestamp === 'string' && Number.isFinite(Date.parse(point.timestamp));
+}
+
+function invalidTrustScore(): TrustScoreResult {
+  return {
+    trustScore: 0,
+    spoofingSuspected: true,
+    signals: { movementPlausibility: 0, accuracyAnomaly: 0, temporalConsistency: 0 },
+  };
+}
+
 export function computeTrustScore(current: LocationPoint, history: LocationPoint[]): TrustScoreResult {
+  if (!isValidLocationPoint(current) || !history.every(isValidLocationPoint)) {
+    return invalidTrustScore();
+  }
   const movementPlausibility = scoreMovement(current, history);
   const accuracyAnomaly = scoreAccuracy(current);
   const temporalConsistency = scoreTemporalConsistency(current, history);
@@ -107,6 +132,10 @@ export function gateTrustScore(
 ): 'proceed' | 'step-up' | 'deny' {
   const proceed = thresholds?.proceed ?? 0.7;
   const stepUp = thresholds?.stepUp ?? 0.3;
+  if (!(stepUp >= 0 && stepUp <= proceed && proceed <= 1)) {
+    throw new RangeError('Trust thresholds must satisfy 0 <= stepUp <= proceed <= 1');
+  }
+  if (!Number.isFinite(result.trustScore)) return 'deny';
   if (result.trustScore >= proceed) return 'proceed';
   if (result.trustScore >= stepUp) return 'step-up';
   return 'deny';
