@@ -394,7 +394,8 @@ async function main() {
   const output = {
     network: CHAIN_NAME,
     chainId,
-    rpcUrl: RPC_URL,
+    // Provider URLs embed the API key in the path/query; record only the host.
+    rpcHost: new URL(RPC_URL).host,
     adminAddress: ADMIN_ADDRESS,
     implementation: {
       address: impl.address,

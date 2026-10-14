@@ -1,6 +1,7 @@
-# Environment
+# Environment (every .env variant; examples stay tracked)
 .env
-.env.local
+.env.*
+!.env.example
 
 # Dependencies
 node_modules/
@@ -45,6 +46,11 @@ deno.lock
 # TLS / secrets
 *.crt
 *.key
+*.pem
+*.p12
+*.pfx
+*.keystore
+*.jks
 
 # Generated evaluation results (reproducible from scripts)
 packages/geo-drop/test/*-2026-*.json
