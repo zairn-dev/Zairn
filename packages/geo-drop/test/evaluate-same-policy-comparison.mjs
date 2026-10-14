@@ -92,42 +92,64 @@ const NONCE_POLICIES = {
 // ─── Security Analysis (deterministic) ───────────────────────────
 
 /**
- * Determine Scenario F/G outcomes for each (strategy, nonce-policy) pair.
+ * Determine Scenario F/G outcomes for each (strategy, nonce-policy) pair,
+ * under the single consistent adversary model of the paper (§III-F, Def. 2):
+ * the adversary holds a recorded transcript AND has a challenge oracle —
+ * it can legitimately request fresh challenges/tokens for the target drop.
  *
- * Scenario F (cross-session): attacker replays proof from a different session.
- *   - Different session → different nonce → all strategies reject.
+ * Binding mechanics per strategy:
+ *   - 2c-hardened (HYBRID): the issued challenge digest is a Groth16 public
+ *     signal (pub[7]); the server checks nonce→drop mapping + pub[7] against
+ *     the stored digest. Session binding is in-statement; drop binding is
+ *     operational (per-request nonce uniqueness + mapping).
+ *   - 2d (purely off-circuit): geo-only proof + signed token; NOTHING binds
+ *     the transcript to the token, so a freshly issued token for the target
+ *     drop pairs cleanly with a replayed proof — under EITHER nonce policy.
+ *   - 3a: nonce digest in-statement (level ii), no context digest.
+ *   - 3b: context digest + nonce in-statement (level iii).
  *
- * Scenario G (same-epoch, cross-drop): attacker reuses proof for different drop
- *   in the same epoch with shared nonce.
- *   - Epoch-derived nonce: all drops share the same nonce within an epoch.
- *     - 2c-hardened: REJECT — pub[7] check catches cross-drop (digest is per-drop)
- *     - 2d: ACCEPT — signed token covers session nonce, not drop identity;
- *           token is valid for any drop in the epoch
- *     - 3a: ACCEPT — no context digest; pub = (1, geo, epoch, N) is identical
- *           for co-located drops (Lemma 1)
- *     - 3b: REJECT — context digest C differs per drop
- *   - Per-request nonce: each drop gets a unique nonce.
- *     - All strategies: REJECT — nonces differ, so replay is caught
+ * Scenario F (cross-session): attacker replays a transcript from a prior
+ *   session against the target drop.
+ *   - 2c-hardened: REJECT — pub[7] = old digest ≠ digest stored for any
+ *     currently valid issuance.
+ *   - 2d: ACCEPT — adversary requests a fresh token for the target drop;
+ *     the geo-only proof carries no nonce to mismatch.
+ *   - 3a/3b: REJECT — in-statement N differs across sessions.
+ *
+ * Scenario G (same-epoch, cross-drop): attacker reuses a transcript for a
+ *   co-located drop in the same epoch.
+ *   - Epoch-derived nonce (shared within epoch):
+ *     - 2c-hardened: ACCEPT — the epoch-shared digest is NOT drop-unique, so
+ *       the pub[7] check cannot distinguish co-located drops.
+ *     - 2d: ACCEPT — token does not cover drop identity (and is unbound).
+ *     - 3a: ACCEPT — pub = (1, geo, epoch, N) identical (Lemma 1).
+ *     - 3b: REJECT — context digest C differs per drop.
+ *   - Per-request nonce (unique per issuance):
+ *     - 2c-hardened: REJECT — pub[7] pins the transcript to one issuance,
+ *       and the mapping pins that issuance to one drop.
+ *     - 2d: ACCEPT — fresh valid token for the target drop; the per-request
+ *       nonce is not in the proof, so uniqueness buys nothing.
+ *     - 3a/3b: REJECT — in-statement N differs per issuance.
  */
 function securityOutcome(strategyId, noncePolicy) {
-  // Scenario F: always reject (cross-session → different nonce)
-  const scenarioF = 'REJECT';
+  // Scenario F: 2d accepts (fresh token acquirable, transcript unbound);
+  // every strategy with an in-statement challenge value rejects.
+  const scenarioF = strategyId === '2d' ? 'ACCEPT' : 'REJECT';
 
   // Scenario G: depends on strategy + nonce policy
   let scenarioG;
   if (noncePolicy === 'per-request') {
-    // Per-request nonces make Scenario G irrelevant for all strategies
-    scenarioG = 'REJECT';
+    // Per-request nonces block G only where the challenge is in-statement
+    scenarioG = strategyId === '2d' ? 'ACCEPT' : 'REJECT';
   } else {
-    // Epoch-derived: Scenario G depends on binding location + mechanism
+    // Epoch-derived: shared nonce/digest within the epoch
     switch (strategyId) {
       case '2c-hardened':
-        // pub[7] is drop-specific challenge digest → catches cross-drop
-        scenarioG = 'REJECT';
+        // Epoch-shared digest is not drop-unique → pub[7] check passes
+        scenarioG = 'ACCEPT';
         break;
       case '2d':
         // Signed token covers (session_nonce, epoch) but NOT drop identity
-        // All drops share the same signed token within an epoch
         scenarioG = 'ACCEPT';
         break;
       case '3a':
@@ -226,9 +248,10 @@ function main() {
       results.push(row);
 
       // Format row
+      const scFMark = scenarioF === 'ACCEPT' ? '⚠ ACC.' : 'REJECT';
       const scGMark = scenarioG === 'ACCEPT' ? '⚠ ACCEPT' : '  REJECT';
       console.log(
-        `  ${strategy.label.padEnd(10)} | ${noncePolicyDef.label.padEnd(7)} | REJECT | ${scGMark} |   ${strategy.opsAssumptions}   | ${strategy.stateClass.padEnd(7)} |  ${String(noncePolicyDef.roundTrips).padStart(2)} | ${latency.total}`
+        `  ${strategy.label.padEnd(10)} | ${noncePolicyDef.label.padEnd(7)} | ${scFMark} | ${scGMark} |   ${strategy.opsAssumptions}   | ${strategy.stateClass.padEnd(7)} |  ${String(noncePolicyDef.roundTrips).padStart(2)} | ${latency.total}`
       );
     }
     if (noncePolicy === 'epoch') {
@@ -237,20 +260,24 @@ function main() {
   }
 
   // ─── Key findings ──────────────────────────────────────────────
-  console.log('\nKey findings:');
-  console.log('  1. Under epoch-derived nonces, only 2c-hardened and 3b resist Scenario G.');
-  console.log('     2d and 3a both accept cross-drop transfer (ACCEPT).');
-  console.log('  2. Under per-request nonces, ALL strategies resist Scenario G.');
-  console.log('     The security difference vanishes, but latency/state costs increase.');
-  console.log('  3. Holding nonce policy constant (epoch):');
+  console.log('\nKey findings (adversary = recorded transcript + challenge oracle):');
+  console.log('  1. Under epoch-derived nonces, ONLY 3b resists Scenario G.');
+  console.log('     2c-hardened\'s epoch-shared digest is not drop-unique; 2d and 3a');
+  console.log('     bind no drop identity.');
+  console.log('  2. Under per-request nonces, the strategies whose challenge value is');
+  console.log('     in-statement (2c-hardened, 3a, 3b) reject Scenario G; 2d still');
+  console.log('     accepts, because nothing binds the geo-only transcript to a token.');
+  console.log('  3. Holding nonce policy constant (per-request):');
   console.log('     - 2c-hardened: |A_op|=4, O(k·U) state, REJECT Scenario G');
   console.log('     - 3b:          |A_op|=2, O(1) state,   REJECT Scenario G');
   console.log('     → Binding location drives assumption surface (4→2) and state (O(k·U)→O(1)).');
-  console.log('  4. Holding nonce policy constant (per-request):');
-  console.log('     - All strategies reject Scenario G, but latency increases by ~(k-1)×RTT.');
-  console.log('     → Nonce policy drives latency and state; binding location drives assumptions.');
-  console.log('  5. 2d (signed-token) is stateless like 3b but does NOT resist Scenario G');
-  console.log('     under epoch nonces because the signed token does not cover drop identity.');
+  console.log('  4. Nonce policy can substitute for context binding only where the');
+  console.log('     challenge is already bound in-statement, at ~(k-1)×RTT extra latency.');
+  console.log('     → Nonce policy drives latency and state; binding location drives');
+  console.log('       assumptions and whether G is blockable at O(1) state at all.');
+  console.log('  5. 2d (signed-token) is stateless like 3b but never resists Scenario F/G:');
+  console.log('     the token is not bound to the proof, so a fresh token for the target');
+  console.log('     drop pairs with a replayed proof under either nonce policy.');
 
   // ─── Epoch-only comparison (for paper table) ───────────────────
   console.log('\n─── Epoch-derived comparison (paper table) ─────────────────');
