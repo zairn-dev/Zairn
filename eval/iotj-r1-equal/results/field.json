@@ -1,0 +1,2655 @@
+{
+  "generated": "2026-11-12T13:08:23.170Z",
+  "note": "Aggregates only. Raw traces stay outside the repository. V2r = V2 with S2 (1 m cutoff) and S4 (15 s window, detrended) revised.",
+  "thetaP": [
+    0.7,
+    0.9
+  ],
+  "thetaS": 0.3,
+  "windowS": 600,
+  "sessions": [
+    {
+      "id": "2026-11-08",
+      "minutes": 110.98,
+      "segments": [
+        {
+          "env": "outdoor walk",
+          "minutes": 14.64
+        },
+        {
+          "env": "indoor",
+          "minutes": 31.75
+        },
+        {
+          "env": "outdoor walk",
+          "minutes": 1.68
+        },
+        {
+          "env": "outdoor walk",
+          "minutes": 4.58
+        },
+        {
+          "env": "outdoor walk",
+          "minutes": 10.31
+        },
+        {
+          "env": "indoor",
+          "minutes": 30.61
+        },
+        {
+          "env": "outdoor walk",
+          "minutes": 17.41
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09",
+      "minutes": 64.73,
+      "segments": [
+        {
+          "env": "urban walk",
+          "minutes": 8.61
+        },
+        {
+          "env": "surface platform",
+          "minutes": 1.93
+        },
+        {
+          "env": "surface train",
+          "minutes": 20.05
+        },
+        {
+          "env": "underground platform",
+          "minutes": 4.4
+        },
+        {
+          "env": "underground train",
+          "minutes": 25.02
+        },
+        {
+          "env": "surface platform",
+          "minutes": 1.14
+        },
+        {
+          "env": "outdoor walk",
+          "minutes": 3.58
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12",
+      "minutes": 89.64,
+      "segments": [
+        {
+          "env": "outdoor walk",
+          "minutes": 3.76
+        },
+        {
+          "env": "surface platform",
+          "minutes": 7.06
+        },
+        {
+          "env": "mixed train",
+          "minutes": 40.1
+        },
+        {
+          "env": "underground platform",
+          "minutes": 6.28
+        },
+        {
+          "env": "surface train",
+          "minutes": 12.61
+        },
+        {
+          "env": "surface platform",
+          "minutes": 1.4
+        },
+        {
+          "env": "urban walk",
+          "minutes": 8.08
+        },
+        {
+          "env": "indoor",
+          "minutes": 10.36
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-pm",
+      "minutes": 83.88,
+      "segments": [
+        {
+          "env": "indoor",
+          "minutes": 11.09
+        },
+        {
+          "env": "urban walk",
+          "minutes": 10.18
+        },
+        {
+          "env": "surface platform",
+          "minutes": 4.7
+        },
+        {
+          "env": "surface train",
+          "minutes": 11.5
+        },
+        {
+          "env": "underground platform",
+          "minutes": 12.71
+        },
+        {
+          "env": "mixed train",
+          "minutes": 29.5
+        },
+        {
+          "env": "surface platform",
+          "minutes": 1
+        },
+        {
+          "env": "outdoor walk",
+          "minutes": 3.21
+        }
+      ]
+    }
+  ],
+  "streams": [
+    {
+      "session": "2026-11-08",
+      "stream": "web (iPhone)",
+      "device": "iPhone 16 Pro",
+      "fixes": 2922,
+      "scoredFixes": 2921,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-08",
+      "stream": "web-equivalent (Android FLP)",
+      "device": "POCO X7 Pro",
+      "fixes": 6815,
+      "scoredFixes": 6814,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-08",
+      "stream": "native (Android GPS)",
+      "device": "POCO X7 Pro",
+      "fixes": 4224,
+      "scoredFixes": 4223,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-09",
+      "stream": "web (iPhone)",
+      "device": "iPhone 16 Pro",
+      "fixes": 2297,
+      "scoredFixes": 2296,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-09",
+      "stream": "web-equivalent (Android FLP)",
+      "device": "POCO X7 Pro",
+      "fixes": 2931,
+      "scoredFixes": 2930,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-09",
+      "stream": "native (Android GPS)",
+      "device": "POCO X7 Pro",
+      "fixes": 1943,
+      "scoredFixes": 1942,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-09",
+      "stream": "web-equivalent (Android FLP)",
+      "device": "Jelly Star",
+      "fixes": 2618,
+      "scoredFixes": 2617,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-09",
+      "stream": "native (Android GPS)",
+      "device": "Jelly Star",
+      "fixes": 1727,
+      "scoredFixes": 1726,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12",
+      "stream": "web (iPhone)",
+      "device": "iPhone 16 Pro",
+      "fixes": 3951,
+      "scoredFixes": 3950,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12",
+      "stream": "web-equivalent (Android FLP)",
+      "device": "POCO X7 Pro",
+      "fixes": 5194,
+      "scoredFixes": 5193,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12",
+      "stream": "native (Android GPS)",
+      "device": "POCO X7 Pro",
+      "fixes": 3778,
+      "scoredFixes": 3777,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12",
+      "stream": "web-equivalent (Android FLP)",
+      "device": "Jelly Star",
+      "fixes": 4707,
+      "scoredFixes": 4706,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12",
+      "stream": "native (Android GPS)",
+      "device": "Jelly Star",
+      "fixes": 3564,
+      "scoredFixes": 3563,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0.2
+    },
+    {
+      "session": "2026-11-12-pm",
+      "stream": "web (iPhone)",
+      "device": "iPhone 16 Pro",
+      "fixes": 2606,
+      "scoredFixes": 2605,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12-pm",
+      "stream": "web-equivalent (Android FLP)",
+      "device": "nubia Z80 Ultra",
+      "fixes": 4111,
+      "scoredFixes": 4110,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12-pm",
+      "stream": "native (Android GPS)",
+      "device": "nubia Z80 Ultra",
+      "fixes": 2339,
+      "scoredFixes": 2338,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12-pm",
+      "stream": "web-equivalent (Android FLP)",
+      "device": "POCO X7 Pro",
+      "fixes": 3666,
+      "scoredFixes": 3665,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12-pm",
+      "stream": "native (Android GPS)",
+      "device": "POCO X7 Pro",
+      "fixes": 2078,
+      "scoredFixes": 2077,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12-pm",
+      "stream": "web-equivalent (Android FLP)",
+      "device": "Jelly Star",
+      "fixes": 3749,
+      "scoredFixes": 3748,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    },
+    {
+      "session": "2026-11-12-pm",
+      "stream": "native (Android GPS)",
+      "device": "Jelly Star",
+      "fixes": 2318,
+      "scoredFixes": 2317,
+      "droppedDuplicateTimestamps": 0,
+      "accuracyBelow1m": 0
+    }
+  ],
+  "fixTails": {
+    "web (iPhone)": {
+      "outdoor": {
+        "fixes": 5410,
+        "V1": {
+          "below07": 0.06,
+          "below09": 0.35,
+          "min": 0.53
+        },
+        "V2": {
+          "below07": 0.06,
+          "below09": 0.17,
+          "min": 0.65
+        },
+        "V2r": {
+          "below07": 0.06,
+          "below09": 0.13,
+          "min": 0.65
+        },
+        "accuracy": {
+          "p50": 14.25,
+          "p95": 18.18
+        },
+        "accuracyAbove": {
+          "25": 1.35,
+          "50": 0.22,
+          "100": 0
+        },
+        "V2rLowCauses": {
+          "movementPlausibility": 71.43,
+          "temporalConsistency": 100,
+          "fixConsistency": 14.29
+        },
+        "minutes": 103.26,
+        "noFixMinutes": 1.06
+      },
+      "all": {
+        "fixes": 11772,
+        "V1": {
+          "below07": 3.15,
+          "below09": 5.56,
+          "min": 0.13
+        },
+        "V2": {
+          "below07": 2.58,
+          "below09": 12.08,
+          "min": 0.35
+        },
+        "V2r": {
+          "below07": 2.68,
+          "below09": 5.18,
+          "min": 0.13
+        },
+        "accuracy": {
+          "p50": 14.25,
+          "p95": 330.28
+        },
+        "accuracyAbove": {
+          "25": 13.55,
+          "50": 8.54,
+          "100": 6.65
+        },
+        "V2rLowCauses": {
+          "movementPlausibility": 40,
+          "temporalConsistency": 73.28,
+          "fixConsistency": 5.08,
+          "accuracyAnomaly": 91.15
+        },
+        "minutes": 349.23,
+        "noFixMinutes": 40.48
+      },
+      "indoor": {
+        "fixes": 1808,
+        "V1": {
+          "below07": 0.17,
+          "below09": 1.16,
+          "min": 0.53
+        },
+        "V2": {
+          "below07": 0.17,
+          "below09": 0.5,
+          "min": 0.62
+        },
+        "V2r": {
+          "below07": 0.17,
+          "below09": 0.55,
+          "min": 0.58
+        },
+        "accuracy": {
+          "p50": 9.49,
+          "p95": 22.58
+        },
+        "accuracyAbove": {
+          "25": 2.43,
+          "50": 0.39,
+          "100": 0.11
+        },
+        "V2rLowCauses": {
+          "movementPlausibility": 50,
+          "temporalConsistency": 90,
+          "fixConsistency": 40
+        },
+        "minutes": 83.81,
+        "noFixMinutes": 4.13
+      },
+      "surface train": {
+        "fixes": 1892,
+        "V1": {
+          "below07": 6.82,
+          "below09": 13.32,
+          "min": 0.13
+        },
+        "V2": {
+          "below07": 6.29,
+          "below09": 32.35,
+          "min": 0.35
+        },
+        "V2r": {
+          "below07": 6.13,
+          "below09": 12.42,
+          "min": 0.13
+        },
+        "accuracy": {
+          "p50": 14.83,
+          "p95": 1027.62
+        },
+        "accuracyAbove": {
+          "25": 37.95,
+          "50": 25.79,
+          "100": 19.87
+        },
+        "V2rLowCauses": {
+          "movementPlausibility": 43.4,
+          "accuracyAnomaly": 91.06,
+          "temporalConsistency": 68.51,
+          "fixConsistency": 7.23
+        },
+        "minutes": 44.16,
+        "noFixMinutes": 2.39
+      },
+      "underground": {
+        "fixes": 704,
+        "V1": {
+          "below07": 16.9,
+          "below09": 25,
+          "min": 0.13
+        },
+        "V2": {
+          "below07": 13.21,
+          "below09": 24.29,
+          "min": 0.35
+        },
+        "V2r": {
+          "below07": 14.35,
+          "below09": 24.43,
+          "min": 0.13
+        },
+        "accuracy": {
+          "p50": 27.86,
+          "p95": 1414
+        },
+        "accuracyAbove": {
+          "25": 56.11,
+          "50": 34.09,
+          "100": 26.85
+        },
+        "V2rLowCauses": {
+          "accuracyAnomaly": 92.44,
+          "movementPlausibility": 41.28,
+          "temporalConsistency": 81.4,
+          "fixConsistency": 5.23
+        },
+        "minutes": 48.41,
+        "noFixMinutes": 12.19
+      },
+      "mixed train": {
+        "fixes": 1958,
+        "V1": {
+          "below07": 5.98,
+          "below09": 9.55,
+          "min": 0.13
+        },
+        "V2": {
+          "below07": 4.39,
+          "below09": 31.72,
+          "min": 0.35
+        },
+        "V2r": {
+          "below07": 4.75,
+          "below09": 9.5,
+          "min": 0.23
+        },
+        "accuracy": {
+          "p50": 13.52,
+          "p95": 1414
+        },
+        "accuracyAbove": {
+          "25": 18.64,
+          "50": 13.18,
+          "100": 11.03
+        },
+        "V2rLowCauses": {
+          "accuracyAnomaly": 98.39,
+          "movementPlausibility": 32.8,
+          "temporalConsistency": 69.89
+        },
+        "minutes": 69.59,
+        "noFixMinutes": 20.71
+      }
+    },
+    "web-equivalent (Android FLP)": {
+      "outdoor": {
+        "fixes": 19528,
+        "V1": {
+          "below07": 0,
+          "below09": 0.8,
+          "min": 0.75
+        },
+        "V2": {
+          "below07": 0.03,
+          "below09": 1.22,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0,
+          "below09": 0.04,
+          "min": 0.7
+        },
+        "accuracy": {
+          "p50": 3.12,
+          "p95": 7.5
+        },
+        "accuracyAbove": {
+          "25": 0.09,
+          "50": 0.03,
+          "100": 0.01
+        },
+        "V2rLowCauses": {
+          "movementPlausibility": 12.5,
+          "temporalConsistency": 50,
+          "fixConsistency": 100
+        },
+        "minutes": 176.99,
+        "noFixMinutes": 13.66
+      },
+      "all": {
+        "fixes": 33783,
+        "V1": {
+          "below07": 0,
+          "below09": 5.24,
+          "min": 0.67
+        },
+        "V2": {
+          "below07": 0.52,
+          "below09": 18.06,
+          "min": 0.58
+        },
+        "V2r": {
+          "below07": 0.01,
+          "below09": 0.23,
+          "min": 0.65
+        },
+        "accuracy": {
+          "p50": 3.15,
+          "p95": 17.33
+        },
+        "accuracyAbove": {
+          "25": 2.46,
+          "50": 0.66,
+          "100": 0.19
+        },
+        "V2rLowCauses": {
+          "movementPlausibility": 10.26,
+          "temporalConsistency": 15.38,
+          "fixConsistency": 94.87,
+          "accuracyAnomaly": 7.69
+        },
+        "minutes": 671.36,
+        "noFixMinutes": 220.58
+      },
+      "indoor": {
+        "fixes": 5132,
+        "V1": {
+          "below07": 0,
+          "below09": 25.12,
+          "min": 0.77
+        },
+        "V2": {
+          "below07": 0.08,
+          "below09": 25.95,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0,
+          "below09": 0.14,
+          "min": 0.79
+        },
+        "accuracy": {
+          "p50": 3,
+          "p95": 21.91
+        },
+        "accuracyAbove": {
+          "25": 3.04,
+          "50": 0.64,
+          "100": 0.04
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 100,
+          "movementPlausibility": 14.29
+        },
+        "minutes": 116.34,
+        "noFixMinutes": 34.97
+      },
+      "surface train": {
+        "fixes": 3959,
+        "V1": {
+          "below07": 0.03,
+          "below09": 0.56,
+          "min": 0.67
+        },
+        "V2": {
+          "below07": 0.2,
+          "below09": 63.37,
+          "min": 0.58
+        },
+        "V2r": {
+          "below07": 0.05,
+          "below09": 1.11,
+          "min": 0.65
+        },
+        "accuracy": {
+          "p50": 3.65,
+          "p95": 28
+        },
+        "accuracyAbove": {
+          "25": 5.71,
+          "50": 1.54,
+          "100": 0.51
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 93.18,
+          "movementPlausibility": 9.09,
+          "temporalConsistency": 18.18,
+          "accuracyAnomaly": 6.82
+        },
+        "minutes": 99.83,
+        "noFixMinutes": 26.36
+      },
+      "underground": {
+        "fixes": 1404,
+        "V1": {
+          "below07": 0,
+          "below09": 0.78,
+          "min": 0.77
+        },
+        "V2": {
+          "below07": 0.36,
+          "below09": 4.63,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0,
+          "below09": 0.14,
+          "min": 0.88
+        },
+        "accuracy": {
+          "p50": 13.22,
+          "p95": 32.88
+        },
+        "accuracyAbove": {
+          "25": 16.74,
+          "50": 1.07,
+          "100": 0.5
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 100
+        },
+        "minutes": 109.52,
+        "noFixMinutes": 69.98
+      },
+      "mixed train": {
+        "fixes": 3760,
+        "V1": {
+          "below07": 0,
+          "below09": 7.74,
+          "min": 0.77
+        },
+        "V2": {
+          "below07": 4.12,
+          "below09": 51.99,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0.03,
+          "below09": 0.45,
+          "min": 0.67
+        },
+        "accuracy": {
+          "p50": 5.02,
+          "p95": 27.38
+        },
+        "accuracyAbove": {
+          "25": 5.21,
+          "50": 2.9,
+          "100": 0.88
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 94.12,
+          "movementPlausibility": 11.76,
+          "accuracyAnomaly": 17.65
+        },
+        "minutes": 168.68,
+        "noFixMinutes": 75.61
+      }
+    },
+    "native (Android GPS)": {
+      "outdoor": {
+        "fixes": 9483,
+        "V1": {
+          "below07": 0.01,
+          "below09": 48.13,
+          "min": 0.67
+        },
+        "V2": {
+          "below07": 1.08,
+          "below09": 51,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0,
+          "below09": 0.52,
+          "min": 0.8
+        },
+        "accuracy": {
+          "p50": 2,
+          "p95": 11.4
+        },
+        "accuracyAbove": {
+          "25": 0.58,
+          "50": 0.16,
+          "100": 0.05
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 85.71,
+          "accuracyAnomaly": 14.29
+        },
+        "minutes": 176.99,
+        "noFixMinutes": 14.47
+      },
+      "all": {
+        "fixes": 21963,
+        "V1": {
+          "below07": 0,
+          "below09": 35.65,
+          "min": 0.67
+        },
+        "V2": {
+          "below07": 1.53,
+          "below09": 55.76,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0,
+          "below09": 0.52,
+          "min": 0.8
+        },
+        "accuracy": {
+          "p50": 2.6,
+          "p95": 15.61
+        },
+        "accuracyAbove": {
+          "25": 2.1,
+          "50": 0.44,
+          "100": 0.07
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 93.91,
+          "accuracyAnomaly": 6.09
+        },
+        "minutes": 671.36,
+        "noFixMinutes": 295.38
+      },
+      "indoor": {
+        "fixes": 4718,
+        "V1": {
+          "below07": 0,
+          "below09": 60.05,
+          "min": 0.77
+        },
+        "V2": {
+          "below07": 0.28,
+          "below09": 60.87,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0,
+          "below09": 0.19,
+          "min": 0.8
+        },
+        "accuracy": {
+          "p50": 1.7,
+          "p95": 22.5
+        },
+        "accuracyAbove": {
+          "25": 3.65,
+          "50": 0.95,
+          "100": 0.06
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 100
+        },
+        "minutes": 116.34,
+        "noFixMinutes": 36.83
+      },
+      "surface train": {
+        "fixes": 3929,
+        "V1": {
+          "below07": 0,
+          "below09": 0.46,
+          "min": 0.77
+        },
+        "V2": {
+          "below07": 0.13,
+          "below09": 64.06,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0,
+          "below09": 1.09,
+          "min": 0.8
+        },
+        "accuracy": {
+          "p50": 3.5,
+          "p95": 25.6
+        },
+        "accuracyAbove": {
+          "25": 5.17,
+          "50": 0.61,
+          "100": 0.08
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 100
+        },
+        "minutes": 99.83,
+        "noFixMinutes": 31.18
+      },
+      "underground": {
+        "fixes": 421,
+        "V1": {
+          "below07": 0,
+          "below09": 2.61,
+          "min": 0.77
+        },
+        "V2": {
+          "below07": 1.66,
+          "below09": 12.83,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0,
+          "below09": 0.48,
+          "min": 0.88
+        },
+        "accuracy": {
+          "p50": 4.5,
+          "p95": 16.02
+        },
+        "accuracyAbove": {
+          "25": 3.33,
+          "50": 0.71,
+          "100": 0.48
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 100
+        },
+        "minutes": 109.52,
+        "noFixMinutes": 102.55
+      },
+      "mixed train": {
+        "fixes": 3412,
+        "V1": {
+          "below07": 0,
+          "below09": 11.81,
+          "min": 0.77
+        },
+        "V2": {
+          "below07": 6.1,
+          "below09": 57.68,
+          "min": 0.63
+        },
+        "V2r": {
+          "below07": 0,
+          "below09": 0.35,
+          "min": 0.8
+        },
+        "accuracy": {
+          "p50": 3.5,
+          "p95": 11.6
+        },
+        "accuracyAbove": {
+          "25": 0.5,
+          "50": 0.26,
+          "100": 0.06
+        },
+        "V2rLowCauses": {
+          "fixConsistency": 100
+        },
+        "minutes": 168.68,
+        "noFixMinutes": 110.34
+      }
+    }
+  },
+  "windows": {
+    "web (iPhone)": {
+      "windows": 33,
+      "partial": 4,
+      "V1@0.7": {
+        "stepUp": 48.48,
+        "denyFirst": 0,
+        "denyK": 30.3
+      },
+      "V1@0.9": {
+        "stepUp": 69.7,
+        "denyFirst": 0,
+        "denyK": 30.3
+      },
+      "V2@0.7": {
+        "stepUp": 48.48,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 78.79,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 48.48,
+        "denyFirst": 0,
+        "denyK": 3.03
+      },
+      "V2r@0.9": {
+        "stepUp": 72.73,
+        "denyFirst": 0,
+        "denyK": 3.03
+      }
+    },
+    "web (iPhone) | 2026-11-08": {
+      "windows": 11,
+      "partial": 1,
+      "V1@0.7": {
+        "stepUp": 27.27,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 45.45,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 27.27,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 54.55,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 27.27,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 45.45,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "web-equivalent (Android FLP)": {
+      "windows": 60,
+      "partial": 8,
+      "V1@0.7": {
+        "stepUp": 1.67,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 38.33,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 25,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 83.33,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 3.33,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 35,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "web-equivalent (Android FLP) | 2026-11-08": {
+      "windows": 11,
+      "partial": 1,
+      "V1@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 45.45,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 27.27,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 72.73,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 27.27,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "native (Android GPS)": {
+      "windows": 52,
+      "partial": 8,
+      "V1@0.7": {
+        "stepUp": 1.92,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 57.69,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 42.31,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 96.15,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 28.85,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "native (Android GPS) | 2026-11-08": {
+      "windows": 11,
+      "partial": 1,
+      "V1@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 81.82,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 72.73,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 90.91,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 18.18,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "web (iPhone) | 2026-11-09": {
+      "windows": 6,
+      "partial": 1,
+      "V1@0.7": {
+        "stepUp": 66.67,
+        "denyFirst": 0,
+        "denyK": 66.67
+      },
+      "V1@0.9": {
+        "stepUp": 100,
+        "denyFirst": 0,
+        "denyK": 66.67
+      },
+      "V2@0.7": {
+        "stepUp": 66.67,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 100,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 66.67,
+        "denyFirst": 0,
+        "denyK": 16.67
+      },
+      "V2r@0.9": {
+        "stepUp": 100,
+        "denyFirst": 0,
+        "denyK": 16.67
+      }
+    },
+    "web-equivalent (Android FLP) | 2026-11-09": {
+      "windows": 10,
+      "partial": 2,
+      "V1@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 20,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 20,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 100,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 40,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "native (Android GPS) | 2026-11-09": {
+      "windows": 10,
+      "partial": 2,
+      "V1@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 40,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 20,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 100,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 40,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "web (iPhone) | 2026-11-12": {
+      "windows": 8,
+      "partial": 1,
+      "V1@0.7": {
+        "stepUp": 50,
+        "denyFirst": 0,
+        "denyK": 37.5
+      },
+      "V1@0.9": {
+        "stepUp": 75,
+        "denyFirst": 0,
+        "denyK": 37.5
+      },
+      "V2@0.7": {
+        "stepUp": 50,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 87.5,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 50,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 75,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "web-equivalent (Android FLP) | 2026-11-12": {
+      "windows": 15,
+      "partial": 2,
+      "V1@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 53.33,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 33.33,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 100,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 40,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "native (Android GPS) | 2026-11-12": {
+      "windows": 15,
+      "partial": 2,
+      "V1@0.7": {
+        "stepUp": 6.67,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 66.67,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 53.33,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 100,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 53.33,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "web (iPhone) | 2026-11-12-pm": {
+      "windows": 8,
+      "partial": 1,
+      "V1@0.7": {
+        "stepUp": 62.5,
+        "denyFirst": 0,
+        "denyK": 37.5
+      },
+      "V1@0.9": {
+        "stepUp": 75,
+        "denyFirst": 0,
+        "denyK": 37.5
+      },
+      "V2@0.7": {
+        "stepUp": 62.5,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 87.5,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 62.5,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 87.5,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "web-equivalent (Android FLP) | 2026-11-12-pm": {
+      "windows": 24,
+      "partial": 3,
+      "V1@0.7": {
+        "stepUp": 4.17,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 33.33,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 20.83,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 70.83,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 8.33,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 33.33,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    },
+    "native (Android GPS) | 2026-11-12-pm": {
+      "windows": 16,
+      "partial": 3,
+      "V1@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V1@0.9": {
+        "stepUp": 43.75,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.7": {
+        "stepUp": 25,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2@0.9": {
+        "stepUp": 93.75,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.7": {
+        "stepUp": 0,
+        "denyFirst": 0,
+        "denyK": 0
+      },
+      "V2r@0.9": {
+        "stepUp": 6.25,
+        "denyFirst": 0,
+        "denyK": 0
+      }
+    }
+  },
+  "histograms": {
+    "web (iPhone)": {
+      "V2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        62,
+        0,
+        0,
+        2,
+        0,
+        1,
+        2,
+        0,
+        87,
+        1,
+        1,
+        2,
+        0,
+        1,
+        2,
+        20,
+        4,
+        2,
+        2,
+        0,
+        0,
+        0,
+        8,
+        0,
+        1,
+        17,
+        2,
+        3,
+        1,
+        2,
+        7,
+        4,
+        5,
+        64,
+        1,
+        7,
+        1,
+        1,
+        2,
+        1,
+        68,
+        2,
+        3,
+        5,
+        3,
+        396,
+        8,
+        4,
+        39,
+        7,
+        174,
+        65,
+        99,
+        106,
+        127,
+        156,
+        103,
+        149,
+        290,
+        68,
+        87,
+        89,
+        92,
+        86,
+        83,
+        9147
+      ],
+      "V2r": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        17,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        11,
+        0,
+        59,
+        0,
+        0,
+        2,
+        0,
+        1,
+        0,
+        0,
+        73,
+        0,
+        0,
+        2,
+        5,
+        0,
+        1,
+        12,
+        5,
+        2,
+        1,
+        0,
+        0,
+        0,
+        21,
+        1,
+        1,
+        13,
+        2,
+        2,
+        1,
+        1,
+        6,
+        2,
+        20,
+        52,
+        0,
+        4,
+        0,
+        1,
+        0,
+        1,
+        55,
+        2,
+        10,
+        3,
+        3,
+        40,
+        7,
+        0,
+        37,
+        1,
+        113,
+        1,
+        10,
+        1,
+        5,
+        75,
+        6,
+        16,
+        206,
+        15,
+        13,
+        11,
+        15,
+        24,
+        30,
+        10751
+      ]
+    },
+    "web-equivalent (Android FLP)": {
+      "V2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        149,
+        0,
+        1,
+        0,
+        3,
+        10,
+        13,
+        10,
+        14,
+        6,
+        58,
+        30,
+        17,
+        10,
+        8,
+        16,
+        15,
+        3608,
+        12,
+        18,
+        1421,
+        0,
+        58,
+        140,
+        158,
+        150,
+        174,
+        192,
+        164,
+        177,
+        90,
+        90,
+        105,
+        108,
+        163,
+        172,
+        238,
+        26184
+      ],
+      "V2r": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1,
+        0,
+        4,
+        2,
+        0,
+        1,
+        0,
+        0,
+        1,
+        2,
+        0,
+        1,
+        15,
+        0,
+        2,
+        0,
+        0,
+        1,
+        7,
+        8,
+        13,
+        18,
+        83,
+        41,
+        71,
+        52,
+        40,
+        53,
+        67,
+        114,
+        112,
+        148,
+        32924
+      ]
+    },
+    "native (Android GPS)": {
+      "V2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        256,
+        0,
+        0,
+        0,
+        0,
+        25,
+        54,
+        106,
+        202,
+        377,
+        666,
+        651,
+        515,
+        310,
+        218,
+        182,
+        146,
+        3741,
+        105,
+        91,
+        3822,
+        0,
+        51,
+        146,
+        187,
+        191,
+        205,
+        254,
+        230,
+        294,
+        165,
+        163,
+        174,
+        195,
+        263,
+        276,
+        383,
+        7319
+      ],
+      "V2r": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        0,
+        0,
+        7,
+        0,
+        4,
+        16,
+        17,
+        19,
+        32,
+        67,
+        85,
+        93,
+        52,
+        50,
+        63,
+        79,
+        103,
+        138,
+        192,
+        20926
+      ]
+    }
+  },
+  "binaryBootstrap": {
+    "web (iPhone)": {
+      "blocks": 37,
+      "resamples": 2000,
+      "theta": {
+        "0.001": {
+          "p2_5": 0.23,
+          "p50": 0.23,
+          "p97_5": 0.35
+        },
+        "0.01": {
+          "p2_5": 0.35,
+          "p50": 0.43,
+          "p97_5": 0.68
+        }
+      }
+    },
+    "web-equivalent (Android FLP)": {
+      "blocks": 68,
+      "resamples": 2000,
+      "theta": {
+        "0.001": {
+          "p2_5": 0.8,
+          "p50": 0.86,
+          "p97_5": 0.89
+        },
+        "0.01": {
+          "p2_5": 0.92,
+          "p50": 0.94,
+          "p97_5": 0.97
+        }
+      }
+    },
+    "native (Android GPS)": {
+      "blocks": 60,
+      "resamples": 2000,
+      "theta": {
+        "0.001": {
+          "p2_5": 0.8,
+          "p50": 0.83,
+          "p97_5": 0.86
+        },
+        "0.01": {
+          "p2_5": 0.9,
+          "p50": 0.91,
+          "p97_5": 0.92
+        }
+      }
+    }
+  },
+  "chrome": [
+    {
+      "session": "2026-11-12-pm",
+      "device": "POCO X7 Pro",
+      "minutes": 69,
+      "chromeFixes": 2494,
+      "flpFixes": 2709,
+      "matched": 99.76,
+      "unmatched": 6,
+      "gaps": {
+        "chrome": {
+          "count": 12,
+          "minutes": 20
+        },
+        "flp": {
+          "count": 12,
+          "minutes": 20
+        }
+      },
+      "V2r": {
+        "chrome": {
+          "below09": 0.56,
+          "below07": 0.12
+        },
+        "flp": {
+          "below09": 0.52,
+          "below07": 0.11
+        }
+      }
+    }
+  ],
+  "mock": {
+    "device": "POCO X7 Pro",
+    "providerFlags": {
+      "FLP/real": 1041,
+      "GPS/real": 917,
+      "NLP/real": 232,
+      "GPS/mock": 1204,
+      "FLP/mock": 1221
+    },
+    "streams": {
+      "FLP": {
+        "stages": [
+          {
+            "startS": 111,
+            "seconds": 178,
+            "displacementM": 34,
+            "mockAccuracyM": 0.01,
+            "V1": {
+              "switchScore": 0.75,
+              "minFirst10s": 0.75,
+              "steadyMedian": 0.77,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2": {
+              "switchScore": 0.61,
+              "minFirst10s": 0.61,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r": {
+              "switchScore": 0.61,
+              "minFirst10s": 0.61,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r+S5": {
+              "switchScore": 0.63,
+              "minFirst10s": 0.63,
+              "steadyMedian": 0.8,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 446,
+            "seconds": 257,
+            "displacementM": 230,
+            "mockAccuracyM": 0.01,
+            "V1": {
+              "switchScore": 0.3,
+              "minFirst10s": 0.3,
+              "steadyMedian": 0.77,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2": {
+              "switchScore": 0.27,
+              "minFirst10s": 0.27,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r": {
+              "switchScore": 0.27,
+              "minFirst10s": 0.27,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r+S5": {
+              "switchScore": 0.28,
+              "minFirst10s": 0.28,
+              "steadyMedian": 0.72,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 857,
+            "seconds": 167,
+            "displacementM": 734,
+            "mockAccuracyM": 0.01,
+            "V1": {
+              "switchScore": 0.53,
+              "minFirst10s": 0.53,
+              "steadyMedian": 0.77,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r+S5": {
+              "switchScore": 0.42,
+              "minFirst10s": 0.42,
+              "steadyMedian": 0.72,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 1101,
+            "seconds": 175,
+            "displacementM": 910,
+            "mockAccuracyM": 0.01,
+            "V1": {
+              "switchScore": 0.53,
+              "minFirst10s": 0.53,
+              "steadyMedian": 0.77,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r+S5": {
+              "switchScore": 0.42,
+              "minFirst10s": 0.42,
+              "steadyMedian": 0.72,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 1505,
+            "seconds": 130,
+            "displacementM": 923,
+            "mockAccuracyM": 0.01,
+            "V1": {
+              "switchScore": 0.53,
+              "minFirst10s": 0.53,
+              "steadyMedian": 0.77,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r+S5": {
+              "switchScore": 0.42,
+              "minFirst10s": 0.42,
+              "steadyMedian": 0.72,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 1789,
+            "seconds": 261,
+            "displacementM": 21026,
+            "mockAccuracyM": 0.01,
+            "V1": {
+              "switchScore": 0.53,
+              "minFirst10s": 0.53,
+              "steadyMedian": 0.77,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 0.83,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100
+            },
+            "V2r+S5": {
+              "switchScore": 0.42,
+              "minFirst10s": 0.42,
+              "steadyMedian": 0.72,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          }
+        ],
+        "honest": {
+          "fixes": 484,
+          "V1": {
+            "n": 484,
+            "below07": 0,
+            "below09": 0
+          },
+          "V2": {
+            "n": 484,
+            "below07": 0,
+            "below09": 0.21
+          },
+          "V2r": {
+            "n": 484,
+            "below07": 0,
+            "below09": 0
+          },
+          "V2r+S5": {
+            "n": 483,
+            "below07": 0,
+            "below09": 0
+          }
+        }
+      },
+      "GPS": {
+        "stages": [
+          {
+            "startS": 111,
+            "seconds": 178,
+            "displacementM": 33,
+            "mockAccuracyM": 3,
+            "V1": {
+              "switchScore": 1,
+              "minFirst10s": 1,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2": {
+              "switchScore": 0.8,
+              "minFirst10s": 0.8,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r": {
+              "switchScore": 0.8,
+              "minFirst10s": 0.8,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r+S5": {
+              "switchScore": 0.78,
+              "minFirst10s": 0.78,
+              "steadyMedian": 0.94,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 447,
+            "seconds": 256,
+            "displacementM": 232,
+            "mockAccuracyM": 3,
+            "V1": {
+              "switchScore": 0.68,
+              "minFirst10s": 0.68,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2": {
+              "switchScore": 0.56,
+              "minFirst10s": 0.56,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r": {
+              "switchScore": 0.56,
+              "minFirst10s": 0.56,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r+S5": {
+              "switchScore": 0.55,
+              "minFirst10s": 0.55,
+              "steadyMedian": 0.86,
+              "steadyBelow07": 0,
+              "steadyBelow09": 96.76,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 858,
+            "seconds": 165,
+            "displacementM": 734,
+            "mockAccuracyM": 3,
+            "V1": {
+              "switchScore": 0.53,
+              "minFirst10s": 0.53,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r+S5": {
+              "switchScore": 0.42,
+              "minFirst10s": 0.42,
+              "steadyMedian": 0.86,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 1102,
+            "seconds": 174,
+            "displacementM": 911,
+            "mockAccuracyM": 3,
+            "V1": {
+              "switchScore": 0.53,
+              "minFirst10s": 0.53,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r+S5": {
+              "switchScore": 0.42,
+              "minFirst10s": 0.42,
+              "steadyMedian": 0.86,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 1506,
+            "seconds": 129,
+            "displacementM": 923,
+            "mockAccuracyM": 3,
+            "V1": {
+              "switchScore": 0.53,
+              "minFirst10s": 0.53,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r+S5": {
+              "switchScore": 0.42,
+              "minFirst10s": 0.42,
+              "steadyMedian": 0.86,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          },
+          {
+            "startS": 1790,
+            "seconds": 260,
+            "displacementM": 21028,
+            "mockAccuracyM": 3,
+            "V1": {
+              "switchScore": 0.53,
+              "minFirst10s": 0.53,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r": {
+              "switchScore": 0.45,
+              "minFirst10s": 0.45,
+              "steadyMedian": 1,
+              "steadyBelow07": 0,
+              "steadyBelow09": 0
+            },
+            "V2r+S5": {
+              "switchScore": 0.42,
+              "minFirst10s": 0.42,
+              "steadyMedian": 0.86,
+              "steadyBelow07": 0,
+              "steadyBelow09": 100,
+              "hintCoverage": 100
+            }
+          }
+        ],
+        "honest": {
+          "fixes": 441,
+          "V1": {
+            "n": 441,
+            "below07": 0,
+            "below09": 93.2
+          },
+          "V2": {
+            "n": 441,
+            "below07": 0.23,
+            "below09": 94.33
+          },
+          "V2r": {
+            "n": 441,
+            "below07": 0,
+            "below09": 0.91
+          },
+          "V2r+S5": {
+            "n": 441,
+            "below07": 0,
+            "below09": 1.13
+          }
+        }
+      }
+    }
+  }
+}

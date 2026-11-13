@@ -1,0 +1,433 @@
+{
+  "generated": "2026-11-12T13:05:53.835Z",
+  "sessions": [
+    {
+      "log": "server-trials-2026-11-06.jsonl",
+      "calibrationAccuracyM": 13.623,
+      "verifies": 120
+    },
+    {
+      "log": "server-trials-2026-11-12.jsonl",
+      "calibrationAccuracyM": 16.713,
+      "verifies": 30
+    }
+  ],
+  "outcomes": {
+    "iPhone 16 Pro | legit": {
+      "device": "iPhone 16 Pro",
+      "trialType": "legit",
+      "n": 30,
+      "accepted": 30,
+      "reasons": {
+        "accepted": 30
+      },
+      "rate": {
+        "name": "alpha",
+        "k": 0,
+        "value": 0,
+        "ci95": [
+          0,
+          0.116
+        ],
+        "ci95Exact": [
+          0,
+          0.11570330822202776
+        ]
+      }
+    },
+    "iPhone 16 Pro | none": {
+      "device": "iPhone 16 Pro",
+      "trialType": "none",
+      "n": 20,
+      "accepted": 0,
+      "reasons": {
+        "token_bad_mac": 20
+      },
+      "rate": {
+        "name": "beta",
+        "k": 0,
+        "value": 0,
+        "ci95": [
+          0,
+          0.168
+        ],
+        "ci95Exact": [
+          0,
+          0.1684334709830853
+        ]
+      }
+    },
+    "POCO X7 Pro | legit": {
+      "device": "POCO X7 Pro",
+      "trialType": "legit",
+      "n": 30,
+      "accepted": 30,
+      "reasons": {
+        "accepted": 30
+      },
+      "rate": {
+        "name": "alpha",
+        "k": 0,
+        "value": 0,
+        "ci95": [
+          0,
+          0.116
+        ],
+        "ci95Exact": [
+          0,
+          0.11570330822202776
+        ]
+      }
+    },
+    "Jelly Star | legit": {
+      "device": "Jelly Star",
+      "trialType": "legit",
+      "n": 30,
+      "accepted": 30,
+      "reasons": {
+        "accepted": 30
+      },
+      "rate": {
+        "name": "alpha",
+        "k": 0,
+        "value": 0,
+        "ci95": [
+          0,
+          0.116
+        ],
+        "ci95Exact": [
+          0,
+          0.11570330822202776
+        ]
+      }
+    },
+    "iPhone 16 Pro | stale": {
+      "device": "iPhone 16 Pro",
+      "trialType": "stale",
+      "n": 10,
+      "accepted": 0,
+      "reasons": {
+        "token_expired": 10
+      },
+      "rate": {
+        "name": "beta",
+        "k": 0,
+        "value": 0,
+        "ci95": [
+          0,
+          0.308
+        ],
+        "ci95Exact": [
+          0,
+          0.3084971078187607
+        ]
+      }
+    },
+    "nubia Z80 Ultra | legit": {
+      "device": "nubia Z80 Ultra",
+      "trialType": "legit",
+      "n": 30,
+      "accepted": 30,
+      "reasons": {
+        "accepted": 30
+      },
+      "rate": {
+        "name": "alpha",
+        "k": 0,
+        "value": 0,
+        "ci95": [
+          0,
+          0.116
+        ],
+        "ci95Exact": [
+          0,
+          0.11570330822202776
+        ]
+      }
+    }
+  },
+  "pooled": {
+    "alpha": {
+      "n": 120,
+      "k": 0,
+      "value": 0,
+      "ci95": [
+        0,
+        0.03
+      ],
+      "ci95Exact": [
+        0,
+        0.030272972577420065
+      ]
+    },
+    "betaNoToken": {
+      "n": 20,
+      "k": 0,
+      "value": 0,
+      "ci95": [
+        0,
+        0.168
+      ],
+      "ci95Exact": [
+        0,
+        0.1684334709830853
+      ]
+    },
+    "betaStale": {
+      "n": 10,
+      "k": 0,
+      "value": 0,
+      "ci95": [
+        0,
+        0.308
+      ],
+      "ci95Exact": [
+        0,
+        0.3084971078187607
+      ]
+    }
+  },
+  "server": {
+    "firstVerifyMs": [
+      480.162,
+      364.092
+    ],
+    "warmVerifyMs": {
+      "n": 118,
+      "p50": 12.869,
+      "p95": 15.321,
+      "max": 17.346
+    }
+  },
+  "latency": {
+    "iPhone 16 Pro": {
+      "warm": {
+        "sessionMs": {
+          "n": 29,
+          "p50": 50,
+          "p95": 125,
+          "max": 747
+        },
+        "scanMs": {
+          "n": 29,
+          "p50": 428,
+          "p95": 693,
+          "max": 1310
+        },
+        "fixMs": {
+          "n": 29,
+          "p50": 67,
+          "p95": 139,
+          "max": 759
+        },
+        "proveMs": {
+          "n": 29,
+          "p50": 251,
+          "p95": 344,
+          "max": 761
+        },
+        "verifyRttMs": {
+          "n": 29,
+          "p50": 58,
+          "p95": 78,
+          "max": 142
+        },
+        "totalMs": {
+          "n": 29,
+          "p50": 748,
+          "p95": 1108,
+          "max": 2197
+        },
+        "fixAccuracyM": {
+          "n": 29,
+          "p50": 10,
+          "p95": 10,
+          "max": 13
+        }
+      },
+      "cold": [
+        {
+          "sessionMs": 64,
+          "scanMs": 1954,
+          "fixMs": 77,
+          "proveMs": 677,
+          "verifyRttMs": 535,
+          "totalMs": 3168
+        }
+      ]
+    },
+    "Jelly Star": {
+      "warm": {
+        "sessionMs": {
+          "n": 29,
+          "p50": 41,
+          "p95": 49,
+          "max": 59
+        },
+        "scanMs": {
+          "n": 29,
+          "p50": 956,
+          "p95": 1036,
+          "max": 4068
+        },
+        "fixMs": {
+          "n": 29,
+          "p50": 3766,
+          "p95": 4736,
+          "max": 5859
+        },
+        "proveMs": {
+          "n": 29,
+          "p50": 400,
+          "p95": 462,
+          "max": 497
+        },
+        "verifyRttMs": {
+          "n": 29,
+          "p50": 59,
+          "p95": 103,
+          "max": 154
+        },
+        "totalMs": {
+          "n": 29,
+          "p50": 4349,
+          "p95": 5199,
+          "max": 6344
+        },
+        "fixAccuracyM": {
+          "n": 29,
+          "p50": 6,
+          "p95": 22,
+          "max": 31
+        }
+      },
+      "cold": [
+        {
+          "sessionMs": 48,
+          "scanMs": 2036,
+          "fixMs": 1193,
+          "proveMs": 536,
+          "verifyRttMs": 44,
+          "totalMs": 2617
+        }
+      ]
+    },
+    "nubia Z80 Ultra": {
+      "warm": {
+        "sessionMs": {
+          "n": 29,
+          "p50": 98,
+          "p95": 162,
+          "max": 355
+        },
+        "scanMs": {
+          "n": 29,
+          "p50": 880,
+          "p95": 1327,
+          "max": 2032
+        },
+        "fixMs": {
+          "n": 29,
+          "p50": 3337,
+          "p95": 4100,
+          "max": 4290
+        },
+        "proveMs": {
+          "n": 29,
+          "p50": 506,
+          "p95": 662,
+          "max": 1096
+        },
+        "verifyRttMs": {
+          "n": 29,
+          "p50": 110,
+          "p95": 190,
+          "max": 236
+        },
+        "totalMs": {
+          "n": 29,
+          "p50": 4140,
+          "p95": 4771,
+          "max": 5428
+        },
+        "fixAccuracyM": {
+          "n": 29,
+          "p50": 13,
+          "p95": 19,
+          "max": 27
+        }
+      },
+      "cold": [
+        {
+          "sessionMs": 154,
+          "scanMs": 2657,
+          "fixMs": 1008,
+          "proveMs": 1189,
+          "verifyRttMs": 503,
+          "totalMs": 4354
+        }
+      ]
+    },
+    "POCO X7 Pro": {
+      "warm": {
+        "sessionMs": {
+          "n": 29,
+          "p50": 51,
+          "p95": 62,
+          "max": 515
+        },
+        "scanMs": {
+          "n": 29,
+          "p50": 581,
+          "p95": 609,
+          "max": 1025
+        },
+        "fixMs": {
+          "n": 29,
+          "p50": 4189,
+          "p95": 5229,
+          "max": 5752
+        },
+        "proveMs": {
+          "n": 29,
+          "p50": 281,
+          "p95": 419,
+          "max": 795
+        },
+        "verifyRttMs": {
+          "n": 29,
+          "p50": 59,
+          "p95": 106,
+          "max": 135
+        },
+        "totalMs": {
+          "n": 29,
+          "p50": 4519,
+          "p95": 5578,
+          "max": 6131
+        },
+        "fixAccuracyM": {
+          "n": 29,
+          "p50": 6,
+          "p95": 27,
+          "max": 44
+        }
+      },
+      "cold": [
+        {
+          "sessionMs": 77,
+          "scanMs": 4671,
+          "fixMs": 4367,
+          "proveMs": 479,
+          "verifyRttMs": 62,
+          "totalMs": 5217
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "wasmBytes": 51151,
+    "zkeyBytes": 232954,
+    "vkeyBytes": 4203
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "generated": "2026-11-09T11:22:27.169Z",
+  "n": 20,
+  "node": "v24.11.1",
+  "proof": {
+    "jsonBytes": 726,
+    "bn254UncompressedBytes": 256,
+    "bn254CompressedBytes": 128
+  },
+  "publicSignals": {
+    "count": 8,
+    "jsonBytes": 211,
+    "rawBytes": 256
+  },
+  "verifyRequestBodyBytes": 1063,
+  "nodeProveMs": {
+    "p50": 92.4,
+    "p95": 146.3
+  },
+  "nodeVerifyMs": {
+    "p50": 11.6,
+    "p95": 20.2
+  },
+  "peakRssMb": 654.6
+}

@@ -34,11 +34,18 @@
     <select id="scenario">
       <option value="honest-walk">Honest: Walking</option>
       <option value="honest-stationary">Honest: Stationary</option>
+      <option value="honest-urban">Honest: Urban canyon</option>
       <option value="honest-indoor">Honest: Indoor</option>
+      <option value="honest-station">Honest: Station entry/exit</option>
+      <option value="honest-vehicle">Honest: Train / car</option>
+      <option value="mock-static">Attack: Static mock (offset)</option>
+      <option value="mock-route">Attack: Route mock</option>
       <option value="mock-teleport">Attack: Mock Location</option>
       <option value="vpn">Attack: VPN Active</option>
     </select>
+    <input id="label" placeholder="label (device, offset...)" style="flex:1; min-width:140px" />
     <button id="startBtn" onclick="toggleCollection()">Start</button>
+    <button onclick="addMarker()">Mark</button>
     <button onclick="resetAll()">Reset</button>
   </div>
 
@@ -77,7 +84,9 @@
   <div class="panel">
     <div class="label">Results JSON</div>
     <pre id="jsonOutput">{}</pre>
+    <button class="copy-btn" onclick="saveResults()">Save Results as File</button>
     <button class="copy-btn" onclick="copyResults()">Copy Results to Clipboard</button>
+    <button class="copy-btn" onclick="restoreLast()">Restore Last Unsaved Run</button>
   </div>
 
   <script>
@@ -190,6 +199,8 @@
   let fixes = [];
   let results = [];
   let startTime = null;
+  let markers = [];
+  let wakeLock = null;
 
   function toggleCollection() {
     if (collecting) stopCollection();
@@ -207,6 +218,10 @@
     document.getElementById('startBtn').classList.add('active');
     document.getElementById('status').textContent = 'Collecting GPS fixes...';
 
+    // Keep the screen on: Safari and Chrome stop delivering fixes to a
+    // backgrounded or locked page.
+    if (navigator.wakeLock) navigator.wakeLock.request('screen').then((l) => { wakeLock = l; }).catch(() => {});
+
     watchId = navigator.geolocation.watchPosition(
       onFix,
       onError,
@@ -218,6 +233,7 @@
     collecting = false;
     if (watchId !== null) navigator.geolocation.clearWatch(watchId);
     watchId = null;
+    if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
     document.getElementById('startBtn').textContent = 'Start';
     document.getElementById('startBtn').classList.remove('active');
     document.getElementById('status').textContent = `Stopped. ${fixes.length} fixes collected.`;
@@ -228,6 +244,7 @@
     stopCollection();
     fixes = [];
     results = [];
+    markers = [];
     document.getElementById('fixCount').textContent = '0';
     document.getElementById('fixList').innerHTML = '';
     document.getElementById('v1score').textContent = '—';
@@ -306,6 +323,8 @@
     const scenario = document.getElementById('scenario').value;
     const output = {
       scenario,
+      label: document.getElementById('label').value.trim(),
+      markers,
       device: {
         userAgent: navigator.userAgent,
         platform: navigator.platform,
@@ -325,7 +344,34 @@
         v2Min: Math.min(...results.map(r=>r.v2)),
       } : null,
     };
-    document.getElementById('jsonOutput').textContent = JSON.stringify(output, null, 2);
+    const text = JSON.stringify(output, null, 2);
+    document.getElementById('jsonOutput').textContent = text;
+    try { localStorage.setItem('collectLastRun', text); } catch { /* storage full or blocked */ }
+  }
+
+  function addMarker() {
+    markers.push({ timestamp: new Date().toISOString(), fixIndex: fixes.length, note: document.getElementById('label').value.trim() || 'mark' });
+    document.getElementById('status').textContent = `Marker ${markers.length} at fix ${fixes.length}`;
+    updateJSON();
+  }
+
+  function saveResults() {
+    const text = document.getElementById('jsonOutput').textContent;
+    const scenario = document.getElementById('scenario').value;
+    const label = document.getElementById('label').value.trim().replace(/[^A-Za-z0-9_-]+/g, '-') || 'device';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+    a.download = `trace-${scenario}-${label}-${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+    a.click();
+    document.getElementById('status').textContent = `Saved ${a.download}`;
+  }
+
+  function restoreLast() {
+    let text = null;
+    try { text = localStorage.getItem('collectLastRun'); } catch { /* blocked */ }
+    if (!text) { document.getElementById('status').textContent = 'No saved run in this browser.'; return; }
+    document.getElementById('jsonOutput').textContent = text;
+    document.getElementById('status').textContent = 'Restored the last run. Save it as a file.';
   }
 
   function copyResults() {

@@ -1,0 +1,161 @@
+{
+ "platform": {
+  "chip": "ESP32-S3",
+  "board": "M5Stack CoreS3 (Stack-chan)",
+  "compiler": "gcc 14.2.0",
+  "idf": "v5.5.5",
+  "cpu_mhz_config": 240,
+  "cpu_hz_measured": 239998295,
+  "icache_kb": 32,
+  "optimization": "-O2",
+  "ccount_overhead_cycles": 1
+ },
+ "note": "Measured on the board, not estimated. Equivalence: all splits; latency: dev split, single calls, interrupts masked, CCOUNT overhead subtracted.",
+ "equivalence": {
+  "traces": 30000,
+  "configs": 10,
+  "allScoresExact": true,
+  "perConfig": {
+   "V1": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   },
+   "V2/both": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   },
+   "V2/fixes": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   },
+   "V2/net": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   },
+   "V2/none": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   },
+   "V2r/both": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   },
+   "V2r/fixes": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   },
+   "V2r/net": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   },
+   "V2r/none": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   },
+   "V2r/both/cut2": {
+    "n": 30000,
+    "scoreExact": 30000,
+    "signalsBitExact": 30000,
+    "maskEqual": 30000
+   }
+  },
+  "signalFieldMismatches": {
+   "S1": {
+    "count": 0,
+    "maxUlp": 0,
+    "maxAbs": 0
+   },
+   "S2": {
+    "count": 0,
+    "maxUlp": 0,
+    "maxAbs": 0
+   },
+   "S2r": {
+    "count": 0,
+    "maxUlp": 0,
+    "maxAbs": 0
+   },
+   "S3": {
+    "count": 0,
+    "maxUlp": 0,
+    "maxAbs": 0
+   },
+   "S4": {
+    "count": 0,
+    "maxUlp": 0,
+    "maxAbs": 0
+   },
+   "S4r": {
+    "count": 0,
+    "maxUlp": 0,
+    "maxAbs": 0
+   },
+   "S5": {
+    "count": 0,
+    "maxUlp": 0,
+    "maxAbs": 0
+   }
+  }
+ },
+ "latency": {
+  "V1": {
+   "passes": 3,
+   "samplesPerPass": 10000,
+   "median_cycles": 78650,
+   "p99_cycles": 80160,
+   "mean_cycles": 78218.7,
+   "min_cycles": 69912,
+   "max_cycles": 81205,
+   "median_us": 327.71,
+   "p99_us": 334,
+   "mean_us": 325.91
+  },
+  "V2": {
+   "passes": 3,
+   "samplesPerPass": 10000,
+   "median_cycles": 105012,
+   "p99_cycles": 106508,
+   "mean_cycles": 104594,
+   "min_cycles": 96381,
+   "max_cycles": 107586,
+   "median_us": 437.55,
+   "p99_us": 443.79,
+   "mean_us": 435.81
+  },
+  "V2r": {
+   "passes": 3,
+   "samplesPerPass": 10000,
+   "median_cycles": 121143,
+   "p99_cycles": 122723,
+   "mean_cycles": 118152.2,
+   "min_cycles": 86815,
+   "max_cycles": 123816,
+   "median_us": 504.77,
+   "p99_us": 511.35,
+   "mean_us": 492.3
+  }
+ },
+ "verifySeconds": {
+  "dev": 48,
+  "val": 48,
+  "test": 48
+ }
+}

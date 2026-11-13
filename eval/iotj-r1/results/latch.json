@@ -1,0 +1,2514 @@
+{
+  "generated": "2026-11-12T13:35:41.906Z",
+  "sessionSeconds": 600,
+  "switchSeconds": 300,
+  "thetaS": 0.3,
+  "shlSessions": 1009,
+  "denseSessions": 2990,
+  "honest": {
+    "shl|v1|0.7": {
+      "first": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0476,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0476,
+        "deny": 0.0079
+      },
+      "single/3-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0476,
+        "deny": 0.004
+      },
+      "2-of-5 both": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0218,
+        "deny": 0.0079
+      },
+      "single/no-score-deny": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0476,
+        "deny": 0
+      }
+    },
+    "shl|v1|0.9": {
+      "first": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0714,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0714,
+        "deny": 0.0079
+      },
+      "single/3-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0714,
+        "deny": 0.004
+      },
+      "2-of-5 both": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0634,
+        "deny": 0.0079
+      },
+      "single/no-score-deny": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0714,
+        "deny": 0
+      }
+    },
+    "shl|v1|1": {
+      "first": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.1606,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.1606,
+        "deny": 0.0079
+      },
+      "single/3-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.1606,
+        "deny": 0.004
+      },
+      "2-of-5 both": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0862,
+        "deny": 0.0079
+      },
+      "single/no-score-deny": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.1606,
+        "deny": 0
+      }
+    },
+    "shl|v2Paper|0.7": {
+      "first": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0634,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0634,
+        "deny": 0.003
+      },
+      "single/3-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0634,
+        "deny": 0.002
+      },
+      "2-of-5 both": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0515,
+        "deny": 0.003
+      },
+      "single/no-score-deny": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0634,
+        "deny": 0
+      }
+    },
+    "shl|v2Paper|0.9": {
+      "first": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.665,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.665,
+        "deny": 0.003
+      },
+      "single/3-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.665,
+        "deny": 0.002
+      },
+      "2-of-5 both": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.6383,
+        "deny": 0.003
+      },
+      "single/no-score-deny": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.665,
+        "deny": 0
+      }
+    },
+    "shl|v2Paper|1": {
+      "first": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.8295,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.8295,
+        "deny": 0.003
+      },
+      "single/3-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.8295,
+        "deny": 0.002
+      },
+      "2-of-5 both": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.8157,
+        "deny": 0.003
+      },
+      "single/no-score-deny": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.8295,
+        "deny": 0
+      }
+    },
+    "shl|v2Revised|0.7": {
+      "first": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0545,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0545,
+        "deny": 0.003
+      },
+      "single/3-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0545,
+        "deny": 0.002
+      },
+      "2-of-5 both": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0436,
+        "deny": 0.003
+      },
+      "single/no-score-deny": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.0545,
+        "deny": 0
+      }
+    },
+    "shl|v2Revised|0.9": {
+      "first": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.2141,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.2141,
+        "deny": 0.003
+      },
+      "single/3-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.2141,
+        "deny": 0.002
+      },
+      "2-of-5 both": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.1596,
+        "deny": 0.003
+      },
+      "single/no-score-deny": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.2141,
+        "deny": 0
+      }
+    },
+    "shl|v2Revised|1": {
+      "first": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.4975,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.4975,
+        "deny": 0.003
+      },
+      "single/3-of-5": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.4975,
+        "deny": 0.002
+      },
+      "2-of-5 both": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.4301,
+        "deny": 0.003
+      },
+      "single/no-score-deny": {
+        "sessions": 1009,
+        "stepUpOrDeny": 0.4975,
+        "deny": 0
+      }
+    },
+    "dense|v1|0.7": {
+      "first": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0047,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0047,
+        "deny": 0
+      },
+      "single/3-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0047,
+        "deny": 0
+      },
+      "2-of-5 both": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.001,
+        "deny": 0
+      },
+      "single/no-score-deny": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0047,
+        "deny": 0
+      }
+    },
+    "dense|v1|0.9": {
+      "first": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0254,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0254,
+        "deny": 0
+      },
+      "single/3-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0254,
+        "deny": 0
+      },
+      "2-of-5 both": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0167,
+        "deny": 0
+      },
+      "single/no-score-deny": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0254,
+        "deny": 0
+      }
+    },
+    "dense|v1|1": {
+      "first": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0562,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0562,
+        "deny": 0
+      },
+      "single/3-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0562,
+        "deny": 0
+      },
+      "2-of-5 both": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0298,
+        "deny": 0
+      },
+      "single/no-score-deny": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0562,
+        "deny": 0
+      }
+    },
+    "dense|v2Paper|0.7": {
+      "first": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0181,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0181,
+        "deny": 0
+      },
+      "single/3-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0181,
+        "deny": 0
+      },
+      "2-of-5 both": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0094,
+        "deny": 0
+      },
+      "single/no-score-deny": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0181,
+        "deny": 0
+      }
+    },
+    "dense|v2Paper|0.9": {
+      "first": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.6719,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.6719,
+        "deny": 0
+      },
+      "single/3-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.6719,
+        "deny": 0
+      },
+      "2-of-5 both": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.6074,
+        "deny": 0
+      },
+      "single/no-score-deny": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.6719,
+        "deny": 0
+      }
+    },
+    "dense|v2Paper|1": {
+      "first": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.8431,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.8431,
+        "deny": 0
+      },
+      "single/3-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.8431,
+        "deny": 0
+      },
+      "2-of-5 both": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.8217,
+        "deny": 0
+      },
+      "single/no-score-deny": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.8431,
+        "deny": 0
+      }
+    },
+    "dense|v2Revised|0.7": {
+      "first": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0047,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0047,
+        "deny": 0
+      },
+      "single/3-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0047,
+        "deny": 0
+      },
+      "2-of-5 both": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.001,
+        "deny": 0
+      },
+      "single/no-score-deny": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0047,
+        "deny": 0
+      }
+    },
+    "dense|v2Revised|0.9": {
+      "first": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.01,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.01,
+        "deny": 0
+      },
+      "single/3-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.01,
+        "deny": 0
+      },
+      "2-of-5 both": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0057,
+        "deny": 0
+      },
+      "single/no-score-deny": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.01,
+        "deny": 0
+      }
+    },
+    "dense|v2Revised|1": {
+      "first": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0418,
+        "deny": 0
+      },
+      "single/2-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0418,
+        "deny": 0
+      },
+      "single/3-of-5": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0418,
+        "deny": 0
+      },
+      "2-of-5 both": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0187,
+        "deny": 0
+      },
+      "single/no-score-deny": {
+        "sessions": 2990,
+        "stepUpOrDeny": 0.0418,
+        "deny": 0
+      }
+    }
+  },
+  "attacks": {
+    "teleport (acc 0.01 m)": {
+      "v2Paper|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 1,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Paper|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 1,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Paper|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 1,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 1,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0082
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 1,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 1,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      }
+    },
+    "teleport (acc 5 m)": {
+      "v2Paper|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Paper|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Paper|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0082
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      }
+    },
+    "static mock 10 m": {
+      "v2Paper|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0,
+          "denied": 0,
+          "medianFixesToLatch": null,
+          "proceededSpoofFixes": 1
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        }
+      },
+      "v2Paper|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.2686,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7318
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.2686,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7318
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.2686,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7318
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.2052,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.7952
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.2686,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7318
+        }
+      },
+      "v2Paper|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.893,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.1071
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.893,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.1071
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.893,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.1071
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.8434,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.1589
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.893,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.1071
+        }
+      },
+      "v2Revised|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0,
+          "denied": 0,
+          "medianFixesToLatch": null,
+          "proceededSpoofFixes": 1
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        }
+      },
+      "v2Revised|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.112,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.8895
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.112,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.8895
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.112,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.8895
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.0723,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.9281
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.112,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.8895
+        }
+      },
+      "v2Revised|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.773,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.227
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.773,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.227
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.773,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.227
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.6135,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.3876
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.773,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.227
+        }
+      }
+    },
+    "static mock 25 m": {
+      "v2Paper|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0,
+          "denied": 0,
+          "medianFixesToLatch": null,
+          "proceededSpoofFixes": 1
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        }
+      },
+      "v2Paper|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.9207,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0795
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.9207,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0795
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.9207,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0795
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9019,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.1008
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.9207,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0795
+        }
+      },
+      "v2Paper|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0001
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0001
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0001
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9941,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0092
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0001
+        }
+      },
+      "v2Revised|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0,
+          "denied": 0,
+          "medianFixesToLatch": null,
+          "proceededSpoofFixes": 1
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        }
+      },
+      "v2Revised|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.8771,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.1239
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.8771,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.1239
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.8771,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.1239
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.6819,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.3184
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.8771,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.1239
+        }
+      },
+      "v2Revised|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0073
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0073
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0073
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9722,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0307
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0073
+        }
+      }
+    },
+    "static mock 50 m": {
+      "v2Paper|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.005,
+          "denied": 0,
+          "medianFixesToLatch": 63,
+          "proceededSpoofFixes": 0.9962
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.005,
+          "denied": 0,
+          "medianFixesToLatch": 63,
+          "proceededSpoofFixes": 0.9962
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.005,
+          "denied": 0,
+          "medianFixesToLatch": 63,
+          "proceededSpoofFixes": 0.9962
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.002,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.998
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.005,
+          "denied": 0,
+          "medianFixesToLatch": 63,
+          "proceededSpoofFixes": 0.9962
+        }
+      },
+      "v2Paper|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.998,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0023
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.998,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0023
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.998,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0023
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9921,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0115
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.998,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0023
+        }
+      },
+      "v2Paper|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.005,
+          "denied": 0,
+          "medianFixesToLatch": 63,
+          "proceededSpoofFixes": 0.9962
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.005,
+          "denied": 0,
+          "medianFixesToLatch": 63,
+          "proceededSpoofFixes": 0.9962
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.005,
+          "denied": 0,
+          "medianFixesToLatch": 63,
+          "proceededSpoofFixes": 0.9962
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.002,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.998
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.005,
+          "denied": 0,
+          "medianFixesToLatch": 63,
+          "proceededSpoofFixes": 0.9962
+        }
+      },
+      "v2Revised|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.9921,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0085
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.9921,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0085
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.9921,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0085
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9594,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0436
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.9921,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0085
+        }
+      },
+      "v2Revised|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0049
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0049
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0049
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9941,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0092
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0049
+        }
+      }
+    },
+    "static mock 100 m": {
+      "v2Paper|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.9495,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0495
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.9495,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0495
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.9495,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0495
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.1041,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.8962
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.9495,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0495
+        }
+      },
+      "v2Paper|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Paper|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.9356,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0632
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.9356,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0632
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.9356,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0632
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.1021,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.8982
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.9356,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0632
+        }
+      },
+      "v2Revised|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0049
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0049
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0049
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0102
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0049
+        }
+      },
+      "v2Revised|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0082
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        }
+      }
+    },
+    "static mock 200 m": {
+      "v2Paper|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0068
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0068
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0068
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9921,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0111
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0068
+        }
+      },
+      "v2Paper|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Paper|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0068
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0068
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0068
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9921,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0111
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.9931,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0068
+        }
+      },
+      "v2Revised|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0082
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        }
+      },
+      "v2Revised|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0082
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        }
+      }
+    },
+    "static mock 550 m": {
+      "v2Paper|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9941,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0092
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        }
+      },
+      "v2Paper|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Paper|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0034
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 1,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0
+        }
+      },
+      "v2Revised|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.9941,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0092
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        }
+      },
+      "v2Revised|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0082
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        }
+      },
+      "v2Revised|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0.001,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.0082
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.995,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.0048
+        }
+      }
+    },
+    "route mock 1.4 m/s": {
+      "v2Paper|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0,
+          "denied": 0,
+          "medianFixesToLatch": null,
+          "proceededSpoofFixes": 1
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        }
+      },
+      "v2Paper|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.2636,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7602
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.2636,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7602
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.2636,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7602
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.2111,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.8145
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.2636,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7602
+        }
+      },
+      "v2Paper|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.449,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.5907
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.449,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.5907
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.449,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.5907
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.3845,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.663
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.449,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.5907
+        }
+      },
+      "v2Revised|0.7": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0,
+          "denied": 0,
+          "medianFixesToLatch": null,
+          "proceededSpoofFixes": 1
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.003,
+          "denied": 0,
+          "medianFixesToLatch": 120,
+          "proceededSpoofFixes": 0.9982
+        }
+      },
+      "v2Revised|0.9": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.0793,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.9225
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.0793,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.9225
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.0793,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.9225
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.0416,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.9589
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.0793,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.9225
+        }
+      },
+      "v2Revised|1": {
+        "first": {
+          "sessions": 1009,
+          "detected": 0.2111,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7898
+        },
+        "single/2-of-5": {
+          "sessions": 1009,
+          "detected": 0.2111,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7898
+        },
+        "single/3-of-5": {
+          "sessions": 1009,
+          "detected": 0.2111,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7898
+        },
+        "2-of-5 both": {
+          "sessions": 1009,
+          "detected": 0.1863,
+          "denied": 0,
+          "medianFixesToLatch": 1,
+          "proceededSpoofFixes": 0.815
+        },
+        "single/no-score-deny": {
+          "sessions": 1009,
+          "detected": 0.2111,
+          "denied": 0,
+          "medianFixesToLatch": 0,
+          "proceededSpoofFixes": 0.7898
+        }
+      }
+    }
+  }
+}

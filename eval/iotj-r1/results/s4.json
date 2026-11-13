@@ -1,0 +1,245 @@
+{
+  "generated": "2026-11-12T13:04:35.075Z",
+  "splits": {
+    "dev": {
+      "split": "dev",
+      "asGenerated": {
+        "paper": {
+          "aucRoc": 0.9585,
+          "ap": 0.9717,
+          "eer": 0.0801,
+          "binary07": {
+            "far": 0.4997,
+            "fdr": 0
+          },
+          "binary09": {
+            "far": 0.1138,
+            "fdr": 0.0005
+          },
+          "graduated09Oracle": {
+            "far": 0.1138,
+            "fdr": 0,
+            "mL": 0.0005,
+            "mS": 0.8862
+          }
+        },
+        "revised": {
+          "aucRoc": 0.9584,
+          "ap": 0.9726,
+          "eer": 0.0821,
+          "binary07": {
+            "far": 0.5035,
+            "fdr": 0
+          },
+          "binary09": {
+            "far": 0.1135,
+            "fdr": 0.0008
+          },
+          "graduated09Oracle": {
+            "far": 0.1135,
+            "fdr": 0,
+            "mL": 0.0008,
+            "mS": 0.8865
+          }
+        },
+        "scoresChanged": 2849
+      },
+      "kinematic": {
+        "paper": {
+          "aucRoc": 0.8848,
+          "ap": 0.932,
+          "eer": 0.1881,
+          "binary07": {
+            "far": 0.4997,
+            "fdr": 0.0005
+          },
+          "binary09": {
+            "far": 0.1138,
+            "fdr": 0.284
+          },
+          "graduated09Oracle": {
+            "far": 0.1138,
+            "fdr": 0,
+            "mL": 0.284,
+            "mS": 0.8862
+          }
+        },
+        "revised": {
+          "aucRoc": 0.9582,
+          "ap": 0.9726,
+          "eer": 0.083,
+          "binary07": {
+            "far": 0.5035,
+            "fdr": 0
+          },
+          "binary09": {
+            "far": 0.1135,
+            "fdr": 0.0005
+          },
+          "graduated09Oracle": {
+            "far": 0.1135,
+            "fdr": 0,
+            "mL": 0.0005,
+            "mS": 0.8865
+          }
+        },
+        "legitimateByScenario": {
+          "walking": {
+            "n": 1000,
+            "s4Paper": 0.9944,
+            "s4Revised": 0.994,
+            "belowP09Paper": 0,
+            "belowP09Revised": 0
+          },
+          "driving": {
+            "n": 1000,
+            "s4Paper": 0.6169,
+            "s4Revised": 1,
+            "belowP09Paper": 0.371,
+            "belowP09Revised": 0
+          },
+          "stationary": {
+            "n": 1000,
+            "s4Paper": 0.9732,
+            "s4Revised": 0.9476,
+            "belowP09Paper": 0,
+            "belowP09Revised": 0
+          },
+          "train": {
+            "n": 1000,
+            "s4Paper": 0.3827,
+            "s4Revised": 1,
+            "belowP09Paper": 0.765,
+            "belowP09Revised": 0.002
+          }
+        }
+      }
+    },
+    "test": {
+      "split": "test",
+      "asGenerated": {
+        "paper": {
+          "aucRoc": 0.9526,
+          "ap": 0.9681,
+          "eer": 0.0888,
+          "binary07": {
+            "far": 0.5007,
+            "fdr": 0
+          },
+          "binary09": {
+            "far": 0.1158,
+            "fdr": 0.0008
+          },
+          "graduated09Oracle": {
+            "far": 0.1158,
+            "fdr": 0,
+            "mL": 0.0008,
+            "mS": 0.8842
+          }
+        },
+        "revised": {
+          "aucRoc": 0.9519,
+          "ap": 0.9687,
+          "eer": 0.091,
+          "binary07": {
+            "far": 0.5045,
+            "fdr": 0
+          },
+          "binary09": {
+            "far": 0.1165,
+            "fdr": 0.0018
+          },
+          "graduated09Oracle": {
+            "far": 0.1165,
+            "fdr": 0,
+            "mL": 0.0018,
+            "mS": 0.8835
+          }
+        },
+        "scoresChanged": 2830
+      },
+      "kinematic": {
+        "paper": {
+          "aucRoc": 0.8822,
+          "ap": 0.931,
+          "eer": 0.1834,
+          "binary07": {
+            "far": 0.5007,
+            "fdr": 0.0008
+          },
+          "binary09": {
+            "far": 0.1158,
+            "fdr": 0.2928
+          },
+          "graduated09Oracle": {
+            "far": 0.1158,
+            "fdr": 0,
+            "mL": 0.2928,
+            "mS": 0.8842
+          }
+        },
+        "revised": {
+          "aucRoc": 0.9522,
+          "ap": 0.9688,
+          "eer": 0.0908,
+          "binary07": {
+            "far": 0.5045,
+            "fdr": 0
+          },
+          "binary09": {
+            "far": 0.1165,
+            "fdr": 0.0013
+          },
+          "graduated09Oracle": {
+            "far": 0.1165,
+            "fdr": 0,
+            "mL": 0.0013,
+            "mS": 0.8835
+          }
+        },
+        "legitimateByScenario": {
+          "walking": {
+            "n": 1000,
+            "s4Paper": 0.9958,
+            "s4Revised": 0.9947,
+            "belowP09Paper": 0,
+            "belowP09Revised": 0
+          },
+          "driving": {
+            "n": 1000,
+            "s4Paper": 0.6227,
+            "s4Revised": 1,
+            "belowP09Paper": 0.385,
+            "belowP09Revised": 0
+          },
+          "stationary": {
+            "n": 1000,
+            "s4Paper": 0.9709,
+            "s4Revised": 0.9452,
+            "belowP09Paper": 0,
+            "belowP09Revised": 0.002
+          },
+          "train": {
+            "n": 1000,
+            "s4Paper": 0.381,
+            "s4Revised": 1,
+            "belowP09Paper": 0.786,
+            "belowP09Revised": 0.003
+          }
+        }
+      }
+    }
+  },
+  "denseTrace": {
+    "paper": {
+      "n": 30515,
+      "below07": 0.0045,
+      "below09": 0.392
+    },
+    "revised": {
+      "n": 30515,
+      "below07": 0.0006,
+      "below09": 0.0026
+    }
+  }
+}

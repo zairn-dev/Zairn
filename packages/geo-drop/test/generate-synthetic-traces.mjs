@@ -537,16 +537,17 @@ const ALL_SCENARIOS = Object.keys(SCENARIO_GENERATORS);
  * Generate traces for a single scenario.
  * @param {string} scenario - One of the scenario names
  * @param {number} n - Number of traces to generate
+ * @param {number} offset - First trace index; disjoint ranges give independent sets
  * @returns {Array} Array of trace objects
  */
-export function generateScenario(scenario, n = 1000) {
+export function generateScenario(scenario, n = 1000, offset = 0) {
   const gen = SCENARIO_GENERATORS[scenario];
   if (!gen) {
     throw new Error(`Unknown scenario: ${scenario}. Valid: ${ALL_SCENARIOS.join(', ')}`);
   }
 
   const traces = [];
-  for (let i = 0; i < n; i++) {
+  for (let i = offset; i < offset + n; i++) {
     const rng = createRng(`${scenario}-${i}`);
     traces.push(gen(rng, i));
   }
@@ -556,12 +557,13 @@ export function generateScenario(scenario, n = 1000) {
 /**
  * Generate traces for all scenarios.
  * @param {number} n - Number of traces per scenario
+ * @param {number} offset - First trace index per scenario (see generateScenario)
  * @returns {Array} Array of trace objects (10 * n total)
  */
-export function generateTraces(n = 1000) {
+export function generateTraces(n = 1000, offset = 0) {
   const traces = [];
   for (const scenario of ALL_SCENARIOS) {
-    traces.push(...generateScenario(scenario, n));
+    traces.push(...generateScenario(scenario, n, offset));
   }
   return traces;
 }

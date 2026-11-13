@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-up Trial</title>
+  <script src="/vendor/snarkjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 16px; font-family: system-ui, sans-serif; font-size: 15px; background: #f6f7f9; color: #111; }
+    h1 { font-size: 18px; margin: 0 0 12px; }
+    .panel { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+    label { display: block; font-size: 12px; color: #555; margin: 8px 0 4px; }
+    input, select, button { font-size: 16px; padding: 10px; border-radius: 6px; border: 1px solid #bbb; width: 100%; }
+    button { background: #1a73e8; color: #fff; border: none; margin-top: 10px; }
+    button.secondary { background: #e8eaed; color: #111; }
+    button:disabled { opacity: 0.5; }
+    video { width: 100%; border-radius: 6px; display: none; margin-top: 8px; }
+    #status { font-weight: 600; margin-top: 8px; white-space: pre-wrap; }
+    .ok { color: #137333; } .ng { color: #b00020; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+    td, th { border-bottom: 1px solid #eee; padding: 4px 2px; text-align: right; }
+    td:first-child, th:first-child { text-align: left; }
+    details summary { cursor: pointer; color: #555; }
+  </style>
+</head>
+<body>
+  <h1>Step-up 試行</h1>
+
+  <div class="panel">
+    <label for="device">端末名（例: poco-x7-pro）</label>
+    <input id="device" autocomplete="off" />
+    <label for="trialType">試行の種類</label>
+    <select id="trialType">
+      <option value="legit">正規: 会場の QR を読む</option>
+      <option value="relay">中継: 転送された QR の写真を読む</option>
+      <option value="stale">古いトークン: 前回読んだトークンを使い回す</option>
+      <option value="none">トークンなし: QR を見られない遠隔の偽装者</option>
+    </select>
+    <button id="start">step-up を開始</button>
+    <video id="video" playsinline muted></video>
+    <div id="status">準備中…</div>
+  </div>
+
+  <div class="panel">
+    <table id="trials">
+      <thead><tr><th>#</th><th>種類</th><th>結果</th><th>合計 ms</th><th>QR</th><th>GPS</th><th>証明</th><th>往復</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <button class="secondary" id="download">試行記録を JSON で保存</button>
+  </div>
+
+  <div class="panel">
+    <details>
+      <summary>会場の位置を設定（最初に 1 回、会場で）</summary>
+      <label for="adminKey">管理キー（サーバーの起動時に表示）</label>
+      <input id="adminKey" autocomplete="off" />
+      <button class="secondary" id="calibrate">今いる場所を会場の中心にする</button>
+    </details>
+  </div>
+
+  <script type="module">
+    import {
+      buildZkStatementBinding, lengthPrefixEncode, toFixedPoint, metersToRadiusSquared, cosLatScaled,
+    } from '/lib/zkp.js';
+
+    const $ = (id) => document.getElementById(id);
+    const store = {
+      get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+      set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } },
+    };
+    const trials = JSON.parse(store.get('stepupTrials') ?? '[]');
+    let warm = false;
+
+    $('device').value = store.get('stepupDevice') ?? '';
+    $('device').addEventListener('change', () => store.set('stepupDevice', $('device').value.trim()));
+
+    function status(text, cls = '') { $('status').textContent = text; $('status').className = cls; }
+
+    function render() {
+      $('trials').querySelector('tbody').innerHTML = trials.map((t, i) => `<tr>
+        <td>${i + 1}</td><td>${t.trialType}</td><td class="${t.ok ? 'ok' : 'ng'}">${t.ok ? 'OK' : t.reason}</td>
+        <td>${t.totalMs ?? '-'}</td><td>${t.scanMs ?? '-'}</td><td>${t.fixMs ?? '-'}</td><td>${t.proveMs ?? '-'}</td><td>${t.verifyRttMs ?? '-'}</td>
+      </tr>`).reverse().join('');
+    }
+
+    function getFix() {
+      return new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(
+        (p) => resolve({ lat: p.coords.latitude, lon: p.coords.longitude, accuracy: p.coords.accuracy }),
+        (e) => reject(new Error(`gps_${e.code}`)),
+        { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 },
+      ));
+    }
+
+    async function scanQr() {
+      const video = $('video');
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+      video.srcObject = stream;
+      video.style.display = 'block';
+      await video.play();
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const detector = 'BarcodeDetector' in window ? new window.BarcodeDetector({ formats: ['qr_code'] }) : null;
+      try {
+        for (;;) {
+          await new Promise((r) => requestAnimationFrame(r));
+          if (!video.videoWidth) continue;
+          if (detector) {
+            const codes = await detector.detect(video);
+            if (codes.length) return codes[0].rawValue;
+            continue;
+          }
+          canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+          ctx.drawImage(video, 0, 0);
+          const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const code = window.jsQR(img.data, img.width, img.height, { inversionAttempts: 'dontInvert' });
+          if (code?.data) return code.data;
+        }
+      } finally {
+        stream.getTracks().forEach((t) => t.stop());
+        video.style.display = 'none';
+      }
+    }
+
+    async function post(path, body) {
+      const res = await fetch(path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+      return res.json();
+    }
+
+    $('calibrate').addEventListener('click', async () => {
+      status('GPS を取得中…');
+      try {
+        const fix = await getFix();
+        const r = await post('/api/calibrate', { adminKey: $('adminKey').value.trim(), ...fix });
+        status(r.ok ? `会場を設定しました（精度 ${fix.accuracy.toFixed(0)} m）` : `設定できません: ${r.error}`, r.ok ? 'ok' : 'ng');
+      } catch (e) { status(`設定できません: ${e.message}`, 'ng'); }
+    });
+
+    $('start').addEventListener('click', async () => {
+      const device = $('device').value.trim();
+      if (!device) { status('端末名を入れてください', 'ng'); return; }
+      store.set('stepupDevice', device);
+      const trialType = $('trialType').value;
+      const rec = { device, trialType, cold: !warm, startedAt: new Date().toISOString() };
+      $('start').disabled = true;
+      const t0 = performance.now();
+      const ms = (t) => Math.round(t - t0);
+      let session;
+      try {
+        status('セッションを開始…');
+        session = await post('/api/session', { device, trialType });
+        if (!session.sessionId) throw new Error(session.error ?? 'session_failed');
+        rec.sessionMs = ms(performance.now());
+
+        status(trialType === 'legit' || trialType === 'relay' ? 'QR を読み取ってください（GPS も取得中）' : 'GPS を取得中…');
+        const fixP = getFix().then((f) => { rec.fixMs = ms(performance.now()); rec.fixAccuracyM = Math.round(f.accuracy); return f; });
+        let tokenP;
+        if (trialType === 'legit' || trialType === 'relay') tokenP = scanQr().then((t) => { rec.scanMs = ms(performance.now()); return t; });
+        else if (trialType === 'stale') tokenP = Promise.resolve(store.get('stepupLastToken') ?? 'ZT1.none.0.AAAAAAAAAAAAAAAAAAAAAA');
+        else tokenP = Promise.resolve(`ZT1.${session.venueId}.0.AAAAAAAAAAAAAAAAAAAAAA`);
+        const [fix, token] = await Promise.all([fixP, tokenP]);
+        if (trialType === 'legit') store.set('stepupLastToken', token);
+
+        status('証明を生成中…');
+        const slot = Number(token.split('.')[2] ?? 0);
+        const statement = await buildZkStatementBinding({
+          dropId: session.venueId, policyVersion: session.policyVersion, epoch: slot,
+          serverNonce: lengthPrefixEncode(session.nonce, token),
+        });
+        const input = {
+          targetLat: toFixedPoint(session.center.lat).toString(),
+          targetLon: toFixedPoint(session.center.lon).toString(),
+          radiusSquared: metersToRadiusSquared(session.radiusM).toString(),
+          cosLatScaled: cosLatScaled(session.center.lat).toString(),
+          contextDigest: statement.contextDigest, epoch: statement.epoch, challengeDigest: statement.challengeDigest,
+          userLat: toFixedPoint(fix.lat).toString(), userLon: toFixedPoint(fix.lon).toString(),
+        };
+        const tp = performance.now();
+        let proof, publicSignals;
+        try {
+          ({ proof, publicSignals } = await window.snarkjs.groth16.fullProve(input, '/artifacts/zairn_zkp.wasm', '/artifacts/zairn_zkp_final.zkey'));
+        } catch {
+          throw new Error('out_of_radius_or_prove_failed');
+        }
+        rec.proveMs = Math.round(performance.now() - tp);
+        warm = true;
+
+        status('サーバーで検証中…');
+        const tv = performance.now();
+        const clientTimings = { sessionMs: rec.sessionMs, fixMs: rec.fixMs, scanMs: rec.scanMs, proveMs: rec.proveMs, fixAccuracyM: rec.fixAccuracyM, cold: rec.cold };
+        const r = await post('/api/verify', { sessionId: session.sessionId, token, proof, publicSignals, clientTimings });
+        rec.verifyRttMs = Math.round(performance.now() - tv);
+        rec.totalMs = ms(performance.now());
+        Object.assign(rec, { ok: r.ok, reason: r.reason, serverElapsedMs: r.elapsedMs, serverVerifyMs: r.verifyMs ? Math.round(r.verifyMs) : null });
+        status(r.ok ? `受理（${rec.totalMs} ms）` : `拒否: ${r.reason}`, r.ok ? 'ok' : 'ng');
+      } catch (e) {
+        rec.totalMs = ms(performance.now());
+        Object.assign(rec, { ok: false, reason: `client_${e.message}` });
+        if (session?.sessionId) {
+          post('/api/verify', { sessionId: session.sessionId, clientError: e.message, clientTimings: { ...rec } }).catch(() => {});
+        }
+        status(`失敗: ${e.message}`, 'ng');
+      } finally {
+        trials.push(rec);
+        store.set('stepupTrials', JSON.stringify(trials));
+        render();
+        $('start').disabled = false;
+      }
+    });
+
+    $('download').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), userAgent: navigator.userAgent, trials }, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `stepup-${$('device').value.trim() || 'device'}-${Date.now()}.json`;
+      a.click();
+    });
+
+    render();
+    // Warm the artifact cache so the first trial measures proving, not download.
+    Promise.all([fetch('/artifacts/zairn_zkp.wasm'), fetch('/artifacts/zairn_zkp_final.zkey')])
+      .then(() => status('準備完了'))
+      .catch(() => status('回路ファイルを読み込めません', 'ng'));
+    fetch('/api/config').then((r) => r.json()).then((c) => {
+      if (!c.calibrated) status('準備完了（会場の位置がまだ設定されていません。下の「会場の位置を設定」から）');
+    });
+  </script>
+</body>
+</html>

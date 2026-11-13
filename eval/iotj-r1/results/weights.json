@@ -1,0 +1,2177 @@
+{
+  "generated": "2026-11-12T13:05:06.212Z",
+  "config": {
+    "draws": 1000,
+    "bootstrapB": 1000,
+    "fdrBudget": 0.001,
+    "localConcentration": 50,
+    "thetaRule": "max val F1 (smallest theta on ties); largest theta with val FDR <= budget"
+  },
+  "checks": {
+    "dev/submitted": {
+      "mismatchesVsScorer": 0
+    },
+    "dev/revised": {
+      "mismatchesVsScorer": 0
+    },
+    "val/submitted": {
+      "mismatchesVsScorer": 0
+    },
+    "val/revised": {
+      "mismatchesVsScorer": 0
+    },
+    "test/submitted": {
+      "mismatchesVsScorer": 0
+    },
+    "test/revised": {
+      "mismatchesVsScorer": 0
+    },
+    "revisedTableI": {
+      "apRenormalised": 0.9687,
+      "apExactScorer": 0.9687,
+      "aucRenormalised": 0.9519,
+      "aucExactScorer": 0.9519,
+      "histogramMatchesMetricsMjs": true
+    }
+  },
+  "sets": {
+    "submitted": {
+      "all5": {
+        "tableI": {
+          "weights": [
+            0.3,
+            0.1,
+            0.15,
+            0.25,
+            0.2
+          ],
+          "ap": 0.9681,
+          "auc": 0.9526,
+          "f1": 0.9433,
+          "far": 0.0968,
+          "fdr": 0.0177,
+          "farAtFdr": 0.1072,
+          "fdrAtFdr": 0.0008,
+          "thetaF1": 0.95,
+          "valF1": 0.9493,
+          "thetaFdr": 0.91,
+          "f1AtFdr": 0.9431,
+          "perScenarioAtThetaF1": {
+            "walking": 0.008,
+            "driving": 0.002,
+            "stationary": 0.023,
+            "train": 0.038,
+            "teleportation": 1,
+            "drift": 0.419,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 1,
+            "compound": 1
+          },
+          "perScenarioAtThetaFdr": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0,
+            "train": 0.003,
+            "teleportation": 1,
+            "drift": 0.357,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 1,
+            "compound": 1
+          }
+        },
+        "random": {
+          "draws": 1000,
+          "summary": {
+            "ap": {
+              "min": 0.8479,
+              "p5": 0.9374,
+              "p50": 0.9642,
+              "p95": 0.9685,
+              "max": 0.9691
+            },
+            "auc": {
+              "min": 0.8017,
+              "p5": 0.9169,
+              "p50": 0.9498,
+              "p95": 0.9551,
+              "max": 0.9571
+            },
+            "f1": {
+              "min": 0.7783,
+              "p5": 0.8995,
+              "p50": 0.943,
+              "p95": 0.9467,
+              "max": 0.9467
+            },
+            "far": {
+              "min": 0.0723,
+              "p5": 0.086,
+              "p50": 0.0978,
+              "p95": 0.1132,
+              "max": 0.3333
+            },
+            "fdr": {
+              "min": 0,
+              "p5": 0.0045,
+              "p50": 0.0103,
+              "p95": 0.1393,
+              "max": 0.2128
+            },
+            "farAtFdr": {
+              "min": 0.1035,
+              "p5": 0.1047,
+              "p50": 0.3282,
+              "p95": 0.6667,
+              "max": 0.6667
+            },
+            "fdrAtFdr": {
+              "min": 0,
+              "p5": 0,
+              "p50": 0.0008,
+              "p95": 0.0018,
+              "max": 0.0028
+            }
+          },
+          "tableIPercentile": {
+            "ap": 91.2,
+            "auc": 79.8,
+            "f1": 51.25,
+            "far": 85.2,
+            "fdr": 38.1,
+            "farAtFdr": 86.55,
+            "fdrAtFdr": 54.25
+          },
+          "shareWithin": {
+            "ap±0.01": 0.794,
+            "auc±0.01": 0.797,
+            "f1±0.01": 0.732,
+            "farAtFdr±0.05": 0.316
+          },
+          "best": {
+            "ap": {
+              "weights": [
+                0.386,
+                0.229,
+                0.0759,
+                0.0294,
+                0.2797
+              ],
+              "value": 0.9691
+            },
+            "farAtFdr": {
+              "weights": [
+                0.3531,
+                0.0969,
+                0.0131,
+                0.2277,
+                0.3092
+              ],
+              "value": 0.1035
+            }
+          },
+          "weightCorrelation": {
+            "ap": {
+              "S1": 0.0086,
+              "S2": -0.0316,
+              "S3": -0.1295,
+              "S4": -0.223,
+              "S5": 0.3625
+            },
+            "f1": {
+              "S1": -0.1275,
+              "S2": 0.0008,
+              "S3": -0.1,
+              "S4": -0.2508,
+              "S5": 0.4537
+            },
+            "farAtFdr": {
+              "S1": 0.1236,
+              "S2": -0.2396,
+              "S3": 0.4847,
+              "S4": 0.0805,
+              "S5": -0.43
+            }
+          }
+        },
+        "local": {
+          "draws": 1000,
+          "summary": {
+            "ap": {
+              "min": 0.961,
+              "p5": 0.9666,
+              "p50": 0.968,
+              "p95": 0.9687,
+              "max": 0.969
+            },
+            "auc": {
+              "min": 0.9447,
+              "p5": 0.9507,
+              "p50": 0.9526,
+              "p95": 0.9537,
+              "max": 0.955
+            },
+            "f1": {
+              "min": 0.9262,
+              "p5": 0.9369,
+              "p50": 0.9432,
+              "p95": 0.9464,
+              "max": 0.9467
+            },
+            "far": {
+              "min": 0.0937,
+              "p5": 0.0968,
+              "p50": 0.0978,
+              "p95": 0.1072,
+              "max": 0.1158
+            },
+            "fdr": {
+              "min": 0.0008,
+              "p5": 0.002,
+              "p50": 0.0093,
+              "p95": 0.025,
+              "max": 0.0705
+            },
+            "farAtFdr": {
+              "min": 0.1035,
+              "p5": 0.105,
+              "p50": 0.1165,
+              "p95": 0.3297,
+              "max": 0.339
+            },
+            "fdrAtFdr": {
+              "min": 0.0003,
+              "p5": 0.0008,
+              "p50": 0.0008,
+              "p95": 0.0018,
+              "max": 0.003
+            }
+          },
+          "tableIPercentile": {
+            "ap": 55.5,
+            "auc": 51.9,
+            "f1": 50.15,
+            "far": 92.9,
+            "fdr": 17.75,
+            "farAtFdr": 73.05,
+            "fdrAtFdr": 69.9
+          },
+          "shareWithin": {
+            "ap±0.01": 1,
+            "auc±0.01": 1,
+            "f1±0.01": 0.983,
+            "farAtFdr±0.05": 0.732
+          },
+          "best": {
+            "ap": {
+              "weights": [
+                0.5188,
+                0.0718,
+                0.082,
+                0.1106,
+                0.2168
+              ],
+              "value": 0.969
+            },
+            "farAtFdr": {
+              "weights": [
+                0.2914,
+                0.0734,
+                0.1602,
+                0.1298,
+                0.3452
+              ],
+              "value": 0.1035
+            }
+          },
+          "weightCorrelation": {
+            "ap": {
+              "S1": 0.2802,
+              "S2": -0.108,
+              "S3": -0.1272,
+              "S4": -0.4493,
+              "S5": 0.3655
+            },
+            "f1": {
+              "S1": -0.3937,
+              "S2": -0.0132,
+              "S3": 0.0533,
+              "S4": -0.3461,
+              "S5": 0.8255
+            },
+            "farAtFdr": {
+              "S1": 0.1837,
+              "S2": -0.019,
+              "S3": 0.2064,
+              "S4": 0.253,
+              "S5": -0.6833
+            }
+          }
+        },
+        "learned": {
+          "weights": [
+            0.2219,
+            0.4849,
+            0,
+            0,
+            0.2931
+          ],
+          "intercept": -42.4587,
+          "beta": [
+            9.8939,
+            21.6187,
+            0,
+            0,
+            13.0691
+          ],
+          "fit": {
+            "iterations": 11000,
+            "projGrad": 8.103723827686052e-8,
+            "logLoss": 0.1696,
+            "uniqueRows": 1436
+          },
+          "ap": 0.9681,
+          "auc": 0.956,
+          "f1": 0.9466,
+          "far": 0.0978,
+          "fdr": 0.006,
+          "farAtFdr": 0.1047,
+          "fdrAtFdr": 0,
+          "thetaF1": 0.95,
+          "valF1": 0.9525,
+          "thetaFdr": 0.91,
+          "f1AtFdr": 0.9448,
+          "perScenarioAtThetaF1": {
+            "walking": 0.008,
+            "driving": 0.002,
+            "stationary": 0.006,
+            "train": 0.008,
+            "teleportation": 1,
+            "drift": 0.413,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 1,
+            "compound": 1
+          },
+          "perScenarioAtThetaFdr": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0,
+            "train": 0,
+            "teleportation": 1,
+            "drift": 0.372,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 1,
+            "compound": 1
+          }
+        },
+        "bootstrap": {
+          "tableI": {
+            "ap": {
+              "point": 0.9681,
+              "lo": 0.966,
+              "hi": 0.9699
+            },
+            "auc": {
+              "point": 0.9526,
+              "lo": 0.9494,
+              "hi": 0.9553
+            },
+            "f1": {
+              "point": 0.9433,
+              "lo": 0.9398,
+              "hi": 0.9461
+            },
+            "far": {
+              "point": 0.0968,
+              "lo": 0.092,
+              "hi": 0.1022
+            },
+            "fdr": {
+              "point": 0.0177,
+              "lo": 0.0138,
+              "hi": 0.0217
+            },
+            "farAtFdr": {
+              "point": 0.1072,
+              "lo": 0.1025,
+              "hi": 0.1122
+            },
+            "fdrAtFdr": {
+              "point": 0.0008,
+              "lo": 0,
+              "hi": 0.0018
+            }
+          },
+          "learned": {
+            "ap": {
+              "point": 0.9681,
+              "lo": 0.966,
+              "hi": 0.9699
+            },
+            "auc": {
+              "point": 0.956,
+              "lo": 0.953,
+              "hi": 0.9585
+            },
+            "f1": {
+              "point": 0.9466,
+              "lo": 0.9436,
+              "hi": 0.9493
+            },
+            "far": {
+              "point": 0.0978,
+              "lo": 0.093,
+              "hi": 0.1032
+            },
+            "fdr": {
+              "point": 0.006,
+              "lo": 0.0038,
+              "hi": 0.0083
+            },
+            "farAtFdr": {
+              "point": 0.1047,
+              "lo": 0.0998,
+              "hi": 0.1097
+            },
+            "fdrAtFdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            }
+          },
+          "learnedMinusTableI": {
+            "ap": {
+              "point": 0,
+              "lo": -0.0005,
+              "hi": 0.0004
+            },
+            "auc": {
+              "point": 0.0034,
+              "lo": 0.0027,
+              "hi": 0.0041
+            },
+            "f1": {
+              "point": 0.0033,
+              "lo": 0.0023,
+              "hi": 0.0045
+            },
+            "far": {
+              "point": 0.001,
+              "lo": 0.0003,
+              "hi": 0.002
+            },
+            "fdr": {
+              "point": -0.0117,
+              "lo": -0.0152,
+              "hi": -0.0088
+            },
+            "farAtFdr": {
+              "point": -0.0025,
+              "lo": -0.0038,
+              "hi": -0.0013
+            },
+            "fdrAtFdr": {
+              "point": -0.0007,
+              "lo": -0.0017,
+              "hi": 0
+            }
+          }
+        },
+        "loao": {
+          "folds": [
+            {
+              "heldOut": "teleportation",
+              "tableI": {
+                "thetaF1": 0.95,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0177,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0008
+              },
+              "learned": {
+                "weights": [
+                  0.2196,
+                  0.4902,
+                  0,
+                  0,
+                  0.2901
+                ],
+                "thetaF1": 0.92,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0055,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0
+              }
+            },
+            {
+              "heldOut": "drift",
+              "tableI": {
+                "thetaF1": 0.87,
+                "tprHeldOutF1": 0.295,
+                "fdrF1": 0.0005,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 0.357,
+                "fdrFdr": 0.0008
+              },
+              "learned": {
+                "weights": [
+                  0.1201,
+                  0.3068,
+                  0.1452,
+                  0.0641,
+                  0.3639
+                ],
+                "thetaF1": 0.78,
+                "tprHeldOutF1": 0.289,
+                "fdrF1": 0,
+                "thetaFdr": 0.89,
+                "tprHeldOutFdr": 0.369,
+                "fdrFdr": 0.0003
+              }
+            },
+            {
+              "heldOut": "accuracy",
+              "tableI": {
+                "thetaF1": 0.95,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0177,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0008
+              },
+              "learned": {
+                "weights": [
+                  0.3109,
+                  0.2784,
+                  0,
+                  0,
+                  0.4107
+                ],
+                "thetaF1": 0.93,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0063,
+                "thetaFdr": 0.88,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0008
+              }
+            },
+            {
+              "heldOut": "replay",
+              "tableI": {
+                "thetaF1": 0.95,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0177,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0008
+              },
+              "learned": {
+                "weights": [
+                  0.2142,
+                  0.491,
+                  0,
+                  0,
+                  0.2948
+                ],
+                "thetaF1": 0.92,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0055,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0
+              }
+            },
+            {
+              "heldOut": "network_mismatch",
+              "tableI": {
+                "thetaF1": 0.95,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0177,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0008
+              },
+              "learned": {
+                "weights": [
+                  0.2246,
+                  0.4903,
+                  0,
+                  0,
+                  0.2852
+                ],
+                "thetaF1": 0.95,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.006,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0
+              }
+            },
+            {
+              "heldOut": "compound",
+              "tableI": {
+                "thetaF1": 0.95,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0177,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0008
+              },
+              "learned": {
+                "weights": [
+                  0.2196,
+                  0.4902,
+                  0,
+                  0,
+                  0.2901
+                ],
+                "thetaF1": 0.92,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0055,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0
+              }
+            }
+          ],
+          "summary": {
+            "tableI": {
+              "meanTprF1": 0.8825,
+              "minTprF1": 0.295,
+              "meanTprFdr": 0.8928,
+              "minTprFdr": 0.357,
+              "maxFdrF1": 0.0177,
+              "maxFdrFdr": 0.0008
+            },
+            "learned": {
+              "meanTprF1": 0.8815,
+              "minTprF1": 0.289,
+              "meanTprFdr": 0.8948,
+              "minTprFdr": 0.369,
+              "maxFdrF1": 0.0063,
+              "maxFdrFdr": 0.0008
+            }
+          }
+        }
+      },
+      "noNetwork": {
+        "tableI": {
+          "weights": [
+            0.35,
+            0.15,
+            0.2,
+            0.3,
+            0
+          ],
+          "ap": 0.882,
+          "auc": 0.8248,
+          "f1": 0.8,
+          "far": 0.3333,
+          "fdr": 0,
+          "farAtFdr": 0.3333,
+          "fdrAtFdr": 0.0008,
+          "thetaF1": 0.81,
+          "valF1": 0.8002,
+          "thetaFdr": 0.89,
+          "f1AtFdr": 0.7998,
+          "perScenarioAtThetaF1": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0,
+            "train": 0,
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          },
+          "perScenarioAtThetaFdr": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0,
+            "train": 0.003,
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          }
+        },
+        "random": {
+          "draws": 1000,
+          "summary": {
+            "ap": {
+              "min": 0.7388,
+              "p5": 0.8673,
+              "p50": 0.8792,
+              "p95": 0.8829,
+              "max": 0.8835
+            },
+            "auc": {
+              "min": 0.6409,
+              "p5": 0.8186,
+              "p50": 0.8244,
+              "p95": 0.8351,
+              "max": 0.8379
+            },
+            "f1": {
+              "min": 0.75,
+              "p5": 0.7963,
+              "p50": 0.7998,
+              "p95": 0.8,
+              "max": 0.8002
+            },
+            "far": {
+              "min": 0,
+              "p5": 0.3268,
+              "p50": 0.3333,
+              "p95": 0.3337,
+              "max": 0.3342
+            },
+            "fdr": {
+              "min": 0,
+              "p5": 0,
+              "p50": 0.001,
+              "p95": 0.0333,
+              "max": 1
+            },
+            "farAtFdr": {
+              "min": 0.3325,
+              "p5": 0.3328,
+              "p50": 0.3333,
+              "p95": 0.6667,
+              "max": 0.6667
+            },
+            "fdrAtFdr": {
+              "min": 0,
+              "p5": 0.0005,
+              "p50": 0.0008,
+              "p95": 0.0013,
+              "max": 0.0018
+            }
+          },
+          "tableIPercentile": {
+            "ap": 81,
+            "auc": 53.8,
+            "f1": 77.7,
+            "far": 37.15,
+            "fdr": 83.1,
+            "farAtFdr": 65.35,
+            "fdrAtFdr": 58.2
+          },
+          "shareWithin": {
+            "ap±0.01": 0.848,
+            "auc±0.01": 0.915,
+            "f1±0.01": 0.984,
+            "farAtFdr±0.05": 0.719
+          },
+          "best": {
+            "ap": {
+              "weights": [
+                0.6822,
+                0.1091,
+                0.0103,
+                0.1985,
+                0
+              ],
+              "value": 0.8835
+            },
+            "farAtFdr": {
+              "weights": [
+                0.54,
+                0.1461,
+                0.0324,
+                0.2815,
+                0
+              ],
+              "value": 0.3325
+            }
+          },
+          "weightCorrelation": {
+            "ap": {
+              "S1": 0.4633,
+              "S2": -0.1025,
+              "S3": -0.0977,
+              "S4": -0.2597,
+              "S5": null
+            },
+            "f1": {
+              "S1": 0.0939,
+              "S2": 0.0909,
+              "S3": 0.1297,
+              "S4": -0.3259,
+              "S5": null
+            },
+            "farAtFdr": {
+              "S1": -0.0069,
+              "S2": -0.3192,
+              "S3": 0.3645,
+              "S4": -0.0385,
+              "S5": null
+            }
+          }
+        },
+        "local": {
+          "draws": 1000,
+          "summary": {
+            "ap": {
+              "min": 0.8791,
+              "p5": 0.8804,
+              "p50": 0.8819,
+              "p95": 0.8827,
+              "max": 0.8833
+            },
+            "auc": {
+              "min": 0.8211,
+              "p5": 0.8229,
+              "p50": 0.8247,
+              "p95": 0.8265,
+              "max": 0.8284
+            },
+            "f1": {
+              "min": 0.799,
+              "p5": 0.7996,
+              "p50": 0.7999,
+              "p95": 0.8,
+              "max": 0.8002
+            },
+            "far": {
+              "min": 0.3302,
+              "p5": 0.3308,
+              "p50": 0.3333,
+              "p95": 0.3333,
+              "max": 0.334
+            },
+            "fdr": {
+              "min": 0,
+              "p5": 0,
+              "p50": 0.0003,
+              "p95": 0.0058,
+              "max": 0.0095
+            },
+            "farAtFdr": {
+              "min": 0.3327,
+              "p5": 0.3333,
+              "p50": 0.3333,
+              "p95": 0.3333,
+              "max": 0.3485
+            },
+            "fdrAtFdr": {
+              "min": 0.0005,
+              "p5": 0.0008,
+              "p50": 0.0008,
+              "p95": 0.0015,
+              "max": 0.0018
+            }
+          },
+          "tableIPercentile": {
+            "ap": 51.8,
+            "auc": 53.4,
+            "f1": 75.95,
+            "far": 46.05,
+            "fdr": 78.3,
+            "farAtFdr": 50.2,
+            "fdrAtFdr": 71.65
+          },
+          "shareWithin": {
+            "ap±0.01": 1,
+            "auc±0.01": 1,
+            "f1±0.01": 1,
+            "farAtFdr±0.05": 1
+          },
+          "best": {
+            "ap": {
+              "weights": [
+                0.5892,
+                0.1162,
+                0.0789,
+                0.2157,
+                0
+              ],
+              "value": 0.8833
+            },
+            "farAtFdr": {
+              "weights": [
+                0.4831,
+                0.1195,
+                0.0975,
+                0.2999,
+                0
+              ],
+              "value": 0.3327
+            }
+          },
+          "weightCorrelation": {
+            "ap": {
+              "S1": 0.9488,
+              "S2": -0.2625,
+              "S3": -0.3613,
+              "S4": -0.4828,
+              "S5": null
+            },
+            "f1": {
+              "S1": -0.2612,
+              "S2": 0.4515,
+              "S3": -0.4227,
+              "S4": 0.282,
+              "S5": null
+            },
+            "farAtFdr": {
+              "S1": 0.0091,
+              "S2": -0.1427,
+              "S3": 0.3139,
+              "S4": -0.1664,
+              "S5": null
+            }
+          }
+        },
+        "learned": {
+          "weights": [
+            0.1937,
+            0.7264,
+            0.0799,
+            0,
+            0
+          ],
+          "intercept": -27.4657,
+          "beta": [
+            5.4659,
+            20.4965,
+            2.2532,
+            0
+          ],
+          "fit": {
+            "iterations": 9400,
+            "projGrad": 9.177692927808528e-8,
+            "logLoss": 0.3829,
+            "uniqueRows": 1430
+          },
+          "ap": 0.8796,
+          "auc": 0.8356,
+          "f1": 0.8,
+          "far": 0.3333,
+          "fdr": 0,
+          "farAtFdr": 0.3333,
+          "fdrAtFdr": 0.0008,
+          "thetaF1": 0.91,
+          "valF1": 0.8002,
+          "thetaFdr": 0.95,
+          "f1AtFdr": 0.7998,
+          "perScenarioAtThetaF1": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0,
+            "train": 0,
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          },
+          "perScenarioAtThetaFdr": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0,
+            "train": 0.003,
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          }
+        },
+        "bootstrap": {
+          "tableI": {
+            "ap": {
+              "point": 0.882,
+              "lo": 0.8805,
+              "hi": 0.8834
+            },
+            "auc": {
+              "point": 0.8248,
+              "lo": 0.8218,
+              "hi": 0.8277
+            },
+            "f1": {
+              "point": 0.8,
+              "lo": 0.8,
+              "hi": 0.8
+            },
+            "far": {
+              "point": 0.3333,
+              "lo": 0.3333,
+              "hi": 0.3333
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "farAtFdr": {
+              "point": 0.3333,
+              "lo": 0.3333,
+              "hi": 0.3333
+            },
+            "fdrAtFdr": {
+              "point": 0.0008,
+              "lo": 0,
+              "hi": 0.0018
+            }
+          },
+          "learned": {
+            "ap": {
+              "point": 0.8796,
+              "lo": 0.8781,
+              "hi": 0.8812
+            },
+            "auc": {
+              "point": 0.8356,
+              "lo": 0.8331,
+              "hi": 0.8382
+            },
+            "f1": {
+              "point": 0.8,
+              "lo": 0.8,
+              "hi": 0.8
+            },
+            "far": {
+              "point": 0.3333,
+              "lo": 0.3333,
+              "hi": 0.3333
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "farAtFdr": {
+              "point": 0.3333,
+              "lo": 0.3333,
+              "hi": 0.3333
+            },
+            "fdrAtFdr": {
+              "point": 0.0008,
+              "lo": 0,
+              "hi": 0.0018
+            }
+          },
+          "learnedMinusTableI": {
+            "ap": {
+              "point": -0.0024,
+              "lo": -0.0032,
+              "hi": -0.0016
+            },
+            "auc": {
+              "point": 0.0108,
+              "lo": 0.0088,
+              "hi": 0.0126
+            },
+            "f1": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "far": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "farAtFdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "fdrAtFdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            }
+          }
+        }
+      }
+    },
+    "revised": {
+      "all5": {
+        "tableI": {
+          "weights": [
+            0.3,
+            0.1,
+            0.15,
+            0.25,
+            0.2
+          ],
+          "ap": 0.9687,
+          "auc": 0.9519,
+          "f1": 0.9427,
+          "far": 0.106,
+          "fdr": 0.004,
+          "farAtFdr": 0.1165,
+          "fdrAtFdr": 0.0018,
+          "thetaF1": 0.92,
+          "valF1": 0.9477,
+          "thetaFdr": 0.9,
+          "f1AtFdr": 0.9376,
+          "perScenarioAtThetaF1": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0.013,
+            "train": 0.003,
+            "teleportation": 1,
+            "drift": 0.364,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 1,
+            "compound": 1
+          },
+          "perScenarioAtThetaFdr": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0.004,
+            "train": 0.003,
+            "teleportation": 1,
+            "drift": 0.304,
+            "accuracy": 0.997,
+            "replay": 1,
+            "network_mismatch": 1,
+            "compound": 1
+          }
+        },
+        "random": {
+          "draws": 1000,
+          "summary": {
+            "ap": {
+              "min": 0.8682,
+              "p5": 0.9284,
+              "p50": 0.963,
+              "p95": 0.9686,
+              "max": 0.9694
+            },
+            "auc": {
+              "min": 0.8116,
+              "p5": 0.9012,
+              "p50": 0.9476,
+              "p95": 0.9526,
+              "max": 0.9536
+            },
+            "f1": {
+              "min": 0.7854,
+              "p5": 0.8837,
+              "p50": 0.9368,
+              "p95": 0.9461,
+              "max": 0.9465
+            },
+            "far": {
+              "min": 0.0685,
+              "p5": 0.0788,
+              "p50": 0.0985,
+              "p95": 0.1802,
+              "max": 0.334
+            },
+            "fdr": {
+              "min": 0.0013,
+              "p5": 0.0055,
+              "p50": 0.019,
+              "p95": 0.1818,
+              "max": 0.265
+            },
+            "farAtFdr": {
+              "min": 0.1048,
+              "p5": 0.1082,
+              "p50": 0.333,
+              "p95": 0.666,
+              "max": 0.6667
+            },
+            "fdrAtFdr": {
+              "min": 0,
+              "p5": 0.0003,
+              "p50": 0.001,
+              "p95": 0.0023,
+              "max": 0.0035
+            }
+          },
+          "tableIPercentile": {
+            "ap": 96,
+            "auc": 88.8,
+            "f1": 66.9,
+            "far": 28.2,
+            "fdr": 96.6,
+            "farAtFdr": 88.1,
+            "fdrAtFdr": 18.9
+          },
+          "shareWithin": {
+            "ap±0.01": 0.696,
+            "auc±0.01": 0.697,
+            "f1±0.01": 0.566,
+            "farAtFdr±0.05": 0.166
+          },
+          "best": {
+            "ap": {
+              "weights": [
+                0.4248,
+                0.0216,
+                0.0847,
+                0.2328,
+                0.2361
+              ],
+              "value": 0.9694
+            },
+            "farAtFdr": {
+              "weights": [
+                0.2172,
+                0.1271,
+                0.0315,
+                0.2674,
+                0.3568
+              ],
+              "value": 0.1048
+            }
+          },
+          "weightCorrelation": {
+            "ap": {
+              "S1": -0.0627,
+              "S2": -0.0944,
+              "S3": -0.1066,
+              "S4": -0.1397,
+              "S5": 0.3903
+            },
+            "f1": {
+              "S1": -0.1438,
+              "S2": -0.0639,
+              "S3": -0.0702,
+              "S4": -0.1991,
+              "S5": 0.4635
+            },
+            "farAtFdr": {
+              "S1": 0.1919,
+              "S2": -0.0551,
+              "S3": 0.4253,
+              "S4": -0.0984,
+              "S5": -0.4403
+            }
+          }
+        },
+        "local": {
+          "draws": 1000,
+          "summary": {
+            "ap": {
+              "min": 0.953,
+              "p5": 0.9664,
+              "p50": 0.9685,
+              "p95": 0.9693,
+              "max": 0.9695
+            },
+            "auc": {
+              "min": 0.9328,
+              "p5": 0.949,
+              "p50": 0.9517,
+              "p95": 0.9529,
+              "max": 0.9535
+            },
+            "f1": {
+              "min": 0.9113,
+              "p5": 0.9348,
+              "p50": 0.9423,
+              "p95": 0.9461,
+              "max": 0.9464
+            },
+            "far": {
+              "min": 0.0948,
+              "p5": 0.0972,
+              "p50": 0.1047,
+              "p95": 0.108,
+              "max": 0.1162
+            },
+            "fdr": {
+              "min": 0.0015,
+              "p5": 0.0033,
+              "p50": 0.01,
+              "p95": 0.0285,
+              "max": 0.1028
+            },
+            "farAtFdr": {
+              "min": 0.1047,
+              "p5": 0.1062,
+              "p50": 0.117,
+              "p95": 0.3313,
+              "max": 0.4167
+            },
+            "fdrAtFdr": {
+              "min": 0.0005,
+              "p5": 0.0008,
+              "p50": 0.0013,
+              "p95": 0.0023,
+              "max": 0.0028
+            }
+          },
+          "tableIPercentile": {
+            "ap": 65.3,
+            "auc": 56.9,
+            "f1": 58.65,
+            "far": 32.25,
+            "fdr": 88.9,
+            "farAtFdr": 64.1,
+            "fdrAtFdr": 21.1
+          },
+          "shareWithin": {
+            "ap±0.01": 0.998,
+            "auc±0.01": 0.998,
+            "f1±0.01": 0.967,
+            "farAtFdr±0.05": 0.685
+          },
+          "best": {
+            "ap": {
+              "weights": [
+                0.4026,
+                0.0741,
+                0.0685,
+                0.1954,
+                0.2594
+              ],
+              "value": 0.9695
+            },
+            "farAtFdr": {
+              "weights": [
+                0.3154,
+                0.1134,
+                0.0722,
+                0.2136,
+                0.2853
+              ],
+              "value": 0.1047
+            }
+          },
+          "weightCorrelation": {
+            "ap": {
+              "S1": 0.2048,
+              "S2": -0.1671,
+              "S3": -0.0778,
+              "S4": -0.4549,
+              "S5": 0.4545
+            },
+            "f1": {
+              "S1": -0.1774,
+              "S2": -0.0555,
+              "S3": -0.0004,
+              "S4": -0.5097,
+              "S5": 0.7945
+            },
+            "farAtFdr": {
+              "S1": 0.1662,
+              "S2": 0.0332,
+              "S3": 0.2748,
+              "S4": 0.1967,
+              "S5": -0.6785
+            }
+          }
+        },
+        "learned": {
+          "weights": [
+            0.2287,
+            0.3157,
+            0,
+            0.1634,
+            0.2921
+          ],
+          "intercept": -42.9441,
+          "beta": [
+            10.3322,
+            14.2601,
+            0,
+            7.3813,
+            13.1964
+          ],
+          "fit": {
+            "iterations": 14400,
+            "projGrad": 8.423436423215774e-8,
+            "logLoss": 0.1759,
+            "uniqueRows": 1907
+          },
+          "ap": 0.9685,
+          "auc": 0.9521,
+          "f1": 0.946,
+          "far": 0.0975,
+          "fdr": 0.0083,
+          "farAtFdr": 0.1072,
+          "fdrAtFdr": 0.0013,
+          "thetaF1": 0.95,
+          "valF1": 0.9521,
+          "thetaFdr": 0.91,
+          "f1AtFdr": 0.943,
+          "perScenarioAtThetaF1": {
+            "walking": 0.008,
+            "driving": 0.002,
+            "stationary": 0.014,
+            "train": 0.009,
+            "teleportation": 1,
+            "drift": 0.415,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 1,
+            "compound": 1
+          },
+          "perScenarioAtThetaFdr": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0.005,
+            "train": 0,
+            "teleportation": 1,
+            "drift": 0.375,
+            "accuracy": 0.982,
+            "replay": 1,
+            "network_mismatch": 1,
+            "compound": 1
+          }
+        },
+        "bootstrap": {
+          "tableI": {
+            "ap": {
+              "point": 0.9687,
+              "lo": 0.9667,
+              "hi": 0.9707
+            },
+            "auc": {
+              "point": 0.9519,
+              "lo": 0.9487,
+              "hi": 0.955
+            },
+            "f1": {
+              "point": 0.9427,
+              "lo": 0.9397,
+              "hi": 0.9456
+            },
+            "far": {
+              "point": 0.106,
+              "lo": 0.101,
+              "hi": 0.1115
+            },
+            "fdr": {
+              "point": 0.004,
+              "lo": 0.0023,
+              "hi": 0.0063
+            },
+            "farAtFdr": {
+              "point": 0.1165,
+              "lo": 0.1118,
+              "hi": 0.1217
+            },
+            "fdrAtFdr": {
+              "point": 0.0018,
+              "lo": 0.0008,
+              "hi": 0.003
+            }
+          },
+          "learned": {
+            "ap": {
+              "point": 0.9685,
+              "lo": 0.9664,
+              "hi": 0.9704
+            },
+            "auc": {
+              "point": 0.9521,
+              "lo": 0.9489,
+              "hi": 0.9551
+            },
+            "f1": {
+              "point": 0.946,
+              "lo": 0.943,
+              "hi": 0.949
+            },
+            "far": {
+              "point": 0.0975,
+              "lo": 0.0922,
+              "hi": 0.1028
+            },
+            "fdr": {
+              "point": 0.0083,
+              "lo": 0.0058,
+              "hi": 0.0113
+            },
+            "farAtFdr": {
+              "point": 0.1072,
+              "lo": 0.1023,
+              "hi": 0.113
+            },
+            "fdrAtFdr": {
+              "point": 0.0013,
+              "lo": 0.0003,
+              "hi": 0.0025
+            }
+          },
+          "learnedMinusTableI": {
+            "ap": {
+              "point": -0.0003,
+              "lo": -0.0006,
+              "hi": 0
+            },
+            "auc": {
+              "point": 0.0002,
+              "lo": -0.0003,
+              "hi": 0.0007
+            },
+            "f1": {
+              "point": 0.0033,
+              "lo": 0.0019,
+              "hi": 0.005
+            },
+            "far": {
+              "point": -0.0085,
+              "lo": -0.011,
+              "hi": -0.0063
+            },
+            "fdr": {
+              "point": 0.0043,
+              "lo": 0.0023,
+              "hi": 0.0065
+            },
+            "farAtFdr": {
+              "point": -0.0093,
+              "lo": -0.0125,
+              "hi": -0.0063
+            },
+            "fdrAtFdr": {
+              "point": -0.0005,
+              "lo": -0.0017,
+              "hi": 0.0008
+            }
+          }
+        },
+        "loao": {
+          "folds": [
+            {
+              "heldOut": "teleportation",
+              "tableI": {
+                "thetaF1": 0.92,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.004,
+                "thetaFdr": 0.9,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0018
+              },
+              "learned": {
+                "weights": [
+                  0.2318,
+                  0.3066,
+                  0,
+                  0.1656,
+                  0.2961
+                ],
+                "thetaF1": 0.93,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0058,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0018
+              }
+            },
+            {
+              "heldOut": "drift",
+              "tableI": {
+                "thetaF1": 0.9,
+                "tprHeldOutF1": 0.304,
+                "fdrF1": 0.0018,
+                "thetaFdr": 0.9,
+                "tprHeldOutFdr": 0.304,
+                "fdrFdr": 0.0018
+              },
+              "learned": {
+                "weights": [
+                  0.0669,
+                  0.2436,
+                  0.0722,
+                  0.3609,
+                  0.2565
+                ],
+                "thetaF1": 0.85,
+                "tprHeldOutF1": 0.292,
+                "fdrF1": 0.0008,
+                "thetaFdr": 0.88,
+                "tprHeldOutFdr": 0.35,
+                "fdrFdr": 0.0025
+              }
+            },
+            {
+              "heldOut": "accuracy",
+              "tableI": {
+                "thetaF1": 0.92,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.004,
+                "thetaFdr": 0.9,
+                "tprHeldOutFdr": 0.997,
+                "fdrFdr": 0.0018
+              },
+              "learned": {
+                "weights": [
+                  0.3252,
+                  0.2389,
+                  0,
+                  0,
+                  0.4359
+                ],
+                "thetaF1": 0.88,
+                "tprHeldOutF1": 0.506,
+                "fdrF1": 0.0055,
+                "thetaFdr": 0.87,
+                "tprHeldOutFdr": 0.505,
+                "fdrFdr": 0.0003
+              }
+            },
+            {
+              "heldOut": "replay",
+              "tableI": {
+                "thetaF1": 0.92,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.004,
+                "thetaFdr": 0.9,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0018
+              },
+              "learned": {
+                "weights": [
+                  0.2321,
+                  0.3025,
+                  0,
+                  0.1669,
+                  0.2985
+                ],
+                "thetaF1": 0.93,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0058,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.002
+              }
+            },
+            {
+              "heldOut": "network_mismatch",
+              "tableI": {
+                "thetaF1": 0.92,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.004,
+                "thetaFdr": 0.9,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0018
+              },
+              "learned": {
+                "weights": [
+                  0.2333,
+                  0.3134,
+                  0,
+                  0.1666,
+                  0.2868
+                ],
+                "thetaF1": 0.93,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0058,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0013
+              }
+            },
+            {
+              "heldOut": "compound",
+              "tableI": {
+                "thetaF1": 0.92,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.004,
+                "thetaFdr": 0.9,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0018
+              },
+              "learned": {
+                "weights": [
+                  0.2304,
+                  0.3109,
+                  0,
+                  0.1646,
+                  0.2942
+                ],
+                "thetaF1": 0.95,
+                "tprHeldOutF1": 1,
+                "fdrF1": 0.0088,
+                "thetaFdr": 0.91,
+                "tprHeldOutFdr": 1,
+                "fdrFdr": 0.0015
+              }
+            }
+          ],
+          "summary": {
+            "tableI": {
+              "meanTprF1": 0.884,
+              "minTprF1": 0.304,
+              "meanTprFdr": 0.8835,
+              "minTprFdr": 0.304,
+              "maxFdrF1": 0.004,
+              "maxFdrFdr": 0.0018
+            },
+            "learned": {
+              "meanTprF1": 0.7997,
+              "minTprF1": 0.292,
+              "meanTprFdr": 0.8092,
+              "minTprFdr": 0.35,
+              "maxFdrF1": 0.0088,
+              "maxFdrFdr": 0.0025
+            }
+          }
+        }
+      },
+      "noNetwork": {
+        "tableI": {
+          "weights": [
+            0.35,
+            0.15,
+            0.2,
+            0.3,
+            0
+          ],
+          "ap": 0.8839,
+          "auc": 0.8218,
+          "f1": 0.7988,
+          "far": 0.3345,
+          "fdr": 0.0013,
+          "farAtFdr": 0.3345,
+          "fdrAtFdr": 0.0013,
+          "thetaF1": 0.88,
+          "valF1": 0.7991,
+          "thetaFdr": 0.88,
+          "f1AtFdr": 0.7988,
+          "perScenarioAtThetaF1": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0.002,
+            "train": 0.003,
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.997,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.996
+          },
+          "perScenarioAtThetaFdr": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0.002,
+            "train": 0.003,
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.997,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.996
+          }
+        },
+        "random": {
+          "draws": 1000,
+          "summary": {
+            "ap": {
+              "min": 0.7967,
+              "p5": 0.8631,
+              "p50": 0.8798,
+              "p95": 0.8845,
+              "max": 0.8854
+            },
+            "auc": {
+              "min": 0.7312,
+              "p5": 0.8105,
+              "p50": 0.8209,
+              "p95": 0.8255,
+              "max": 0.8327
+            },
+            "f1": {
+              "min": 0.75,
+              "p5": 0.7883,
+              "p50": 0.7986,
+              "p95": 0.7993,
+              "max": 0.7999
+            },
+            "far": {
+              "min": 0,
+              "p5": 0.2942,
+              "p50": 0.3332,
+              "p95": 0.3345,
+              "max": 0.3412
+            },
+            "fdr": {
+              "min": 0.0005,
+              "p5": 0.0013,
+              "p50": 0.005,
+              "p95": 0.1103,
+              "max": 1
+            },
+            "farAtFdr": {
+              "min": 0.3333,
+              "p5": 0.3337,
+              "p50": 0.4987,
+              "p95": 0.6667,
+              "max": 0.8202
+            },
+            "fdrAtFdr": {
+              "min": 0,
+              "p5": 0.0005,
+              "p50": 0.0008,
+              "p95": 0.002,
+              "max": 0.0023
+            }
+          },
+          "tableIPercentile": {
+            "ap": 88.2,
+            "auc": 59.9,
+            "f1": 55.2,
+            "far": 4.1,
+            "fdr": 96.15,
+            "farAtFdr": 76,
+            "fdrAtFdr": 23.35
+          },
+          "shareWithin": {
+            "ap±0.01": 0.775,
+            "auc±0.01": 0.943,
+            "f1±0.01": 0.948,
+            "farAtFdr±0.05": 0.448
+          },
+          "best": {
+            "ap": {
+              "weights": [
+                0.7126,
+                0.037,
+                0.0182,
+                0.2322,
+                0
+              ],
+              "value": 0.8854
+            },
+            "farAtFdr": {
+              "weights": [
+                0.337,
+                0.431,
+                0.0172,
+                0.2148,
+                0
+              ],
+              "value": 0.3333
+            }
+          },
+          "weightCorrelation": {
+            "ap": {
+              "S1": 0.1014,
+              "S2": -0.1604,
+              "S3": -0.1645,
+              "S4": 0.2378,
+              "S5": null
+            },
+            "f1": {
+              "S1": -0.0032,
+              "S2": -0.0644,
+              "S3": 0.0097,
+              "S4": 0.0615,
+              "S5": null
+            },
+            "farAtFdr": {
+              "S1": 0.0567,
+              "S2": -0.1436,
+              "S3": 0.4714,
+              "S4": -0.3892,
+              "S5": null
+            }
+          }
+        },
+        "local": {
+          "draws": 1000,
+          "summary": {
+            "ap": {
+              "min": 0.8816,
+              "p5": 0.8828,
+              "p50": 0.8838,
+              "p95": 0.8845,
+              "max": 0.8849
+            },
+            "auc": {
+              "min": 0.8194,
+              "p5": 0.8204,
+              "p50": 0.8217,
+              "p95": 0.8232,
+              "max": 0.8249
+            },
+            "f1": {
+              "min": 0.7969,
+              "p5": 0.7985,
+              "p50": 0.799,
+              "p95": 0.7996,
+              "max": 0.7998
+            },
+            "far": {
+              "min": 0.3247,
+              "p5": 0.3307,
+              "p50": 0.3333,
+              "p95": 0.3347,
+              "max": 0.335
+            },
+            "fdr": {
+              "min": 0.0005,
+              "p5": 0.0013,
+              "p50": 0.0028,
+              "p95": 0.0103,
+              "max": 0.029
+            },
+            "farAtFdr": {
+              "min": 0.3333,
+              "p5": 0.3338,
+              "p50": 0.3345,
+              "p95": 0.3413,
+              "max": 0.5042
+            },
+            "fdrAtFdr": {
+              "min": 0.0005,
+              "p5": 0.0008,
+              "p50": 0.001,
+              "p95": 0.0015,
+              "max": 0.0023
+            }
+          },
+          "tableIPercentile": {
+            "ap": 57.1,
+            "auc": 52.9,
+            "f1": 17.5,
+            "far": 9.9,
+            "fdr": 92.9,
+            "farAtFdr": 51.65,
+            "fdrAtFdr": 29
+          },
+          "shareWithin": {
+            "ap±0.01": 1,
+            "auc±0.01": 1,
+            "f1±0.01": 1,
+            "farAtFdr±0.05": 0.973
+          },
+          "best": {
+            "ap": {
+              "weights": [
+                0.5378,
+                0.1081,
+                0.1472,
+                0.2069,
+                0
+              ],
+              "value": 0.8849
+            },
+            "farAtFdr": {
+              "weights": [
+                0.466,
+                0.1403,
+                0.1093,
+                0.2843,
+                0
+              ],
+              "value": 0.3333
+            }
+          },
+          "weightCorrelation": {
+            "ap": {
+              "S1": 0.9404,
+              "S2": -0.3254,
+              "S3": -0.4107,
+              "S4": -0.3562,
+              "S5": null
+            },
+            "f1": {
+              "S1": 0.0723,
+              "S2": 0.0772,
+              "S3": -0.2322,
+              "S4": 0.0628,
+              "S5": null
+            },
+            "farAtFdr": {
+              "S1": 0.1335,
+              "S2": 0.0497,
+              "S3": 0.2807,
+              "S4": -0.4039,
+              "S5": null
+            }
+          }
+        },
+        "learned": {
+          "weights": [
+            0.2135,
+            0.5168,
+            0.0572,
+            0.2125,
+            0
+          ],
+          "intercept": -25.9831,
+          "beta": [
+            5.7185,
+            13.8415,
+            1.5325,
+            5.6918
+          ],
+          "fit": {
+            "iterations": 10600,
+            "projGrad": 7.146607923961668e-8,
+            "logLoss": 0.3938,
+            "uniqueRows": 1899
+          },
+          "ap": 0.882,
+          "auc": 0.8213,
+          "f1": 0.7991,
+          "far": 0.3338,
+          "fdr": 0.0018,
+          "farAtFdr": 0.334,
+          "fdrAtFdr": 0.001,
+          "thetaF1": 0.93,
+          "valF1": 0.7992,
+          "thetaFdr": 0.92,
+          "f1AtFdr": 0.7992,
+          "perScenarioAtThetaF1": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0.005,
+            "train": 0.002,
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.999,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.998
+          },
+          "perScenarioAtThetaFdr": {
+            "walking": 0,
+            "driving": 0,
+            "stationary": 0.003,
+            "train": 0.001,
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.999,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.997
+          }
+        },
+        "bootstrap": {
+          "tableI": {
+            "ap": {
+              "point": 0.8839,
+              "lo": 0.8824,
+              "hi": 0.8856
+            },
+            "auc": {
+              "point": 0.8218,
+              "lo": 0.8185,
+              "hi": 0.8251
+            },
+            "f1": {
+              "point": 0.7988,
+              "lo": 0.798,
+              "hi": 0.7994
+            },
+            "far": {
+              "point": 0.3345,
+              "lo": 0.3338,
+              "hi": 0.3355
+            },
+            "fdr": {
+              "point": 0.0013,
+              "lo": 0.0003,
+              "hi": 0.0025
+            },
+            "farAtFdr": {
+              "point": 0.3345,
+              "lo": 0.3338,
+              "hi": 0.3355
+            },
+            "fdrAtFdr": {
+              "point": 0.0013,
+              "lo": 0.0003,
+              "hi": 0.0025
+            }
+          },
+          "learned": {
+            "ap": {
+              "point": 0.882,
+              "lo": 0.8805,
+              "hi": 0.8836
+            },
+            "auc": {
+              "point": 0.8213,
+              "lo": 0.8181,
+              "hi": 0.8247
+            },
+            "f1": {
+              "point": 0.7991,
+              "lo": 0.7985,
+              "hi": 0.7996
+            },
+            "far": {
+              "point": 0.3338,
+              "lo": 0.3333,
+              "hi": 0.3345
+            },
+            "fdr": {
+              "point": 0.0018,
+              "lo": 0.0005,
+              "hi": 0.0033
+            },
+            "farAtFdr": {
+              "point": 0.334,
+              "lo": 0.3335,
+              "hi": 0.3347
+            },
+            "fdrAtFdr": {
+              "point": 0.001,
+              "lo": 0.0003,
+              "hi": 0.002
+            }
+          },
+          "learnedMinusTableI": {
+            "ap": {
+              "point": -0.002,
+              "lo": -0.0025,
+              "hi": -0.0015
+            },
+            "auc": {
+              "point": -0.0005,
+              "lo": -0.0016,
+              "hi": 0.0006
+            },
+            "f1": {
+              "point": 0.0003,
+              "lo": -0.0002,
+              "hi": 0.0009
+            },
+            "far": {
+              "point": -0.0007,
+              "lo": -0.0013,
+              "hi": -0.0002
+            },
+            "fdr": {
+              "point": 0.0005,
+              "lo": -0.0005,
+              "hi": 0.0015
+            },
+            "farAtFdr": {
+              "point": -0.0005,
+              "lo": -0.0012,
+              "hi": 0
+            },
+            "fdrAtFdr": {
+              "point": -0.0002,
+              "lo": -0.0012,
+              "hi": 0.0005
+            }
+          }
+        }
+      }
+    }
+  }
+}

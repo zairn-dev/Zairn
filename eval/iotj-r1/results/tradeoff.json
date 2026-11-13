@@ -1,0 +1,1069 @@
+{
+  "generated": "2026-11-12T13:35:01.492Z",
+  "scorer": "V2r, no-network profile",
+  "alphaUpperBound": 0.030272972577420065,
+  "spoofed": {
+    "n": 6000,
+    "F": {
+      "1": 0.7313,
+      "0.3": 0.1667,
+      "0.5": 0.1668,
+      "0.7": 0.4942,
+      "0.8": 0.6585,
+      "0.9": 0.6663
+    },
+    "detectedByScenario": {
+      "teleportation": {
+        "0.7": 1,
+        "0.9": 1
+      },
+      "drift": {
+        "0.7": 0,
+        "0.9": 0.001
+      },
+      "accuracy": {
+        "0.7": 0.486,
+        "0.9": 0.999
+      },
+      "replay": {
+        "0.7": 1,
+        "0.9": 1
+      },
+      "network_mismatch": {
+        "0.7": 0,
+        "0.9": 0
+      },
+      "compound": {
+        "0.7": 0.479,
+        "0.9": 0.998
+      }
+    }
+  },
+  "adaptive": {
+    "n": 6000,
+    "F": {
+      "1": 0.5455,
+      "0.3": 0,
+      "0.5": 0.1667,
+      "0.7": 0.3333,
+      "0.8": 0.3333,
+      "0.9": 0.3333
+    }
+  },
+  "sources": {
+    "synthetic legitimate (test)": {
+      "n": 4000,
+      "F": {
+        "1": 0.2565,
+        "0.3": 0,
+        "0.5": 0,
+        "0.7": 0,
+        "0.8": 0,
+        "0.9": 0.0023
+      },
+      "binary": {
+        "0.001": {
+          "theta": 0.87,
+          "FAR": 0.3348,
+          "FDR": 0.001,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.997,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.994
+          }
+        },
+        "0.01": {
+          "theta": 0.92,
+          "FAR": 0.3323,
+          "FDR": 0.0075,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.006,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          }
+        }
+      },
+      "graduated": {
+        "0.7": {
+          "stepUpLegit": 0,
+          "stepUpSpoofed": 0.4942,
+          "FDRatAlphaUB": 0,
+          "FAR": {
+            "0": 0.5058,
+            "0.1": 0.5553,
+            "0.25": 0.6294
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.87,
+              "betaStar": null,
+              "alphaStar": null
+            },
+            "0.01": {
+              "thetaB": 0.92,
+              "betaStar": null,
+              "alphaStar": null
+            }
+          }
+        },
+        "0.9": {
+          "stepUpLegit": 0.0023,
+          "stepUpSpoofed": 0.6663,
+          "FDRatAlphaUB": 0.0001,
+          "FAR": {
+            "0": 0.3337,
+            "0.1": 0.4003,
+            "0.25": 0.5003
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.87,
+              "betaStar": 0.0018,
+              "alphaStar": 0.4444
+            },
+            "0.01": {
+              "thetaB": 0.92,
+              "betaStar": null,
+              "alphaStar": 3.3333
+            }
+          }
+        }
+      },
+      "tuned": {
+        "0.01": {
+          "thetaP": 0.92,
+          "stepUpLegit": 0.0075,
+          "stepUpSpoofed": 0.6677,
+          "FDRatAlphaUB": 0.0002,
+          "FAR": {
+            "0": 0.3323,
+            "0.1": 0.3991,
+            "0.25": 0.4993
+          },
+          "FARadaptive": 0.4993,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.006,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 0.0037,
+            "0.01": null
+          }
+        },
+        "0.05": {
+          "thetaP": 0.95,
+          "stepUpLegit": 0.0357,
+          "stepUpSpoofed": 0.6728,
+          "FDRatAlphaUB": 0.0011,
+          "FAR": {
+            "0": 0.3272,
+            "0.1": 0.3945,
+            "0.25": 0.4954
+          },
+          "FARadaptive": 0.4943,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.035,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0.002,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 0.0114,
+            "0.01": 0.0077
+          }
+        }
+      },
+      "tunedToDelta": {
+        "0.001": {
+          "load": 0.033,
+          "thetaP": 0.94,
+          "stepUpLegit": 0.0215,
+          "FDRatAlphaUB": 0.0007,
+          "FAR": {
+            "0": 0.33,
+            "0.1": 0.397,
+            "0.25": 0.4975
+          }
+        },
+        "0.01": {
+          "load": 0.3303,
+          "thetaP": 1,
+          "stepUpLegit": 0.2565,
+          "FDRatAlphaUB": 0.0078,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          }
+        }
+      }
+    },
+    "SHL (1 Hz, Mate 9)": {
+      "n": 731050,
+      "F": {
+        "1": 0.0088,
+        "0.3": 0.0001,
+        "0.5": 0.0002,
+        "0.7": 0.0008,
+        "0.8": 0.0013,
+        "0.9": 0.0023
+      },
+      "binary": {
+        "0.001": {
+          "theta": 0.76,
+          "FAR": 0.5017,
+          "FDR": 0.0009,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.498,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.492
+          }
+        },
+        "0.01": {
+          "theta": 1,
+          "FAR": 0.2687,
+          "FDR": 0.0088,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.319,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0.069,
+            "compound": 1
+          }
+        }
+      },
+      "graduated": {
+        "0.7": {
+          "stepUpLegit": 0.0008,
+          "stepUpSpoofed": 0.4942,
+          "FDRatAlphaUB": 0,
+          "FAR": {
+            "0": 0.5058,
+            "0.1": 0.5553,
+            "0.25": 0.6294
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.76,
+              "betaStar": null,
+              "alphaStar": 1.106
+            },
+            "0.01": {
+              "thetaB": 1,
+              "betaStar": null,
+              "alphaStar": 11.3463
+            }
+          }
+        },
+        "0.9": {
+          "stepUpLegit": 0.0023,
+          "stepUpSpoofed": 0.6663,
+          "FDRatAlphaUB": 0.0001,
+          "FAR": {
+            "0": 0.3337,
+            "0.1": 0.4003,
+            "0.25": 0.5003
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.76,
+              "betaStar": 0.2521,
+              "alphaStar": 0.3746
+            },
+            "0.01": {
+              "thetaB": 1,
+              "betaStar": null,
+              "alphaStar": 3.8432
+            }
+          }
+        }
+      },
+      "tuned": {
+        "0.01": {
+          "thetaP": 1,
+          "stepUpLegit": 0.0088,
+          "stepUpSpoofed": 0.7313,
+          "FDRatAlphaUB": 0.0003,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          },
+          "FARadaptive": 0.4545,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.319,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0.069,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 0.3186,
+            "0.01": null
+          }
+        },
+        "0.05": {
+          "thetaP": 1,
+          "stepUpLegit": 0.0088,
+          "stepUpSpoofed": 0.7313,
+          "FDRatAlphaUB": 0.0003,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          },
+          "FARadaptive": 0.4545,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.319,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0.069,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 0.3186,
+            "0.01": null
+          }
+        }
+      },
+      "tunedToDelta": {
+        "0.001": {
+          "load": 0.033,
+          "thetaP": 1,
+          "stepUpLegit": 0.0088,
+          "FDRatAlphaUB": 0.0003,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          }
+        },
+        "0.01": {
+          "load": 0.3303,
+          "thetaP": 1,
+          "stepUpLegit": 0.0088,
+          "FDRatAlphaUB": 0.0003,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          }
+        }
+      }
+    },
+    "dense trace (60 s, POCO)": {
+      "n": 30515,
+      "F": {
+        "1": 0.0125,
+        "0.3": 0.0001,
+        "0.5": 0.0002,
+        "0.7": 0.0006,
+        "0.8": 0.0009,
+        "0.9": 0.0026
+      },
+      "binary": {
+        "0.001": {
+          "theta": 0.82,
+          "FAR": 0.3413,
+          "FDR": 0.0009,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.978,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.974
+          }
+        },
+        "0.01": {
+          "theta": 0.94,
+          "FAR": 0.33,
+          "FDR": 0.0033,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.02,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          }
+        }
+      },
+      "graduated": {
+        "0.7": {
+          "stepUpLegit": 0.0006,
+          "stepUpSpoofed": 0.4942,
+          "FDRatAlphaUB": 0,
+          "FAR": {
+            "0": 0.5058,
+            "0.1": 0.5553,
+            "0.25": 0.6294
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.82,
+              "betaStar": null,
+              "alphaStar": 1.5294
+            },
+            "0.01": {
+              "thetaB": 0.94,
+              "betaStar": null,
+              "alphaStar": 5.8824
+            }
+          }
+        },
+        "0.9": {
+          "stepUpLegit": 0.0026,
+          "stepUpSpoofed": 0.6663,
+          "FDRatAlphaUB": 0.0001,
+          "FAR": {
+            "0": 0.3337,
+            "0.1": 0.4003,
+            "0.25": 0.5003
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.82,
+              "betaStar": 0.0115,
+              "alphaStar": 0.325
+            },
+            "0.01": {
+              "thetaB": 0.94,
+              "betaStar": null,
+              "alphaStar": 1.25
+            }
+          }
+        }
+      },
+      "tuned": {
+        "0.01": {
+          "thetaP": 0.94,
+          "stepUpLegit": 0.0033,
+          "stepUpSpoofed": 0.67,
+          "FDRatAlphaUB": 0.0001,
+          "FAR": {
+            "0": 0.33,
+            "0.1": 0.397,
+            "0.25": 0.4975
+          },
+          "FARadaptive": 0.497,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.02,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 0.0169,
+            "0.01": null
+          }
+        },
+        "0.05": {
+          "thetaP": 1,
+          "stepUpLegit": 0.0125,
+          "stepUpSpoofed": 0.7313,
+          "FDRatAlphaUB": 0.0004,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          },
+          "FARadaptive": 0.4545,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.319,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0.069,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 0.0994,
+            "0.01": 0.0839
+          }
+        }
+      },
+      "tunedToDelta": {
+        "0.001": {
+          "load": 0.033,
+          "thetaP": 1,
+          "stepUpLegit": 0.0125,
+          "FDRatAlphaUB": 0.0004,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          }
+        },
+        "0.01": {
+          "load": 0.3303,
+          "thetaP": 1,
+          "stepUpLegit": 0.0125,
+          "FDRatAlphaUB": 0.0004,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          }
+        }
+      }
+    },
+    "field: web (iPhone)": {
+      "n": 11772,
+      "F": {
+        "1": 0.0871,
+        "0.3": 0.0026,
+        "0.5": 0.0153,
+        "0.7": 0.0201,
+        "0.8": 0.0285,
+        "0.9": 0.0428
+      },
+      "binary": {
+        "0.001": {
+          "theta": 0.17,
+          "FAR": 1,
+          "FDR": 0.0003,
+          "routed": {
+            "teleportation": 0,
+            "drift": 0,
+            "accuracy": 0,
+            "replay": 0,
+            "network_mismatch": 0,
+            "compound": 0
+          },
+          "bootstrap": {
+            "theta": [
+              0.17,
+              0.36
+            ],
+            "FAR": [
+              0.8333,
+              1
+            ]
+          }
+        },
+        "0.01": {
+          "theta": 0.42,
+          "FAR": 0.8333,
+          "FDR": 0.0082,
+          "routed": {
+            "teleportation": 0,
+            "drift": 0,
+            "accuracy": 0,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0
+          },
+          "bootstrap": {
+            "theta": [
+              0.36,
+              0.76
+            ],
+            "FAR": [
+              0.5017,
+              0.8333
+            ]
+          }
+        }
+      },
+      "graduated": {
+        "0.7": {
+          "stepUpLegit": 0.0201,
+          "stepUpSpoofed": 0.4942,
+          "FDRatAlphaUB": 0.0006,
+          "FAR": {
+            "0": 0.5058,
+            "0.1": 0.5553,
+            "0.25": 0.6294
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.17,
+              "betaStar": 1,
+              "alphaStar": 0.0127
+            },
+            "0.01": {
+              "thetaB": 0.42,
+              "betaStar": 0.6627,
+              "alphaStar": 0.4051
+            }
+          }
+        },
+        "0.9": {
+          "stepUpLegit": 0.0428,
+          "stepUpSpoofed": 0.6663,
+          "FDRatAlphaUB": 0.0013,
+          "FAR": {
+            "0": 0.3337,
+            "0.1": 0.4003,
+            "0.25": 0.5003
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.17,
+              "betaStar": 1,
+              "alphaStar": 0.006
+            },
+            "0.01": {
+              "thetaB": 0.42,
+              "betaStar": 0.7499,
+              "alphaStar": 0.1905
+            }
+          }
+        }
+      },
+      "tuned": {
+        "0.01": {
+          "thetaP": 0.42,
+          "stepUpLegit": 0.0082,
+          "stepUpSpoofed": 0.1667,
+          "FDRatAlphaUB": 0.0002,
+          "FAR": {
+            "0": 0.8333,
+            "0.1": 0.85,
+            "0.25": 0.875
+          },
+          "FARadaptive": 1,
+          "routed": {
+            "teleportation": 0,
+            "drift": 0,
+            "accuracy": 0,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0
+          },
+          "betaStar": {
+            "0.001": 1,
+            "0.01": null
+          }
+        },
+        "0.05": {
+          "thetaP": 0.91,
+          "stepUpLegit": 0.0439,
+          "stepUpSpoofed": 0.6672,
+          "FDRatAlphaUB": 0.0013,
+          "FAR": {
+            "0": 0.3328,
+            "0.1": 0.3995,
+            "0.25": 0.4996
+          },
+          "FARadaptive": 0.4997,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.003,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 1,
+            "0.01": 0.7502
+          }
+        }
+      },
+      "tunedToDelta": {
+        "0.001": {
+          "load": 0.033,
+          "thetaP": 0.83,
+          "stepUpLegit": 0.0301,
+          "FDRatAlphaUB": 0.0009,
+          "FAR": {
+            "0": 0.3402,
+            "0.1": 0.4061,
+            "0.25": 0.5051
+          }
+        },
+        "0.01": {
+          "load": 0.3303,
+          "thetaP": 1,
+          "stepUpLegit": 0.0871,
+          "FDRatAlphaUB": 0.0026,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          }
+        }
+      }
+    },
+    "field: web-equivalent (Android FLP)": {
+      "n": 33783,
+      "F": {
+        "1": 0.0258,
+        "0.3": 0,
+        "0.5": 0,
+        "0.7": 0.0002,
+        "0.8": 0.0008,
+        "0.9": 0.0042
+      },
+      "binary": {
+        "0.001": {
+          "theta": 0.83,
+          "FAR": 0.3402,
+          "FDR": 0.0009,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.981,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.978
+          },
+          "bootstrap": {
+            "theta": [
+              0.76,
+              0.87
+            ],
+            "FAR": [
+              0.3348,
+              0.5017
+            ]
+          }
+        },
+        "0.01": {
+          "theta": 0.94,
+          "FAR": 0.33,
+          "FDR": 0.0093,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.02,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          },
+          "bootstrap": {
+            "theta": [
+              0.91,
+              0.96
+            ],
+            "FAR": [
+              0.322,
+              0.3328
+            ]
+          }
+        }
+      },
+      "graduated": {
+        "0.7": {
+          "stepUpLegit": 0.0002,
+          "stepUpSpoofed": 0.4942,
+          "FDRatAlphaUB": 0,
+          "FAR": {
+            "0": 0.5058,
+            "0.1": 0.5553,
+            "0.25": 0.6294
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.83,
+              "betaStar": null,
+              "alphaStar": 3.75
+            },
+            "0.01": {
+              "thetaB": 0.94,
+              "betaStar": null,
+              "alphaStar": 39.25
+            }
+          }
+        },
+        "0.9": {
+          "stepUpLegit": 0.0042,
+          "stepUpSpoofed": 0.6663,
+          "FDRatAlphaUB": 0.0001,
+          "FAR": {
+            "0": 0.3337,
+            "0.1": 0.4003,
+            "0.25": 0.5003
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.83,
+              "betaStar": 0.0098,
+              "alphaStar": 0.2098
+            },
+            "0.01": {
+              "thetaB": 0.94,
+              "betaStar": null,
+              "alphaStar": 2.1958
+            }
+          }
+        }
+      },
+      "tuned": {
+        "0.01": {
+          "thetaP": 0.94,
+          "stepUpLegit": 0.0093,
+          "stepUpSpoofed": 0.67,
+          "FDRatAlphaUB": 0.0003,
+          "FAR": {
+            "0": 0.33,
+            "0.1": 0.397,
+            "0.25": 0.4975
+          },
+          "FARadaptive": 0.497,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.02,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 0.0152,
+            "0.01": null
+          }
+        },
+        "0.05": {
+          "thetaP": 1,
+          "stepUpLegit": 0.0258,
+          "stepUpSpoofed": 0.7313,
+          "FDRatAlphaUB": 0.0008,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          },
+          "FARadaptive": 0.4545,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.319,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0.069,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 0.0978,
+            "0.01": 0.0839
+          }
+        }
+      },
+      "tunedToDelta": {
+        "0.001": {
+          "load": 0.033,
+          "thetaP": 1,
+          "stepUpLegit": 0.0258,
+          "FDRatAlphaUB": 0.0008,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          }
+        },
+        "0.01": {
+          "load": 0.3303,
+          "thetaP": 1,
+          "stepUpLegit": 0.0258,
+          "FDRatAlphaUB": 0.0008,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          }
+        }
+      }
+    },
+    "field: native (Android GPS)": {
+      "n": 21963,
+      "F": {
+        "1": 0.0479,
+        "0.3": 0,
+        "0.5": 0,
+        "0.7": 0,
+        "0.8": 0.0009,
+        "0.9": 0.0102
+      },
+      "binary": {
+        "0.001": {
+          "theta": 0.82,
+          "FAR": 0.3413,
+          "FDR": 0.0009,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.978,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.974
+          },
+          "bootstrap": {
+            "theta": [
+              0.76,
+              0.85
+            ],
+            "FAR": [
+              0.3368,
+              0.5017
+            ]
+          }
+        },
+        "0.01": {
+          "theta": 0.89,
+          "FAR": 0.3338,
+          "FDR": 0.007,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.999,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.998
+          },
+          "bootstrap": {
+            "theta": [
+              0.88,
+              0.91
+            ],
+            "FAR": [
+              0.3328,
+              0.3345
+            ]
+          }
+        }
+      },
+      "graduated": {
+        "0.7": {
+          "stepUpLegit": 0,
+          "stepUpSpoofed": 0.4942,
+          "FDRatAlphaUB": 0,
+          "FAR": {
+            "0": 0.5058,
+            "0.1": 0.5553,
+            "0.25": 0.6294
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.82,
+              "betaStar": null,
+              "alphaStar": null
+            },
+            "0.01": {
+              "thetaB": 0.89,
+              "betaStar": null,
+              "alphaStar": null
+            }
+          }
+        },
+        "0.9": {
+          "stepUpLegit": 0.0102,
+          "stepUpSpoofed": 0.6663,
+          "FDRatAlphaUB": 0.0003,
+          "FAR": {
+            "0": 0.3337,
+            "0.1": 0.4003,
+            "0.25": 0.5003
+          },
+          "vsBinary": {
+            "0.001": {
+              "thetaB": 0.82,
+              "betaStar": 0.0115,
+              "alphaStar": 0.0897
+            },
+            "0.01": {
+              "thetaB": 0.89,
+              "betaStar": 0.0003,
+              "alphaStar": 0.6906
+            }
+          }
+        }
+      },
+      "tuned": {
+        "0.01": {
+          "thetaP": 0.89,
+          "stepUpLegit": 0.007,
+          "stepUpSpoofed": 0.6662,
+          "FDRatAlphaUB": 0.0002,
+          "FAR": {
+            "0": 0.3338,
+            "0.1": 0.4004,
+            "0.25": 0.5004
+          },
+          "FARadaptive": 0.6667,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0,
+            "accuracy": 0.999,
+            "replay": 1,
+            "network_mismatch": 0,
+            "compound": 0.998
+          },
+          "betaStar": {
+            "0.001": 0.0113,
+            "0.01": null
+          }
+        },
+        "0.05": {
+          "thetaP": 1,
+          "stepUpLegit": 0.0479,
+          "stepUpSpoofed": 0.7313,
+          "FDRatAlphaUB": 0.0014,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          },
+          "FARadaptive": 0.4545,
+          "routed": {
+            "teleportation": 1,
+            "drift": 0.319,
+            "accuracy": 1,
+            "replay": 1,
+            "network_mismatch": 0.069,
+            "compound": 1
+          },
+          "betaStar": {
+            "0.001": 0.0994,
+            "0.01": 0.0891
+          }
+        }
+      },
+      "tunedToDelta": {
+        "0.001": {
+          "load": 0.033,
+          "thetaP": 0.97,
+          "stepUpLegit": 0.0302,
+          "FDRatAlphaUB": 0.0009,
+          "FAR": {
+            "0": 0.3142,
+            "0.1": 0.3828,
+            "0.25": 0.4856
+          }
+        },
+        "0.01": {
+          "load": 0.3303,
+          "thetaP": 1,
+          "stepUpLegit": 0.0479,
+          "FDRatAlphaUB": 0.0014,
+          "FAR": {
+            "0": 0.2687,
+            "0.1": 0.3418,
+            "0.25": 0.4515
+          }
+        }
+      }
+    }
+  }
+}

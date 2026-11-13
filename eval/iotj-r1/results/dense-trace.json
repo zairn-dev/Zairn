@@ -1,0 +1,219 @@
+{
+  "generated": "2026-11-12T13:04:34.723Z",
+  "trace": {
+    "device": "android BP2A.250605.031.A3",
+    "intervalSeconds": 60,
+    "fixes": 30516,
+    "days": 21.8244
+  },
+  "scored": 30515,
+  "afterGap": 2,
+  "v1": {
+    "all": {
+      "n": 30515,
+      "mean": 0.998,
+      "min": 0.23,
+      "p01": 0.94,
+      "p05": 1,
+      "p10": 1,
+      "p25": 1,
+      "p50": 1
+    },
+    "below": {
+      "0.3": 0.0001,
+      "0.5": 0.0002,
+      "0.7": 0.0006,
+      "0.8": 0.0009,
+      "0.9": 0.0088,
+      "0.95": 0.0183
+    }
+  },
+  "v2": {
+    "all": {
+      "n": 30515,
+      "mean": 0.9079,
+      "min": 0.22,
+      "p01": 0.76,
+      "p05": 0.76,
+      "p10": 0.76,
+      "p25": 0.84,
+      "p50": 0.93
+    },
+    "steady": {
+      "n": 30513,
+      "mean": 0.9079,
+      "min": 0.22,
+      "p01": 0.76,
+      "p05": 0.76,
+      "p10": 0.76,
+      "p25": 0.84,
+      "p50": 0.93
+    },
+    "below": {
+      "0.3": 0.0001,
+      "0.5": 0.0005,
+      "0.7": 0.0045,
+      "0.8": 0.2118,
+      "0.9": 0.3919,
+      "0.95": 0.5353
+    },
+    "belowAfterGap": {
+      "0.3": 0,
+      "0.5": 0,
+      "0.7": 0,
+      "0.8": 1,
+      "0.9": 1,
+      "0.95": 1
+    }
+  },
+  "lowV2Causes": {
+    "n": 11961,
+    "shareWithSignalBelow1": {
+      "movementPlausibility": 0.0055,
+      "accuracyAnomaly": 0.0166,
+      "temporalConsistency": 0.0055,
+      "fixConsistency": 1
+    }
+  },
+  "latch": {
+    "v1": {
+      "10min": {
+        "windows": 3055,
+        "0.3": 0.0007,
+        "0.7": 0.0046,
+        "0.9": 0.0255
+      },
+      "30min": {
+        "windows": 1020,
+        "0.3": 0.002,
+        "0.7": 0.0127,
+        "0.9": 0.0529
+      }
+    },
+    "v2": {
+      "10min": {
+        "windows": 3055,
+        "0.3": 0.0007,
+        "0.7": 0.018,
+        "0.9": 0.6642
+      },
+      "30min": {
+        "windows": 1020,
+        "0.3": 0.002,
+        "0.7": 0.0441,
+        "0.9": 0.8245
+      }
+    }
+  },
+  "syntheticSpoofProfile": "test split; v1 = S1-S3, v2NoNetwork = S1-S4",
+  "tradeoff": {
+    "v1": [
+      {
+        "thetaP": 0.7,
+        "binary": {
+          "far": 0.6667,
+          "fdr": 0.0006
+        },
+        "graduated": {
+          "farOracle": 0.6667,
+          "fdrOracle": 0.0001,
+          "mL": 0.0005,
+          "mS": 0.1667
+        }
+      },
+      {
+        "thetaP": 0.8,
+        "binary": {
+          "far": 0.6667,
+          "fdr": 0.0009
+        },
+        "graduated": {
+          "farOracle": 0.6667,
+          "fdrOracle": 0.0001,
+          "mL": 0.0008,
+          "mS": 0.1667
+        }
+      },
+      {
+        "thetaP": 0.9,
+        "binary": {
+          "far": 0.3323,
+          "fdr": 0.0088
+        },
+        "graduated": {
+          "farOracle": 0.3323,
+          "fdrOracle": 0.0001,
+          "mL": 0.0087,
+          "mS": 0.501
+        }
+      },
+      {
+        "thetaP": 0.95,
+        "binary": {
+          "far": 0.3203,
+          "fdr": 0.0183
+        },
+        "graduated": {
+          "farOracle": 0.3203,
+          "fdrOracle": 0.0001,
+          "mL": 0.0182,
+          "mS": 0.513
+        }
+      }
+    ],
+    "v2NoNetwork": [
+      {
+        "thetaP": 0.7,
+        "binary": {
+          "far": 0.3485,
+          "fdr": 0.0045
+        },
+        "graduated": {
+          "farOracle": 0.3485,
+          "fdrOracle": 0.0001,
+          "mL": 0.0045,
+          "mS": 0.6515
+        }
+      },
+      {
+        "thetaP": 0.8,
+        "binary": {
+          "far": 0.3338,
+          "fdr": 0.2118
+        },
+        "graduated": {
+          "farOracle": 0.3338,
+          "fdrOracle": 0.0001,
+          "mL": 0.2118,
+          "mS": 0.6662
+        }
+      },
+      {
+        "thetaP": 0.9,
+        "binary": {
+          "far": 0.3333,
+          "fdr": 0.3919
+        },
+        "graduated": {
+          "farOracle": 0.3333,
+          "fdrOracle": 0.0001,
+          "mL": 0.3919,
+          "mS": 0.6667
+        }
+      },
+      {
+        "thetaP": 0.95,
+        "binary": {
+          "far": 0.328,
+          "fdr": 0.5353
+        },
+        "graduated": {
+          "farOracle": 0.328,
+          "fdrOracle": 0.0001,
+          "mL": 0.5352,
+          "mS": 0.672
+        }
+      }
+    ]
+  }
+}

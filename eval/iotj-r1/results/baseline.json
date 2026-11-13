@@ -1,0 +1,1048 @@
+{
+  "generated": "2026-11-12T13:04:10.066Z",
+  "bootstrapB": 1000,
+  "thetaS": 0.3,
+  "splits": {
+    "dev": {
+      "split": "dev",
+      "n": 10000,
+      "perScenario": {
+        "walking": {
+          "label": "legitimate",
+          "v1": 1,
+          "v2": 0.9995,
+          "v2r": 0.9987
+        },
+        "driving": {
+          "label": "legitimate",
+          "v1": 1,
+          "v2": 0.9998,
+          "v2r": 0.9998
+        },
+        "stationary": {
+          "label": "legitimate",
+          "v1": 1,
+          "v2": 0.9931,
+          "v2r": 0.9871
+        },
+        "train": {
+          "label": "legitimate",
+          "v1": 0.9807,
+          "v2": 0.9883,
+          "v2r": 0.9883
+        },
+        "teleportation": {
+          "label": "spoofed",
+          "v1": 0.38,
+          "v2": 0.4998,
+          "v2r": 0.4988
+        },
+        "drift": {
+          "label": "spoofed",
+          "v1": 0.9879,
+          "v2": 0.939,
+          "v2r": 0.9377
+        },
+        "accuracy": {
+          "label": "spoofed",
+          "v1": 0.86,
+          "v2": 0.7325,
+          "v2r": 0.7689
+        },
+        "replay": {
+          "label": "spoofed",
+          "v1": 0.2,
+          "v2": 0.5495,
+          "v2r": 0.3998
+        },
+        "network_mismatch": {
+          "label": "spoofed",
+          "v1": 1,
+          "v2": 0.8595,
+          "v2r": 0.8583
+        },
+        "compound": {
+          "label": "spoofed",
+          "v1": 0.86,
+          "v2": 0.5925,
+          "v2r": 0.6298
+        }
+      },
+      "detection": {
+        "v1": {
+          "aucRoc": {
+            "point": 0.8377,
+            "lo": 0.8349,
+            "hi": 0.8405
+          },
+          "ap": {
+            "point": 0.8826,
+            "lo": 0.881,
+            "hi": 0.8844
+          },
+          "eer": {
+            "point": 0.2439,
+            "lo": 0.2403,
+            "hi": 0.2472
+          }
+        },
+        "v2": {
+          "aucRoc": {
+            "point": 0.9585,
+            "lo": 0.9555,
+            "hi": 0.9613
+          },
+          "ap": {
+            "point": 0.9717,
+            "lo": 0.9698,
+            "hi": 0.9736
+          },
+          "eer": {
+            "point": 0.0801,
+            "lo": 0.0755,
+            "hi": 0.0846
+          }
+        },
+        "v2r": {
+          "aucRoc": {
+            "point": 0.9584,
+            "lo": 0.9553,
+            "hi": 0.9614
+          },
+          "ap": {
+            "point": 0.9726,
+            "lo": 0.9707,
+            "hi": 0.9746
+          },
+          "eer": {
+            "point": 0.0821,
+            "lo": 0.0775,
+            "hi": 0.0866
+          }
+        }
+      },
+      "distribution": {
+        "legitimate": {
+          "n": 4000,
+          "mean": 0.9952,
+          "min": 0.86,
+          "p25": 1,
+          "max": 1
+        },
+        "spoofed": {
+          "n": 6000,
+          "mean": 0.6955,
+          "min": 0.47,
+          "p25": 0.55,
+          "max": 1
+        }
+      },
+      "distributionV2r": {
+        "legitimate": {
+          "n": 4000,
+          "mean": 0.9935,
+          "min": 0.86,
+          "p25": 1,
+          "max": 1
+        },
+        "spoofed": {
+          "n": 6000,
+          "mean": 0.6822,
+          "min": 0.32,
+          "p25": 0.5,
+          "max": 1
+        }
+      },
+      "sweep": [
+        {
+          "thetaP": 0.7,
+          "binary": {
+            "far": {
+              "point": 0.4997,
+              "lo": 0.4988,
+              "hi": 0.5005
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.667,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.4997,
+            "fdr": 0,
+            "stepUpRate": 0.3002,
+            "mS": 0.5003,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.8,
+          "binary": {
+            "far": {
+              "point": 0.3365,
+              "lo": 0.3352,
+              "hi": 0.338
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.7977,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.3365,
+            "fdr": 0,
+            "stepUpRate": 0.3981,
+            "mS": 0.6635,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.9,
+          "binary": {
+            "far": {
+              "point": 0.1138,
+              "lo": 0.1092,
+              "hi": 0.1188
+            },
+            "fdr": {
+              "point": 0.0005,
+              "lo": 0,
+              "hi": 0.0013
+            },
+            "f1": 0.9395,
+            "legitDenied": 2
+          },
+          "graduatedOracle": {
+            "far": 0.1138,
+            "fdr": 0,
+            "stepUpRate": 0.5319,
+            "mS": 0.8862,
+            "mL": 0.0005
+          }
+        },
+        {
+          "thetaP": 0.95,
+          "binary": {
+            "far": {
+              "point": 0.0907,
+              "lo": 0.0852,
+              "hi": 0.0962
+            },
+            "fdr": {
+              "point": 0.0143,
+              "lo": 0.0107,
+              "hi": 0.018
+            },
+            "f1": 0.9478,
+            "legitDenied": 57
+          },
+          "graduatedOracle": {
+            "far": 0.0907,
+            "fdr": 0,
+            "stepUpRate": 0.5513,
+            "mS": 0.9093,
+            "mL": 0.0143
+          }
+        }
+      ],
+      "sweepV2r": [
+        {
+          "thetaP": 0.7,
+          "binary": {
+            "far": {
+              "point": 0.5035,
+              "lo": 0.502,
+              "hi": 0.5052
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.6635,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.5035,
+            "fdr": 0,
+            "stepUpRate": 0.2979,
+            "mS": 0.4965,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.8,
+          "binary": {
+            "far": {
+              "point": 0.4197,
+              "lo": 0.4147,
+              "hi": 0.4247
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.7344,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.4197,
+            "fdr": 0,
+            "stepUpRate": 0.3482,
+            "mS": 0.5803,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.9,
+          "binary": {
+            "far": {
+              "point": 0.1135,
+              "lo": 0.1088,
+              "hi": 0.1185
+            },
+            "fdr": {
+              "point": 0.0008,
+              "lo": 0,
+              "hi": 0.0018
+            },
+            "f1": 0.9396,
+            "legitDenied": 3
+          },
+          "graduatedOracle": {
+            "far": 0.1135,
+            "fdr": 0,
+            "stepUpRate": 0.5322,
+            "mS": 0.8865,
+            "mL": 0.0008
+          }
+        },
+        {
+          "thetaP": 0.95,
+          "binary": {
+            "far": {
+              "point": 0.0902,
+              "lo": 0.0847,
+              "hi": 0.0957
+            },
+            "fdr": {
+              "point": 0.0243,
+              "lo": 0.0195,
+              "hi": 0.0293
+            },
+            "f1": 0.9448,
+            "legitDenied": 97
+          },
+          "graduatedOracle": {
+            "far": 0.0902,
+            "fdr": 0,
+            "stepUpRate": 0.5556,
+            "mS": 0.9098,
+            "mL": 0.0243
+          }
+        }
+      ]
+    },
+    "val": {
+      "split": "val",
+      "n": 10000,
+      "perScenario": {
+        "walking": {
+          "label": "legitimate",
+          "v1": 1,
+          "v2": 0.9993,
+          "v2r": 0.9983
+        },
+        "driving": {
+          "label": "legitimate",
+          "v1": 1,
+          "v2": 0.9998,
+          "v2r": 0.9998
+        },
+        "stationary": {
+          "label": "legitimate",
+          "v1": 1,
+          "v2": 0.9928,
+          "v2r": 0.9868
+        },
+        "train": {
+          "label": "legitimate",
+          "v1": 0.9794,
+          "v2": 0.9874,
+          "v2r": 0.9874
+        },
+        "teleportation": {
+          "label": "spoofed",
+          "v1": 0.38,
+          "v2": 0.4997,
+          "v2r": 0.4988
+        },
+        "drift": {
+          "label": "spoofed",
+          "v1": 0.9885,
+          "v2": 0.9362,
+          "v2r": 0.9354
+        },
+        "accuracy": {
+          "label": "spoofed",
+          "v1": 0.86,
+          "v2": 0.7338,
+          "v2r": 0.7702
+        },
+        "replay": {
+          "label": "spoofed",
+          "v1": 0.2,
+          "v2": 0.5496,
+          "v2r": 0.3998
+        },
+        "network_mismatch": {
+          "label": "spoofed",
+          "v1": 1,
+          "v2": 0.8597,
+          "v2r": 0.8589
+        },
+        "compound": {
+          "label": "spoofed",
+          "v1": 0.86,
+          "v2": 0.594,
+          "v2r": 0.6267
+        }
+      },
+      "detection": {
+        "v1": {
+          "aucRoc": {
+            "point": 0.8369,
+            "lo": 0.8341,
+            "hi": 0.8398
+          },
+          "ap": {
+            "point": 0.8819,
+            "lo": 0.8802,
+            "hi": 0.8835
+          },
+          "eer": {
+            "point": 0.2445,
+            "lo": 0.2411,
+            "hi": 0.2476
+          }
+        },
+        "v2": {
+          "aucRoc": {
+            "point": 0.958,
+            "lo": 0.9554,
+            "hi": 0.961
+          },
+          "ap": {
+            "point": 0.9715,
+            "lo": 0.9696,
+            "hi": 0.9735
+          },
+          "eer": {
+            "point": 0.0806,
+            "lo": 0.0761,
+            "hi": 0.0851
+          }
+        },
+        "v2r": {
+          "aucRoc": {
+            "point": 0.9575,
+            "lo": 0.9545,
+            "hi": 0.9608
+          },
+          "ap": {
+            "point": 0.9722,
+            "lo": 0.9703,
+            "hi": 0.9742
+          },
+          "eer": {
+            "point": 0.0825,
+            "lo": 0.0775,
+            "hi": 0.087
+          }
+        }
+      },
+      "distribution": {
+        "legitimate": {
+          "n": 4000,
+          "mean": 0.9949,
+          "min": 0.84,
+          "p25": 1,
+          "max": 1
+        },
+        "spoofed": {
+          "n": 6000,
+          "mean": 0.6955,
+          "min": 0.47,
+          "p25": 0.55,
+          "max": 1
+        }
+      },
+      "distributionV2r": {
+        "legitimate": {
+          "n": 4000,
+          "mean": 0.9931,
+          "min": 0.84,
+          "p25": 1,
+          "max": 1
+        },
+        "spoofed": {
+          "n": 6000,
+          "mean": 0.6816,
+          "min": 0.32,
+          "p25": 0.5,
+          "max": 1
+        }
+      },
+      "sweep": [
+        {
+          "thetaP": 0.7,
+          "binary": {
+            "far": {
+              "point": 0.4995,
+              "lo": 0.4988,
+              "hi": 0.5
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.6671,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.4995,
+            "fdr": 0,
+            "stepUpRate": 0.3003,
+            "mS": 0.5005,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.8,
+          "binary": {
+            "far": {
+              "point": 0.3375,
+              "lo": 0.3358,
+              "hi": 0.3393
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.797,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.3375,
+            "fdr": 0,
+            "stepUpRate": 0.3975,
+            "mS": 0.6625,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.9,
+          "binary": {
+            "far": {
+              "point": 0.11,
+              "lo": 0.1053,
+              "hi": 0.115
+            },
+            "fdr": {
+              "point": 0.0005,
+              "lo": 0,
+              "hi": 0.0013
+            },
+            "f1": 0.9416,
+            "legitDenied": 2
+          },
+          "graduatedOracle": {
+            "far": 0.11,
+            "fdr": 0,
+            "stepUpRate": 0.5342,
+            "mS": 0.89,
+            "mL": 0.0005
+          }
+        },
+        {
+          "thetaP": 0.95,
+          "binary": {
+            "far": {
+              "point": 0.0863,
+              "lo": 0.0812,
+              "hi": 0.0913
+            },
+            "fdr": {
+              "point": 0.0168,
+              "lo": 0.013,
+              "hi": 0.0205
+            },
+            "f1": 0.9493,
+            "legitDenied": 67
+          },
+          "graduatedOracle": {
+            "far": 0.0863,
+            "fdr": 0,
+            "stepUpRate": 0.5549,
+            "mS": 0.9137,
+            "mL": 0.0168
+          }
+        }
+      ],
+      "sweepV2r": [
+        {
+          "thetaP": 0.7,
+          "binary": {
+            "far": {
+              "point": 0.5035,
+              "lo": 0.5018,
+              "hi": 0.5052
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.6635,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.5035,
+            "fdr": 0,
+            "stepUpRate": 0.2979,
+            "mS": 0.4965,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.8,
+          "binary": {
+            "far": {
+              "point": 0.4233,
+              "lo": 0.418,
+              "hi": 0.4287
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.7315,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.4233,
+            "fdr": 0,
+            "stepUpRate": 0.346,
+            "mS": 0.5767,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.9,
+          "binary": {
+            "far": {
+              "point": 0.11,
+              "lo": 0.1053,
+              "hi": 0.115
+            },
+            "fdr": {
+              "point": 0.0005,
+              "lo": 0,
+              "hi": 0.0013
+            },
+            "f1": 0.9416,
+            "legitDenied": 2
+          },
+          "graduatedOracle": {
+            "far": 0.11,
+            "fdr": 0,
+            "stepUpRate": 0.5342,
+            "mS": 0.89,
+            "mL": 0.0005
+          }
+        },
+        {
+          "thetaP": 0.95,
+          "binary": {
+            "far": {
+              "point": 0.0863,
+              "lo": 0.0812,
+              "hi": 0.0913
+            },
+            "fdr": {
+              "point": 0.0255,
+              "lo": 0.0208,
+              "hi": 0.0305
+            },
+            "f1": 0.9465,
+            "legitDenied": 102
+          },
+          "graduatedOracle": {
+            "far": 0.0863,
+            "fdr": 0,
+            "stepUpRate": 0.5584,
+            "mS": 0.9137,
+            "mL": 0.0255
+          }
+        }
+      ]
+    },
+    "test": {
+      "split": "test",
+      "n": 10000,
+      "perScenario": {
+        "walking": {
+          "label": "legitimate",
+          "v1": 1,
+          "v2": 0.9992,
+          "v2r": 0.9982
+        },
+        "driving": {
+          "label": "legitimate",
+          "v1": 1,
+          "v2": 0.9999,
+          "v2r": 0.9999
+        },
+        "stationary": {
+          "label": "legitimate",
+          "v1": 1,
+          "v2": 0.9919,
+          "v2r": 0.9853
+        },
+        "train": {
+          "label": "legitimate",
+          "v1": 0.9793,
+          "v2": 0.9873,
+          "v2r": 0.9873
+        },
+        "teleportation": {
+          "label": "spoofed",
+          "v1": 0.38,
+          "v2": 0.4996,
+          "v2r": 0.4988
+        },
+        "drift": {
+          "label": "spoofed",
+          "v1": 0.9888,
+          "v2": 0.9426,
+          "v2r": 0.9417
+        },
+        "accuracy": {
+          "label": "spoofed",
+          "v1": 0.86,
+          "v2": 0.7324,
+          "v2r": 0.7676
+        },
+        "replay": {
+          "label": "spoofed",
+          "v1": 0.2,
+          "v2": 0.5498,
+          "v2r": 0.4
+        },
+        "network_mismatch": {
+          "label": "spoofed",
+          "v1": 1,
+          "v2": 0.8597,
+          "v2r": 0.8589
+        },
+        "compound": {
+          "label": "spoofed",
+          "v1": 0.86,
+          "v2": 0.5938,
+          "v2r": 0.6284
+        }
+      },
+      "detection": {
+        "v1": {
+          "aucRoc": {
+            "point": 0.8375,
+            "lo": 0.8348,
+            "hi": 0.8404
+          },
+          "ap": {
+            "point": 0.8823,
+            "lo": 0.8806,
+            "hi": 0.884
+          },
+          "eer": {
+            "point": 0.2438,
+            "lo": 0.2402,
+            "hi": 0.2472
+          }
+        },
+        "v2": {
+          "aucRoc": {
+            "point": 0.9526,
+            "lo": 0.9495,
+            "hi": 0.9558
+          },
+          "ap": {
+            "point": 0.9681,
+            "lo": 0.9661,
+            "hi": 0.9702
+          },
+          "eer": {
+            "point": 0.0888,
+            "lo": 0.084,
+            "hi": 0.0934
+          }
+        },
+        "v2r": {
+          "aucRoc": {
+            "point": 0.9519,
+            "lo": 0.9487,
+            "hi": 0.955
+          },
+          "ap": {
+            "point": 0.9687,
+            "lo": 0.9668,
+            "hi": 0.9707
+          },
+          "eer": {
+            "point": 0.091,
+            "lo": 0.0866,
+            "hi": 0.0958
+          }
+        }
+      },
+      "distribution": {
+        "legitimate": {
+          "n": 4000,
+          "mean": 0.9946,
+          "min": 0.84,
+          "p25": 1,
+          "max": 1
+        },
+        "spoofed": {
+          "n": 6000,
+          "mean": 0.6963,
+          "min": 0.46,
+          "p25": 0.55,
+          "max": 1
+        }
+      },
+      "distributionV2r": {
+        "legitimate": {
+          "n": 4000,
+          "mean": 0.9926,
+          "min": 0.84,
+          "p25": 0.99,
+          "max": 1
+        },
+        "spoofed": {
+          "n": 6000,
+          "mean": 0.6825,
+          "min": 0.4,
+          "p25": 0.5,
+          "max": 1
+        }
+      },
+      "sweep": [
+        {
+          "thetaP": 0.7,
+          "binary": {
+            "far": {
+              "point": 0.5007,
+              "lo": 0.5,
+              "hi": 0.5017
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.6661,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.5007,
+            "fdr": 0,
+            "stepUpRate": 0.2996,
+            "mS": 0.4993,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.8,
+          "binary": {
+            "far": {
+              "point": 0.3358,
+              "lo": 0.3345,
+              "hi": 0.3375
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.7982,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.3358,
+            "fdr": 0,
+            "stepUpRate": 0.3985,
+            "mS": 0.6642,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.9,
+          "binary": {
+            "far": {
+              "point": 0.1158,
+              "lo": 0.111,
+              "hi": 0.1208
+            },
+            "fdr": {
+              "point": 0.0008,
+              "lo": 0,
+              "hi": 0.0018
+            },
+            "f1": 0.9383,
+            "legitDenied": 3
+          },
+          "graduatedOracle": {
+            "far": 0.1158,
+            "fdr": 0,
+            "stepUpRate": 0.5308,
+            "mS": 0.8842,
+            "mL": 0.0008
+          }
+        },
+        {
+          "thetaP": 0.95,
+          "binary": {
+            "far": {
+              "point": 0.0968,
+              "lo": 0.0923,
+              "hi": 0.1018
+            },
+            "fdr": {
+              "point": 0.0177,
+              "lo": 0.0138,
+              "hi": 0.0217
+            },
+            "f1": 0.9433,
+            "legitDenied": 71
+          },
+          "graduatedOracle": {
+            "far": 0.0968,
+            "fdr": 0,
+            "stepUpRate": 0.549,
+            "mS": 0.9032,
+            "mL": 0.0177
+          }
+        }
+      ],
+      "sweepV2r": [
+        {
+          "thetaP": 0.7,
+          "binary": {
+            "far": {
+              "point": 0.5045,
+              "lo": 0.503,
+              "hi": 0.5062
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.6627,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.5045,
+            "fdr": 0,
+            "stepUpRate": 0.2973,
+            "mS": 0.4955,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.8,
+          "binary": {
+            "far": {
+              "point": 0.4172,
+              "lo": 0.412,
+              "hi": 0.4223
+            },
+            "fdr": {
+              "point": 0,
+              "lo": 0,
+              "hi": 0
+            },
+            "f1": 0.7364,
+            "legitDenied": 0
+          },
+          "graduatedOracle": {
+            "far": 0.4172,
+            "fdr": 0,
+            "stepUpRate": 0.3497,
+            "mS": 0.5828,
+            "mL": 0
+          }
+        },
+        {
+          "thetaP": 0.9,
+          "binary": {
+            "far": {
+              "point": 0.1165,
+              "lo": 0.1113,
+              "hi": 0.1215
+            },
+            "fdr": {
+              "point": 0.0018,
+              "lo": 0.0005,
+              "hi": 0.003
+            },
+            "f1": 0.9376,
+            "legitDenied": 7
+          },
+          "graduatedOracle": {
+            "far": 0.1165,
+            "fdr": 0,
+            "stepUpRate": 0.5308,
+            "mS": 0.8835,
+            "mL": 0.0018
+          }
+        },
+        {
+          "thetaP": 0.95,
+          "binary": {
+            "far": {
+              "point": 0.0968,
+              "lo": 0.0923,
+              "hi": 0.1018
+            },
+            "fdr": {
+              "point": 0.0273,
+              "lo": 0.0223,
+              "hi": 0.0328
+            },
+            "f1": 0.9401,
+            "legitDenied": 109
+          },
+          "graduatedOracle": {
+            "far": 0.0968,
+            "fdr": 0,
+            "stepUpRate": 0.5528,
+            "mS": 0.9032,
+            "mL": 0.0273
+          }
+        }
+      ]
+    }
+  }
+}

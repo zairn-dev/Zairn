@@ -1,0 +1,2373 @@
+{
+  "generated": "2026-11-09T11:39:40.529Z",
+  "description": "C99 port of the IoT-J trust scorers (V1, submitted V2, revised V2'): JS equivalence, latency, footprint, operation counts. See c-scorer/README.md.",
+  "host": {
+    "cpu": "AMD Ryzen 9 3950X 16-Core Processor",
+    "cores": 16,
+    "threads": 32,
+    "os": "Windows 11 Pro",
+    "gcc": "gcc 14.2.0",
+    "msvc": "Microsoft(R) C/C++ Optimizing Compiler Version 19.44.35222 for x64",
+    "node": "v24.11.1"
+  },
+  "android": "no device attached during the run",
+  "equivalence": {
+    "method": "export-inputs.mjs writes dev/val/test (10,000 traces each) with the JS signals and trustScores of 10 configurations; ts_driver verify compares bit for bit.",
+    "x86_64-gcc": {
+      "platform": {
+        "compiler": "gcc 14.2.0",
+        "arch": "x86_64",
+        "fma_available": false,
+        "ptr_bits": 64
+      },
+      "traces": 30000,
+      "perSplitTraces": {
+        "dev": 10000,
+        "val": 10000,
+        "test": 10000
+      },
+      "configs": {
+        "V1": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29732,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 0,
+          "minTieDistanceWhereSignalsDiffer": 0.002911,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2/both": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29701,
+          "signalsBitExactRate": 0.99,
+          "rawOnRoundingTie": 0,
+          "minTieDistanceWhereSignalsDiffer": 0.002733,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2/fixes": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29701,
+          "signalsBitExactRate": 0.99,
+          "rawOnRoundingTie": 5725,
+          "minTieDistanceWhereSignalsDiffer": 0.0008084,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 5725,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 5725,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2/net": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29732,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 9917,
+          "minTieDistanceWhereSignalsDiffer": 0.00147,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 4,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 6758,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 6584,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 2992
+            }
+          }
+        },
+        "V2/none": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29732,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 0,
+          "minTieDistanceWhereSignalsDiffer": 0.002911,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2r/both": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29684,
+          "signalsBitExactRate": 0.9895,
+          "rawOnRoundingTie": 4,
+          "minTieDistanceWhereSignalsDiffer": 0.002733,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 4,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2r/fixes": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29684,
+          "signalsBitExactRate": 0.9895,
+          "rawOnRoundingTie": 2841,
+          "minTieDistanceWhereSignalsDiffer": 0.0008084,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 2840,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 2841,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 1
+            }
+          }
+        },
+        "V2r/net": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29732,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 9910,
+          "minTieDistanceWhereSignalsDiffer": 0.00147,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 4,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 8277,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 6575,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 1466
+            }
+          }
+        },
+        "V2r/none": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29732,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 0,
+          "minTieDistanceWhereSignalsDiffer": 0.002911,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2r/both/cut2": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29684,
+          "signalsBitExactRate": 0.9895,
+          "rawOnRoundingTie": 4,
+          "minTieDistanceWhereSignalsDiffer": 0.002733,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 4,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        }
+      },
+      "signalDifferences": {
+        "S1": {
+          "count": 2680,
+          "maxUlp": 2,
+          "maxAbs": 2.22e-16
+        },
+        "S2": {
+          "count": 0,
+          "maxUlp": 0,
+          "maxAbs": 0
+        },
+        "S2r": {
+          "count": 0,
+          "maxUlp": 0,
+          "maxAbs": 0
+        },
+        "S3": {
+          "count": 0,
+          "maxUlp": 0,
+          "maxAbs": 0
+        },
+        "S4": {
+          "count": 62,
+          "maxUlp": 2,
+          "maxAbs": 1.11e-16
+        },
+        "S4r": {
+          "count": 144,
+          "maxUlp": 2,
+          "maxAbs": 2.22e-16
+        },
+        "S5": {
+          "count": 0,
+          "maxUlp": 0,
+          "maxAbs": 0
+        }
+      },
+      "nullContextMismatches": 0
+    },
+    "x86_64-msvc": {
+      "platform": {
+        "compiler": "msvc 1944",
+        "arch": "x86_64",
+        "fma_available": false,
+        "ptr_bits": 64
+      },
+      "traces": 30000,
+      "perSplitTraces": {
+        "dev": 10000,
+        "val": 10000,
+        "test": 10000
+      },
+      "configs": {
+        "V1": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29734,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 0,
+          "minTieDistanceWhereSignalsDiffer": 0.00306,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2/both": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29708,
+          "signalsBitExactRate": 0.9903,
+          "rawOnRoundingTie": 0,
+          "minTieDistanceWhereSignalsDiffer": 0.002733,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2/fixes": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29708,
+          "signalsBitExactRate": 0.9903,
+          "rawOnRoundingTie": 5725,
+          "minTieDistanceWhereSignalsDiffer": 0.0008084,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 5725,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2/net": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29734,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 9917,
+          "minTieDistanceWhereSignalsDiffer": 0.00147,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 6758,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 6584,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 2992
+            }
+          }
+        },
+        "V2/none": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29734,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 0,
+          "minTieDistanceWhereSignalsDiffer": 0.00306,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2r/both": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29692,
+          "signalsBitExactRate": 0.9897,
+          "rawOnRoundingTie": 4,
+          "minTieDistanceWhereSignalsDiffer": 0.002733,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2r/fixes": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29692,
+          "signalsBitExactRate": 0.9897,
+          "rawOnRoundingTie": 2841,
+          "minTieDistanceWhereSignalsDiffer": 0.0008084,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 2841,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 1
+            }
+          }
+        },
+        "V2r/net": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29734,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 9910,
+          "minTieDistanceWhereSignalsDiffer": 0.00147,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 8277,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 6575,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 1466
+            }
+          }
+        },
+        "V2r/none": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29734,
+          "signalsBitExactRate": 0.9911,
+          "rawOnRoundingTie": 0,
+          "minTieDistanceWhereSignalsDiffer": 0.00306,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        },
+        "V2r/both/cut2": {
+          "n": 30000,
+          "scoreExact": 30000,
+          "scoreExactRate": 1,
+          "signalsBitExact": 29692,
+          "signalsBitExactRate": 0.9897,
+          "rawOnRoundingTie": 4,
+          "minTieDistanceWhereSignalsDiffer": 0.002733,
+          "scoresChangedIf": {
+            "reverseSumOrder": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "fmaChain": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "roundHalfEven": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            },
+            "float32Sum": {
+              "scores": 0,
+              "gate0.7/0.3": 0,
+              "gate0.9/0.3": 0
+            }
+          }
+        }
+      },
+      "signalDifferences": {
+        "S1": {
+          "count": 2660,
+          "maxUlp": 2,
+          "maxAbs": 2.22e-16
+        },
+        "S2": {
+          "count": 0,
+          "maxUlp": 0,
+          "maxAbs": 0
+        },
+        "S2r": {
+          "count": 0,
+          "maxUlp": 0,
+          "maxAbs": 0
+        },
+        "S3": {
+          "count": 0,
+          "maxUlp": 0,
+          "maxAbs": 0
+        },
+        "S4": {
+          "count": 52,
+          "maxUlp": 2,
+          "maxAbs": 1.11e-16
+        },
+        "S4r": {
+          "count": 126,
+          "maxUlp": 3,
+          "maxAbs": 2.22e-16
+        },
+        "S5": {
+          "count": 0,
+          "maxUlp": 0,
+          "maxAbs": 0
+        }
+      },
+      "nullContextMismatches": 0
+    },
+    "x86_64-gcc-fma-contracted": {
+      "V1": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29668
+      },
+      "V2/both": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29445
+      },
+      "V2/fixes": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29445
+      },
+      "V2/net": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29668
+      },
+      "V2/none": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29668
+      },
+      "V2r/both": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29299
+      },
+      "V2r/fixes": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29299
+      },
+      "V2r/net": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29668
+      },
+      "V2r/none": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29668
+      },
+      "V2r/both/cut2": {
+        "scoreExact": 30000,
+        "signalsBitExact": 29299
+      }
+    },
+    "libmVsV8": {
+      "x86_64-gcc (mingw-w64)": {
+        "sin": {
+          "calls": 360000,
+          "differFromV8": 120,
+          "maxUlp": 1
+        },
+        "cos": {
+          "calls": 210000,
+          "differFromV8": 13384,
+          "maxUlp": 1
+        },
+        "sqrt": {
+          "calls": 264413,
+          "differFromV8": 0,
+          "maxUlp": 0
+        },
+        "atan2": {
+          "calls": 150000,
+          "differFromV8": 36598,
+          "maxUlp": 1
+        }
+      },
+      "x86_64-msvc (UCRT)": {
+        "sin": {
+          "calls": 360000,
+          "differFromV8": 75,
+          "maxUlp": 1
+        },
+        "cos": {
+          "calls": 210000,
+          "differFromV8": 11452,
+          "maxUlp": 1
+        },
+        "sqrt": {
+          "calls": 264413,
+          "differFromV8": 0,
+          "maxUlp": 0
+        },
+        "atan2": {
+          "calls": 150000,
+          "differFromV8": 36593,
+          "maxUlp": 1
+        }
+      }
+    }
+  },
+  "latency": {
+    "method": "dev split, full context (fixes + network), 2 warm-up passes, 30 timed passes, per-score latency = time of 32 consecutive calls / 32; median and p99 over chunks. x86 also times single calls with lfence+rdtsc (10 ns TSC granularity on Zen 2) minus the empty-pair overhead.",
+    "x86_64-msvc": {
+      "label": "Microsoft(R) C/C++ Optimizing Compiler Version 19.44.35222 for x64 /O2 /fp:precise, UCRT libm; pinned to one core, high priority",
+      "platform": {
+        "compiler": "msvc 1944",
+        "arch": "x86_64",
+        "fma_available": false,
+        "ptr_bits": 64
+      },
+      "runs": 3,
+      "traces": 10000,
+      "passes": 30,
+      "chunk": 32,
+      "chunked": {
+        "V2": {
+          "median_ns": 275,
+          "p99_ns": 475,
+          "mean_ns": 280.07,
+          "perRun": [
+            {
+              "median_ns": 275,
+              "p99_ns": 475
+            },
+            {
+              "median_ns": 271.88,
+              "p99_ns": 443.75
+            },
+            {
+              "median_ns": 278.12,
+              "p99_ns": 487.5
+            }
+          ]
+        },
+        "V2r": {
+          "median_ns": 343.75,
+          "p99_ns": 590.62,
+          "mean_ns": 349.51,
+          "perRun": [
+            {
+              "median_ns": 343.75,
+              "p99_ns": 603.12
+            },
+            {
+              "median_ns": 331.25,
+              "p99_ns": 590.62
+            },
+            {
+              "median_ns": 359.38,
+              "p99_ns": 584.38
+            }
+          ]
+        }
+      },
+      "singleCallRdtsc": {
+        "V2": {
+          "median_ns": 270,
+          "p99_ns": 720,
+          "mean_ns": 285.68,
+          "perRun": [
+            {
+              "median_ns": 270,
+              "p99_ns": 700
+            },
+            {
+              "median_ns": 270,
+              "p99_ns": 720
+            },
+            {
+              "median_ns": 270,
+              "p99_ns": 900
+            }
+          ]
+        },
+        "V2r": {
+          "median_ns": 330,
+          "p99_ns": 900,
+          "mean_ns": 368.6,
+          "perRun": [
+            {
+              "median_ns": 330,
+              "p99_ns": 900
+            },
+            {
+              "median_ns": 330,
+              "p99_ns": 800
+            },
+            {
+              "median_ns": 340,
+              "p99_ns": 939.99
+            }
+          ]
+        }
+      }
+    },
+    "x86_64-gcc": {
+      "label": "w64devkit gcc -O2 -ffp-contract=off, mingw-w64 libm (x87 fpatan for atan2); pinned, high priority",
+      "platform": {
+        "compiler": "gcc 14.2.0",
+        "arch": "x86_64",
+        "fma_available": false,
+        "ptr_bits": 64
+      },
+      "runs": 3,
+      "traces": 10000,
+      "passes": 30,
+      "chunk": 32,
+      "chunked": {
+        "V2": {
+          "median_ns": 1281.25,
+          "p99_ns": 1725,
+          "mean_ns": 1355.26,
+          "perRun": [
+            {
+              "median_ns": 1287.5,
+              "p99_ns": 1725
+            },
+            {
+              "median_ns": 1268.75,
+              "p99_ns": 1609.38
+            },
+            {
+              "median_ns": 1281.25,
+              "p99_ns": 1762.5
+            }
+          ]
+        },
+        "V2r": {
+          "median_ns": 1525,
+          "p99_ns": 1900,
+          "mean_ns": 1521.56,
+          "perRun": [
+            {
+              "median_ns": 1531.25,
+              "p99_ns": 1946.88
+            },
+            {
+              "median_ns": 1443.75,
+              "p99_ns": 1834.38
+            },
+            {
+              "median_ns": 1525,
+              "p99_ns": 1900
+            }
+          ]
+        }
+      },
+      "singleCallRdtsc": {
+        "V2": {
+          "median_ns": 1279.99,
+          "p99_ns": 1939.99,
+          "mean_ns": 1341.93,
+          "perRun": [
+            {
+              "median_ns": 1279.99,
+              "p99_ns": 1909.99
+            },
+            {
+              "median_ns": 1279.99,
+              "p99_ns": 1939.99
+            },
+            {
+              "median_ns": 1279.99,
+              "p99_ns": 1949.99
+            }
+          ]
+        },
+        "V2r": {
+          "median_ns": 1449.99,
+          "p99_ns": 2119.99,
+          "mean_ns": 1502.51,
+          "perRun": [
+            {
+              "median_ns": 1449.99,
+              "p99_ns": 2089.99
+            },
+            {
+              "median_ns": 1479.99,
+              "p99_ns": 2119.99
+            },
+            {
+              "median_ns": 1449.99,
+              "p99_ns": 2129.99
+            }
+          ]
+        }
+      }
+    },
+    "node-v8": {
+      "label": "paper-scorer.mjs / revised-scorer.mjs in Node, high priority (JS also parses ISO timestamps)",
+      "platform": {
+        "node": "v24.11.1",
+        "v8": "13.6.233.10-node.28",
+        "cpu": "AMD Ryzen 9 3950X 16-Core Processor",
+        "arch": "x64"
+      },
+      "runs": 3,
+      "traces": 10000,
+      "passes": 30,
+      "chunk": 32,
+      "chunked": {
+        "V2": {
+          "median_ns": 3840.63,
+          "p99_ns": 7912.5,
+          "mean_ns": 4133.83,
+          "perRun": [
+            {
+              "median_ns": 3796.88,
+              "p99_ns": 7912.5
+            },
+            {
+              "median_ns": 3840.63,
+              "p99_ns": 8428.13
+            },
+            {
+              "median_ns": 3931.25,
+              "p99_ns": 7853.13
+            }
+          ]
+        },
+        "V2r": {
+          "median_ns": 7650,
+          "p99_ns": 15462.5,
+          "mean_ns": 7986.6,
+          "perRun": [
+            {
+              "median_ns": 7650,
+              "p99_ns": 14390.63
+            },
+            {
+              "median_ns": 7512.5,
+              "p99_ns": 16178.13
+            },
+            {
+              "median_ns": 7668.75,
+              "p99_ns": 15462.5
+            }
+          ]
+        }
+      }
+    }
+  },
+  "footprint": {
+    "sizeof": {
+      "ts_point": 32,
+      "ts_history": 328,
+      "ts_network_hint": 24,
+      "ts_context": 200,
+      "ts_result": 64
+    },
+    "note": "object = scorer only (code incl. Xtensa literals; rodata = constants); linkedClosure = scorer + newlib libm + libgcc soft-float helpers pulled in by a --gc-sections link of V2 and V2' (mcu_entry.c), bytes",
+    "x86_64-gcc": {
+      "compiler": "gcc 14.2.0",
+      "O2": {
+        "object": {
+          "code": 8496,
+          "rodata": 544
+        },
+        "stackBytes": {
+          "ts_score_v1": {
+            "bytes": 528,
+            "path": "ts_score_v1 > score_temporal > distance_m"
+          },
+          "ts_score_v2": {
+            "bytes": 784,
+            "path": "ts_score_v2 > ts_score_v1 > score_temporal > distance_m"
+          },
+          "ts_score_v2r": {
+            "bytes": 784,
+            "path": "ts_score_v2r > score_temporal > distance_m"
+          }
+        },
+        "stackNote": "Win64 ABI frames include the 32-byte shadow space and callee-saved XMM spills"
+      }
+    },
+    "aarch64-android": {
+      "compiler": "Android (13624864, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+      "O2": {
+        "object": {
+          "code": 7228,
+          "rodata": 160,
+          "data": 0
+        },
+        "stackBytes": {
+          "ts_score_v1": {
+            "bytes": 240,
+            "path": "ts_score_v1 > score_temporal"
+          },
+          "ts_score_v2": {
+            "bytes": 320,
+            "path": "ts_score_v2 > score_temporal"
+          },
+          "ts_score_v2r": {
+            "bytes": 480,
+            "path": "ts_score_v2r > score_temporal"
+          }
+        },
+        "stackNote": "clang relocations; tail calls replace the frame; libm / soft-float helpers excluded",
+        "externalCallees": [
+          "atan2",
+          "cos",
+          "sin"
+        ]
+      },
+      "Os": {
+        "object": {
+          "code": 3988,
+          "rodata": 416,
+          "data": 0
+        },
+        "stackBytes": {
+          "ts_score_v1": {
+            "bytes": 240,
+            "path": "ts_score_v1 > score_temporal > distance_m"
+          },
+          "ts_score_v2": {
+            "bytes": 272,
+            "path": "ts_score_v2 > score_temporal > distance_m"
+          },
+          "ts_score_v2r": {
+            "bytes": 464,
+            "path": "ts_score_v2r > score_temporal > distance_m"
+          }
+        },
+        "stackNote": "clang relocations; tail calls replace the frame; libm / soft-float helpers excluded",
+        "externalCallees": [
+          "atan2",
+          "cos",
+          "sin"
+        ]
+      }
+    },
+    "esp32": {
+      "compiler": "xtensa-esp-elf-gcc.exe (crosstool-NG esp-14.2.0_20260121) 14.2.0",
+      "O2": {
+        "object": {
+          "code": 9283,
+          "rodata": 200,
+          "data": 0
+        },
+        "stackBytes": {
+          "ts_score_v1": {
+            "bytes": 192,
+            "path": "ts_score_v1 > score_temporal > distance_m"
+          },
+          "ts_score_v2": {
+            "bytes": 320,
+            "path": "ts_score_v2 > ts_score_v1 > score_temporal > distance_m"
+          },
+          "ts_score_v2r": {
+            "bytes": 448,
+            "path": "ts_score_v2r > score_temporal > distance_m"
+          }
+        },
+        "stackNote": "GCC call graph; tail calls counted as nested (upper bound); libm / soft-float helpers excluded",
+        "externalCallees": [
+          "__adddf3",
+          "__divdf3",
+          "__floatdidf",
+          "__floatunsidf",
+          "__gedf2",
+          "__gtdf2",
+          "__ledf2",
+          "__ltdf2",
+          "__muldf3",
+          "__nedf2",
+          "__subdf3",
+          "atan2",
+          "cos",
+          "floor",
+          "sin",
+          "sqrt"
+        ],
+        "linkedClosure": {
+          "byOrigin": {
+            "entry": {
+              "code": 83,
+              "rodata": 0,
+              "ram": 568
+            },
+            "scorer": {
+              "code": 7016,
+              "rodata": 0,
+              "ram": 0
+            },
+            "libm": {
+              "code": 6618,
+              "rodata": 600,
+              "ram": 0
+            },
+            "libgcc": {
+              "code": 2480,
+              "rodata": 0,
+              "ram": 0
+            },
+            "libc": {
+              "code": 20,
+              "rodata": 0,
+              "ram": 0
+            }
+          },
+          "total": {
+            "code": 16217,
+            "rodata": 600,
+            "ram": 568
+          },
+          "members": {
+            "libm": {
+              "libm_a-s_cos.o": 135,
+              "libm_a-s_floor.o": 314,
+              "libm_a-k_cos.o": 440,
+              "libm_a-k_sin.o": 410,
+              "libm_a-e_atan2.o": 457,
+              "libm_a-e_rem_pio2.o": 1486,
+              "libm_a-e_sqrt.o": 502,
+              "libm_a-s_atan.o": 986,
+              "libm_a-k_rem_pio2.o": 1984,
+              "libm_a-s_scalbn.o": 251,
+              "libm_a-w_atan2.o": 23,
+              "libm_a-w_sqrt.o": 90,
+              "libm_a-s_sin.o": 128,
+              "libm_a-s_fabs.o": 12
+            },
+            "libgcc": {
+              "_addsubdf3.o": 794,
+              "_muldf3.o": 515,
+              "_divdf3.o": 531,
+              "_cmpdf2.o": 374,
+              "_fixdfsi.o": 76,
+              "_floatsidf.o": 61,
+              "_floatdidf.o": 129
+            },
+            "libc": {
+              "libc_a-errno.o": 13,
+              "getreent.o": 7
+            }
+          }
+        }
+      },
+      "Os": {
+        "object": {
+          "code": 6917,
+          "rodata": 200,
+          "data": 0
+        },
+        "stackBytes": {
+          "ts_score_v1": {
+            "bytes": 160,
+            "path": "ts_score_v1 > score_temporal > distance_m"
+          },
+          "ts_score_v2": {
+            "bytes": 256,
+            "path": "ts_score_v2 > ts_score_v1 > score_temporal > distance_m"
+          },
+          "ts_score_v2r": {
+            "bytes": 432,
+            "path": "ts_score_v2r > score_temporal > distance_m"
+          }
+        },
+        "stackNote": "GCC call graph; tail calls counted as nested (upper bound); libm / soft-float helpers excluded",
+        "externalCallees": [
+          "__adddf3",
+          "__divdf3",
+          "__floatdidf",
+          "__floatunsidf",
+          "__gedf2",
+          "__gtdf2",
+          "__ledf2",
+          "__ltdf2",
+          "__muldf3",
+          "__nedf2",
+          "__subdf3",
+          "atan2",
+          "cos",
+          "floor",
+          "sin",
+          "sqrt"
+        ],
+        "linkedClosure": {
+          "byOrigin": {
+            "entry": {
+              "code": 83,
+              "rodata": 0,
+              "ram": 568
+            },
+            "scorer": {
+              "code": 4881,
+              "rodata": 0,
+              "ram": 0
+            },
+            "libm": {
+              "code": 6618,
+              "rodata": 600,
+              "ram": 0
+            },
+            "libgcc": {
+              "code": 2480,
+              "rodata": 0,
+              "ram": 0
+            },
+            "libc": {
+              "code": 20,
+              "rodata": 0,
+              "ram": 0
+            }
+          },
+          "total": {
+            "code": 14082,
+            "rodata": 600,
+            "ram": 568
+          },
+          "members": {
+            "libm": {
+              "libm_a-s_cos.o": 135,
+              "libm_a-s_floor.o": 314,
+              "libm_a-k_cos.o": 440,
+              "libm_a-k_sin.o": 410,
+              "libm_a-e_atan2.o": 457,
+              "libm_a-e_rem_pio2.o": 1486,
+              "libm_a-e_sqrt.o": 502,
+              "libm_a-s_atan.o": 986,
+              "libm_a-k_rem_pio2.o": 1984,
+              "libm_a-s_scalbn.o": 251,
+              "libm_a-w_atan2.o": 23,
+              "libm_a-w_sqrt.o": 90,
+              "libm_a-s_sin.o": 128,
+              "libm_a-s_fabs.o": 12
+            },
+            "libgcc": {
+              "_addsubdf3.o": 794,
+              "_muldf3.o": 515,
+              "_divdf3.o": 531,
+              "_cmpdf2.o": 374,
+              "_fixdfsi.o": 76,
+              "_floatsidf.o": 61,
+              "_floatdidf.o": 129
+            },
+            "libc": {
+              "libc_a-errno.o": 13,
+              "getreent.o": 7
+            }
+          }
+        }
+      }
+    },
+    "esp32c3": {
+      "compiler": "riscv32-esp-elf-gcc.exe (crosstool-NG esp-14.2.0_20260121) 14.2.0",
+      "O2": {
+        "object": {
+          "code": 10770,
+          "rodata": 432,
+          "data": 0
+        },
+        "stackBytes": {
+          "ts_score_v1": {
+            "bytes": 448,
+            "path": "ts_score_v1 > score_movement.part.0 > distance_m"
+          },
+          "ts_score_v2": {
+            "bytes": 720,
+            "path": "ts_score_v2 > ts_score_v1 > score_movement.part.0 > distance_m"
+          },
+          "ts_score_v2r": {
+            "bytes": 1152,
+            "path": "ts_score_v2r > score_movement.part.0 > distance_m"
+          }
+        },
+        "stackNote": "GCC call graph; tail calls counted as nested (upper bound); libm / soft-float helpers excluded",
+        "externalCallees": [
+          "__adddf3",
+          "__divdf3",
+          "__floatdidf",
+          "__floatunsidf",
+          "__gedf2",
+          "__gtdf2",
+          "__ledf2",
+          "__ltdf2",
+          "__muldf3",
+          "__nedf2",
+          "__subdf3",
+          "atan2",
+          "cos",
+          "floor",
+          "sin",
+          "sqrt"
+        ],
+        "linkedClosure": {
+          "byOrigin": {
+            "entry": {
+              "code": 72,
+              "rodata": 0,
+              "ram": 568
+            },
+            "scorer": {
+              "code": 8662,
+              "rodata": 616,
+              "ram": 0
+            },
+            "libm": {
+              "code": 7318,
+              "rodata": 1080,
+              "ram": 0
+            },
+            "libc": {
+              "code": 18,
+              "rodata": 0,
+              "ram": 0
+            },
+            "libgcc": {
+              "code": 6682,
+              "rodata": 316,
+              "ram": 0
+            }
+          },
+          "total": {
+            "code": 22752,
+            "rodata": 2012,
+            "ram": 568
+          },
+          "members": {
+            "libm": {
+              "libm_a-w_atan2.o": 4,
+              "libm_a-w_sqrt.o": 128,
+              "libm_a-s_cos.o": 128,
+              "libm_a-s_floor.o": 336,
+              "libm_a-s_sin.o": 128,
+              "libm_a-e_sqrt.o": 524,
+              "libm_a-k_cos.o": 552,
+              "libm_a-k_sin.o": 508,
+              "libm_a-e_atan2.o": 574,
+              "libm_a-e_rem_pio2.o": 1906,
+              "libm_a-s_atan.o": 1076,
+              "libm_a-s_fabs.o": 10,
+              "libm_a-k_rem_pio2.o": 2208,
+              "libm_a-s_scalbn.o": 316
+            },
+            "libgcc": {
+              "adddf3.o": 1496,
+              "divdf3.o": 1376,
+              "eqdf2.o": 106,
+              "gedf2.o": 160,
+              "ledf2.o": 160,
+              "muldf3.o": 1096,
+              "subdf3.o": 1514,
+              "unorddf2.o": 52,
+              "fixdfsi.o": 100,
+              "floatsidf.o": 110,
+              "floatunsidf.o": 84,
+              "floatdidf.o": 350,
+              "_lshrdi3.o": 40,
+              "_ashldi3.o": 40,
+              "_clzsi2.o": 58,
+              "_clz.o": 256
+            },
+            "libc": {
+              "libc_a-errno.o": 14,
+              "getreent.o": 4
+            }
+          }
+        }
+      },
+      "Os": {
+        "object": {
+          "code": 8386,
+          "rodata": 408,
+          "data": 0
+        },
+        "stackBytes": {
+          "ts_score_v1": {
+            "bytes": 384,
+            "path": "ts_score_v1 > score_movement > distance_m"
+          },
+          "ts_score_v2": {
+            "bytes": 608,
+            "path": "ts_score_v2 > ts_score_v1 > score_movement > distance_m"
+          },
+          "ts_score_v2r": {
+            "bytes": 1040,
+            "path": "ts_score_v2r > score_movement > distance_m"
+          }
+        },
+        "stackNote": "GCC call graph; tail calls counted as nested (upper bound); libm / soft-float helpers excluded",
+        "externalCallees": [
+          "__adddf3",
+          "__divdf3",
+          "__floatdidf",
+          "__floatunsidf",
+          "__gedf2",
+          "__gtdf2",
+          "__ledf2",
+          "__ltdf2",
+          "__muldf3",
+          "__nedf2",
+          "__subdf3",
+          "atan2",
+          "cos",
+          "floor",
+          "sin",
+          "sqrt"
+        ],
+        "linkedClosure": {
+          "byOrigin": {
+            "entry": {
+              "code": 74,
+              "rodata": 0,
+              "ram": 568
+            },
+            "scorer": {
+              "code": 6904,
+              "rodata": 592,
+              "ram": 0
+            },
+            "libm": {
+              "code": 7326,
+              "rodata": 1080,
+              "ram": 0
+            },
+            "libc": {
+              "code": 18,
+              "rodata": 0,
+              "ram": 0
+            },
+            "libgcc": {
+              "code": 6682,
+              "rodata": 316,
+              "ram": 0
+            }
+          },
+          "total": {
+            "code": 21004,
+            "rodata": 1988,
+            "ram": 568
+          },
+          "members": {
+            "libm": {
+              "libm_a-w_atan2.o": 4,
+              "libm_a-w_sqrt.o": 128,
+              "libm_a-s_cos.o": 128,
+              "libm_a-s_floor.o": 336,
+              "libm_a-s_sin.o": 128,
+              "libm_a-e_sqrt.o": 524,
+              "libm_a-k_cos.o": 554,
+              "libm_a-k_sin.o": 508,
+              "libm_a-e_atan2.o": 568,
+              "libm_a-e_rem_pio2.o": 1906,
+              "libm_a-s_atan.o": 1082,
+              "libm_a-s_fabs.o": 10,
+              "libm_a-k_rem_pio2.o": 2214,
+              "libm_a-s_scalbn.o": 316
+            },
+            "libgcc": {
+              "adddf3.o": 1496,
+              "divdf3.o": 1376,
+              "eqdf2.o": 106,
+              "gedf2.o": 160,
+              "ledf2.o": 160,
+              "muldf3.o": 1096,
+              "subdf3.o": 1514,
+              "unorddf2.o": 52,
+              "fixdfsi.o": 100,
+              "floatsidf.o": 110,
+              "floatunsidf.o": 84,
+              "floatdidf.o": 350,
+              "_lshrdi3.o": 40,
+              "_ashldi3.o": 40,
+              "_clzsi2.o": 58,
+              "_clz.o": 256
+            },
+            "libc": {
+              "libc_a-errno.o": 14,
+              "getreent.o": 4
+            }
+          }
+        }
+      }
+    },
+    "cortex-m4f": {
+      "compiler": "Android (13624864, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+      "O2": {
+        "object": {
+          "code": 11812,
+          "rodata": 24,
+          "data": 0
+        },
+        "stackBytes": {
+          "ts_score_v1": {
+            "bytes": 248,
+            "path": "ts_score_v1 > score_temporal > distance_m"
+          },
+          "ts_score_v2": {
+            "bytes": 320,
+            "path": "ts_score_v2 > score_temporal > distance_m"
+          },
+          "ts_score_v2r": {
+            "bytes": 576,
+            "path": "ts_score_v2r > axis_std"
+          }
+        },
+        "stackNote": "clang relocations; tail calls replace the frame; libm / soft-float helpers excluded",
+        "externalCallees": [
+          "__aeabi_dadd",
+          "__aeabi_dcmpeq",
+          "__aeabi_dcmpge",
+          "__aeabi_dcmpgt",
+          "__aeabi_dcmple",
+          "__aeabi_dcmplt",
+          "__aeabi_dcmpun",
+          "__aeabi_ddiv",
+          "__aeabi_dmul",
+          "__aeabi_dsub",
+          "__aeabi_l2d",
+          "__aeabi_ui2d",
+          "atan2",
+          "cos",
+          "floor",
+          "sin",
+          "sqrt"
+        ]
+      },
+      "Os": {
+        "object": {
+          "code": 6308,
+          "rodata": 24,
+          "data": 0
+        },
+        "stackBytes": {
+          "ts_score_v1": {
+            "bytes": 216,
+            "path": "ts_score_v1 > score_temporal > distance_m"
+          },
+          "ts_score_v2": {
+            "bytes": 288,
+            "path": "ts_score_v2 > score_temporal > distance_m"
+          },
+          "ts_score_v2r": {
+            "bytes": 480,
+            "path": "ts_score_v2r > score_temporal > distance_m"
+          }
+        },
+        "stackNote": "clang relocations; tail calls replace the frame; libm / soft-float helpers excluded",
+        "externalCallees": [
+          "__aeabi_dadd",
+          "__aeabi_dcmpeq",
+          "__aeabi_dcmpge",
+          "__aeabi_dcmpgt",
+          "__aeabi_dcmple",
+          "__aeabi_dcmplt",
+          "__aeabi_dcmpun",
+          "__aeabi_ddiv",
+          "__aeabi_dmul",
+          "__aeabi_dsub",
+          "__aeabi_l2d",
+          "__aeabi_ui2d",
+          "atan2",
+          "cos",
+          "floor",
+          "sin",
+          "sqrt"
+        ]
+      }
+    }
+  },
+  "operationCounts": {
+    "method": "TS_COUNT_OPS build; per-block annotations count double operations as compiled (x/2 and x/0.5 as multiplications, x/1 folded); libm calls counted at the call. Mean [min-max] per score over dev+val+test.",
+    "configs": {
+      "V1": {
+        "add": {
+          "mean": 23.201,
+          "min": 23,
+          "max": 26
+        },
+        "mul": {
+          "mean": 64.08,
+          "min": 64,
+          "max": 65
+        },
+        "div": {
+          "mean": 30.179,
+          "min": 21,
+          "max": 32
+        },
+        "cmp": {
+          "mean": 21.629,
+          "min": 17,
+          "max": 24
+        },
+        "cvt": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "sqrt": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "sin": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "cos": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "atan2": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        }
+      },
+      "V2/both": {
+        "add": {
+          "mean": 64.371,
+          "min": 64,
+          "max": 69
+        },
+        "mul": {
+          "mean": 92.888,
+          "min": 92,
+          "max": 97
+        },
+        "div": {
+          "mean": 41.179,
+          "min": 32,
+          "max": 43
+        },
+        "cmp": {
+          "mean": 28.271,
+          "min": 22,
+          "max": 33
+        },
+        "cvt": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        },
+        "sqrt": {
+          "mean": 14,
+          "min": 14,
+          "max": 14
+        },
+        "sin": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "cos": {
+          "mean": 13,
+          "min": 13,
+          "max": 13
+        },
+        "atan2": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        }
+      },
+      "V2/fixes": {
+        "add": {
+          "mean": 60.659,
+          "min": 60,
+          "max": 65
+        },
+        "mul": {
+          "mean": 80.204,
+          "min": 80,
+          "max": 83
+        },
+        "div": {
+          "mean": 37.179,
+          "min": 28,
+          "max": 39
+        },
+        "cmp": {
+          "mean": 25.588,
+          "min": 20,
+          "max": 29
+        },
+        "cvt": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        },
+        "sqrt": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "sin": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "cos": {
+          "mean": 11,
+          "min": 11,
+          "max": 11
+        },
+        "atan2": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        }
+      },
+      "V2/net": {
+        "add": {
+          "mean": 29.53,
+          "min": 29,
+          "max": 32
+        },
+        "mul": {
+          "mean": 78.763,
+          "min": 78,
+          "max": 81
+        },
+        "div": {
+          "mean": 34.179,
+          "min": 25,
+          "max": 36
+        },
+        "cmp": {
+          "mean": 24.313,
+          "min": 19,
+          "max": 28
+        },
+        "cvt": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "sqrt": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "sin": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "cos": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "atan2": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        }
+      },
+      "V2/none": {
+        "add": {
+          "mean": 23.201,
+          "min": 23,
+          "max": 26
+        },
+        "mul": {
+          "mean": 64.08,
+          "min": 64,
+          "max": 65
+        },
+        "div": {
+          "mean": 30.179,
+          "min": 21,
+          "max": 32
+        },
+        "cmp": {
+          "mean": 21.629,
+          "min": 17,
+          "max": 24
+        },
+        "cvt": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "sqrt": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "sin": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "cos": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "atan2": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        }
+      },
+      "V2r/both": {
+        "add": {
+          "mean": 138.371,
+          "min": 29,
+          "max": 155
+        },
+        "mul": {
+          "mean": 121.166,
+          "min": 77,
+          "max": 130
+        },
+        "div": {
+          "mean": 54.479,
+          "min": 30,
+          "max": 58
+        },
+        "cmp": {
+          "mean": 38.567,
+          "min": 25,
+          "max": 44
+        },
+        "cvt": {
+          "mean": 18.1,
+          "min": 10,
+          "max": 19
+        },
+        "sqrt": {
+          "mean": 13.8,
+          "min": 12,
+          "max": 14
+        },
+        "sin": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "cos": {
+          "mean": 12.9,
+          "min": 12,
+          "max": 13
+        },
+        "atan2": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        }
+      },
+      "V2r/fixes": {
+        "add": {
+          "mean": 133.463,
+          "min": 24,
+          "max": 150
+        },
+        "mul": {
+          "mean": 107.482,
+          "min": 64,
+          "max": 115
+        },
+        "div": {
+          "mean": 50.479,
+          "min": 26,
+          "max": 54
+        },
+        "cmp": {
+          "mean": 35.883,
+          "min": 23,
+          "max": 40
+        },
+        "cvt": {
+          "mean": 18.1,
+          "min": 10,
+          "max": 19
+        },
+        "sqrt": {
+          "mean": 11.8,
+          "min": 10,
+          "max": 12
+        },
+        "sin": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "cos": {
+          "mean": 10.9,
+          "min": 10,
+          "max": 11
+        },
+        "atan2": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        }
+      },
+      "V2r/net": {
+        "add": {
+          "mean": 29.53,
+          "min": 29,
+          "max": 32
+        },
+        "mul": {
+          "mean": 77.763,
+          "min": 77,
+          "max": 80
+        },
+        "div": {
+          "mean": 34.179,
+          "min": 25,
+          "max": 36
+        },
+        "cmp": {
+          "mean": 24.414,
+          "min": 19,
+          "max": 28
+        },
+        "cvt": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "sqrt": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "sin": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "cos": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "atan2": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        }
+      },
+      "V2r/none": {
+        "add": {
+          "mean": 24.201,
+          "min": 24,
+          "max": 27
+        },
+        "mul": {
+          "mean": 64.08,
+          "min": 64,
+          "max": 65
+        },
+        "div": {
+          "mean": 30.179,
+          "min": 21,
+          "max": 32
+        },
+        "cmp": {
+          "mean": 21.731,
+          "min": 17,
+          "max": 24
+        },
+        "cvt": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "sqrt": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "sin": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "cos": {
+          "mean": 10,
+          "min": 10,
+          "max": 10
+        },
+        "atan2": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 5,
+          "min": 5,
+          "max": 5
+        }
+      },
+      "V2r/both/cut2": {
+        "add": {
+          "mean": 138.371,
+          "min": 29,
+          "max": 155
+        },
+        "mul": {
+          "mean": 121.166,
+          "min": 77,
+          "max": 130
+        },
+        "div": {
+          "mean": 54.479,
+          "min": 30,
+          "max": 58
+        },
+        "cmp": {
+          "mean": 38.465,
+          "min": 25,
+          "max": 44
+        },
+        "cvt": {
+          "mean": 18.1,
+          "min": 10,
+          "max": 19
+        },
+        "sqrt": {
+          "mean": 13.8,
+          "min": 12,
+          "max": 14
+        },
+        "sin": {
+          "mean": 12,
+          "min": 12,
+          "max": 12
+        },
+        "cos": {
+          "mean": 12.9,
+          "min": 12,
+          "max": 13
+        },
+        "atan2": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        },
+        "floor": {
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "distance": {
+          "mean": 6,
+          "min": 6,
+          "max": 6
+        }
+      }
+    }
+  },
+  "mcuEstimate": {
+    "label": "ESTIMATE, not a measurement: mean operation counts x published per-operation cycle costs of software double precision on a Cortex-M0. Cores with a 32x32->64 multiplier (Cortex-M4, Xtensa LX6, RV32IMC) should be faster; a double-precision FPU (Cortex-M7 FPv5-D16) far faster.",
+    "costModels": {
+      "gccSoftDoubleCortexM0": {
+        "source": "Qfplib-M0-full README, \"GCC library\" column (Cortex-M0, LPC11U68, avg cycles incl. call overhead)",
+        "add": 168,
+        "mul": 377,
+        "div": 1190,
+        "cmp": 168,
+        "cvt": 168,
+        "floor": 168,
+        "sqrt": 1305,
+        "sin": 5854,
+        "cos": 6162,
+        "atan2": 9973
+      },
+      "qfplibSoftDoubleCortexM0": {
+        "source": "Qfplib-M0-full README, Qfplib column (Cortex-M0, LPC11U68)",
+        "add": 94,
+        "mul": 163,
+        "div": 200,
+        "cmp": 94,
+        "cvt": 94,
+        "floor": 94,
+        "sqrt": 174,
+        "sin": 1624,
+        "cos": 1623,
+        "atan2": 2187
+      }
+    },
+    "clocksMHz": {
+      "nRF52840 (Cortex-M4F)": 64,
+      "STM32F4 (Cortex-M4F)": 168,
+      "ESP32-C3 (RV32IMC)": 160,
+      "ESP32 (Xtensa LX6)": 240
+    },
+    "V2_full": {
+      "gccSoftDoubleCortexM0": {
+        "cycles": 329224,
+        "libmShare": 0.694,
+        "ms": {
+          "nRF52840 (Cortex-M4F)": 5.14,
+          "STM32F4 (Cortex-M4F)": 1.96,
+          "ESP32-C3 (RV32IMC)": 2.06,
+          "ESP32 (Xtensa LX6)": 1.37
+        }
+      },
+      "qfplibSoftDoubleCortexM0": {
+        "cycles": 88888,
+        "libmShare": 0.632,
+        "ms": {
+          "nRF52840 (Cortex-M4F)": 1.39,
+          "STM32F4 (Cortex-M4F)": 0.53,
+          "ESP32-C3 (RV32IMC)": 0.56,
+          "ESP32 (Xtensa LX6)": 0.37
+        }
+      }
+    },
+    "V2r_full": {
+      "gccSoftDoubleCortexM0": {
+        "cycles": 371029,
+        "libmShare": 0.613,
+        "ms": {
+          "nRF52840 (Cortex-M4F)": 5.8,
+          "STM32F4 (Cortex-M4F)": 2.21,
+          "ESP32-C3 (RV32IMC)": 2.32,
+          "ESP32 (Xtensa LX6)": 1.55
+        }
+      },
+      "qfplibSoftDoubleCortexM0": {
+        "cycles": 105021,
+        "libmShare": 0.533,
+        "ms": {
+          "nRF52840 (Cortex-M4F)": 1.64,
+          "STM32F4 (Cortex-M4F)": 0.63,
+          "ESP32-C3 (RV32IMC)": 0.66,
+          "ESP32 (Xtensa LX6)": 0.44
+        }
+      }
+    },
+    "V1": {
+      "gccSoftDoubleCortexM0": {
+        "cycles": 251686,
+        "libmShare": 0.727,
+        "ms": {
+          "nRF52840 (Cortex-M4F)": 3.93,
+          "STM32F4 (Cortex-M4F)": 1.5,
+          "ESP32-C3 (RV32IMC)": 1.57,
+          "ESP32 (Xtensa LX6)": 1.05
+        }
+      },
+      "qfplibSoftDoubleCortexM0": {
+        "cycles": 66404,
+        "libmShare": 0.68,
+        "ms": {
+          "nRF52840 (Cortex-M4F)": 1.04,
+          "STM32F4 (Cortex-M4F)": 0.4,
+          "ESP32-C3 (RV32IMC)": 0.42,
+          "ESP32 (Xtensa LX6)": 0.28
+        }
+      }
+    }
+  }
+}

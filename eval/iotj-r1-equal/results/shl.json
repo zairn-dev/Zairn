@@ -1,0 +1,494 @@
+{
+  "generated": "2026-11-12T13:08:18.197Z",
+  "dataset": "SHL Preview v1",
+  "sessionMinutes": 10,
+  "traces": [
+    {
+      "user": "User1",
+      "day": "220617",
+      "position": "Bag",
+      "fixes": 22177
+    },
+    {
+      "user": "User1",
+      "day": "220617",
+      "position": "Hand",
+      "fixes": 34336
+    },
+    {
+      "user": "User1",
+      "day": "220617",
+      "position": "Hips",
+      "fixes": 28600
+    },
+    {
+      "user": "User1",
+      "day": "220617",
+      "position": "Torso",
+      "fixes": 28397
+    },
+    {
+      "user": "User1",
+      "day": "260617",
+      "position": "Bag",
+      "fixes": 21825
+    },
+    {
+      "user": "User1",
+      "day": "260617",
+      "position": "Hand",
+      "fixes": 21450
+    },
+    {
+      "user": "User1",
+      "day": "260617",
+      "position": "Hips",
+      "fixes": 21739
+    },
+    {
+      "user": "User1",
+      "day": "260617",
+      "position": "Torso",
+      "fixes": 21415
+    },
+    {
+      "user": "User1",
+      "day": "270617",
+      "position": "Bag",
+      "fixes": 15715
+    },
+    {
+      "user": "User1",
+      "day": "270617",
+      "position": "Hand",
+      "fixes": 20237
+    },
+    {
+      "user": "User1",
+      "day": "270617",
+      "position": "Hips",
+      "fixes": 12426
+    },
+    {
+      "user": "User1",
+      "day": "270617",
+      "position": "Torso",
+      "fixes": 15200
+    },
+    {
+      "user": "User2",
+      "day": "140617",
+      "position": "Bag",
+      "fixes": 29462
+    },
+    {
+      "user": "User2",
+      "day": "140617",
+      "position": "Hand",
+      "fixes": 30302
+    },
+    {
+      "user": "User2",
+      "day": "140617",
+      "position": "Hips",
+      "fixes": 28079
+    },
+    {
+      "user": "User2",
+      "day": "140617",
+      "position": "Torso",
+      "fixes": 27753
+    },
+    {
+      "user": "User2",
+      "day": "140717",
+      "position": "Bag",
+      "fixes": 15839
+    },
+    {
+      "user": "User2",
+      "day": "140717",
+      "position": "Hand",
+      "fixes": 19263
+    },
+    {
+      "user": "User2",
+      "day": "140717",
+      "position": "Hips",
+      "fixes": 12413
+    },
+    {
+      "user": "User2",
+      "day": "140717",
+      "position": "Torso",
+      "fixes": 15565
+    },
+    {
+      "user": "User2",
+      "day": "180717",
+      "position": "Bag",
+      "fixes": 25995
+    },
+    {
+      "user": "User2",
+      "day": "180717",
+      "position": "Hand",
+      "fixes": 27470
+    },
+    {
+      "user": "User2",
+      "day": "180717",
+      "position": "Hips",
+      "fixes": 24217
+    },
+    {
+      "user": "User2",
+      "day": "180717",
+      "position": "Torso",
+      "fixes": 25124
+    },
+    {
+      "user": "User3",
+      "day": "030717",
+      "position": "Bag",
+      "fixes": 10549
+    },
+    {
+      "user": "User3",
+      "day": "030717",
+      "position": "Hand",
+      "fixes": 14585
+    },
+    {
+      "user": "User3",
+      "day": "030717",
+      "position": "Hips",
+      "fixes": 864
+    },
+    {
+      "user": "User3",
+      "day": "030717",
+      "position": "Torso",
+      "fixes": 4709
+    },
+    {
+      "user": "User3",
+      "day": "070717",
+      "position": "Bag",
+      "fixes": 23117
+    },
+    {
+      "user": "User3",
+      "day": "070717",
+      "position": "Hand",
+      "fixes": 28558
+    },
+    {
+      "user": "User3",
+      "day": "070717",
+      "position": "Hips",
+      "fixes": 23220
+    },
+    {
+      "user": "User3",
+      "day": "070717",
+      "position": "Torso",
+      "fixes": 23033
+    },
+    {
+      "user": "User3",
+      "day": "140617",
+      "position": "Bag",
+      "fixes": 14289
+    },
+    {
+      "user": "User3",
+      "day": "140617",
+      "position": "Hand",
+      "fixes": 18293
+    },
+    {
+      "user": "User3",
+      "day": "140617",
+      "position": "Hips",
+      "fixes": 12731
+    },
+    {
+      "user": "User3",
+      "day": "140617",
+      "position": "Torso",
+      "fixes": 12139
+    }
+  ],
+  "fixes": 731050,
+  "accuracyBelow2m": 0,
+  "all": {
+    "v1": {
+      "n": 731050,
+      "below07": 0.0004,
+      "below09": 0.0011
+    },
+    "v2Paper": {
+      "n": 731050,
+      "below07": 0.0005,
+      "below09": 0.1931
+    },
+    "v2Revised": {
+      "n": 731050,
+      "below07": 0.0005,
+      "below09": 0.0019
+    }
+  },
+  "byUser": {
+    "User1": {
+      "v1": {
+        "n": 263505,
+        "below07": 0.0002,
+        "below09": 0.0006
+      },
+      "v2Paper": {
+        "n": 263505,
+        "below07": 0.0002,
+        "below09": 0.1953
+      },
+      "v2Revised": {
+        "n": 263505,
+        "below07": 0.0002,
+        "below09": 0.001
+      }
+    },
+    "User2": {
+      "v1": {
+        "n": 281470,
+        "below07": 0.0005,
+        "below09": 0.0014
+      },
+      "v2Paper": {
+        "n": 281470,
+        "below07": 0.0006,
+        "below09": 0.1868
+      },
+      "v2Revised": {
+        "n": 281470,
+        "below07": 0.0006,
+        "below09": 0.0027
+      }
+    },
+    "User3": {
+      "v1": {
+        "n": 186075,
+        "below07": 0.0006,
+        "below09": 0.0015
+      },
+      "v2Paper": {
+        "n": 186075,
+        "below07": 0.0009,
+        "below09": 0.1994
+      },
+      "v2Revised": {
+        "n": 186075,
+        "below07": 0.0008,
+        "below09": 0.0022
+      }
+    }
+  },
+  "byMode": {
+    "null": {
+      "v1": {
+        "n": 173528,
+        "mean": 0.9991,
+        "below07": 0.0003,
+        "below09": 0.0007
+      },
+      "v2Paper": {
+        "n": 173528,
+        "mean": 0.9966,
+        "below07": 0.0002,
+        "below09": 0.0115
+      },
+      "v2Revised": {
+        "n": 173528,
+        "mean": 0.9993,
+        "below07": 0.0002,
+        "below09": 0.0007
+      }
+    },
+    "walk": {
+      "v1": {
+        "n": 123644,
+        "mean": 0.9999,
+        "below07": 0.0001,
+        "below09": 0.0001
+      },
+      "v2Paper": {
+        "n": 123644,
+        "mean": 0.9982,
+        "below07": 0.0001,
+        "below09": 0.0013
+      },
+      "v2Revised": {
+        "n": 123644,
+        "mean": 0.9999,
+        "below07": 0.0001,
+        "below09": 0.0003
+      }
+    },
+    "still": {
+      "v1": {
+        "n": 78575,
+        "mean": 0.9999,
+        "below07": 0,
+        "below09": 0
+      },
+      "v2Paper": {
+        "n": 78575,
+        "mean": 0.9998,
+        "below07": 0,
+        "below09": 0.0003
+      },
+      "v2Revised": {
+        "n": 78575,
+        "mean": 0.9999,
+        "below07": 0,
+        "below09": 0
+      }
+    },
+    "bus": {
+      "v1": {
+        "n": 70533,
+        "mean": 0.9999,
+        "below07": 0,
+        "below09": 0.0003
+      },
+      "v2Paper": {
+        "n": 70533,
+        "mean": 0.9467,
+        "below07": 0.0001,
+        "below09": 0.2328
+      },
+      "v2Revised": {
+        "n": 70533,
+        "mean": 0.9995,
+        "below07": 0.0001,
+        "below09": 0.0015
+      }
+    },
+    "car": {
+      "v1": {
+        "n": 109686,
+        "mean": 0.9991,
+        "below07": 0.0011,
+        "below09": 0.0028
+      },
+      "v2Paper": {
+        "n": 109686,
+        "mean": 0.8647,
+        "below07": 0.0015,
+        "below09": 0.666
+      },
+      "v2Revised": {
+        "n": 109686,
+        "mean": 0.9982,
+        "below07": 0.0014,
+        "below09": 0.0044
+      }
+    },
+    "run": {
+      "v1": {
+        "n": 16379,
+        "mean": 1,
+        "below07": 0,
+        "below09": 0
+      },
+      "v2Paper": {
+        "n": 16379,
+        "mean": 0.9852,
+        "below07": 0,
+        "below09": 0.001
+      },
+      "v2Revised": {
+        "n": 16379,
+        "mean": 1,
+        "below07": 0,
+        "below09": 0
+      }
+    },
+    "bike": {
+      "v1": {
+        "n": 64579,
+        "mean": 0.9999,
+        "below07": 0.0001,
+        "below09": 0.0005
+      },
+      "v2Paper": {
+        "n": 64579,
+        "mean": 0.9489,
+        "below07": 0.0002,
+        "below09": 0.1135
+      },
+      "v2Revised": {
+        "n": 64579,
+        "mean": 0.9989,
+        "below07": 0.0002,
+        "below09": 0.0036
+      }
+    },
+    "train": {
+      "v1": {
+        "n": 63490,
+        "mean": 0.9987,
+        "below07": 0.0015,
+        "below09": 0.0046
+      },
+      "v2Paper": {
+        "n": 63490,
+        "mean": 0.8922,
+        "below07": 0.0024,
+        "below09": 0.5098
+      },
+      "v2Revised": {
+        "n": 63490,
+        "mean": 0.9978,
+        "below07": 0.0023,
+        "below09": 0.0059
+      }
+    },
+    "subway": {
+      "v1": {
+        "n": 30636,
+        "mean": 0.9997,
+        "below07": 0.0002,
+        "below09": 0.0013
+      },
+      "v2Paper": {
+        "n": 30636,
+        "mean": 0.9287,
+        "below07": 0.0003,
+        "below09": 0.3191
+      },
+      "v2Revised": {
+        "n": 30636,
+        "mean": 0.9992,
+        "below07": 0.0003,
+        "below09": 0.002
+      }
+    }
+  },
+  "latch": {
+    "v1": {
+      "windows": 1522,
+      "latched07": 0.0368,
+      "latched09": 0.0611
+    },
+    "v2Paper": {
+      "windows": 1522,
+      "latched07": 0.048,
+      "latched09": 0.592
+    },
+    "v2Revised": {
+      "windows": 1522,
+      "latched07": 0.0407,
+      "latched09": 0.138
+    }
+  }
+}

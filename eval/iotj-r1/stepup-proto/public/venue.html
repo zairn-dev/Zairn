@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Venue Token</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+  <style>
+    body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff; color: #111; font-family: system-ui, sans-serif; }
+    #qr svg { width: min(80vmin, 640px); height: auto; display: block; }
+    #meta { margin-top: 16px; font-size: 18px; font-variant-numeric: tabular-nums; text-align: center; }
+    #bar { width: min(80vmin, 640px); height: 8px; background: #ddd; margin-top: 12px; border-radius: 4px; overflow: hidden; }
+    #fill { height: 100%; background: #1a73e8; width: 100%; }
+    #err { color: #b00020; font-size: 16px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div id="qr"></div>
+  <div id="bar"><div id="fill"></div></div>
+  <div id="meta">—</div>
+  <div id="err"></div>
+  <script>
+    // Runs on the server machine only (the venue key is served to localhost).
+    // Token: ZT1.<venueId>.<slot>.<first 22 chars of base64url(HMAC-SHA256(key, "ZT1.<venueId>.<slot>"))>
+    const b64url = (bytes) => btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const fromB64url = (s) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4)), (c) => c.charCodeAt(0));
+
+    let cfg, hmacKey, shownSlot = -1;
+
+    async function init() {
+      const res = await fetch('/api/venue-key');
+      if (!res.ok) { document.getElementById('err').textContent = 'このページはサーバーを動かしている PC 上で http://localhost から開いてください。'; return; }
+      cfg = await res.json();
+      hmacKey = await crypto.subtle.importKey('raw', fromB64url(cfg.key), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+      tick();
+      setInterval(tick, 200);
+    }
+
+    async function tokenFor(slot) {
+      const msg = `ZT1.${cfg.venueId}.${slot}`;
+      const mac = new Uint8Array(await crypto.subtle.sign('HMAC', hmacKey, new TextEncoder().encode(msg)));
+      return `${msg}.${b64url(mac).slice(0, 22)}`;
+    }
+
+    async function tick() {
+      const nowS = Date.now() / 1000;
+      const slot = Math.floor(nowS / cfg.lifetimeS);
+      const remaining = cfg.lifetimeS - (nowS - slot * cfg.lifetimeS);
+      document.getElementById('fill').style.width = `${(100 * remaining) / cfg.lifetimeS}%`;
+      document.getElementById('meta').textContent = `${cfg.venueId} · slot ${slot} · 残り ${remaining.toFixed(0)} 秒（有効期間 ${cfg.lifetimeS} 秒＋猶予 1 枠）`;
+      if (slot === shownSlot) return;
+      shownSlot = slot;
+      const qr = qrcode(0, 'M');
+      qr.addData(await tokenFor(slot));
+      qr.make();
+      document.getElementById('qr').innerHTML = qr.createSvgTag({ cellSize: 8, margin: 4, scalable: true });
+    }
+
+    init();
+  </script>
+</body>
+</html>

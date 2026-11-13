@@ -1,0 +1,219 @@
+{
+  "generated": "2026-11-12T13:07:50.903Z",
+  "trace": {
+    "device": "android BP2A.250605.031.A3",
+    "intervalSeconds": 60,
+    "fixes": 30516,
+    "days": 21.8244
+  },
+  "scored": 30515,
+  "afterGap": 2,
+  "v1": {
+    "all": {
+      "n": 30515,
+      "mean": 0.9971,
+      "min": 0.33,
+      "p01": 0.9,
+      "p05": 1,
+      "p10": 1,
+      "p25": 1,
+      "p50": 1
+    },
+    "below": {
+      "0.3": 0,
+      "0.5": 0.0001,
+      "0.7": 0.0006,
+      "0.8": 0.0072,
+      "0.9": 0.0087,
+      "0.95": 0.0181
+    }
+  },
+  "v2": {
+    "all": {
+      "n": 30515,
+      "mean": 0.9223,
+      "min": 0.3,
+      "p01": 0.8,
+      "p05": 0.8,
+      "p10": 0.8,
+      "p25": 0.87,
+      "p50": 0.94
+    },
+    "steady": {
+      "n": 30513,
+      "mean": 0.9223,
+      "min": 0.3,
+      "p01": 0.8,
+      "p05": 0.8,
+      "p10": 0.8,
+      "p25": 0.87,
+      "p50": 0.94
+    },
+    "below": {
+      "0.3": 0,
+      "0.5": 0.0003,
+      "0.7": 0.0031,
+      "0.8": 0.0086,
+      "0.9": 0.3264,
+      "0.95": 0.5136
+    },
+    "belowAfterGap": {
+      "0.3": 0,
+      "0.5": 0,
+      "0.7": 0,
+      "0.8": 0,
+      "0.9": 1,
+      "0.95": 1
+    }
+  },
+  "lowV2Causes": {
+    "n": 9962,
+    "shareWithSignalBelow1": {
+      "movementPlausibility": 0.0066,
+      "accuracyAnomaly": 0.0309,
+      "temporalConsistency": 0.0066,
+      "fixConsistency": 0.9895
+    }
+  },
+  "latch": {
+    "v1": {
+      "10min": {
+        "windows": 3055,
+        "0.3": 0,
+        "0.7": 0.0046,
+        "0.9": 0.0249
+      },
+      "30min": {
+        "windows": 1020,
+        "0.3": 0,
+        "0.7": 0.0127,
+        "0.9": 0.052
+      }
+    },
+    "v2": {
+      "10min": {
+        "windows": 3055,
+        "0.3": 0,
+        "0.7": 0.0131,
+        "0.9": 0.5849
+      },
+      "30min": {
+        "windows": 1020,
+        "0.3": 0,
+        "0.7": 0.0324,
+        "0.9": 0.7637
+      }
+    }
+  },
+  "syntheticSpoofProfile": "test split; v1 = S1-S3, v2NoNetwork = S1-S4",
+  "tradeoff": {
+    "v1": [
+      {
+        "thetaP": 0.7,
+        "binary": {
+          "far": 0.6667,
+          "fdr": 0.0006
+        },
+        "graduated": {
+          "farOracle": 0.6667,
+          "fdrOracle": 0,
+          "mL": 0.0006,
+          "mS": 0.3333
+        }
+      },
+      {
+        "thetaP": 0.8,
+        "binary": {
+          "far": 0.3333,
+          "fdr": 0.0072
+        },
+        "graduated": {
+          "farOracle": 0.3333,
+          "fdrOracle": 0,
+          "mL": 0.0072,
+          "mS": 0.6667
+        }
+      },
+      {
+        "thetaP": 0.9,
+        "binary": {
+          "far": 0.3333,
+          "fdr": 0.0087
+        },
+        "graduated": {
+          "farOracle": 0.3333,
+          "fdrOracle": 0,
+          "mL": 0.0087,
+          "mS": 0.6667
+        }
+      },
+      {
+        "thetaP": 0.95,
+        "binary": {
+          "far": 0.3292,
+          "fdr": 0.0181
+        },
+        "graduated": {
+          "farOracle": 0.3292,
+          "fdrOracle": 0,
+          "mL": 0.0181,
+          "mS": 0.6708
+        }
+      }
+    ],
+    "v2NoNetwork": [
+      {
+        "thetaP": 0.7,
+        "binary": {
+          "far": 0.3388,
+          "fdr": 0.0031
+        },
+        "graduated": {
+          "farOracle": 0.3388,
+          "fdrOracle": 0,
+          "mL": 0.0031,
+          "mS": 0.6612
+        }
+      },
+      {
+        "thetaP": 0.8,
+        "binary": {
+          "far": 0.3333,
+          "fdr": 0.0086
+        },
+        "graduated": {
+          "farOracle": 0.3333,
+          "fdrOracle": 0,
+          "mL": 0.0086,
+          "mS": 0.6667
+        }
+      },
+      {
+        "thetaP": 0.9,
+        "binary": {
+          "far": 0.3333,
+          "fdr": 0.3264
+        },
+        "graduated": {
+          "farOracle": 0.3333,
+          "fdrOracle": 0,
+          "mL": 0.3264,
+          "mS": 0.6667
+        }
+      },
+      {
+        "thetaP": 0.95,
+        "binary": {
+          "far": 0.3323,
+          "fdr": 0.5136
+        },
+        "graduated": {
+          "farOracle": 0.3323,
+          "fdrOracle": 0,
+          "mL": 0.5136,
+          "mS": 0.6677
+        }
+      }
+    ]
+  }
+}
